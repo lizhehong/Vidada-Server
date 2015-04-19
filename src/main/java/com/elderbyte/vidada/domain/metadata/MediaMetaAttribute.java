@@ -1,4 +1,4 @@
-package vidada.model.metadata;
+package com.elderbyte.vidada.domain.metadata;
 
 /**
  * Known Vidada MetaData Attributes.
@@ -9,7 +9,7 @@ public enum MediaMetaAttribute {
 
 	/**
 	 * Default vidada hash id
-	 * 
+	 *
 	 */
 	FileHash("vidada.hash"),
 
