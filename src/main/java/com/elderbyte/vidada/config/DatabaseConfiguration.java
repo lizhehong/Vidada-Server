@@ -49,7 +49,14 @@ public class DatabaseConfiguration implements EnvironmentAware {
     @Profile("!" + Constants.SPRING_PROFILE_CLOUD)
     public DataSource dataSource() {
         log.debug("Configuring Datasource");
-        if (propertyResolver.getProperty("url") == null && propertyResolver.getProperty("databaseName") == null) {
+
+        // Read the application yml properties
+        String url = propertyResolver.getProperty("url");
+        String databaseName = propertyResolver.getProperty("databaseName");
+        String user = propertyResolver.getProperty("username");
+        String pass = propertyResolver.getProperty("password");
+
+        if (url == null && databaseName == null) {
             log.error("Your database connection pool configuration is incorrect! The application" +
                     "cannot start. Please check your Spring profile, current profiles are: {}",
                     Arrays.toString(env.getActiveProfiles()));
@@ -58,14 +65,14 @@ public class DatabaseConfiguration implements EnvironmentAware {
         }
         HikariConfig config = new HikariConfig();
         config.setDataSourceClassName(propertyResolver.getProperty("dataSourceClassName"));
-        if (propertyResolver.getProperty("url") == null || "".equals(propertyResolver.getProperty("url"))) {
-            config.addDataSourceProperty("databaseName", propertyResolver.getProperty("databaseName"));
+        if (url == null || "".equals(url)) {
+            config.addDataSourceProperty("databaseName", databaseName);
             config.addDataSourceProperty("serverName", propertyResolver.getProperty("serverName"));
         } else {
-            config.addDataSourceProperty("url", propertyResolver.getProperty("url"));
+            config.addDataSourceProperty("url", url);
         }
-        config.addDataSourceProperty("user", propertyResolver.getProperty("username"));
-        config.addDataSourceProperty("password", propertyResolver.getProperty("password"));
+        config.addDataSourceProperty("user", user);
+        config.addDataSourceProperty("password", pass);
 
         //MySQL optimizations, see https://github.com/brettwooldridge/HikariCP/wiki/MySQL-Configuration
         if ("com.mysql.jdbc.jdbc2.optional.MysqlDataSource".equals(propertyResolver.getProperty("dataSourceClassName"))) {
