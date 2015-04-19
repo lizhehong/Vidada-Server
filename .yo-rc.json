@@ -1,0 +1,19 @@
+{
+  "generator-jhipster": {
+    "baseName": "vidada",
+    "packageName": "com.elderbyte.vidada",
+    "packageFolder": "com/elderbyte/vidada",
+    "authenticationType": "oauth2",
+    "hibernateCache": "ehcache",
+    "clusteredHttpSession": "no",
+    "websocket": "spring-websocket",
+    "databaseType": "sql",
+    "devDatabaseType": "h2Memory",
+    "prodDatabaseType": "mysql",
+    "useCompass": false,
+    "buildTool": "maven",
+    "frontendBuilder": "grunt",
+    "javaVersion": "8",
+    "rememberMeKey": "feeabc1808cdea42c9122e171bc5edfbf5c80821"
+  }
+}
