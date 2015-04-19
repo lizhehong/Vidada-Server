@@ -1,0 +1,161 @@
+package com.elderbyte.vidada.domain.images;
+
+import archimedes.core.exceptions.NotSupportedException;
+import archimedes.core.geometry.Size;
+import archimedes.core.images.IMemoryImage;
+import archimedes.core.images.IRawImageFactory;
+import archimedes.core.io.locations.ResourceLocation;
+import com.elderbyte.vidada.domain.media.ImageMediaItem;
+import com.elderbyte.vidada.domain.media.MediaItem;
+import com.elderbyte.vidada.domain.media.MediaType;
+import com.elderbyte.vidada.domain.media.MovieMediaItem;
+import com.elderbyte.vidada.domain.media.source.MediaSource;
+import com.elderbyte.vidada.domain.video.IVideoAccessService;
+import com.elderbyte.vidada.domain.video.Video;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
+import java.io.IOException;
+import java.io.InputStream;
+
+/**
+ * Thumbnail extractor for video and image files.
+ */
+public class ThumbImageExtractor implements IThumbImageExtractor {
+
+    private static final Logger logger = LogManager.getLogger(ThumbImageExtractor.class);
+
+    private final IRawImageFactory imageFactory;
+    private final IVideoAccessService videoAccessService;
+
+
+    public ThumbImageExtractor(IRawImageFactory imageFactory, IVideoAccessService videoAccessService){
+        this.videoAccessService = videoAccessService;
+        this.imageFactory = imageFactory;
+    }
+
+
+	/***************************************************************************
+	 *                                                                         *
+	 * Public API                                                              *
+	 *                                                                         *
+	 **************************************************************************/
+
+
+	/**{@inheritDoc}*/
+	@Override
+	public boolean canExtractThumb(MediaItem media){
+		if(media.getType() == MediaType.IMAGE)
+			return true;
+		if(media.getType() == MediaType.MOVIE){
+			return ((MovieMediaItem) media).canCreateThumbnail() && Video.isGenericEncoderPresent();
+		}else{
+            logger.warn("ThumbImageExtractor::canExtractThumb: Unknown media type: " + media.getClass().getName());
+			return false;
+		}
+	}
+
+
+	/**{@inheritDoc}*/
+	@Override
+	public IMemoryImage extractThumb(MediaItem media, Size size){
+		IMemoryImage image = null;
+
+		if(media.getType() == MediaType.IMAGE){
+			image = extractImageThumb((ImageMediaItem)media, size);
+		}else if(media.getType() == MediaType.MOVIE){
+			image = extractMovieThumb((MovieMediaItem)media, size);
+		}else
+			throw new NotSupportedException("Unknown media type: " + media.getClass().getName());
+
+		return image;
+	}
+
+
+
+	/***************************************************************************
+	 *                                                                         *
+	 * Private methods                                                         *
+	 *                                                                         *
+	 **************************************************************************/
+
+
+	/**
+	 * Read the image file into a IMemoryImage in its native resolution
+	 */
+	private IMemoryImage readNativeImage(ImageMediaItem media) {
+		IMemoryImage bufferedImage = null;
+
+		MediaSource source = media.getSource();
+
+		if(source != null){
+			ResourceLocation filePath = source.getResourceLocation();
+			if (filePath != null && filePath.exists()) {
+                logger.debug("Reading image...");
+				InputStream is = null;
+				try {
+					is = filePath.openInputStream();
+					bufferedImage = imageFactory.createImage(is);
+				} catch (Exception e) {
+                    logger.error("Can not read image" + filePath.toString());
+				}finally{
+					if(is != null){
+						try {
+							is.close();
+						} catch (IOException e) {
+                            logger.error(e);
+						}
+					}
+				}
+			}
+		}
+		return bufferedImage;
+	}
+
+	private IMemoryImage extractImageThumb(ImageMediaItem media, Size size){
+		IMemoryImage nativeImage = readNativeImage(media);
+		if(nativeImage != null)
+			nativeImage = nativeImage.rescale(size.width, size.height);
+		return nativeImage;
+	}
+
+	private IMemoryImage extractMovieThumb(MovieMediaItem media, Size size){
+		return extractMovieThumb(media, size, media.getThumbPos());
+	}
+
+	/**
+	 * Create a thumb at the given position.
+	 *
+	 * @param size
+	 * @param position
+	 *            0.0 - 1.0
+	 * @return
+	 */
+	private IMemoryImage extractMovieThumb(MovieMediaItem media, Size size, float position) {
+
+		Video video = getVideo(media);
+
+		IMemoryImage frame = video.getFrame(position, size);
+		if (frame != null) {
+			media.setCurrentThumbPosition(position);
+			media.onThumbCreationSuccess();
+		} else {
+			// the thumb could not be generated
+			media.onThumbCreationFailed();
+		}
+
+		return frame;
+	}
+
+	private Video getVideo(MovieMediaItem media){
+		Video video = null;
+		MediaSource source = media.getSource();
+		if(source != null && source.isAvailable())
+		{
+			ResourceLocation path = source.getResourceLocation();
+			video = new Video(path, videoAccessService);
+		}
+		return video;
+	}
+
+}

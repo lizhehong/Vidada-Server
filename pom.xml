@@ -12,7 +12,7 @@
     <groupId>com.elderbyte.vidada</groupId>
     <artifactId>vidada</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
 
     <name>vidada</name>
 
@@ -52,6 +52,28 @@
     </properties>
 
     <dependencies>
+
+
+        <dependency>
+            <groupId>ch.securityvision.archimedes</groupId>
+            <artifactId>archimedes.core</artifactId>
+            <version>0.2.6-SNAPSHOT</version>
+            <exclusions>
+                <exclusion> <!-- Ignore the out-dated servlet api reference -->
+                    <groupId>javax.servlet</groupId>
+                    <artifactId>servlet-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- -->
+        <dependency>
+            <groupId>ch.securityvision.vidada</groupId>
+            <artifactId>vidada.ffmpeg</artifactId>
+            <version>0.1.3-BETA</version>
+        </dependency>
+
+
         <dependency>
             <groupId>io.dropwizard.metrics</groupId>
             <artifactId>metrics-core</artifactId>
