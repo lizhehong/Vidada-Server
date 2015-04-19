@@ -40,7 +40,6 @@ public class MediaLibrary extends IdEntity {
      * Vidadas cache directory name in a users library folder root
      */
     public static final String VidataCacheFolder = "vidada.db";
-    public static final String VidataThumbsFolder = VidataCacheFolder + "/thumbs";
     public static final String VidataInfoFolder = VidataCacheFolder + "/info";
     public static final String VidataTagRelations = VidataCacheFolder + "/tags.txt";
 
@@ -54,7 +53,6 @@ public class MediaLibrary extends IdEntity {
     private boolean ignoreMovies;
     private boolean ignoreImages;
 
-    transient private IImageCache imageCache = null;
     transient private IMediaPropertyStore propertyStore = null;
     transient private MediaDirectory mediaDirectory = null;
     transient private DirectoryLocation libraryDirectoryLocation = null;
@@ -162,27 +160,6 @@ public class MediaLibrary extends IdEntity {
     public File getUserTagRelationDef(){
         return new File(new File(getLibraryRoot().getPath()), VidataTagRelations);
     }
-
-    /**
-     * Gets this library's thumbnail cache
-     * @return Returns the thumbnail cache
-
-    public synchronized IImageCache getLibraryCache(){
-
-        if(imageCache == null){
-            DirectoryLocation libraryRoot = getLibraryRoot();
-            if(libraryRoot != null && libraryRoot.exists()){
-                try {
-                    DirectoryLocation libCache = DirectoryLocation.Factory.create(libraryRoot, VidataThumbsFolder);
-                    logger.info("Opening new library cache...");
-                    imageCache = ImageCacheFactory.instance().openCache(libCache); // TODO Remove this
-                } catch (URISyntaxException e1) {
-                    logger.error(e1);
-                }
-            }
-        }
-        return imageCache;
-    } */
 
     /**
      * Returns the property cache / store for this media library.

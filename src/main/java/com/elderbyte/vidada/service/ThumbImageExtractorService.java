@@ -1,4 +1,4 @@
-package com.elderbyte.vidada.domain.images;
+package com.elderbyte.vidada.service;
 
 import archimedes.core.exceptions.NotSupportedException;
 import archimedes.core.geometry.Size;
@@ -14,22 +14,26 @@ import com.elderbyte.vidada.domain.video.IVideoAccessService;
 import com.elderbyte.vidada.domain.video.Video;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Service;
 
+import javax.inject.Inject;
 import java.io.IOException;
 import java.io.InputStream;
 
 /**
  * Thumbnail extractor for video and image files.
  */
-public class ThumbImageExtractor implements IThumbImageExtractor {
+@Service
+public class ThumbImageExtractorService {
 
-    private static final Logger logger = LogManager.getLogger(ThumbImageExtractor.class);
+    private static final Logger logger = LogManager.getLogger(ThumbImageExtractorService.class);
 
     private final IRawImageFactory imageFactory;
     private final IVideoAccessService videoAccessService;
 
 
-    public ThumbImageExtractor(IRawImageFactory imageFactory, IVideoAccessService videoAccessService){
+    @Inject
+    public ThumbImageExtractorService(IRawImageFactory imageFactory, IVideoAccessService videoAccessService){
         this.videoAccessService = videoAccessService;
         this.imageFactory = imageFactory;
     }
@@ -42,8 +46,6 @@ public class ThumbImageExtractor implements IThumbImageExtractor {
 	 **************************************************************************/
 
 
-	/**{@inheritDoc}*/
-	@Override
 	public boolean canExtractThumb(MediaItem media){
 		if(media.getType() == MediaType.IMAGE)
 			return true;
@@ -56,8 +58,6 @@ public class ThumbImageExtractor implements IThumbImageExtractor {
 	}
 
 
-	/**{@inheritDoc}*/
-	@Override
 	public IMemoryImage extractThumb(MediaItem media, Size size){
 		IMemoryImage image = null;
 
