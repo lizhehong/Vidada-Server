@@ -1,24 +1,24 @@
-package com.elderbyte.vidada.domain.jobs;
+package com.elderbyte.vidada.service;
 
-
-import archimedes.core.exceptions.NotImplementedException;
 import archimedes.core.exceptions.NotSupportedException;
 import archimedes.core.concurrent.IProgressListener;
 import archimedes.core.concurrent.ProgressEventArgs;
+import com.elderbyte.vidada.domain.jobs.JobId;
+import com.elderbyte.vidada.domain.jobs.JobState;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 public class JobServiceProgressListener implements IProgressListener {
 
-    /*
+
 	private static final Logger logger = LogManager.getLogger(JobServiceProgressListener.class.getName());
 
 
 	private final JobId jobId;
-	private final IJobService jobService;
+	private final JobService jobService;
 
 
-	public JobServiceProgressListener(IJobService jobService, JobId jobId){
+	public JobServiceProgressListener(JobService jobService, JobId jobId){
 		this.jobId = jobId;
 		this.jobService = jobService;
 	}
@@ -44,11 +44,7 @@ public class JobServiceProgressListener implements IProgressListener {
 			}
 		}
 	}
-	*/
 
-    @Override
-    public void currentProgress(ProgressEventArgs progressInfo) {
-        throw new NotImplementedException(); // TODO
-    }
+
 
 }
