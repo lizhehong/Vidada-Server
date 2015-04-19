@@ -2,30 +2,21 @@ package com.elderbyte.vidada.web.rest;
 
 import archimedes.core.geometry.Size;
 import archimedes.core.images.IMemoryImage;
-import com.codahale.metrics.annotation.Timed;
 import com.elderbyte.vidada.domain.media.MediaItem;
 import com.elderbyte.vidada.domain.media.MovieMediaItem;
-import com.elderbyte.vidada.domain.tags.Tag;
-import com.elderbyte.vidada.service.TagService;
 import com.elderbyte.vidada.service.ThumbnailService;
 import com.elderbyte.vidada.service.media.MediaService;
-import com.elderbyte.vidada.web.rest.dto.UserDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import javax.websocket.server.PathParam;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Collection;
 import java.util.Optional;
 
 /**
@@ -51,7 +42,7 @@ public class ThumbnailResource {
         method = RequestMethod.POST)
     public ResponseEntity updateThumb(
         @PathParam("hash") String hash,
-        float pos){
+        @RequestBody float pos){
 
         MediaItem media = mediaService.queryByHash(hash);
         if(media != null){
