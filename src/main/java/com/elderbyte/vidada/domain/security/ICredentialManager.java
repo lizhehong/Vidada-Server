@@ -12,7 +12,7 @@ public interface ICredentialManager extends IService {
 	 * @author IsNull
 	 *
 	 */
-	public static interface ICredentialsChecker {
+	interface ICredentialsChecker {
 		/**
 		 * Check the given credentials
 		 * @param credentials
@@ -26,7 +26,7 @@ public interface ICredentialManager extends IService {
 	 * @author IsNull
 	 *
 	 */
-	public static interface ICredentialsProvider {
+	interface ICredentialsProvider {
 		/**
 		 * Requests user authentication which usually results in prompting the user for credentials
 		 * @param domain
@@ -50,7 +50,7 @@ public interface ICredentialManager extends IService {
 	 * @param useKeyStore Shall remembered keys being used to authenticate?
 	 * @return On success, returns the valid Credentials.
 	 */
-	public Credentials requestAuthentication(String domain, String description, CredentialType type, ICredentialsChecker checker, boolean useKeyStore);
+    Credentials requestAuthentication(String domain, String description, CredentialType type, ICredentialsChecker checker, boolean useKeyStore);
 
 	/**
 	 * Requests new credentials, the user has to confirm the entered credentials
@@ -58,7 +58,7 @@ public interface ICredentialManager extends IService {
 	 * @param type
 	 * @return
 	 */
-	public Credentials requestNewCredentials(String description, CredentialType type);
+    Credentials requestNewCredentials(String description, CredentialType type);
 
 	/**
 	 * Requests credentials without checking them and without using a key-store
@@ -66,7 +66,7 @@ public interface ICredentialManager extends IService {
 	 * @param type
 	 * @return
 	 */
-	public Credentials requestCredentials(String description, CredentialType type);
+    Credentials requestCredentials(String description, CredentialType type);
 
 
 
@@ -74,7 +74,7 @@ public interface ICredentialManager extends IService {
 	 * Registers the given Credentials provider
 	 * @param authProvider
 	 */
-	public void register(ICredentialsProvider authProvider);
+    void register(ICredentialsProvider authProvider);
 
 
 }

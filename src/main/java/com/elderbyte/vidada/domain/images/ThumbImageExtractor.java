@@ -48,7 +48,7 @@ public class ThumbImageExtractor implements IThumbImageExtractor {
 		if(media.getType() == MediaType.IMAGE)
 			return true;
 		if(media.getType() == MediaType.MOVIE){
-			return ((MovieMediaItem) media).canCreateThumbnail() && Video.isGenericEncoderPresent();
+			return ((MovieMediaItem) media).canCreateThumbnail() && isGenericEncoderPresent();
 		}else{
             logger.warn("ThumbImageExtractor::canExtractThumb: Unknown media type: " + media.getClass().getName());
 			return false;
@@ -147,7 +147,12 @@ public class ThumbImageExtractor implements IThumbImageExtractor {
 		return frame;
 	}
 
-	private Video getVideo(MovieMediaItem media){
+    private boolean isGenericEncoderPresent(){
+        return videoAccessService.isAvailable();
+    }
+
+
+    private Video getVideo(MovieMediaItem media){
 		Video video = null;
 		MediaSource source = media.getSource();
 		if(source != null && source.isAvailable())

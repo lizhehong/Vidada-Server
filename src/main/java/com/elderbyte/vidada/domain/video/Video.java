@@ -19,7 +19,7 @@ public class Video {
 
     private static final Logger logger = LogManager.getLogger(Video.class);
 
-	private static IVideoAccessService videoAccessService;
+	private final IVideoAccessService videoAccessService;
 
 
 	private ResourceLocation videoResource;
@@ -27,14 +27,8 @@ public class Video {
 
 
 	public Video(ResourceLocation videoResource, IVideoAccessService videoAccessService){
-		this.videoResource = videoResource;
         this.videoAccessService = videoAccessService;
-	}
-
-
-	protected void setPathToVideoFile(ResourceLocation pathToVideFile){
-		this.videoResource = pathToVideFile;
-		this.videoInfo = null;
+        this.videoResource = videoResource;
 	}
 
 	/**
@@ -56,11 +50,6 @@ public class Video {
 		}
 		return videoInfo;
 	}
-
-	public static boolean isGenericEncoderPresent(){
-		return videoAccessService.isAvailable();
-	}
-
 
 	/**
 	 * Gets the frame at the given position in its native resolution
