@@ -4,7 +4,6 @@ import com.codahale.metrics.MetricRegistry;
 import com.fasterxml.jackson.datatype.hibernate4.Hibernate4Module;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import liquibase.integration.spring.SpringLiquibase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,26 +84,6 @@ public class DatabaseConfiguration implements EnvironmentAware {
             config.setMetricRegistry(metricRegistry);
         }
         return new HikariDataSource(config);
-    }
-
-    @Bean
-    public SpringLiquibase liquibase(DataSource dataSource) {
-        SpringLiquibase liquibase = new SpringLiquibase();
-        liquibase.setDataSource(dataSource);
-        liquibase.setChangeLog("classpath:config/liquibase/master.xml");
-        liquibase.setContexts("development, production");
-        if (env.acceptsProfiles(Constants.SPRING_PROFILE_FAST)) {
-            if ("org.h2.jdbcx.JdbcDataSource".equals(propertyResolver.getProperty("dataSourceClassName"))) {
-                liquibase.setShouldRun(true);
-                log.warn("Using '{}' profile with H2 database in memory is not optimal, you should consider switching to" +
-                    " MySQL or Postgresql to avoid rebuilding your database upon each start.", Constants.SPRING_PROFILE_FAST);
-            } else {
-                liquibase.setShouldRun(false);
-            }
-        } else {
-            log.debug("Configuring Liquibase");
-        }
-        return liquibase;
     }
 
     @Bean
