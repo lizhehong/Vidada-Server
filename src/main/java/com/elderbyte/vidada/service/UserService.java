@@ -143,7 +143,7 @@ public class UserService {
         User admin = getUser("admin");
 
         if(admin == null){
-            User u = createUserInformation("admin", "1337", "Administrator", "", "admin@vidada", "en");
+            User u = createUserInformation("admin", "1337", "Administrator", "Administrator", "admin@vidada", "en");
             u.getAuthorities().add(authorityService.get(KnownAuthority.ADMIN));
             u.setActivated(true);
             userRepository.save(u);
