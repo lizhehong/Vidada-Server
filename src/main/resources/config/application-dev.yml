@@ -17,7 +17,7 @@ spring:
         database: H2
         openInView: false
         show_sql: true
-        generate-ddl: false
+        generate-ddl: true
         hibernate:
             ddl-auto: update
             naming-strategy: org.hibernate.cfg.EJB3NamingStrategy
