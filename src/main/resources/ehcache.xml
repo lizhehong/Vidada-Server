@@ -21,7 +21,7 @@
            timeToLiveSeconds="3600">
     </cache>
 
-    <cache name="com.elderbyte.vidada.domain.Authority"
+    <cache name="com.elderbyte.vidada.domain.security.Authority"
            timeToLiveSeconds="3600">
     </cache>
 
