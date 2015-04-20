@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by IsNull on 19.04.15.
  */
-public interface ICustomMediaRepository {
+public interface MediaRepositoryCustom {
 
 
     /**

@@ -8,7 +8,7 @@ import java.util.Optional;
 /**
  * Spring Data JPA repository for the User entity.
  */
-public interface MediaRepository extends JpaRepository<MediaItem, Long>, ICustomMediaRepository {
+public interface MediaRepository extends JpaRepository<MediaItem, Long>, MediaRepositoryCustom {
 
 
     /**

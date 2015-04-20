@@ -8,7 +8,9 @@ import com.elderbyte.vidada.domain.media.MediaItem;
 import com.elderbyte.vidada.domain.media.MediaLibrary;
 import com.elderbyte.vidada.domain.media.source.MediaSource;
 import com.elderbyte.vidada.domain.security.ICredentialManager;
+import com.elderbyte.vidada.domain.settings.VidadaDatabaseConfig;
 import com.elderbyte.vidada.domain.settings.VidadaServerSettings;
+import com.elderbyte.vidada.service.images.ImageCacheFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
@@ -34,7 +36,6 @@ public class MediaThumbCacheService  {
     public static final String VidataThumbsFolder = VidataCacheFolder + "/thumbs";
 
     private final IImageCache globalCache;
-    private final Map<MediaLibrary, IImageCache> combinedCachesMap = new HashMap<>();
     private final Size maxThumbnailSize = VidadaServerSettings.instance().getMaxThumbResolution();
     private final ImageCacheFactory imageCacheFactory;
 
@@ -54,8 +55,9 @@ public class MediaThumbCacheService  {
 
         this.imageCacheFactory = imageCacheFactory;
 
-        if(VidadaServerSettings.instance().getCurrentDBConfig().isUseLocalCache()){
+        VidadaDatabaseConfig conf = VidadaServerSettings.instance().getCurrentDBConfig();
 
+        if(conf != null && conf.isUseLocalCache()){
             File cacheLocation = VidadaServerSettings.instance().getAbsoluteCachePath();
             IImageCache cache = imageCacheFactory.openEncryptedCache(cacheLocation, credentialManager);
             this.globalCache = new MemoryImageCache(cache);

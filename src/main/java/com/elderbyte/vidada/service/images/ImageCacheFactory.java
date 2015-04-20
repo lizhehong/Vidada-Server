@@ -1,21 +1,27 @@
-package com.elderbyte.vidada.domain.images.cache;
+package com.elderbyte.vidada.service.images;
 
 import archimedes.core.images.IRawImageFactory;
 import archimedes.core.io.locations.DirectoryLocation;
 import archimedes.core.security.AuthenticationException;
+import com.elderbyte.vidada.domain.images.cache.IImageCache;
+import com.elderbyte.vidada.domain.images.cache.ImageFileCache;
+import com.elderbyte.vidada.domain.images.cache.LeveledImageCache;
 import com.elderbyte.vidada.domain.images.cache.crypto.CacheKeyProvider;
 import com.elderbyte.vidada.domain.images.cache.crypto.CryptedImageFileCache;
 import com.elderbyte.vidada.domain.images.cache.crypto.ICacheKeyProvider;
 import com.elderbyte.vidada.domain.security.ICredentialManager;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Service;
 
 
+import javax.inject.Inject;
 import java.io.File;
 
 /**
  * Provides helper methods to build image caches.
  */
+@Service
 public class ImageCacheFactory {
 
     private static final Logger logger = LogManager.getLogger(ImageCacheFactory.class.getName());
@@ -23,6 +29,7 @@ public class ImageCacheFactory {
     private final IRawImageFactory imageFactory;
 
 
+    @Inject
     public ImageCacheFactory(IRawImageFactory imageFactory){
         this.imageFactory = imageFactory;
     }

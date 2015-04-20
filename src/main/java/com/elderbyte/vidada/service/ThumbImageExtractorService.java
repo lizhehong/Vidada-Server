@@ -14,6 +14,7 @@ import com.elderbyte.vidada.domain.video.IVideoAccessService;
 import com.elderbyte.vidada.domain.video.Video;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
@@ -26,7 +27,7 @@ import java.io.InputStream;
 @Service
 public class ThumbImageExtractorService {
 
-    private static final Logger logger = LogManager.getLogger(ThumbImageExtractorService.class);
+    private final org.slf4j.Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final IRawImageFactory imageFactory;
     private final IVideoAccessService videoAccessService;
@@ -103,7 +104,7 @@ public class ThumbImageExtractorService {
 						try {
 							is.close();
 						} catch (IOException e) {
-                            logger.error(e);
+                            logger.error("", e);
 						}
 					}
 				}

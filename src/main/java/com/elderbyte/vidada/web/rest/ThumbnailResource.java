@@ -84,10 +84,10 @@ public class ThumbnailResource {
                     return new ResponseEntity<>(bao.toByteArray(), HttpStatus.OK);
                 } catch (IOException e) {
                     log.error("Failed to send image byte stream!", e);
-                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                    return new ResponseEntity<byte[]>(HttpStatus.INTERNAL_SERVER_ERROR);
                 }
             }
-        ).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        ).orElse(new ResponseEntity<byte[]>(HttpStatus.NOT_FOUND));
     }
 
 }

@@ -24,8 +24,7 @@ public class VidadaServerSettings extends JsonSettings {
 	 *                                                                         *
 	 **************************************************************************/
 
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
+    transient private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	transient public static final String ProductName = "vidada-server";
 
 	transient public static File Path;

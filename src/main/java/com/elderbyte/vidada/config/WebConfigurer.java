@@ -6,14 +6,13 @@ import com.codahale.metrics.servlets.MetricsServlet;
 import com.elderbyte.vidada.web.filter.CachingHttpHeadersFilter;
 import com.elderbyte.vidada.web.filter.StaticResourcesProductionFilter;
 import com.elderbyte.vidada.web.filter.gzip.GZipServletFilter;
+import com.elderbyte.vidada.web.servlets.MediaStreamServlet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
-import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer;
-import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
-import org.springframework.boot.context.embedded.MimeMappings;
-import org.springframework.boot.context.embedded.ServletContextInitializer;
+import org.springframework.boot.context.embedded.*;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
@@ -38,6 +37,13 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
 
     @Autowired(required = false)
     private MetricRegistry metricRegistry;
+
+
+
+    @Bean
+    public ServletRegistrationBean servletRegistrationBean(){
+        return new ServletRegistrationBean(new MediaStreamServlet(),"/stream/*");
+    }
 
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {

@@ -1,15 +1,16 @@
-package com.elderbyte.vidada.domain.security;
+package com.elderbyte.vidada.service;
 
 import archimedes.core.exceptions.NotImplementedException;
 import archimedes.core.exceptions.NotSupportedException;
 import archimedes.core.security.CredentialType;
 import archimedes.core.security.Credentials;
+import com.elderbyte.vidada.domain.security.ICredentialManager;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Service;
 
-import javax.inject.Singleton;
 
-@Singleton
+@Service
 public class CredentialManager implements ICredentialManager {
 
 

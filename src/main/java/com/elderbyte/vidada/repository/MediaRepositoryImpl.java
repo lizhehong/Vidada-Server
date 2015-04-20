@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * Created by IsNull on 19.04.15.
  */
-public class CustomMediaRepository implements ICustomMediaRepository {
+public class MediaRepositoryImpl implements MediaRepositoryCustom {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -30,7 +30,7 @@ public class CustomMediaRepository implements ICustomMediaRepository {
     private final Provider<EntityManager> emProvider;
 
     @Inject
-    public CustomMediaRepository(Provider<EntityManager> emProvider){
+    public MediaRepositoryImpl(Provider<EntityManager> emProvider){
         this.emProvider = emProvider;
     }
 
