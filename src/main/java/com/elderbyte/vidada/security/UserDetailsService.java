@@ -1,6 +1,5 @@
 package com.elderbyte.vidada.security;
 
-import com.elderbyte.vidada.domain.Authority;
 import com.elderbyte.vidada.domain.User;
 import com.elderbyte.vidada.repository.UserRepository;
 import org.slf4j.Logger;
@@ -13,11 +12,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.Collections;
 import java.util.List;
 
 /**

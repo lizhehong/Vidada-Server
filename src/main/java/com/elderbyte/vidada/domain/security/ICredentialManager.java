@@ -5,7 +5,7 @@ import archimedes.core.security.CredentialType;
 import archimedes.core.security.Credentials;
 import archimedes.core.services.IService;
 
-public interface ICredentialManager extends IService {
+public interface ICredentialManager {
 
 	/**
 	 * Delegate to check credentials

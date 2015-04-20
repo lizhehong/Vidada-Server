@@ -1,5 +1,6 @@
 package com.elderbyte.vidada.domain;
 
+import com.elderbyte.vidada.domain.security.Authority;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -33,7 +34,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
 
     @JsonIgnore
     @NotNull
-    @Size(min = 5, max = 100)
+    @Size(max = 100)
     @Column(length = 100)
     private String password;
 
@@ -144,10 +145,6 @@ public class User extends AbstractAuditingEntity implements Serializable {
 
     public Set<Authority> getAuthorities() {
         return authorities;
-    }
-
-    public void setAuthorities(Set<Authority> authorities) {
-        this.authorities = authorities;
     }
 
     @Override

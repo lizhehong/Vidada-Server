@@ -1,6 +1,6 @@
 package com.elderbyte.vidada.web.rest;
 
-import com.elderbyte.vidada.security.AuthoritiesConstants;
+import com.elderbyte.vidada.domain.security.KnownAuthority;
 import com.elderbyte.vidada.service.AuditEventService;
 import com.elderbyte.vidada.web.propertyeditors.LocaleDateTimeEditor;
 import org.joda.time.LocalDateTime;
@@ -31,7 +31,7 @@ public class AuditResource {
     @RequestMapping(value = "/audits/all",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    @RolesAllowed(AuthoritiesConstants.ADMIN)
+    @RolesAllowed(KnownAuthority.ADMIN)
     public List<AuditEvent> findAll() {
         return auditEventService.findAll();
     }
@@ -39,7 +39,7 @@ public class AuditResource {
     @RequestMapping(value = "/audits/byDates",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    @RolesAllowed(AuthoritiesConstants.ADMIN)
+    @RolesAllowed(KnownAuthority.ADMIN)
     public List<AuditEvent> findByDates(@RequestParam(value = "fromDate") LocalDateTime fromDate,
                                     @RequestParam(value = "toDate") LocalDateTime toDate) {
         return auditEventService.findByDates(fromDate, toDate);

@@ -1,6 +1,6 @@
 package com.elderbyte.vidada.config;
 
-import com.elderbyte.vidada.security.AuthoritiesConstants;
+import com.elderbyte.vidada.domain.security.KnownAuthority;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
@@ -10,7 +10,6 @@ import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.config.annotation.AbstractWebSocketMessageBrokerConfigurer;
@@ -46,7 +45,7 @@ public class WebsocketConfiguration extends AbstractWebSocketMessageBrokerConfig
                     Principal principal = request.getPrincipal();
                     if (principal == null) {
                         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-                        authorities.add(new SimpleGrantedAuthority(AuthoritiesConstants.ANONYMOUS));
+                        authorities.add(new SimpleGrantedAuthority(KnownAuthority.ANONYMOUS));
                         principal = new AnonymousAuthenticationToken("WebsocketConfiguration", "anonymous", authorities);
                     }
                     return principal;

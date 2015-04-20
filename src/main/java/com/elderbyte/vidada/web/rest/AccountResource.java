@@ -1,7 +1,7 @@
 package com.elderbyte.vidada.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
-import com.elderbyte.vidada.domain.Authority;
+import com.elderbyte.vidada.domain.security.Authority;
 import com.elderbyte.vidada.domain.User;
 import com.elderbyte.vidada.repository.UserRepository;
 import com.elderbyte.vidada.security.SecurityUtils;
@@ -19,8 +19,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.*;
 import java.util.stream.Collectors;
 

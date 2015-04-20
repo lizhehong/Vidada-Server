@@ -1,13 +1,12 @@
 package com.elderbyte.vidada.service;
 
-import com.elderbyte.vidada.domain.Authority;
+import com.elderbyte.vidada.domain.security.Authority;
 import com.elderbyte.vidada.domain.User;
-import com.elderbyte.vidada.repository.AuthorityRepository;
+import com.elderbyte.vidada.domain.security.KnownAuthority;
 import com.elderbyte.vidada.repository.UserRepository;
 import com.elderbyte.vidada.security.SecurityUtils;
 import com.elderbyte.vidada.service.util.RandomUtil;
 import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -30,14 +29,19 @@ public class UserService {
 
     private final Logger log = LoggerFactory.getLogger(UserService.class);
 
-    @Inject
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final AuthorityService authorityService;
 
     @Inject
-    private UserRepository userRepository;
+    public UserService(PasswordEncoder passwordEncoder, UserRepository userRepository, AuthorityService authorityService){
+        this.passwordEncoder = passwordEncoder;
+        this.userRepository = userRepository;
+        this.authorityService = authorityService;
 
-    @Inject
-    private AuthorityRepository authorityRepository;
+        ensureKnownUsers();
+    }
+
 
     public Optional<User> activateRegistration(String key) {
         log.debug("Activating user for activation key {}", key);
@@ -53,11 +57,11 @@ public class UserService {
         return Optional.empty();
     }
 
+    @Transactional
     public User createUserInformation(String login, String password, String firstName, String lastName, String email,
                                       String langKey) {
         User newUser = new User();
-        Authority authority = authorityRepository.findOne("ROLE_USER");
-        Set<Authority> authorities = new HashSet<>();
+        Authority authority = authorityService.get(KnownAuthority.USER);
         String encryptedPassword = passwordEncoder.encode(password);
         newUser.setLogin(login);
         // new user gets initially a generated password
@@ -70,8 +74,7 @@ public class UserService {
         newUser.setActivated(false);
         // new user gets registration key
         newUser.setActivationKey(RandomUtil.generateActivationKey());
-        authorities.add(authority);
-        newUser.setAuthorities(authorities);
+        newUser.getAuthorities().add(authority);
         userRepository.save(newUser);
         log.debug("Created Information for User: {}", newUser);
         return newUser;
@@ -96,11 +99,21 @@ public class UserService {
         });
     }
 
+    /**
+     * Returns the current user
+     * @return
+     */
     @Transactional(readOnly = true)
     public User getUserWithAuthorities() {
         User currentUser = userRepository.findOneByLogin(SecurityUtils.getCurrentLogin()).get();
         currentUser.getAuthorities().size(); // eagerly load the association
         return currentUser;
+    }
+
+    @Transactional(readOnly = true)
+    public User getUser(String login){
+        Optional<User> user = userRepository.findOneByLogin(login);
+        return user.orElse(null);
     }
 
     /**
@@ -118,5 +131,38 @@ public class UserService {
             log.debug("Deleting not activated user {}", user.getLogin());
             userRepository.delete(user);
         }
+    }
+
+
+
+    @Transactional
+    private void ensureKnownUsers() {
+
+        User system = getUser("system");
+        User anonymousUser = getUser("anonymous");
+        User admin = getUser("admin");
+
+        if(admin == null){
+            User u = createUserInformation("admin", "1337", "Administrator", "", "admin@vidada", "en");
+            u.getAuthorities().add(authorityService.get(KnownAuthority.ADMIN));
+            u.setActivated(true);
+            userRepository.save(u);
+        }
+
+        if(system == null){
+            User u = createUserInformation("system", "1337", "System", "", "system@vidada", "en");
+            u.getAuthorities().add(authorityService.get(KnownAuthority.ADMIN));
+            u.setActivated(true);
+            userRepository.save(u);
+        }
+
+        if(anonymousUser == null){
+            User u =  createUserInformation("anonymous", "", "Anonymous", "", "anon@vidada", "en");
+            u.getAuthorities().clear();
+            u.getAuthorities().add(authorityService.get(KnownAuthority.ANONYMOUS));
+            u.setActivated(true);
+            userRepository.save(u);
+        }
+
     }
 }

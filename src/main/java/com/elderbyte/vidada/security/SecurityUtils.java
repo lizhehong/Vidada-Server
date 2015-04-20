@@ -1,5 +1,6 @@
 package com.elderbyte.vidada.security;
 
+import com.elderbyte.vidada.domain.security.KnownAuthority;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -46,7 +47,7 @@ public final class SecurityUtils {
         Collection<? extends GrantedAuthority> authorities = securityContext.getAuthentication().getAuthorities();
         if (authorities != null) {
             for (GrantedAuthority authority : authorities) {
-                if (authority.getAuthority().equals(AuthoritiesConstants.ANONYMOUS)) {
+                if (authority.getAuthority().equals(KnownAuthority.ANONYMOUS)) {
                     return false;
                 }
             }

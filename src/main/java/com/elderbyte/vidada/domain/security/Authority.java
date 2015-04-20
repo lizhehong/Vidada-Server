@@ -1,4 +1,4 @@
-package com.elderbyte.vidada.domain;
+package com.elderbyte.vidada.domain.security;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -24,11 +24,18 @@ public class Authority implements Serializable {
     @Column(length = 50)
     private String name;
 
+    /** Empty Constructor for ORM */
+    protected Authority(){}
+
+    public Authority(String name){
+        setName(name);
+    }
+
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    protected void setName(String name) {
         this.name = name;
     }
 

@@ -3,7 +3,6 @@ package com.elderbyte.vidada.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import com.elderbyte.vidada.domain.User;
 import com.elderbyte.vidada.repository.UserRepository;
-import com.elderbyte.vidada.security.AuthoritiesConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

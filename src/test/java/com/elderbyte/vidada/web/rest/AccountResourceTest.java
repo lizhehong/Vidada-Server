@@ -1,11 +1,11 @@
 package com.elderbyte.vidada.web.rest;
 
 import com.elderbyte.vidada.Application;
-import com.elderbyte.vidada.domain.Authority;
+import com.elderbyte.vidada.domain.security.Authority;
 import com.elderbyte.vidada.domain.User;
+import com.elderbyte.vidada.domain.security.KnownAuthority;
 import com.elderbyte.vidada.repository.AuthorityRepository;
 import com.elderbyte.vidada.repository.UserRepository;
-import com.elderbyte.vidada.security.AuthoritiesConstants;
 import com.elderbyte.vidada.service.MailService;
 import com.elderbyte.vidada.service.UserService;
 import com.elderbyte.vidada.web.rest.dto.UserDTO;
@@ -26,9 +26,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Optional;
-import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.anyObject;
@@ -110,17 +108,13 @@ public class AccountResourceTest {
 
     @Test
     public void testGetExistingAccount() throws Exception {
-        Set<Authority> authorities = new HashSet<>();
-        Authority authority = new Authority();
-        authority.setName(AuthoritiesConstants.ADMIN);
-        authorities.add(authority);
 
         User user = new User();
         user.setLogin("test");
         user.setFirstName("john");
         user.setLastName("doe");
         user.setEmail("john.doe@jhipter.com");
-        user.setAuthorities(authorities);
+        user.getAuthorities().add(new Authority(KnownAuthority.ADMIN));
         when(mockUserService.getUserWithAuthorities()).thenReturn(user);
 
         restUserMockMvc.perform(get("/api/account")
@@ -131,7 +125,7 @@ public class AccountResourceTest {
                 .andExpect(jsonPath("$.firstName").value("john"))
                 .andExpect(jsonPath("$.lastName").value("doe"))
                 .andExpect(jsonPath("$.email").value("john.doe@jhipter.com"))
-                .andExpect(jsonPath("$.roles").value(AuthoritiesConstants.ADMIN));
+                .andExpect(jsonPath("$.roles").value(KnownAuthority.ADMIN));
     }
 
     @Test
@@ -153,7 +147,7 @@ public class AccountResourceTest {
             "Shmoe",                // lastName
             "joe@example.com",      // e-mail
             "en",                   // langKey
-            Arrays.asList(AuthoritiesConstants.USER)
+            Arrays.asList(KnownAuthority.USER)
         );
 
         restMvc.perform(
@@ -176,7 +170,7 @@ public class AccountResourceTest {
             "One",                  // lastName
             "funky@example.com",    // e-mail
             "en",                   // langKey
-            Arrays.asList(AuthoritiesConstants.USER)
+            Arrays.asList(KnownAuthority.USER)
         );
 
         restUserMockMvc.perform(
@@ -199,7 +193,7 @@ public class AccountResourceTest {
             "Green",            // lastName
             "invalid",          // e-mail <-- invalid
             "en",               // langKey
-            Arrays.asList(AuthoritiesConstants.USER)
+            Arrays.asList(KnownAuthority.USER)
         );
 
         restUserMockMvc.perform(
@@ -223,7 +217,7 @@ public class AccountResourceTest {
             "Something",            // lastName
             "alice@example.com",    // e-mail
             "en",                   // langKey
-            Arrays.asList(AuthoritiesConstants.USER)
+            Arrays.asList(KnownAuthority.USER)
         );
 
         // Duplicate login, different e-mail
@@ -259,7 +253,7 @@ public class AccountResourceTest {
             "Doe",                  // lastName
             "john@example.com",     // e-mail
             "en",                   // langKey
-            Arrays.asList(AuthoritiesConstants.USER)
+            Arrays.asList(KnownAuthority.USER)
         );
 
         // Duplicate e-mail, different login
@@ -294,7 +288,7 @@ public class AccountResourceTest {
             "Guy",                  // lastName
             "badguy@example.com",   // e-mail
             "en",                   // langKey
-            Arrays.asList(AuthoritiesConstants.ADMIN) // <-- only admin should be able to do that
+            Arrays.asList(KnownAuthority.ADMIN) // <-- only admin should be able to do that
         );
 
         restMvc.perform(
@@ -306,6 +300,6 @@ public class AccountResourceTest {
         Optional<User> userDup = userRepository.findOneByLogin("badguy");
         assertThat(userDup.isPresent()).isTrue();
         assertThat(userDup.get().getAuthorities()).hasSize(1)
-            .containsExactly(authorityRepository.findOne(AuthoritiesConstants.USER));
+            .containsExactly(authorityRepository.findOne(KnownAuthority.USER));
     }
 }

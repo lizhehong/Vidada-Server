@@ -1,6 +1,6 @@
 package com.elderbyte.vidada.repository;
 
-import com.elderbyte.vidada.domain.Authority;
+import com.elderbyte.vidada.domain.security.Authority;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

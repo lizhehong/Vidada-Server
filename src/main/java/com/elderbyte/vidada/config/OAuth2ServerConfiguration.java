@@ -1,7 +1,7 @@
 package com.elderbyte.vidada.config;
 
+import com.elderbyte.vidada.domain.security.KnownAuthority;
 import com.elderbyte.vidada.security.AjaxLogoutSuccessHandler;
-import com.elderbyte.vidada.security.AuthoritiesConstants;
 import com.elderbyte.vidada.security.Http401UnauthorizedEntryPoint;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.bind.RelaxedPropertyResolver;
@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -57,22 +56,22 @@ public class OAuth2ServerConfiguration {
                 .authorizeRequests()
                 .antMatchers("/api/authenticate").permitAll()
                 .antMatchers("/api/register").permitAll()
-                .antMatchers("/api/logs/**").hasAnyAuthority(AuthoritiesConstants.ADMIN)
+                .antMatchers("/api/logs/**").hasAnyAuthority(KnownAuthority.ADMIN)
                 .antMatchers("/api/**").authenticated()
-                .antMatchers("/websocket/tracker").hasAuthority(AuthoritiesConstants.ADMIN)
+                .antMatchers("/websocket/tracker").hasAuthority(KnownAuthority.ADMIN)
                 .antMatchers("/websocket/**").permitAll()
-                .antMatchers("/metrics/**").hasAuthority(AuthoritiesConstants.ADMIN)
-                .antMatchers("/health/**").hasAuthority(AuthoritiesConstants.ADMIN)
-                .antMatchers("/trace/**").hasAuthority(AuthoritiesConstants.ADMIN)
-                .antMatchers("/dump/**").hasAuthority(AuthoritiesConstants.ADMIN)
-                .antMatchers("/shutdown/**").hasAuthority(AuthoritiesConstants.ADMIN)
-                .antMatchers("/beans/**").hasAuthority(AuthoritiesConstants.ADMIN)
-                .antMatchers("/configprops/**").hasAuthority(AuthoritiesConstants.ADMIN)
-                .antMatchers("/info/**").hasAuthority(AuthoritiesConstants.ADMIN)
-                .antMatchers("/autoconfig/**").hasAuthority(AuthoritiesConstants.ADMIN)
-                .antMatchers("/env/**").hasAuthority(AuthoritiesConstants.ADMIN)
-                .antMatchers("/trace/**").hasAuthority(AuthoritiesConstants.ADMIN)
-                .antMatchers("/api-docs/**").hasAuthority(AuthoritiesConstants.ADMIN)
+                .antMatchers("/metrics/**").hasAuthority(KnownAuthority.ADMIN)
+                .antMatchers("/health/**").hasAuthority(KnownAuthority.ADMIN)
+                .antMatchers("/trace/**").hasAuthority(KnownAuthority.ADMIN)
+                .antMatchers("/dump/**").hasAuthority(KnownAuthority.ADMIN)
+                .antMatchers("/shutdown/**").hasAuthority(KnownAuthority.ADMIN)
+                .antMatchers("/beans/**").hasAuthority(KnownAuthority.ADMIN)
+                .antMatchers("/configprops/**").hasAuthority(KnownAuthority.ADMIN)
+                .antMatchers("/info/**").hasAuthority(KnownAuthority.ADMIN)
+                .antMatchers("/autoconfig/**").hasAuthority(KnownAuthority.ADMIN)
+                .antMatchers("/env/**").hasAuthority(KnownAuthority.ADMIN)
+                .antMatchers("/trace/**").hasAuthority(KnownAuthority.ADMIN)
+                .antMatchers("/api-docs/**").hasAuthority(KnownAuthority.ADMIN)
                 .antMatchers("/protected/**").authenticated();
 
         }
@@ -116,7 +115,7 @@ public class OAuth2ServerConfiguration {
                 .inMemory()
                 .withClient(propertyResolver.getProperty(PROP_CLIENTID))
                 .scopes("read", "write")
-                .authorities(AuthoritiesConstants.ADMIN, AuthoritiesConstants.USER)
+                .authorities(KnownAuthority.ADMIN, KnownAuthority.USER)
                 .authorizedGrantTypes("password", "refresh_token")
                 .secret(propertyResolver.getProperty(PROP_SECRET))
                 .accessTokenValiditySeconds(propertyResolver.getProperty(PROP_TOKEN_VALIDITY_SECONDS, Integer.class, 1800));
