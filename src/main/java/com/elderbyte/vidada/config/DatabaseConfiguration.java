@@ -54,32 +54,31 @@ public class DatabaseConfiguration implements EnvironmentAware {
         String databaseName = propertyResolver.getProperty("databaseName");
         String user = propertyResolver.getProperty("username");
         String pass = propertyResolver.getProperty("password");
+        String dataSourceClassName = propertyResolver.getProperty("dataSourceClassName");
+        String serverName = propertyResolver.getProperty("serverName");
 
         if (url == null && databaseName == null) {
             log.error("Your database connection pool configuration is incorrect! The application" +
                     "cannot start. Please check your Spring profile, current profiles are: {}",
-                    Arrays.toString(env.getActiveProfiles()));
+                Arrays.toString(env.getActiveProfiles()));
 
             throw new ApplicationContextException("Database connection pool is not configured correctly");
         }
         HikariConfig config = new HikariConfig();
-        config.setDataSourceClassName(propertyResolver.getProperty("dataSourceClassName"));
+        config.setDataSourceClassName(dataSourceClassName);
         if (url == null || "".equals(url)) {
             config.addDataSourceProperty("databaseName", databaseName);
-            config.addDataSourceProperty("serverName", propertyResolver.getProperty("serverName"));
+            config.addDataSourceProperty("serverName", serverName);
         } else {
             config.addDataSourceProperty("url", url);
         }
         config.addDataSourceProperty("user", user);
         config.addDataSourceProperty("password", pass);
 
-        //MySQL optimizations, see https://github.com/brettwooldridge/HikariCP/wiki/MySQL-Configuration
-        if ("com.mysql.jdbc.jdbc2.optional.MysqlDataSource".equals(propertyResolver.getProperty("dataSourceClassName"))) {
-            config.addDataSourceProperty("cachePrepStmts", propertyResolver.getProperty("cachePrepStmts", "true"));
-            config.addDataSourceProperty("prepStmtCacheSize", propertyResolver.getProperty("prepStmtCacheSize", "250"));
-            config.addDataSourceProperty("prepStmtCacheSqlLimit", propertyResolver.getProperty("prepStmtCacheSqlLimit", "2048"));
-            config.addDataSourceProperty("useServerPrepStmts", propertyResolver.getProperty("useServerPrepStmts", "true"));
-        }
+
+        log.info(String.format("Database config: url: %s, db name: %s, server: %s, data source cls: %s, user: %s,",
+            url, databaseName, serverName, dataSourceClassName, user));
+
         if (metricRegistry != null) {
             config.setMetricRegistry(metricRegistry);
         }
