@@ -8,8 +8,7 @@ import com.elderbyte.vidada.domain.media.MediaItem;
 import com.elderbyte.vidada.domain.media.MediaLibrary;
 import com.elderbyte.vidada.domain.media.source.MediaSource;
 import com.elderbyte.vidada.domain.security.ICredentialManager;
-import com.elderbyte.vidada.domain.settings.VidadaDatabaseConfig;
-import com.elderbyte.vidada.domain.settings.VidadaServerSettings;
+import com.elderbyte.vidada.VidadaSettings;
 import com.elderbyte.vidada.service.images.ImageCacheFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,10 +16,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
-import java.io.File;
 import java.net.URISyntaxException;
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 public class MediaThumbCacheService  {
@@ -51,7 +47,7 @@ public class MediaThumbCacheService  {
      * Instead, a central memory cache is used during the session.
      */
     @Inject
-    public MediaThumbCacheService(ICredentialManager credentialManager, ImageCacheFactory imageCacheFactory, VidadaServerSettings settings){
+    public MediaThumbCacheService(ICredentialManager credentialManager, ImageCacheFactory imageCacheFactory, VidadaSettings settings){
 
         this.imageCacheFactory = imageCacheFactory;
 

@@ -4,7 +4,7 @@ import archimedes.core.data.hashing.FileHashAlgorythms;
 import archimedes.core.data.hashing.IFileHashAlgorythm;
 import archimedes.core.io.locations.ResourceLocation;
 import com.elderbyte.vidada.domain.metadata.MediaMetaAttribute;
-import com.elderbyte.vidada.domain.settings.VidadaServerSettings;
+import com.elderbyte.vidada.VidadaSettings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -44,7 +44,7 @@ public class MediaHashService {
      * Default Instance Constructor
      */
     @Inject
-	public MediaHashService(MediaMetaDataService metaDataService, VidadaServerSettings settings){
+	public MediaHashService(MediaMetaDataService metaDataService, VidadaSettings settings){
         this.metaDataService = metaDataService;
         this.fileHashAlgorithm = FileHashAlgorythms.instance().getButtikscheHashAlgorythm();
         this.useExtendedAttributes = settings.isUsingMetaData();

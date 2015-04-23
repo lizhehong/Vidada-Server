@@ -1,14 +1,16 @@
-package com.elderbyte.vidada.domain.settings;
+package com.elderbyte.vidada;
 
 import archimedes.core.geometry.Size;
 import archimedes.core.util.OSValidator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
-
+/**
+ * Provides a typed access to the application settings
+ * defined in /resources/config/application.yml
+ */
 @Component
-public class VidadaServerSettings {
+public class VidadaSettings {
 
 
     public static final String ProductName = "vidada-server";
@@ -26,9 +28,6 @@ public class VidadaServerSettings {
     @Value("vidada.thumbnails.aspectRatio")
     private double thumbAspectRatio;
 
-	// thumb size boundaries
-	//transient public static final int THUMBNAIL_SIZE_MAX = 500;
-	//transient public static final double THUMBNAIL_SIDE_RATIO = 0.70;
 
 
     public int getMaxThubnailWidth(){
@@ -50,8 +49,6 @@ public class VidadaServerSettings {
 				maxWidth,
 				(int)((double)maxWidth*thumbnailAspectRatio()));
 	}
-
-
 
 	/**
 	 * Determites if meta data is used to help identify files
@@ -78,28 +75,5 @@ public class VidadaServerSettings {
 	public void setDebug(boolean isDebug) {
 		this.isDebug = isDebug;
 	}
-
-	/***************************************************************************
-	 *                                                                         *
-	 * Private static methods                                                  *
-	 *                                                                         *
-	 **************************************************************************/
-
-
-	private static File toAbsolutePath(String path){
-		return toAbsolutePath(new File(path));
-	}
-
-	private static File toAbsolutePath(File path){
-		if(path == null) return null;
-
-		if(path.isAbsolute())
-		{
-			return path;
-		}else {
-			return new File(".", path.getPath());
-		}
-	}
-
 
 }

@@ -4,7 +4,7 @@ import archimedes.core.geometry.Size;
 import archimedes.core.images.IMemoryImage;
 import com.elderbyte.vidada.domain.media.MediaItem;
 import com.elderbyte.vidada.domain.media.MovieMediaItem;
-import com.elderbyte.vidada.domain.settings.VidadaServerSettings;
+import com.elderbyte.vidada.VidadaSettings;
 import com.elderbyte.vidada.service.media.MediaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,7 +46,7 @@ public class ThumbnailService {
 	public ThumbnailService(MediaService mediaService,
                             MediaThumbCacheService mediaThumbCacheService,
                             ThumbImageExtractorService thumbImageCreator,
-                            VidadaServerSettings settings) {
+                            VidadaSettings settings) {
         this.mediaService= mediaService;
         this.mediaThumbCacheService = mediaThumbCacheService;
         this.thumbImageCreator = thumbImageCreator;
