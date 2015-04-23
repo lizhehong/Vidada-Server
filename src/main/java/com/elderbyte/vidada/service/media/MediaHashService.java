@@ -44,10 +44,10 @@ public class MediaHashService {
      * Default Instance Constructor
      */
     @Inject
-	public MediaHashService(MediaMetaDataService metaDataService){
+	public MediaHashService(MediaMetaDataService metaDataService, VidadaServerSettings settings){
         this.metaDataService = metaDataService;
         this.fileHashAlgorithm = FileHashAlgorythms.instance().getButtikscheHashAlgorythm();
-        this.useExtendedAttributes = VidadaServerSettings.instance().isUsingMetaData();
+        this.useExtendedAttributes = settings.isUsingMetaData();
     }
 
     /***************************************************************************

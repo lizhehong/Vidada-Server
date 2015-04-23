@@ -43,12 +43,15 @@ public class ThumbnailService {
      * @param mediaService
      */
     @Inject
-	public ThumbnailService(MediaService mediaService, MediaThumbCacheService mediaThumbCacheService, ThumbImageExtractorService thumbImageCreator) {
+	public ThumbnailService(MediaService mediaService,
+                            MediaThumbCacheService mediaThumbCacheService,
+                            ThumbImageExtractorService thumbImageCreator,
+                            VidadaServerSettings settings) {
         this.mediaService= mediaService;
         this.mediaThumbCacheService = mediaThumbCacheService;
         this.thumbImageCreator = thumbImageCreator;
 
-		maxThumbSize = VidadaServerSettings.instance().getMaxThumbResolution();
+		maxThumbSize = settings.getMaxThumbResolution();
 	}
 
     /***************************************************************************

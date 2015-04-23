@@ -36,7 +36,7 @@ public class MediaThumbCacheService  {
     public static final String VidataThumbsFolder = VidataCacheFolder + "/thumbs";
 
     private final IImageCache globalCache;
-    private final Size maxThumbnailSize = VidadaServerSettings.instance().getMaxThumbResolution();
+    private final Size maxThumbnailSize;
     private final ImageCacheFactory imageCacheFactory;
 
     /***************************************************************************
@@ -51,19 +51,13 @@ public class MediaThumbCacheService  {
      * Instead, a central memory cache is used during the session.
      */
     @Inject
-    public MediaThumbCacheService(ICredentialManager credentialManager, ImageCacheFactory imageCacheFactory){
+    public MediaThumbCacheService(ICredentialManager credentialManager, ImageCacheFactory imageCacheFactory, VidadaServerSettings settings){
 
         this.imageCacheFactory = imageCacheFactory;
 
-        VidadaDatabaseConfig conf = VidadaServerSettings.instance().getCurrentDBConfig();
+        maxThumbnailSize = settings.getMaxThumbResolution();
 
-        if(conf != null && conf.isUseLocalCache()){
-            File cacheLocation = VidadaServerSettings.instance().getAbsoluteCachePath();
-            IImageCache cache = imageCacheFactory.openEncryptedCache(cacheLocation, credentialManager);
-            this.globalCache = new MemoryImageCache(cache);
-        }else{
-            globalCache = new MemoryImageCache();
-        }
+        globalCache = new MemoryImageCache();
     }
 
     /***************************************************************************

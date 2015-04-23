@@ -8,6 +8,13 @@ endpoints.jolokia.enabled: false
 # security configuration (this key should be unique for your application, and kept secret)
 jhipster.security.rememberme.key: feeabc1808cdea42c9122e171bc5edfbf5c80821
 
+vidada:
+    debug.enabled: false
+    metadata.fileAttributes.enabled: true
+    thumbnails:
+        maxWidth: 500
+        aspectRatio: 0.7
+
 async:
     corePoolSize: 2
     maxPoolSize: 50
