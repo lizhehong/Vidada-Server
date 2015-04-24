@@ -1,8 +1,45 @@
+html { font-family:  'Roboto', Helvetica, sans-serif; }
+
+
+/* Global Styles */
+
 body {
-    background: #fafafa;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    color: #333;
+    margin-top: 100px;
+    background-color: #222;
 }
+
+@media(min-width:768px) {
+    body {
+        margin-top: 50px;
+    }
+}
+
+#wrapper {
+    padding-left: 0;
+}
+
+#page-wrapper {
+    width: 100%;
+    padding: 0;
+    background-color: #fff;
+}
+
+.huge {
+    font-size: 50px;
+    line-height: normal;
+}
+
+@media(min-width:768px) {
+    #wrapper {
+        padding-left: 225px;
+    }
+
+    #page-wrapper {
+        padding: 10px;
+    }
+}
+
+
 
 /* ==========================================================================
 Hide ng-cloak on page load, https://docs.angularjs.org/api/ng/directive/ngCloak
@@ -11,21 +48,6 @@ Hide ng-cloak on page load, https://docs.angularjs.org/api/ng/directive/ngCloak
     display: none !important;
 }
 
-/* ==========================================================================
-Developement Ribbon
-========================================================================== */
-.development {
-    position: absolute;
-    width: 149px;
-    height: 149px;
-    top: 0;
-    left: 0;
-    border: 0;
-    z-index: 1000;
-    background-image: url("../images/development_ribbon.png");
-    background-position: center center;
-    background-repeat: no-repeat;
-}
 
 /* ==========================================================================
 Version number in navbar
@@ -67,14 +89,6 @@ Browser Upgrade Prompt
     background-color: red;
 }
 
-.hipster {
-    display: inline-block;
-    width: 347px;
-    height: 497px;
-    background: url("../images/hipster.png") no-repeat center top;
-    background-size: contain;
-}
-
 /* wait autoprefixer update to allow simple generation of high pixel density media query */
 @media
 only screen and (-webkit-min-device-pixel-ratio: 2),
@@ -88,6 +102,7 @@ only screen and (                min-resolution: 2dppx) {
         background-size: contain;
     }
 }
+
 
 .hand {
     cursor: pointer;
@@ -111,6 +126,7 @@ only screen and (                min-resolution: 2dppx) {
 .alert .popover pre {
     font-size: 10px;
 }
+
 
 .voffset  { margin-top: 2px; }
 .voffset1 { margin-top: 5px; }

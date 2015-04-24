@@ -14,26 +14,33 @@
         <!-- bower:css -->
         <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="bower_components/components-font-awesome/css/font-awesome.css" />
+        <link rel="stylesheet" href="bower_components/roboto-fontface/css/roboto-fontface.css" />
         <!-- endbower -->
         <!-- endbuild -->
         <!-- build:css assets/styles/main.css -->
         <link rel="stylesheet" href="assets/styles/main.css">
         <!-- endbuild -->
+        <link rel="stylesheet" href="assets/styles/nav.css">
+
     </head>
     <body ng-app="vidadaApp">
         <!--[if lt IE 10]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-        <div ng-show="{{ENV === 'dev'}}" class="development" ng-cloak=""></div>
-        <div ui-view="navbar" ng-cloak=""></div>
-        <div class="container">
-            <div class="well" ui-view="content"></div>
 
-            <div class="footer">
-                <p translate="footer">Vidada-Web by ElderByte 2015</p>
+        <div id="wrapper">
+            <div ui-view="navbar" ng-cloak=""></div>
+
+            <div id="page-wrapper">
+                <div class="container-fluid main-content">
+                    <div class="well" ui-view="content"></div>
+
+                    <div class="footer">
+                        <p translate="footer">Vidada-Web by ElderByte 2015</p>
+                    </div>
+                </div>
             </div>
         </div>
-
 
         <!-- build:js scripts/vendor.js -->
         <!-- bower:js -->
