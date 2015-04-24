@@ -1,17 +1,5 @@
 {
     "medias": {
-        "title": "Medias",
-        "details": {
-            "details": "Details",
-            "properties": "Properties",
-            "name": "Name",
-            "value": "Value",
-            "error": "Error"
-        },
-        "indicator": {
-            "diskSpace": "Disk space",
-            "mail": "Email",
-            "db": "Database"
-        }
+        "title": "Medias"
     }
 }

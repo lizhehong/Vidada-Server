@@ -3,22 +3,22 @@
 angular.module('vidadaApp')
     .config(function ($stateProvider) {
         $stateProvider
-            .state('medias', {
+            .state('libraries', {
                 parent: 'vidada',
-                url: '/medias',
+                url: '/libraries',
                 data: {
-                    roles: ['ROLE_USER'],
-                    pageTitle: 'medias.title'
+                    roles: ['ROLE_ADMIN'],
+                    pageTitle: 'libraries.title'
                 },
                 views: {
                     'content@': {
-                        templateUrl: 'scripts/app/vidada/medias/medias.html',
-                        controller: 'MediasController'
+                        templateUrl: 'scripts/app/vidada/libraries/libraries.html',
+                        controller: 'LibrariesController'
                     }
                 },
                 resolve: {
                     translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
-                        $translatePartialLoader.addPart('medias');
+                        $translatePartialLoader.addPart('libraries');
                         return $translate.refresh();
                     }]
                 }
