@@ -16,16 +16,16 @@ public class VidadaSettings {
     public static final String ProductName = "vidada-server";
 
 
-    @Value("metadata.fileAttributes.enabled")
+    @Value("${vidada.metadata.fileAttributes.enabled}")
     private boolean usingMetaData;
 
-    @Value("vidada.debug.enabled")
+    @Value("${vidada.debug.enabled}")
     private boolean isDebug;
 
-    @Value("vidada.thumbnails.maxWidth")
+    @Value("${vidada.thumbnails.maxWidth}")
     private int maxThumbnailWidth;
 
-    @Value("vidada.thumbnails.aspectRatio")
+    @Value("${vidada.thumbnails.aspectRatio}")
     private double thumbAspectRatio;
 
 
