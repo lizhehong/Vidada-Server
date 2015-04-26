@@ -11,7 +11,7 @@ angular.module('vidadaApp')
                 $scope.libraries = libraries;
             });
         };
-        
+
 
         $scope.newLibrary = function() {
 
