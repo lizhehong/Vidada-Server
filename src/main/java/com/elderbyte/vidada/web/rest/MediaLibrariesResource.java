@@ -25,7 +25,6 @@ public class MediaLibrariesResource {
     private static final Logger logger = LoggerFactory.getLogger(MediaLibrariesResource.class);
 
 
-
     @Inject
     private MediaLibraryService mediaLibraryService;
 

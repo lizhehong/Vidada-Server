@@ -47,6 +47,7 @@ public class MediaLibrary extends IdEntity {
      *                                                                         *
      **************************************************************************/
 
+    private String name;
     private String libraryRootURI;
     private boolean ignoreMovies;
     private boolean ignoreImages;
@@ -66,12 +67,20 @@ public class MediaLibrary extends IdEntity {
      */
     protected MediaLibrary(){ }
 
-    public MediaLibrary(DirectoryLocation location){
-        setLibraryRoot(location);
+
+    /**
+     * Creates a new media library
+     * @param name The name of this library
+     * @param location The local root folder of this media.
+     */
+    public MediaLibrary(String name, File location){
+        this(name, DirectoryLocation.Factory.create(location));
     }
 
-    public MediaLibrary(File location){
-        setLibraryRoot(DirectoryLocation.Factory.create(location));
+
+    public MediaLibrary(String name, DirectoryLocation location){
+        setName(name);
+        setLibraryRoot(location);
     }
 
     /***************************************************************************
@@ -79,6 +88,19 @@ public class MediaLibrary extends IdEntity {
      * Public API                                                              *
      *                                                                         *
      **************************************************************************/
+
+    /**
+     * Gets the name of this media library
+     * @return
+     */
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
 
     /**
      * Determines if movies are ignored in this folder
@@ -189,5 +211,6 @@ public class MediaLibrary extends IdEntity {
         DirectoryLocation root = getLibraryRoot();
         return (root != null ? root.toString() : "MediaLibrary:: DirectoiryLocation=NULL") + " id: " + getId();
     }
+
 
 }

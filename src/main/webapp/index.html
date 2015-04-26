@@ -15,6 +15,7 @@
         <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="bower_components/components-font-awesome/css/font-awesome.css" />
         <link rel="stylesheet" href="bower_components/roboto-fontface/css/roboto-fontface.css" />
+        <link rel="stylesheet" href="bower_components/ngtoast/dist/ngToast.css" />
         <!-- endbower -->
         <!-- endbuild -->
         <!-- build:css assets/styles/main.css -->
@@ -24,6 +25,7 @@
 
     </head>
     <body ng-app="vidadaApp">
+        <toast></toast>
         <!--[if lt IE 10]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
@@ -62,6 +64,9 @@
         <script src="bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
         <script src="bower_components/angular-cache-buster/angular-cache-buster.js"></script>
         <script src="bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js"></script>
+        <script src="bower_components/angular-animate/angular-animate.js"></script>
+        <script src="bower_components/ngtoast/dist/ngToast.js"></script>
+        <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
         <!-- endbower -->
         <!-- endbuild -->
 
@@ -127,6 +132,12 @@
         <script src="scripts/components/tracker/tracker.service.js"></script>
         <!-- endbuild -->
 
+
+        <!-- Vidada Services -->
+        <script src="scripts/components/vidada/library.service.js"></script>
+        <script src="scripts/components/util/error.service.js"></script>
+
+        <!-- App Parts -->
         <script src="scripts/app/vidada/vidada.js"></script>
         <script src="scripts/app/vidada/medias/medias.js"></script>
         <script src="scripts/app/vidada/medias/medias.controller.js"></script>

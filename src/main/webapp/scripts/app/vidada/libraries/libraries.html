@@ -1,2 +1,60 @@
 <h2>Media Libraries</h2>
 <p>Add or Remove your media libraries here!</p>
+
+
+<button class="btn" ng-click="testToast()" >
+    Test Toast :-)
+</button>
+
+<button class="btn btn-success" ng-click="newLibrary()" >
+    New
+</button>
+
+
+
+<script type="text/ng-template" id="AddNewLibrary.html">
+    <div class="modal-header">
+        <h3 class="modal-title">New media library</h3>
+    </div>
+    <div class="modal-body">
+        <p>Add a new media library which will be synchronized.</p>
+
+        <form class="form-horizontal" role="form">
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="name">Name:</label>
+                <div class="col-sm-10">
+                    <input class="form-control" id="name" ng-model="myLibrary.name" placeholder="Enter a name for the new library">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="path">Path:</label>
+                <div class="col-sm-10">
+                    <input class="form-control" id="path" ng-model="myLibrary.path" placeholder="Enter path">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <div class="checkbox">
+                        <label><input type="checkbox" ng-model="myLibrary.ignoreMusic"> Ignore Music</label>
+                    </div>
+                </div>
+                <div class="col-sm-offset-2 col-sm-10">
+                    <div class="checkbox">
+                        <label><input type="checkbox" ng-model="myLibrary.ignoreVideos"> Ignore Videos</label>
+                    </div>
+                </div>
+                <div class="col-sm-offset-2 col-sm-10">
+                    <div class="checkbox">
+                        <label><input type="checkbox" ng-model="myLibrary.ignoreImages"> Ignore Images</label>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="ok()">OK</button>
+        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+    </div>
+</script>
