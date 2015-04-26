@@ -9,16 +9,12 @@
     </button>
 </form>
 
-
 <div class="list-group">
+        <a href="#" class="list-group-item" ng-repeat="library in libraries">
 
-    <div ng-repeat="library in libraries">
-        <a href="#" class="list-group-item">
-
-            <span class="glyphicon glyphicon-book"></span> {{library.name}} <small>{{library.rootPath}}</small> <span class="badge">10</span>
+            <h4 class="list-group-item-heading"><span class="fa fa-hdd-o fa-2x"></span> {{library.name}}</h4>
+            <p class="list-group-item-text"> <small>{{library.rootPath}}</small></p>
         </a>
-    </div>
-
 </div>
 
 
