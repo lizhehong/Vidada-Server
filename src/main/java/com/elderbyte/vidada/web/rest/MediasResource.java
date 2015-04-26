@@ -32,7 +32,7 @@ public class MediasResource {
      *                                                                         *
      **************************************************************************/
 
-    private final Logger logger = LoggerFactory.getLogger(UserResource.class);
+    private static final Logger logger = LoggerFactory.getLogger(MediasResource.class);
 
 
     @Inject
