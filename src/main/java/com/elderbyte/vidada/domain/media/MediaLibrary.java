@@ -1,5 +1,6 @@
 package com.elderbyte.vidada.domain.media;
 
+import archimedes.core.exceptions.NotSupportedException;
 import archimedes.core.io.locations.DirectoryLocation;
 import com.elderbyte.vidada.domain.entities.IdEntity;
 import com.elderbyte.vidada.domain.media.extracted.IMediaPropertyStore;
@@ -11,6 +12,7 @@ import org.apache.log4j.Logger;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
+import javax.validation.constraints.NotNull;
 import java.beans.Transient;
 import java.io.File;
 import java.net.URISyntaxException;
@@ -47,8 +49,10 @@ public class MediaLibrary extends IdEntity {
      *                                                                         *
      **************************************************************************/
 
+    @NotNull
     private String name;
-    private String libraryRootURI;
+    @NotNull
+    private String rootPath;
     private boolean ignoreMovies;
     private boolean ignoreImages;
 
@@ -74,18 +78,14 @@ public class MediaLibrary extends IdEntity {
      * @param location The local root folder of this media.
      */
     public MediaLibrary(String name, File location){
-        this(name, DirectoryLocation.Factory.create(location));
+        this.name = name;
+        this.rootPath =  DirectoryLocation.Factory.create(location).getUriString();
     }
 
-
-    public MediaLibrary(String name, DirectoryLocation location){
-        setName(name);
-        setLibraryRoot(location);
-    }
 
     /***************************************************************************
      *                                                                         *
-     * Public API                                                              *
+     * Public Properties                                                       *
      *                                                                         *
      **************************************************************************/
 
@@ -100,6 +100,15 @@ public class MediaLibrary extends IdEntity {
     public void setName(String name) {
         this.name = name;
     }
+
+    /*
+    public String getRootPath() {
+        return rootPath;
+    }
+
+    public void setRootPath(String rootPath) {
+        this.rootPath = rootPath;
+    }*/
 
 
     /**
@@ -128,6 +137,11 @@ public class MediaLibrary extends IdEntity {
         mediaDirectory = null;
     }
 
+    /***************************************************************************
+     *                                                                         *
+     * Public API                                                              *
+     *                                                                         *
+     **************************************************************************/
 
     /**
      * Gets the media directory which represents the root of this media library.
@@ -142,23 +156,18 @@ public class MediaLibrary extends IdEntity {
         return mediaDirectory;
     }
 
-    /**
-     * Set the root path of this media library
-     * @param location
-     */
-    public void setLibraryRoot(DirectoryLocation location) {
-        this.libraryDirectoryLocation = location;
-        libraryRootURI = libraryDirectoryLocation.getUri().toString();
-    }
 
     /**
      * Get the root path of this media library
      * @return
      */
     public DirectoryLocation getLibraryRoot() {
+
+        if(rootPath == null) throw new NotSupportedException("Empty rootPath is not allowed!");
+
         if(libraryDirectoryLocation == null){
             try {
-                libraryDirectoryLocation = DirectoryLocation.Factory.create(libraryRootURI);
+                libraryDirectoryLocation = DirectoryLocation.Factory.create(rootPath);
             } catch (URISyntaxException e) {
                 logger.error(e);
             }
@@ -207,10 +216,13 @@ public class MediaLibrary extends IdEntity {
     }
 
     @Override
-    public String toString(){
-        DirectoryLocation root = getLibraryRoot();
-        return (root != null ? root.toString() : "MediaLibrary:: DirectoiryLocation=NULL") + " id: " + getId();
+    public String toString() {
+        return "MediaLibrary{" +
+            "id='" + getId() + '\'' +
+            "name='" + name + '\'' +
+            ", rootPath='" + rootPath + '\'' +
+            ", ignoreMovies=" + ignoreMovies +
+            ", ignoreImages=" + ignoreImages +
+            '}';
     }
-
-
 }

@@ -84,6 +84,7 @@ public class MediaLibrariesResource {
         produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity createLibrary(@RequestBody MediaLibrary newLibrary){
         try {
+            logger.info("Creating new media library " + newLibrary);
             mediaLibraryService.addLibrary(newLibrary);
             return ResponseEntity.status(HttpStatus.CREATED).build();
         }catch (Exception e){

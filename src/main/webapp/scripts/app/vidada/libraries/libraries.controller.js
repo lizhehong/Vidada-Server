@@ -25,7 +25,7 @@ angular.module('vidadaApp')
                 MediaLibrary.save(library, function () {
                     ngToast.create('Created library: ' + library.name);
                 }, function(err){
-                    ErrorHandler.showToast('Failed to create: ' + library.name, err);
+                    ErrorHandler.showToast('Failed to create: ' + library.name + ' with rootPath ' + library.rootPath, err);
                 });
 
 
@@ -53,7 +53,7 @@ angular.module('vidadaApp').controller('NewLibraryModelCtrl', function ($scope, 
 
     $scope.myLibrary = {
         name : null,
-        path : null,
+        rootPath : null,
         ignoreMusic : true,
         ignoreVideos: false,
         ignoreImages: false
