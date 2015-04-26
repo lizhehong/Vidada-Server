@@ -2,13 +2,25 @@
 <p>Add or Remove your media libraries here!</p>
 
 
-<button class="btn" ng-click="testToast()" >
-    Test Toast :-)
-</button>
 
-<button class="btn btn-success" ng-click="newLibrary()" >
-    New
-</button>
+<form>
+    <button class="btn btn-success" ng-click="newLibrary()" >
+        New
+    </button>
+</form>
+
+
+<div class="list-group">
+
+    <div ng-repeat="library in libraries">
+        <a href="#" class="list-group-item">
+
+            <span class="glyphicon glyphicon-book"></span> {{library.name}} <small>{{library.rootPath}}</small> <span class="badge">10</span>
+        </a>
+    </div>
+
+</div>
+
 
 
 
