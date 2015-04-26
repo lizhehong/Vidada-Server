@@ -15,4 +15,11 @@ angular.module('vidadaApp')
             Auth.logout();
             $state.go('home');
         };
+
+        $scope.syncAll = function () {
+
+            // TODO
+        };
+
+
     });
