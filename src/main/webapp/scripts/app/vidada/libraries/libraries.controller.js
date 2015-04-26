@@ -4,7 +4,14 @@
 angular.module('vidadaApp')
     .controller('LibrariesController', function ($scope, $window, MediaLibrary, ngToast, ErrorHandler, $modal) {
 
-        $scope.libraries = MediaLibrary.query();
+        $scope.libraries = [];
+
+        $scope.updateLibraries = function() {
+            MediaLibrary.query().$promise.then(function (libraries) {
+                $scope.libraries = libraries;
+            });
+        };
+
 
         $scope.testToast = function() {
             ngToast.create('a toast message...');
@@ -20,9 +27,8 @@ angular.module('vidadaApp')
             modalInstance.result.then(function (library) {
                 // User has accepted the dialog
 
-                //var lib = new MediaLibrary();
-
                 MediaLibrary.save(library, function () {
+                    $scope.updateLibraries();
                     ngToast.create('Created library: ' + library.name);
                 }, function(err){
                     ErrorHandler.showToast('Failed to create: ' + library.name + ' with rootPath ' + library.rootPath, err);
@@ -41,9 +47,13 @@ angular.module('vidadaApp')
             //if (popupService.showPopup('Really delete this?')) {
                 library.$delete(function() {
                     ngToast.create('Successfully deleted media-library!');
+                    $scope.updateLibraries();
                 });
             //}
         };
+
+
+        $scope.updateLibraries();
 
     });
 
