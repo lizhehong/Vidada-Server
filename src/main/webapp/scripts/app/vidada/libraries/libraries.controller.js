@@ -11,11 +11,7 @@ angular.module('vidadaApp')
                 $scope.libraries = libraries;
             });
         };
-
-
-        $scope.testToast = function() {
-            ngToast.create('a toast message...');
-        };
+        
 
         $scope.newLibrary = function() {
 
