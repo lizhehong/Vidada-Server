@@ -42,6 +42,9 @@ spring:
             hibernate.cache.use_query_cache: false
             hibernate.generate_statistics: true
             hibernate.hbm2ddl.auto: update
+            jadira.usertype.autoRegisterUserTypes: true
+            jadira.usertype.databaseZone: UTC
+            jadira.usertype.javaZone: UTC
 
     mail:
         host: localhost
