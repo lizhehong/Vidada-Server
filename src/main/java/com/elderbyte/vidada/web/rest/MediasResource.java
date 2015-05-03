@@ -65,12 +65,12 @@ public class MediasResource {
     public ResponseEntity<ListPage<MediaItem>> getMedias(
         @RequestParam(value = "page", defaultValue = "0") int page,
         @RequestParam(value = "pageSize", defaultValue = "6")  int pageSize,
-        @RequestParam("query") String queryStr,
-        @RequestParam("tags") String requiredTags,
-        @RequestParam("tagsNot") String blockedTags,
-        @RequestParam("type") com.elderbyte.vidada.domain.media.MediaType type,
-        @RequestParam("orderBy") OrderProperty order,
-        @RequestParam(value = "reverse", defaultValue = "0") boolean reverse) {
+        @RequestParam(value = "query", defaultValue = "") String queryStr,
+        @RequestParam(value = "tags", defaultValue = "") String requiredTags,
+        @RequestParam(value = "tagsNot", defaultValue = "") String blockedTags,
+        @RequestParam(value = "type", defaultValue = "ANY") com.elderbyte.vidada.domain.media.MediaType type,
+        @RequestParam(value = "orderBy", defaultValue = "FILENAME") OrderProperty order,
+        @RequestParam(value = "reverse", defaultValue = "false") boolean reverse) {
 
         MediaQuery query = new MediaQuery();
         query.setKeywords(queryStr);
