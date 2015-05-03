@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('vidadaApp')
-    .controller('NavbarController', function ($scope, $location, $state, Auth, Principal) {
+    .controller('NavbarController', function ($scope, $location, $state, Auth, Principal, ngToast, MediaSynchronisation, ErrorHandler) {
 
         Principal.identity().then(function(account) {
             $scope.account = account;
@@ -18,7 +18,13 @@ angular.module('vidadaApp')
 
         $scope.syncAll = function () {
 
-            // TODO
+            MediaSynchronisation.sync()
+                .success(function() {
+                    ngToast.create('Synchronisation started ...');
+                }).error(function(data, status) {
+                    ErrorHandler.showToast('Failed to start synchronisation', data + ' - ' + status);
+                });
+
         };
 
 

@@ -104,6 +104,9 @@ public class MediaImportService {
 
     @Transactional
     protected void synchronizeAllSync(final IProgressListener userListener){
+
+        logger.info("Starting to synchronize all media libraries...");
+
         final MediaImportStrategy importStrategy = createImportStrategy();
 
         final IProgressListener progressListener = new JobServiceProgressListener(jobService, currentImportJobId) {
@@ -112,6 +115,7 @@ public class MediaImportService {
                 if (userListener != null) {
                     userListener.currentProgress(progressInfo);
                 }
+                logger.debug(progressInfo.getCurrentTask());
             }
         };
 

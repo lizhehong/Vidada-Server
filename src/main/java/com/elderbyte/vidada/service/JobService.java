@@ -16,7 +16,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class JobService {
 
     // TODO: We keep all jobs in this map (actually a memory leak)
-    private final Map<JobId, JobInfo> jobs = new HashMap<JobId, JobInfo>();
+    private final Map<JobId, JobInfo> jobs = new HashMap<>();
     private AtomicInteger idPool = new AtomicInteger(0);
 
 
