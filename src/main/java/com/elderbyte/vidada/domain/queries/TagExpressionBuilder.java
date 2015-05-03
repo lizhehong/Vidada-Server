@@ -69,7 +69,7 @@ public class TagExpressionBuilder {
 
     private Expression<Tag> createTagExpression(Collection<Tag> conjunction, boolean not){
 
-        if(conjunction.isEmpty()) return null;
+        if(conjunction == null || conjunction.isEmpty()) return null;
 
         final VariableReferenceExpression<Tag> mediaTags = Expressions.varReference("m.tags");
 

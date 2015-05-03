@@ -36,7 +36,7 @@ public class JsonMediaPropertyStore implements IMediaPropertyStore {
     private static final Logger logger = LogManager.getLogger(JsonMediaPropertyStore.class.getName());
     private static ObjectMapper mapper;
 
-    private final Map<String, PropertyContainer> containerCache = new HashMap<String, PropertyContainer>();
+    private final Map<String, PropertyContainer> containerCache = new HashMap<>();
     private final File propertyStoreFolder;
 
     /***************************************************************************

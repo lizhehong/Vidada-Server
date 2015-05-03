@@ -8,6 +8,7 @@ import com.elderbyte.vidada.domain.media.MediaItem;
 import com.elderbyte.vidada.domain.media.MovieMediaItem;
 import com.elderbyte.vidada.domain.metadata.MediaMetaAttribute;
 import com.elderbyte.vidada.domain.tags.Tag;
+import com.elderbyte.vidada.domain.tags.TagUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Synchronizes the media metadata values of a media object with the extended attributes of the file.
@@ -154,7 +156,7 @@ public class MetadataSynchronizer {
         }
 
         String tagsStr = metaDataService.readMetaData(physicalFile, MediaMetaAttribute.Tags);
-        List<Tag> tags = parseTagString(tagsStr);
+        Set<Tag> tags = parseTagString(tagsStr);
         media.getTags().addAll(tags);
 
         return updated;
@@ -231,16 +233,9 @@ public class MetadataSynchronizer {
         return tagBuilder.toString();
     }
 
-    private List<Tag> parseTagString(String tagsStr){
+    private Set<Tag> parseTagString(String tagsStr){
         String[] tokens = tagsStr.split(",");
-        List<Tag> tags = new ArrayList<>(tokens.length);
-        for(String tagToken : tokens){
-            if(tagToken != null && !tagToken.isEmpty()) {
-                Tag t = Tag.FACTORY.createTag(tagToken);
-                tags.add(t);
-            }
-        }
-        return tags;
+        return TagUtil.createTags(tokens);
     }
 
 }

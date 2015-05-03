@@ -2,8 +2,11 @@ package com.elderbyte.vidada.service;
 
 import archimedes.core.util.Lists;
 import com.elderbyte.vidada.domain.tags.Tag;
+import com.elderbyte.vidada.domain.tags.TagUtil;
 import com.elderbyte.vidada.domain.tags.relations.TagRelationDefinition;
 import com.elderbyte.vidada.repository.TagRepository;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +26,9 @@ public class TagService {
      * Private Fields                                                          *
      *                                                                         *
      **************************************************************************/
+
+    private static final Logger logger = LogManager.getLogger(TagService.class.getName());
+
 
     private final TagRepository repository;
     private final TagRelationDefinition relationDefinition;
@@ -87,13 +93,18 @@ public class TagService {
 
     @Cacheable("tags")
     public Tag getTag(String tagName) {
-        tagName = Tag.FACTORY.toTagString(tagName);
+        tagName = TagUtil.toTagString(tagName);
 
         Tag tag = repository.findOne(tagName);
 
         if(tag == null){
-            tag = Tag.FACTORY.createTag(tagName);
-            repository.save(tag);
+            Optional<Tag> tagOpt = TagUtil.createTag(tagName);
+            if(tagOpt.isPresent()){
+                tag = tagOpt.get();
+                repository.save(tag);
+            }else{
+                logger.warn("Could not create new tag from name '" + tagName + "'!");
+            }
         }
 
         return tag;

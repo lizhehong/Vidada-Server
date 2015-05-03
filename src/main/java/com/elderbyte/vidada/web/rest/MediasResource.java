@@ -5,7 +5,7 @@ import com.elderbyte.vidada.domain.media.MediaItem;
 import com.elderbyte.vidada.domain.media.MediaQuery;
 import com.elderbyte.vidada.domain.media.OrderProperty;
 import com.elderbyte.vidada.domain.tags.Tag;
-import com.elderbyte.vidada.domain.tags.TagFactory;
+import com.elderbyte.vidada.domain.tags.TagUtil;
 import com.elderbyte.vidada.service.media.MediaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,9 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import javax.websocket.server.PathParam;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 
 @RestController
@@ -127,19 +125,15 @@ public class MediasResource {
      * @param tagsParam
      * @return
      */
-    private List<Tag> parseTags(String tagsParam){
+    private Set<Tag> parseTags(String tagsParam){
 
-        List<Tag> tags = new ArrayList<>();
+        Set<Tag> tags = new HashSet<>();
 
         if(tagsParam != null) {
             String[] tagTokens = parseMultiValueParam(tagsParam);
-            if (tagTokens != null && tagTokens.length > 0) {
-                for (String tagStr : tagTokens) {
-                    Tag tag =  TagFactory.instance().createTag(tagStr);
-                    tags.add(tag);
-                }
-            }
+            tags = TagUtil.createTags(tagTokens);
         }
+
         return tags;
     }
 

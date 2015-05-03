@@ -1,7 +1,7 @@
 package com.elderbyte.vidada.domain.tags.relations;
 
 import com.elderbyte.vidada.domain.tags.Tag;
-import com.elderbyte.vidada.domain.tags.TagFactory;
+import com.elderbyte.vidada.domain.tags.TagUtil;
 import org.apache.commons.io.FileUtils;
 
 
@@ -60,22 +60,21 @@ public class TagRelationDefinitionParser {
 
 			if(indeclList){
 				if(token.type == TokenType.LITERAL_STRING){
-					Tag rightTag = createTag(token.value);
-					if(rightTag != null){
+					Optional<Tag> rightTag = TagUtil.createTag(token.value);
+					if(rightTag.isPresent()){
 						if(leftTag != null){
 							// Create relation
 							if(relation != null){
-								definition.addRelation( new TagRelation(leftTag, relation, rightTag));
+								definition.addRelation( new TagRelation(leftTag, relation, rightTag.get()));
 							}else{
 
 								// we have a tag list without relations, add it to the current group.
-								currentGroup = currentGroup != null ? currentGroup : new HashSet<Tag>();
-								if(leftTag!=null) currentGroup.add(leftTag);
-								if(rightTag!=null) currentGroup.add(rightTag);
-
+								currentGroup = currentGroup != null ? currentGroup : new HashSet<>();
+								currentGroup.add(leftTag);
+								currentGroup.add(rightTag.get());
 							}
 						}
-						leftTag = rightTag;
+						leftTag = rightTag.get();
 					}
 				}else if (token.type == TokenType.OPERATOR_PARENTOF) {
 					relation = TagRelationOperator.IsParentOf;
@@ -98,10 +97,6 @@ public class TagRelationDefinitionParser {
 	 * Private implementation                                                  *
 	 *                                                                         *
 	 **************************************************************************/
-
-	private Tag createTag(String tag){
-		return TagFactory.instance().createTag(tag);
-	}
 
 
 	private List<Token> tokenize(String definition) throws ParseException{

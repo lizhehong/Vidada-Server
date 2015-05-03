@@ -29,7 +29,9 @@ public class Expressions {
 	}
 
 	public static List<LiteralValueExpression<String>> literalStrings(Iterable<?> values){
-		List<LiteralValueExpression<String>> literals = new ArrayList<LiteralValueExpression<String>>();
+        if(values == null) throw new IllegalArgumentException("Parameter values must not be null!");
+
+		List<LiteralValueExpression<String>> literals = new ArrayList<>();
 		for (Object obj : values) {
 			literals.add(literalString(obj.toString()));
 		}

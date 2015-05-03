@@ -60,7 +60,7 @@ public class TagRelationDefinition {
 		if(name == null) name = "ANONYMOUS";
 		Set<Tag> group = namedGroups.get(name);
 		if(group == null){
-			group = new HashSet<Tag>();
+			group = new HashSet<>();
 			namedGroups.put(name, group);
 		}
 		group.addAll(tags);
