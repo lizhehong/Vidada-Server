@@ -7,14 +7,17 @@ import com.elderbyte.vidada.domain.media.OrderProperty;
 import com.elderbyte.vidada.domain.tags.Tag;
 import com.elderbyte.vidada.domain.tags.TagUtil;
 import com.elderbyte.vidada.service.media.MediaService;
+import com.elderbyte.vidada.web.rest.dto.MediaDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.websocket.server.PathParam;
 import java.util.*;
 
@@ -32,6 +35,8 @@ public class MediasResource {
 
     private static final Logger logger = LoggerFactory.getLogger(MediasResource.class);
 
+    @Inject
+    private HttpServletRequest request;
 
     @Inject
     private MediaService mediaService;
@@ -60,7 +65,7 @@ public class MediasResource {
     @RequestMapping(
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ListPage<MediaItem>> getMedias(
+    public ResponseEntity<ListPage<MediaDTO>> getMedias(
         @RequestParam(value = "page", defaultValue = "0") int page,
         @RequestParam(value = "pageSize", defaultValue = "6")  int pageSize,
         @RequestParam(value = "query", defaultValue = "") String queryStr,
@@ -85,7 +90,7 @@ public class MediasResource {
         ListPage<MediaItem> lp = mediaService.query(query, page, pageSize);
 
         return Optional.ofNullable(lp)
-            .map( p -> new ResponseEntity<>(p, HttpStatus.OK))
+            .map(p -> new ResponseEntity<>(build(p), HttpStatus.OK))
             .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
@@ -111,14 +116,12 @@ public class MediasResource {
     @RequestMapping(value = "{hash}",
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<MediaItem> getMedia(@PathParam("hash") String hash) {
+    public ResponseEntity<MediaDTO> getMedia(@PathParam("hash") String hash) {
         MediaItem media = mediaService.queryByHash(hash);
-        return Optional.ofNullable(media).map(m -> ResponseEntity.ok(m)).orElse(
-           new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        return Optional.ofNullable(media)
+            .map(m -> ResponseEntity.ok(build(m)))
+            .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
-
-
-
 
     /**
      * Parses the tags query param string into Tag objects
@@ -140,4 +143,21 @@ public class MediasResource {
     protected final String[] parseMultiValueParam(String multiParams){
         return multiParams != null ? multiParams.split(" ") : null;
     }
+
+
+    private ListPage<MediaDTO> build(ListPage<MediaItem> page){
+        List<MediaDTO> dtos = new ArrayList<>();
+
+        for(MediaItem media : page.getPageItems()){
+            dtos.add(build(media));
+        }
+        return new ListPage<>(dtos, page.getTotalListSize(), page.getMaxPageSize(), page.getPage());
+    }
+
+    private MediaDTO build(MediaItem media){
+        String streamUrl = request.getContextPath() + "/stream/" + media.getFilehash();
+        String thumbnailUrl = request.getContextPath() + "/api/thumbs" + media.getFilehash();
+        return new MediaDTO(media.getFilehash(), media.getFilename(), streamUrl, thumbnailUrl);
+    }
+
 }
