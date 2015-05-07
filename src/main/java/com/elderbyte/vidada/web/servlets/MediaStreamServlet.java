@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Streams media data
@@ -17,6 +19,9 @@ import javax.servlet.http.HttpServletResponse;
 public class MediaStreamServlet extends AbstractStreamServlet {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    private static Pattern streamPattern = Pattern.compile("stream/([^/]+)");
+
 
     @Autowired
     private MediaService mediaService;
@@ -29,9 +34,11 @@ public class MediaStreamServlet extends AbstractStreamServlet {
 
         ResourceLocation resource = null;
         if(relativeUri != null) {
-            String[] parts = relativeUri.split("/");
-            if (parts.length > 1) {
-                String hash = parts[1];
+
+            Matcher matcher = streamPattern.matcher(relativeUri);
+
+            if(matcher.find()){
+                String hash =  matcher.group(1);
                 MediaItem media = mediaService.queryByHash(hash);
 
                 if (media != null) {
@@ -43,8 +50,10 @@ public class MediaStreamServlet extends AbstractStreamServlet {
                         logger.error("Server: Stream - Media has no source! relative uri was: " + relativeUri);
                     }
                 } else {
-                    logger.warn("Requested media '" + relativeUri + "' could not be found. Hash = " + hash + " relative uri: " + relativeUri);
+                    logger.warn("Requested media '"  + hash + " could not be found. uri: " + relativeUri);
                 }
+            }else{
+                logger.warn("No stream hash found in uri: " + relativeUri);
             }
         }
 

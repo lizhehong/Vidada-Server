@@ -2,8 +2,14 @@
 'use strict';
 
 angular.module('vidadaApp')
-    .controller('MediasController', function ($scope, Media) {
+    .controller('MediasController', function ($scope, Media, MediaInfinite) {
 
+
+        $scope.mediaService = new MediaInfinite();
+
+
+        /*
+        $scope.mediaIndex = 0;
         $scope.medias = [];
 
         $scope.updateMedias = function() {
@@ -13,5 +19,6 @@ angular.module('vidadaApp')
         };
 
         $scope.updateMedias();
+        */
 
     });
