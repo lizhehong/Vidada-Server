@@ -44,6 +44,7 @@ public class CacheUtils {
 		if(size != null)
 		{
 			// Found an already rescaled image which is bigger
+            logger.debug("Found an already extracted thumb which is "+size+", so will use this as source.");
 
 			sourceImage = imageCache.getImageById(id, size);
 			if(sourceImage != null){
@@ -51,7 +52,8 @@ public class CacheUtils {
 					// The already cached image fits perfectly!
 					resizedImage = sourceImage;
 				}else{
-					resizedImage =  sourceImage.rescale(desiredSize.width, desiredSize.height);
+                    logger.debug("The existing image is too big, so will scale it down to fit the desired size " + desiredSize+ "!");
+                    resizedImage =  sourceImage.rescale(desiredSize.width, desiredSize.height);
 				}
 			}else{
 				logger.warn("The expected thumb " + id + " with size " + size + " was not found in the image cache!");

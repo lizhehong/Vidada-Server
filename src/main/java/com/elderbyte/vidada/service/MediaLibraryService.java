@@ -89,7 +89,7 @@ public class MediaLibraryService  {
 
     @Transactional
 	public void removeLibrary(final MediaLibrary library) {
-        MediaLibrary libToDelete = repository.findOne((long) library.getId());
+        MediaLibrary libToDelete = repository.findOne(library.getId());
 
 
         // TODO Remove all Sources which used this library
@@ -134,7 +134,7 @@ public class MediaLibraryService  {
 	}
 
     @Transactional
-	public MediaLibrary getById(final long id) {
+	public MediaLibrary getById(final int id) {
 		return repository.findOne(id);
 	}
 

@@ -74,12 +74,14 @@ class MediaImportStrategy {
             // Init
             Map<String, MediaItem> allMediasInDatabase = fetchAllMediasInDatabase();
 
-            progressListener.currentProgress(new ProgressEventArgs(true, "Searching for all media files in your libraries (" + libraries.size() + ")"));
+            progressListener.currentProgress(new ProgressEventArgs(true, "Searching for all media files in your libraries (" + libraries.size() + ") ..."));
 
             if (!libraries.isEmpty()) {
                 for (MediaLibrary lib : libraries) {
                     if (lib.isAvailable()) {
                         synchronizeLibrary(progressListener, lib, allMediasInDatabase);
+                    }else{
+                        logger.warn("Library root folder is not available (does not exist): " + lib.getLibraryRoot());
                     }
                 }
 

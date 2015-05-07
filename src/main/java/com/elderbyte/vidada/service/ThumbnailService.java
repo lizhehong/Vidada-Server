@@ -137,6 +137,7 @@ public class ThumbnailService {
 
 		if(loadedImage == null) {
 
+            logger.info("No cached thumb available for media " + media.getFilehash() + " creating new thumb!");
 			// We need to fetch the thumb directly from the source.
 
 			if(thumbImageCreator.canExtractThumb(media)){
@@ -157,7 +158,9 @@ public class ThumbnailService {
                         mediaThumbCacheService.storeImage(media, loadedImage);
 					}
 				}
-			}
+			}else{
+                logger.warn("Thumbnail creation is not possible on this system!");
+            }
 		}
 		return loadedImage;
 	}

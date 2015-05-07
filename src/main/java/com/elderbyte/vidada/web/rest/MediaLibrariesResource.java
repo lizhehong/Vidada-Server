@@ -7,10 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import javax.websocket.server.PathParam;
@@ -48,7 +45,7 @@ public class MediaLibrariesResource {
     @RequestMapping(value = "{id}",
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<MediaLibrary> getLibrary(@PathParam("id") long id) {
+    public ResponseEntity<MediaLibrary> getLibrary(@PathVariable("id") Integer id) {
         MediaLibrary library = mediaLibraryService.getById(id);
         return Optional.ofNullable(library).map(m -> ResponseEntity.ok(m)).orElse(
             new ResponseEntity<>(HttpStatus.NOT_FOUND));
@@ -61,7 +58,7 @@ public class MediaLibrariesResource {
      */
     @RequestMapping(value = "{id}",
         method = RequestMethod.DELETE)
-    public ResponseEntity deleteLibrary(@PathParam("id") long id) {
+    public ResponseEntity deleteLibrary(@PathVariable("id") int id) {
         MediaLibrary library = mediaLibraryService.getById(id);
 
         if(library != null){

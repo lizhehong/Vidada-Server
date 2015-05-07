@@ -69,20 +69,23 @@ public class MediaThumbCacheService  {
 
     public IMemoryImage getImage(MediaItem media, Size size) {
 
+        IMemoryImage loadedImage = null;
+
         IImageCache imageCache = getImageCache(media);
-        IMemoryImage loadedImage = imageCache.getImageById(media.getFilehash(), size);
+        if(imageCache != null){
+            loadedImage = imageCache.getImageById(media.getFilehash(), size);
 
-        if(loadedImage == null){
-            // Bad luck, the image does not exist in the cache.
+            if(loadedImage == null){
+                // Bad luck, the image does not exist in the cache.
 
-            // But we may already have cached a bigger version of the requested size.
-            // If so, we rescale this bigger thumb to the required size.
-            loadedImage = CacheUtils.getRescaledInstance(imageCache, media.getFilehash(), size);
-            if(loadedImage != null) {
-                storeImage(media, loadedImage);
+                // But we may already have cached a bigger version of the requested size.
+                // If so, we rescale this bigger thumb to the required size.
+                loadedImage = CacheUtils.getRescaledInstance(imageCache, media.getFilehash(), size);
+                if(loadedImage != null) {
+                    storeImage(media, loadedImage);
+                }
             }
         }
-
         return loadedImage;
     }
 

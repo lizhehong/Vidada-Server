@@ -10,7 +10,6 @@ import com.elderbyte.vidada.service.media.MediaService;
 import com.elderbyte.vidada.web.rest.dto.MediaDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import javax.websocket.server.PathParam;
 import java.util.*;
 
 
@@ -66,14 +64,14 @@ public class MediasResource {
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ListPage<MediaDTO>> getMedias(
-        @RequestParam(value = "page", defaultValue = "0") int page,
-        @RequestParam(value = "pageSize", defaultValue = "6")  int pageSize,
+        @RequestParam(value = "page", defaultValue = "0") Integer page,
+        @RequestParam(value = "pageSize", defaultValue = "6")  Integer pageSize,
         @RequestParam(value = "query", defaultValue = "") String queryStr,
         @RequestParam(value = "tags", defaultValue = "") String requiredTags,
         @RequestParam(value = "tagsNot", defaultValue = "") String blockedTags,
         @RequestParam(value = "type", defaultValue = "ANY") com.elderbyte.vidada.domain.media.MediaType type,
         @RequestParam(value = "orderBy", defaultValue = "FILENAME") OrderProperty order,
-        @RequestParam(value = "reverse", defaultValue = "false") boolean reverse) {
+        @RequestParam(value = "reverse", defaultValue = "false") Boolean reverse) {
 
         MediaQuery query = new MediaQuery();
         query.setKeywords(queryStr);
@@ -116,7 +114,7 @@ public class MediasResource {
     @RequestMapping(value = "{hash}",
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<MediaDTO> getMedia(@PathParam("hash") String hash) {
+    public ResponseEntity<MediaDTO> getMedia(@PathVariable("hash") String hash) {
         MediaItem media = mediaService.queryByHash(hash);
         return Optional.ofNullable(media)
             .map(m -> ResponseEntity.ok(build(m)))
@@ -156,8 +154,8 @@ public class MediasResource {
 
     private MediaDTO build(MediaItem media){
         String streamUrl = request.getContextPath() + "/stream/" + media.getFilehash();
-        String thumbnailUrl = request.getContextPath() + "/api/thumbs" + media.getFilehash();
-        return new MediaDTO(media.getFilehash(), media.getFilename(), streamUrl, thumbnailUrl);
+        String thumbnailUrl = request.getContextPath() + "/api/thumbs/" + media.getFilehash();
+        return new MediaDTO(media.getFilehash(), media.getFilename(), thumbnailUrl, streamUrl);
     }
 
 }

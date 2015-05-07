@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 /**
  * Spring Data JPA repository for the MediaLibrary entity.
  */
-public interface MediaLibraryRepository extends JpaRepository<MediaLibrary, Long> {
+public interface MediaLibraryRepository extends JpaRepository<MediaLibrary, Integer> {
 
 
 }

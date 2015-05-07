@@ -12,8 +12,7 @@ import com.elderbyte.vidada.domain.media.MovieMediaItem;
 import com.elderbyte.vidada.domain.media.source.MediaSource;
 import com.elderbyte.vidada.domain.video.IVideoAccessService;
 import com.elderbyte.vidada.domain.video.Video;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +26,7 @@ import java.io.InputStream;
 @Service
 public class ThumbImageExtractorService {
 
-    private final org.slf4j.Logger logger = LoggerFactory.getLogger(this.getClass());
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final IRawImageFactory imageFactory;
     private final IVideoAccessService videoAccessService;
@@ -61,6 +60,8 @@ public class ThumbImageExtractorService {
 
 	public IMemoryImage extractThumb(MediaItem media, Size size){
 		IMemoryImage image = null;
+
+        logger.info("Extracting thumbnail for media " + media.getFilehash() + " ("+ media.getType() +"), size: " + size);
 
 		if(media.getType() == MediaType.IMAGE){
 			image = extractImageThumb((ImageMediaItem)media, size);

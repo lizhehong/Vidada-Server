@@ -1,2 +1,10 @@
 
-<span>All Medias !!</span>
+<h2>All Medias</h2>
+
+<div class="list-group">
+    <a  class="list-group-item" ng-repeat="media in medias">
+        <img ng-src="{{media.thumbnailUrl}}" width="250" height="180">
+        <p class="list-group-item-text"> <small>{{media.name}}</small>
+        </p>
+    </a>
+</div>

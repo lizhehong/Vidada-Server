@@ -41,7 +41,7 @@ public class ThumbnailResource {
     @RequestMapping(value = "{hash}",
         method = RequestMethod.POST)
     public ResponseEntity updateThumb(
-        @PathParam("hash") String hash,
+        @PathVariable("hash") String hash,
         @RequestBody float pos){
 
         MediaItem media = mediaService.queryByHash(hash);
@@ -61,10 +61,12 @@ public class ThumbnailResource {
     @RequestMapping(value = "{hash}",
         method = RequestMethod.GET,
         produces = MediaType.IMAGE_PNG_VALUE)
-    public ResponseEntity<byte[]> getPNG(@PathParam("hash") String hash,
-                           @RequestParam("width") int width,
-                           @RequestParam("height") int height) {
+    public ResponseEntity<byte[]> getPNG(@PathVariable("hash") String hash,
+                           @RequestParam(value = "width", defaultValue = "250") Integer width,
+                           @RequestParam(value = "height", defaultValue = "180") Integer height) {
         MediaItem media = mediaService.queryByHash(hash);
+
+        if(media == null) return new ResponseEntity<byte[]>(HttpStatus.NOT_FOUND);
 
         width = Math.max(width, MIN_SIZE);
         height = Math.max(height, MIN_SIZE);

@@ -4,8 +4,8 @@ import archimedes.core.geometry.Size;
 import archimedes.core.images.IMemoryImage;
 import archimedes.core.io.locations.IResourceAccessContext;
 import archimedes.core.io.locations.ResourceLocation;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import vidada.ffmpeg.VideoInfo;
 
 import java.io.IOException;
@@ -17,7 +17,7 @@ import java.io.IOException;
  */
 public class Video {
 
-    private static final Logger logger = LogManager.getLogger(Video.class);
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	private final IVideoAccessService videoAccessService;
 
@@ -27,6 +27,11 @@ public class Video {
 
 
 	public Video(ResourceLocation videoResource, IVideoAccessService videoAccessService){
+
+        if(videoResource == null) throw new IllegalArgumentException("videoResource must not be NULL!");
+        if(videoAccessService == null) throw new IllegalArgumentException("videoAccessService must not be NULL!");
+
+
         this.videoAccessService = videoAccessService;
         this.videoResource = videoResource;
 	}
@@ -76,7 +81,7 @@ public class Video {
 			try {
 				ctx.close();
 			} catch (IOException e) {
-                logger.error(e);
+                logger.error("Failed to close IResourceAccessContext!", e);
 			}
 		}
 	}

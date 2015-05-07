@@ -11,7 +11,7 @@ import java.util.Optional;
 /**
  * Spring Data JPA repository for the User entity.
  */
-public interface MediaSourceRepository extends JpaRepository<MediaSource, Long> {
+public interface MediaSourceRepository extends JpaRepository<MediaSource, Integer> {
 
 
 
