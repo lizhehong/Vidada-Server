@@ -32,7 +32,7 @@ public class MediaSource extends IdEntity {
 
 	@ManyToOne
 	private MediaLibrary parentLibrary = null;
-	private String relativePath = null;
+	private String relativePathUri = null;
 
 	/***************************************************************************
 	 *                                                                         *
@@ -82,7 +82,7 @@ public class MediaSource extends IdEntity {
 			if(parentLib != null){
 				absolutePath = parentLib.getMediaDirectory().getAbsolutePath(relativePath);
 			}else
-				logger.error("Parent library is null of " + this.relativePath);
+				logger.error("Parent library is null of " + this.relativePathUri);
 		}else {
 			logger.error("getResourceLocation: relativePath is NULL!");
 		}
@@ -97,7 +97,7 @@ public class MediaSource extends IdEntity {
 	 */
 	public URI getRelativePath() {
 		try {
-			return new URI(relativePath);
+			return new URI(relativePathUri);
 		} catch (URISyntaxException e) {
 			logger.error(e);
 			return null;
@@ -105,7 +105,7 @@ public class MediaSource extends IdEntity {
 	}
 
 	public void setRelativePath(URI relativePath) {
-		this.relativePath = relativePath.toString();
+		this.relativePathUri = relativePath.toString();
 	}
 
 	/**

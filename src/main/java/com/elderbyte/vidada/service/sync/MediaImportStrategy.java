@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * This class implements basic media import functionality
@@ -39,7 +40,7 @@ class MediaImportStrategy {
     private final MediaService mediaService;
     private final MediaHashService mediaHashService;
 	private final ITagGuessingStrategy tagGuessingStrategy;
-    private final List<MediaLibrary> libraries = new ArrayList<MediaLibrary>();
+    private final List<MediaLibrary> libraries = new ArrayList<>();
 
     /***************************************************************************
      *                                                                         *
@@ -69,8 +70,8 @@ class MediaImportStrategy {
      **************************************************************************/
 
     /**{@inheritDoc}*/
-	public void synchronize(IProgressListener progressListener){
-        try {
+	public CompletableFuture<?> synchronizeAsync(IProgressListener progressListener){
+        return CompletableFuture.runAsync(() -> {
             // Init
             Map<String, MediaItem> allMediasInDatabase = fetchAllMediasInDatabase();
 
@@ -80,7 +81,7 @@ class MediaImportStrategy {
                 for (MediaLibrary lib : libraries) {
                     if (lib.isAvailable()) {
                         synchronizeLibrary(progressListener, lib, allMediasInDatabase);
-                    }else{
+                    } else {
                         logger.warn("Library root folder is not available (does not exist): " + lib.getLibraryRoot());
                     }
                 }
@@ -89,9 +90,7 @@ class MediaImportStrategy {
             } else {
                 logger.info("Import aborted, you do not have specified any libraries!");
             }
-        }finally {
-            progressListener.currentProgress(ProgressEventArgs.COMPLETED);
-        }
+        });
 	}
 
 
@@ -102,8 +101,8 @@ class MediaImportStrategy {
      **************************************************************************/
 
 	private void synchronizeLibrary(IProgressListener progressListener, MediaLibrary lib, Map<String, MediaItem> allMediasInDatabase) {
-		MediaLibrarySyncStrategy librarySyncStrategy = new MediaLibrarySyncStrategy(mediaService, mediaHashService, tagGuessingStrategy, allMediasInDatabase);
-		librarySyncStrategy.synchronize(progressListener, lib);
+        MediaLibrarySyncStrategy librarySyncStrategy = new MediaLibrarySyncStrategy(mediaService, mediaHashService, tagGuessingStrategy, allMediasInDatabase);
+        librarySyncStrategy.synchronize(progressListener, lib);
 	}
 
     /**

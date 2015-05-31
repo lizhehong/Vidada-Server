@@ -9,6 +9,7 @@ import archimedes.core.io.locations.filters.IDirectoryFilter;
 import archimedes.core.io.locations.filters.ILocationFilter;
 import archimedes.core.util.FileSupport;
 import archimedes.core.util.Lists;
+import com.elderbyte.vidada.domain.ArgumentNullException;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -57,6 +58,8 @@ public final class MediaDirectory {
 	 * @param ignoreMovies Inore movie files
 	 */
 	public MediaDirectory(DirectoryLocation directory, boolean ignoreImages, boolean ignoreMovies) {
+        if(directory == null) throw new ArgumentNullException("directory");
+
 		this.directory = directory;
 		this.ignoreImages = ignoreImages;
 		this.ignoreMovies = ignoreMovies;

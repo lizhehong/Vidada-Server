@@ -2,6 +2,7 @@ package com.elderbyte.vidada.domain.media;
 
 import archimedes.core.exceptions.NotSupportedException;
 import archimedes.core.io.locations.DirectoryLocation;
+import com.elderbyte.vidada.domain.ArgumentNullException;
 import com.elderbyte.vidada.domain.entities.IdEntity;
 import com.elderbyte.vidada.domain.media.extracted.IMediaPropertyStore;
 import com.elderbyte.vidada.domain.media.extracted.JsonMediaPropertyStore;
@@ -15,7 +16,9 @@ import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 import java.beans.Transient;
 import java.io.File;
+import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.file.InvalidPathException;
 
 /**
  * Represents an local user MediaLibrary folder.
@@ -52,7 +55,7 @@ public class MediaLibrary extends IdEntity {
     @NotNull
     private String name;
     @NotNull
-    private String rootPath;
+    private String rootPathUri;
     private boolean ignoreMovies;
     private boolean ignoreImages;
 
@@ -72,14 +75,34 @@ public class MediaLibrary extends IdEntity {
     protected MediaLibrary(){ }
 
 
+
     /**
-     * Creates a new media library
+     * Creates a new media library with the given name at the given location.
+     *
      * @param name The name of this library
      * @param location The local root folder of this media.
      */
-    public MediaLibrary(String name, File location){
+    public MediaLibrary(String name, DirectoryLocation location){
+        this(name, location, false, false);
+    }
+
+
+    /**
+     * Creates a new media library with the given name at the given location.
+     *
+     * @param name The name of this library
+     * @param location The local root folder of this media.
+     * @param ignoreImages
+     * @param ignoreMovies
+     */
+    public MediaLibrary(String name, DirectoryLocation location, boolean ignoreImages, boolean ignoreMovies) {
+        if (name == null) throw new ArgumentNullException("name");
+        if(location == null) throw new ArgumentNullException("location");
+
         this.name = name;
-        this.rootPath =  DirectoryLocation.Factory.create(location).getUriString();
+        setRootPath(location.getUri());
+        setIgnoreImages(ignoreImages);
+        setIgnoreMovies(ignoreMovies);
     }
 
 
@@ -100,16 +123,6 @@ public class MediaLibrary extends IdEntity {
     public void setName(String name) {
         this.name = name;
     }
-
-    /*
-    public String getRootPath() {
-        return rootPath;
-    }
-
-    public void setRootPath(String rootPath) {
-        this.rootPath = rootPath;
-    }*/
-
 
     /**
      * Determines if movies are ignored in this folder
@@ -145,6 +158,7 @@ public class MediaLibrary extends IdEntity {
 
     /**
      * Gets the media directory which represents the root of this media library.
+     * @throws MediaLibraryException
      * @return
      */
     public MediaDirectory getMediaDirectory(){
@@ -158,18 +172,18 @@ public class MediaLibrary extends IdEntity {
 
 
     /**
-     * Get the root path of this media library
-     * @return
+     * Get the root path of this media library.
+     * If the library root path is not or wrongly configured, will throw an exception
+     * @return Returns the location of this media library
+     * @throws MediaLibraryException
      */
     public DirectoryLocation getLibraryRoot() {
 
-        if(rootPath == null) throw new NotSupportedException("Empty rootPath is not allowed!");
-
         if(libraryDirectoryLocation == null){
             try {
-                libraryDirectoryLocation = DirectoryLocation.Factory.create(rootPath);
-            } catch (URISyntaxException e) {
-                logger.error(e);
+                libraryDirectoryLocation = DirectoryLocation.Factory.create(getRootPath());
+            } catch (NotSupportedException | InvalidPathException e) {
+                throw new MediaLibraryException("Could not get the library root!" , e);
             }
         }
         return libraryDirectoryLocation;
@@ -181,6 +195,20 @@ public class MediaLibrary extends IdEntity {
      *                                                                         *
      **************************************************************************/
 
+    private void setRootPath(URI rootPath){
+        rootPathUri = rootPath.toString();
+    }
+
+    private URI getRootPath(){
+
+        if(rootPathUri == null) throw new NotSupportedException("Empty rootPathUrl is not allowed!");
+
+        try {
+            return new URI(rootPathUri);
+        } catch (URISyntaxException e) {
+            throw new NotSupportedException("Can not create URI instance from uri string: '" + rootPathUri +"'", e);
+        }
+    }
 
     /**
      * Returns the user-tag relation definition file
@@ -220,7 +248,7 @@ public class MediaLibrary extends IdEntity {
         return "MediaLibrary{" +
             "id='" + getId() + '\'' +
             "name='" + name + '\'' +
-            ", rootPath='" + rootPath + '\'' +
+            ", rootPathUrl='" + rootPathUri + '\'' +
             ", ignoreMovies=" + ignoreMovies +
             ", ignoreImages=" + ignoreImages +
             '}';
