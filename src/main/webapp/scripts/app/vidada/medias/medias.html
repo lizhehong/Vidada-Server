@@ -1,17 +1,7 @@
 
 <h2>All Medias</h2>
 
-<!--
-<div class="list-group">
-    <div  class="list-group-item" ng-repeat="media in medias">
-        <img ng-src="{{media.thumbnailUrl}}" width="250" height="180">
-        <p class="list-group-item-text"> <small>{{media.name}}</small></p>
-        <p>
-            <a href="{{media.streamUrl}}">Source</a>
-        </p>
-    </div>
-</div>
--->
+
 <div infinite-scroll='mediaService.nextPage()' infinite-scroll-disabled='mediaService.busy' infinite-scroll-distance='1'>
     <div class="list-group-item" ng-repeat='media in mediaService.items'>
 
