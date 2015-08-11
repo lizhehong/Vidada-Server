@@ -1,10 +1,9 @@
 package com.elderbyte.vidada.web.rest.dto;
 
-import com.elderbyte.vidada.domain.media.MediaItem;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
 /**
- * Represents a
+ * Holds the data of a media
  */
 @JsonAutoDetect(// We use fields for JSON (de)serialisation
     fieldVisibility = JsonAutoDetect.Visibility.ANY,
