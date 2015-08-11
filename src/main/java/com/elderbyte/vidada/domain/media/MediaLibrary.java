@@ -15,6 +15,7 @@ import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 import java.beans.Transient;
 import java.io.File;
+import java.net.URI;
 import java.net.URISyntaxException;
 
 /**
@@ -73,13 +74,23 @@ public class MediaLibrary extends IdEntity {
 
 
     /**
+     * Creates a new media library on the local file system
+     * @param name The name of this library
+     * @param fileLocation The local root folder of this media library
+     */
+    public MediaLibrary(String name, File fileLocation){
+        this(name, DirectoryLocation.Factory.create(fileLocation));
+    }
+
+    /**
      * Creates a new media library
      * @param name The name of this library
-     * @param location The local root folder of this media.
+     * @param location The root folder of this media library
      */
-    public MediaLibrary(String name, File location){
+    public MediaLibrary(String name, DirectoryLocation location){
+        if(location == null) throw new IllegalArgumentException("location must not be null!");
         this.name = name;
-        this.rootPath =  DirectoryLocation.Factory.create(location).getUriString();
+        setLibraryRoot(location);
     }
 
 
@@ -100,16 +111,6 @@ public class MediaLibrary extends IdEntity {
     public void setName(String name) {
         this.name = name;
     }
-
-    /*
-    public String getRootPath() {
-        return rootPath;
-    }
-
-    public void setRootPath(String rootPath) {
-        this.rootPath = rootPath;
-    }*/
-
 
     /**
      * Determines if movies are ignored in this folder
@@ -156,6 +157,13 @@ public class MediaLibrary extends IdEntity {
         return mediaDirectory;
     }
 
+    /**
+     * Sets the root path of this media library
+     * @param location
+     */
+    private void setLibraryRoot(DirectoryLocation location){
+        this.rootPath = location.getUriString();
+    }
 
     /**
      * Get the root path of this media library
@@ -163,13 +171,14 @@ public class MediaLibrary extends IdEntity {
      */
     public DirectoryLocation getLibraryRoot() {
 
-        if(rootPath == null) throw new NotSupportedException("Empty rootPath is not allowed!");
+        if(rootPath == null) throw new NotSupportedException("rootPath must not be null!");
 
         if(libraryDirectoryLocation == null){
             try {
-                libraryDirectoryLocation = DirectoryLocation.Factory.create(rootPath);
+                URI rootPathUri = new URI(rootPath);
+                libraryDirectoryLocation = DirectoryLocation.Factory.create(rootPathUri);
             } catch (URISyntaxException e) {
-                logger.error(e);
+                logger.error("rootpath was not a valid URI", e);
             }
         }
         return libraryDirectoryLocation;
