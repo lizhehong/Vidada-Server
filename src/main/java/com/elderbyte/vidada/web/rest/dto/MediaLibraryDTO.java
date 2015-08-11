@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
 /**
  * Represents the data of a media library
+ *
  */
 @JsonAutoDetect(// We use fields for JSON (de)serialisation
     fieldVisibility = JsonAutoDetect.Visibility.ANY,
@@ -11,21 +12,23 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
     getterVisibility = JsonAutoDetect.Visibility.NONE)
 public class MediaLibraryDTO {
 
-    private String name;
-    private String rootPath;
-    private boolean ignoreMovies;
-    private boolean ignoreImages;
+    String name;
+    String rootPath;
+    boolean ignoreMusic;
+    boolean ignoreVideos;
+    boolean ignoreImages;
 
 
-    protected MediaLibraryDTO(){
+    public MediaLibraryDTO(){}
 
+
+    public MediaLibraryDTO(String name, String rootPath, boolean ignoreMusic, boolean ignoreVideos, boolean ignoreImages) {
+        this.name = name;
+        this.rootPath = rootPath;
+        this.ignoreMusic = ignoreMusic;
+        this.ignoreVideos = ignoreVideos;
+        this.ignoreImages = ignoreImages;
     }
-
-    public MediaLibraryDTO(String name, String rootPath){
-        setName(name);
-        setRootPath(rootPath);
-    }
-
 
 
     public String getName() {
@@ -40,6 +43,7 @@ public class MediaLibraryDTO {
      * The root path of the media library
      * @return
      */
+
     public String getRootPath() {
         return rootPath;
     }
@@ -49,11 +53,27 @@ public class MediaLibraryDTO {
     }
 
     public boolean isIgnoreMovies() {
-        return ignoreMovies;
+        return ignoreVideos;
     }
 
     public void setIgnoreMovies(boolean ignoreMovies) {
-        this.ignoreMovies = ignoreMovies;
+        this.ignoreVideos = ignoreMovies;
+    }
+
+    public boolean isIgnoreMusic() {
+        return ignoreMusic;
+    }
+
+    public void setIgnoreMusic(boolean ignoreMusic) {
+        this.ignoreMusic = ignoreMusic;
+    }
+
+    public boolean isIgnoreVideos() {
+        return ignoreVideos;
+    }
+
+    public void setIgnoreVideos(boolean ignoreVideos) {
+        this.ignoreVideos = ignoreVideos;
     }
 
     public boolean isIgnoreImages() {
@@ -63,6 +83,5 @@ public class MediaLibraryDTO {
     public void setIgnoreImages(boolean ignoreImages) {
         this.ignoreImages = ignoreImages;
     }
-
 
 }

@@ -21,6 +21,10 @@
     </prerequisites>
 
     <properties>
+
+        <ch.securityvision.archimedes>0.2.6-SNAPSHOT</ch.securityvision.archimedes>
+        <ch.securityvision.xattrj>1.3</ch.securityvision.xattrj>
+
         <HikariCP.version>2.2.5</HikariCP.version>
         <assertj-core.version>1.0.0m1</assertj-core.version>
         <awaitility.version>1.4.0</awaitility.version>
@@ -50,31 +54,36 @@
 
     <dependencies>
 
+        <!-- Owned dependencies -->
+
         <dependency>
             <groupId>ch.securityvision</groupId>
             <artifactId>xattrj</artifactId>
-            <version>1.3</version>
+            <version>${ch.securityvision.xattrj}</version>
         </dependency>
 
         <dependency>
             <groupId>ch.securityvision.archimedes</groupId>
             <artifactId>archimedes.core</artifactId>
-            <version>0.2.6-SNAPSHOT</version>
+            <version>${ch.securityvision.archimedes}</version>
             <exclusions>
                 <exclusion>
                     <artifactId>servlet-api</artifactId>
-                    <!-- Ignore the out-dated servlet api reference -->
+                    <!-- Ignore the out-dated servlet api reference,
+                     otherwise we cant use the latest API -->
                     <groupId>javax.servlet</groupId>
                 </exclusion>
             </exclusions>
         </dependency>
 
-        <!-- -->
         <dependency>
-            <groupId>ch.securityvision.vidada</groupId>
+            <groupId>ch.securityvision.vidada</groupId> <!-- TODO refactor this dependency namespace! -->
             <artifactId>vidada.ffmpeg</artifactId>
             <version>0.1.3-BETA</version>
         </dependency>
+
+        <!-- Other dependencies -->
+
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-hibernate4</artifactId>

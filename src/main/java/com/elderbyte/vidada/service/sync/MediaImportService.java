@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 public class MediaImportService {
@@ -38,8 +39,7 @@ public class MediaImportService {
 
 
 	private final Object importLock = new Object();
-    private Thread importThread = null;
-	private volatile JobId currentImportJobId;
+    private volatile JobId currentImportJobId;
 
     /***************************************************************************
      *                                                                         *
@@ -68,16 +68,37 @@ public class MediaImportService {
      **************************************************************************/
 
 
-
+    /**
+     * Synchronizes all media libraries with the actual content on the storage.
+     * If there is already a synchronisation going on, this call wont start a new one.
+     * @param userListener
+     * @return Returns a Job which represents the ongoing synchronisation
+     */
     public JobId synchronizeAll(final IProgressListener userListener) {
         synchronized ( importLock ) {
 
             if(currentImportJobId == null){
 
+                logger.info("Starting new library synchronisation...");
+
                 currentImportJobId = jobService.create("MediaLibrary Importer");
 
-                importThread = new Thread(() -> synchronizeAllSync(userListener));
-                importThread.start();
+                final IProgressListener progressListener = createJobProgressWrapper(userListener);
+
+                synchronizeAllAsync(progressListener)
+                    .thenRun(() -> {
+                        // Synchronisation completed successful
+                        currentImportJobId = null;
+                        progressListener.currentProgress(ProgressEventArgs.COMPLETED);
+                    })
+                    .exceptionally(e -> {
+                        // Synchronisation failed!
+
+                        logger.error("Synchronisation failed!", e);
+                        progressListener.currentProgress(ProgressEventArgs.FAILED);
+                        currentImportJobId = null;
+                        return null;
+                    });
 
                 jobService.notifyState(currentImportJobId, JobState.Running);
 
@@ -90,6 +111,10 @@ public class MediaImportService {
         }
     }
 
+    /**
+     * Synchronizes all media libraries with the actual content on the storage
+     * @return
+     */
 	public JobId synchronizeAll() {
         return synchronizeAll(null);
 	}
@@ -101,46 +126,42 @@ public class MediaImportService {
      *                                                                         *
      **************************************************************************/
 
-
+    /**
+     * Synchronize all media libraries async
+     * @param progressListener
+     * @return Returns a task which represents the ongoing operation
+     */
     @Transactional
-    protected void synchronizeAllSync(final IProgressListener userListener){
+    protected CompletableFuture<?> synchronizeAllAsync(final IProgressListener progressListener){
 
         logger.info("Starting to synchronize all media libraries...");
 
         final MediaImportStrategy importStrategy = createImportStrategy();
 
-        final IProgressListener progressListener = new JobServiceProgressListener(jobService, currentImportJobId) {
-            public void currentProgress(ProgressEventArgs progressInfo) {
-                super.currentProgress(progressInfo);
-                if (userListener != null) {
-                    userListener.currentProgress(progressInfo);
-                }
-                logger.debug(progressInfo.getCurrentTask());
-            }
-        };
-
-        try {
-            importStrategy.synchronize(progressListener);
-            progressListener.currentProgress(ProgressEventArgs.COMPLETED);
-        } catch (Exception e) {
-            logger.error("Media synchronisation failed.", e);
-            progressListener.currentProgress(ProgressEventArgs.FAILED);
-        } finally {
-            currentImportJobId = null;
-        }
+        return importStrategy.synchronizeAsync(progressListener);
     }
 
 
     private MediaImportStrategy createImportStrategy(){
         ITagGuessingStrategy strategy = new KeywordBasedTagGuesser(tagService.getAllTags());
 
-        MediaImportStrategy importStrategy = new MediaImportStrategy(
+        return new MediaImportStrategy(
                 mediaService,
                 mediaHashService,
                 strategy,
                 mediaLibraryService.getAllLibraries());
+    }
 
-        return importStrategy;
+    private IProgressListener createJobProgressWrapper(IProgressListener listener){
+        return  new JobServiceProgressListener(jobService, currentImportJobId) {
+            public void currentProgress(ProgressEventArgs progressInfo) {
+                super.currentProgress(progressInfo);
+                if (listener != null) {
+                    listener.currentProgress(progressInfo);
+                }
+                logger.debug(progressInfo.getCurrentTask());
+            }
+        };
     }
 
 }

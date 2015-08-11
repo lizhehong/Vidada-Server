@@ -2,6 +2,7 @@ package com.elderbyte.vidada.domain.media;
 
 import archimedes.core.exceptions.NotSupportedException;
 import archimedes.core.io.locations.DirectoryLocation;
+import com.elderbyte.vidada.domain.ArgumentNullException;
 import com.elderbyte.vidada.domain.entities.IdEntity;
 import com.elderbyte.vidada.domain.media.extracted.IMediaPropertyStore;
 import com.elderbyte.vidada.domain.media.extracted.JsonMediaPropertyStore;
@@ -17,6 +18,7 @@ import java.beans.Transient;
 import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.file.InvalidPathException;
 
 /**
  * Represents an local user MediaLibrary folder.
@@ -53,7 +55,7 @@ public class MediaLibrary extends IdEntity {
     @NotNull
     private String name;
     @NotNull
-    private String rootPath;
+    private String rootPathUri;
     private boolean ignoreMovies;
     private boolean ignoreImages;
 
@@ -71,6 +73,8 @@ public class MediaLibrary extends IdEntity {
      * Empty ORM Constructor
      */
     protected MediaLibrary(){ }
+
+
 
 
     /**
@@ -146,6 +150,7 @@ public class MediaLibrary extends IdEntity {
 
     /**
      * Gets the media directory which represents the root of this media library.
+     * @throws MediaLibraryException
      * @return
      */
     public MediaDirectory getMediaDirectory(){
@@ -162,21 +167,23 @@ public class MediaLibrary extends IdEntity {
      * @param location
      */
     private void setLibraryRoot(DirectoryLocation location){
-        this.rootPath = location.getUriString();
+        this.rootPathUri = location.getUriString();
     }
 
     /**
-     * Get the root path of this media library
-     * @return
+     * Get the root path of this media library.
+     * If the library root path is not or wrongly configured, will throw an exception
+     * @return Returns the location of this media library
+     * @throws MediaLibraryException
      */
     public DirectoryLocation getLibraryRoot() {
 
-        if(rootPath == null) throw new NotSupportedException("rootPath must not be null!");
+        if(rootPathUri == null) throw new NotSupportedException("rootPath must not be null!");
 
         if(libraryDirectoryLocation == null){
             try {
-                URI rootPathUri = new URI(rootPath);
-                libraryDirectoryLocation = DirectoryLocation.Factory.create(rootPathUri);
+                URI rootPath = new URI(rootPathUri);
+                libraryDirectoryLocation = DirectoryLocation.Factory.create(rootPath);
             } catch (URISyntaxException e) {
                 logger.error("rootpath was not a valid URI", e);
             }
@@ -189,7 +196,6 @@ public class MediaLibrary extends IdEntity {
      * Private methods                                                         *
      *                                                                         *
      **************************************************************************/
-
 
     /**
      * Returns the user-tag relation definition file
@@ -229,7 +235,7 @@ public class MediaLibrary extends IdEntity {
         return "MediaLibrary{" +
             "id='" + getId() + '\'' +
             "name='" + name + '\'' +
-            ", rootPath='" + rootPath + '\'' +
+            ", rootPathUrl='" + rootPathUri + '\'' +
             ", ignoreMovies=" + ignoreMovies +
             ", ignoreImages=" + ignoreImages +
             '}';

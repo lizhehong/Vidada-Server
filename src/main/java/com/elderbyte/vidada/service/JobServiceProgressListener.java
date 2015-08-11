@@ -8,6 +8,9 @@ import com.elderbyte.vidada.domain.jobs.JobState;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
+/**
+ * This progress listener reports progress to the attached job-service
+ */
 public class JobServiceProgressListener implements IProgressListener {
 
 
