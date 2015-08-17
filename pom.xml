@@ -558,10 +558,6 @@
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
-            <properties>
-                <!-- log configuration -->
-                <logback.loglevel>DEBUG</logback.loglevel>
-            </properties>
             <dependencies>
                 <dependency>
                     <groupId>org.springframework.boot</groupId>
@@ -584,10 +580,6 @@
                     </plugin>
                 </plugins>
             </build>
-            <properties>
-                <!-- log configuration -->
-                <logback.loglevel>DEBUG</logback.loglevel>
-            </properties>
             <dependencies>
                 <dependency>
                     <groupId>org.springframework.boot</groupId>
@@ -648,10 +640,6 @@
                     </plugin>
                 </plugins>
             </build>
-            <properties>
-                <!-- log configuration -->
-                <logback.loglevel>INFO</logback.loglevel>
-            </properties>
             <dependencies>
                 <dependency>
                     <groupId>org.springframework.boot</groupId>
