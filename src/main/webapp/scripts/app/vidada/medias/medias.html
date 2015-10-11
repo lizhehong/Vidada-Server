@@ -3,14 +3,16 @@
 
 
 <div infinite-scroll='mediaService.nextPage()' infinite-scroll-disabled='mediaService.busy' infinite-scroll-distance='1'>
-    <div class="list-group-item" ng-repeat='media in mediaService.items'>
+    <div class="container-fluid" ng-repeat="thumb in mediaService.items" ng-switch="$index%4">
+        <div class="row" ng-switch-when="0">
 
-        <img ng-src="{{media.thumbnailUrl}}" width="250" height="180">
-        <p class="list-group-item-text"> <small>{{media.name}}</small></p>
-        <p>
-            <a href="{{media.streamUrl}}">Source</a>
-        </p>
-        <div style='clear: both;'></div>
+
+            <div class="col-sm-3" ng-repeat="t in [1,2,3,4]">
+                <img src="{{mediaService.items[$parent.$index + $index].thumbnailUrl}}" class="img-responsive thumbnail">
+                <div>{{mediaService.items[$parent.$index + $index].name}}</div>
+            </div>
+
+        </div>
     </div>
     <div ng-show='mediaService.busy'>Loading data...</div>
 </div>
