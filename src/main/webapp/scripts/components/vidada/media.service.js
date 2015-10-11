@@ -44,7 +44,7 @@ angular.module('vidadaApp')
             if (this.busy) return;
             this.busy = true;
 
-            //if(this.itemCount <=  this.lastLoadedPage * this.itemsPerPage){
+            if(this.itemCount <=  this.lastLoadedPage * this.itemsPerPage){
                 // Only load new data if we don't have all!
                 var pageToLoad = this.lastLoadedPage + 1;
 
@@ -60,7 +60,7 @@ angular.module('vidadaApp')
                     }
                     this.busy = false;
                 }.bind(this));
-            //}
+            }
         };
 
         return MediaInfinite;
