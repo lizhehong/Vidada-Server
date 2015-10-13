@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.inject.Inject;
 
 /**
- * Represents the media synchronisation task.
+ * Represents the media synchronisation task which indexes the known
+ * media library directories.
  */
 @RestController
 @RequestMapping("/api/synchronisation")
