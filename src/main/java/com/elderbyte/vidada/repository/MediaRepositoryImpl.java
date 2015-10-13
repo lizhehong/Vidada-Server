@@ -149,7 +149,7 @@ public class MediaRepositoryImpl implements MediaRepositoryCustom {
             String keywordPredicate = "(LOWER(m.filename) LIKE LOWER(:keywords)) OR "
 
                 // Search in the (relative) file path for a matching keyword
-                + "EXISTS (SELECT s from MediaSource s WHERE s MEMBER OF m.sources AND LOWER(s.relativePath) LIKE LOWER(:keywords)) OR "
+                + "EXISTS (SELECT s from MediaSource s WHERE s MEMBER OF m.sources AND LOWER(s.relativePathUri) LIKE LOWER(:keywords)) OR "
 
             /*
             Also search in tags of the media for this keyword
