@@ -80,7 +80,10 @@ angular.module('vidadaApp', ['LocalStorageModule', 'tmh.dynamicLocale',
             }
         };
     })
-    .config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider, $translateProvider, tmhDynamicLocaleProvider, httpRequestInterceptorCacheBusterProvider) {
+    .config(function ($stateProvider, $compileProvider, $urlRouterProvider, $httpProvider, $locationProvider, $translateProvider, tmhDynamicLocaleProvider, httpRequestInterceptorCacheBusterProvider) {
+
+        // Whitelist uri protocols
+        $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|mpv|vlc|chrome-extension):/);
 
         //Cache everything except rest api requests
         httpRequestInterceptorCacheBusterProvider.setMatchlist([/.*api.*/, /.*protected.*/], true);

@@ -14,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.util.UriComponents;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -153,8 +155,11 @@ public class MediasResource {
     }
 
     private MediaDTO build(MediaItem media){
-        String streamUrl = request.getContextPath() + "/stream/" + media.getFilehash();
-        String thumbnailUrl = request.getContextPath() + "/api/thumbs/" + media.getFilehash();
+
+        UriComponents baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build();
+
+        String streamUrl = baseUrl.toUriString() + "/stream/" + media.getFilehash();
+        String thumbnailUrl = baseUrl.toUriString() + "/api/thumbs/" + media.getFilehash();
         return new MediaDTO(media.getFilehash(), media.getFilename(), thumbnailUrl, streamUrl);
     }
 
