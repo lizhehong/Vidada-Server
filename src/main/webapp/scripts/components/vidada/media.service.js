@@ -17,29 +17,31 @@ angular.module('vidadaApp')
 
     .factory('MediaPage', function ($resource) {
         return {
-            load : function(page, pageSize){
+            load : function(page, pageSize, query){
                 return $resource('api/medias', {}, {
                     'get': {
                         method: 'GET',
                         transformResponse: function (data) {return angular.fromJson(data)},
                         isArray: false
                     }
-                }).get({ page: page, pageSize: pageSize });
+                }).get({ page: page, pageSize: pageSize, query: query });
             }
         }
     })
 
     .factory('MediaInfinite', function (MediaPage) {
 
-        var MediaInfinite = function() {
+        var MediaInfinite = function(query) {
             this.items = [];
             this.busy = false;
             this.after = '';
             this.itemCount = 0;
             this.lastLoadedPage = -1;
             this.itemsPerPage = 0;
+            this.query = query;
         };
 
+        /** Loads the next page */
         MediaInfinite.prototype.nextPage = function() {
             if (this.busy) return;
             this.busy = true;
@@ -48,7 +50,7 @@ angular.module('vidadaApp')
                 // Only load new data if we don't have all!
                 var pageToLoad = this.lastLoadedPage + 1;
 
-                MediaPage.load(pageToLoad, 5).$promise.then(function (data) {
+                MediaPage.load(pageToLoad, 5, this.query).$promise.then(function (data) {
 
                     this.itemCount = data.totalListSize;
                     this.itemsPerPage = data.maxPageSize;
@@ -60,6 +62,8 @@ angular.module('vidadaApp')
                     }
                     this.busy = false;
                 }.bind(this));
+            }else{
+                this.busy = false;
             }
         };
 

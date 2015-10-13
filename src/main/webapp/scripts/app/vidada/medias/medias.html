@@ -5,21 +5,27 @@
 <div class="form-group">
     <div class="input-group">
         <div class="input-group-addon">Media Search</div>
-        <input type="text" class="form-control" id="exampleInputAmount" placeholder="action 720p...">
+        <input type="text" class="form-control" ng-model="query" placeholder="action 720p...">
     </div>
 </div>
+<p>{{someText}}</p>
+<p>Found {{mediaService.itemCount}} medias!</p>
 
 <!-- Media Details -->
 <div infinite-scroll='mediaService.nextPage()' infinite-scroll-disabled='mediaService.busy' infinite-scroll-distance='1'>
     <div class="container-fluid" ng-repeat="thumb in mediaService.items" ng-switch="$index%4">
         <div class="row" ng-switch-when="0">
 
+            <div ng-repeat="t in [1,2,3,4]">
 
-            <div class="col-sm-3" ng-repeat="t in [1,2,3,4]">
-                <a href="mpv://{{escape(mediaService.items[$parent.$index + $index].streamUrl)}}">
-                    <img src="{{mediaService.items[$parent.$index + $index].thumbnailUrl}}" class="img-responsive thumbnail">
-                    <div>{{mediaService.items[$parent.$index + $index].name}}</div>
-                </a>
+                <!-- Media Item Thumb -->
+                <div ng-show='mediaService.items.length > $parent.$index + $index' class="col-sm-3">
+                    <a href="mpv://{{escape(mediaService.items[$parent.$index + $index].streamUrl)}}">
+                        <img src="{{mediaService.items[$parent.$index + $index].thumbnailUrl}}" class="img-responsive thumbnail">
+                        <div>{{mediaService.items[$parent.$index + $index].name}}</div>
+                    </a>
+                </div>
+
             </div>
 
         </div>
