@@ -1,15 +1,26 @@
 
 <h2>All Medias</h2>
 
-<!-- Media Search -->
-<div class="form-group">
-    <div class="input-group">
-        <div class="input-group-addon">Media Search</div>
-        <input type="text" class="form-control" ng-model="query" placeholder="action 720p...">
+<div class="panel panel-default">
+    <div class="panel-body">
+        <!-- Media Search -->
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-addon">Media Search</div>
+                <input type="text" class="form-control" ng-model="query" placeholder="action 720p...">
+            </div>
+        </div>
     </div>
+    <div class="panel-footer">
+        <p>Found {{mediaService.itemCount}} medias!</p>
+    </div>
+
 </div>
-<p>{{someText}}</p>
-<p>Found {{mediaService.itemCount}} medias!</p>
+
+
+
+
+
 
 <!-- Media Details -->
 <div>
@@ -19,12 +30,16 @@
         <div class="row" ng-switch-when="0">
             <div ng-repeat="t in [1,2,3,4]">
 
+                <!-- Represents a single media item  -->
                 <div ng-show='mediaService.items.length > $parent.$index + $index' class="col-sm-3">
-                    <a href="mpv://{{escape(mediaService.items[$parent.$index + $index].streamUrl)}}">
-                        <img src="{{mediaService.items[$parent.$index + $index].thumbnailUrl}}" class="img-responsive thumbnail">
+                    <div class="well well-sm">
+                        <a href="mpv://{{escape(mediaService.items[$parent.$index + $index].streamUrl)}}">
+                            <img src="{{mediaService.items[$parent.$index + $index].thumbnailUrl}}" class="img-responsive">
+                        </a>
                         <div>{{mediaService.items[$parent.$index + $index].name}}</div>
-                    </a>
+                    </div>
                 </div>
+
             </div>
         </div>
 
@@ -32,8 +47,8 @@
     </div>
 
 
-    <!--
-    <div ng-show='mediaService.busy'>Loading data...</div>
-    -->
-    <p>Busy: {{mediaService.busy}}</p>
+    <div ng-show='mediaService.busy' class="well">
+        <div>Loading data...</div>
+    </div>
+
 </div>

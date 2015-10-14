@@ -9,11 +9,23 @@
     </button>
 </form>
 
-<div class="list-group">
-        <a href="#" class="list-group-item" ng-repeat="library in libraries">
 
-            <h4 class="list-group-item-heading"><span class="fa fa-hdd-o fa-2x"></span> {{library.name}}</h4>
-            <p class="list-group-item-text"> <small>{{library.rootPath}}</small></p>
+<!--
+        <a href="#" class="list-group-item" ng-repeat="library in libraries">
+        </a>
+-->
+
+<div class="list-group" ng-repeat="library in libraries">
+
+        <a href="#" class="list-group-item well well-lg">
+            <div class="row-action-primary">
+                <i class="fa fa-hdd-o fa-2x"></i>
+            </div>
+
+            <div class="row-content">
+                <h4 class="list-group-item-heading">{{library.name}}</h4>
+                <p class="list-group-item-text">{{library.rootPath}}</p>
+            </div>
         </a>
 </div>
 
