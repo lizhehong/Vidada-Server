@@ -6,6 +6,9 @@ angular.module('vidadaApp', ['LocalStorageModule', 'tmh.dynamicLocale',
     'infinite-scroll', 'ngToast', 'ui.bootstrap'])
 
     .run(function ($rootScope, $location, $window, $http, $state, $translate, Auth, Principal, Language, ENV, VERSION) {
+
+        $.material.init();
+
         $rootScope.ENV = ENV;
         $rootScope.VERSION = VERSION;
         $rootScope.$on('$stateChangeStart', function (event, toState, toStateParams) {
