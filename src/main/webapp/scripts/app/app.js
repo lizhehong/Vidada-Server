@@ -7,7 +7,11 @@ angular.module('vidadaApp', ['LocalStorageModule', 'tmh.dynamicLocale',
 
     .run(function ($rootScope, $location, $window, $http, $state, $translate, Auth, Principal, Language, ENV, VERSION) {
 
-        $.material.init();
+
+        $(function(){
+            $.material.init();
+        });
+
 
         $rootScope.ENV = ENV;
         $rootScope.VERSION = VERSION;

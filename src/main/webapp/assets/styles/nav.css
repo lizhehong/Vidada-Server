@@ -12,7 +12,7 @@
     padding-top: 15px;
     padding-bottom: 15px;
     line-height: 20px;
-    color: #999;                                     /* Color */
+    color: #fff;                                     /* Color */
 }
 
 .top-nav>li>a:hover,
@@ -21,7 +21,7 @@
 .top-nav>.open>a:hover,
 .top-nav>.open>a:focus {
     color: #fff;                                     /* Color */
-    background-color: #000;                          /* Color */
+    /* background-color: #55000000;                          Color */
 }
 
 .top-nav>.open>.dropdown-menu {
@@ -31,7 +31,7 @@
     border: 1px solid rgba(0,0,0,.15);
     border-top-left-radius: 0;
     border-top-right-radius: 0;
-    background-color: #fff;                             /* Color */
+    /*background-color: #fff;                              Color */
     -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
     box-shadow: 0 6px 12px rgba(0,0,0,.175);
 }
@@ -70,7 +70,7 @@ ul.alert-dropdown {
 @media(min-width:768px) {
     .side-nav {
         position: fixed;
-        top: 50px;
+        top: 66px;
         left: 225px;
         width: 225px;
         margin-left: -225px;

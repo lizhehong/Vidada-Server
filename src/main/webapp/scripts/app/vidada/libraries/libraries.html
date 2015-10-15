@@ -10,6 +10,28 @@
 </form>
 
 
+<h2>Keep Wi-Fi on during sleep</h2>
+<div class="sample1">
+    <div class="radio radio-success">
+        <label>
+            <input type="radio" name="sample1" value="option1" checked="">
+            Always
+        </label>
+    </div>
+    <div class="radio radio-success">
+        <label>
+            <input type="radio" name="sample1" value="option1">
+            Only when plugged in
+        </label>
+    </div>
+    <div class="radio radio-success">
+        <label>
+            <input type="radio" name="sample1" value="option1">
+            Never
+        </label>
+    </div>
+</div>
+
 <!--
         <a href="#" class="list-group-item" ng-repeat="library in libraries">
         </a>
@@ -17,12 +39,12 @@
 
 <div class="list-group" ng-repeat="library in libraries">
 
-        <a href="#" class="list-group-item well well-lg">
-            <div class="row-action-primary">
-                <i class="fa fa-hdd-o fa-2x"></i>
+        <a href="#" class="list-group-item well">
+            <div class="row-action-primary voffset2">
+                <i class="fa fa-hdd-o fa-2x "></i>
             </div>
 
-            <div class="row-content">
+            <div class="row-content voffset2">
                 <h4 class="list-group-item-heading">{{library.name}}</h4>
                 <p class="list-group-item-text">{{library.rootPath}}</p>
             </div>
