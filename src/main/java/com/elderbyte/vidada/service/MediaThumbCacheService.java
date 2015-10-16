@@ -12,11 +12,12 @@ import com.elderbyte.vidada.VidadaSettings;
 import com.elderbyte.vidada.service.images.ImageCacheFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 import java.net.URISyntaxException;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class MediaThumbCacheService  {
@@ -30,6 +31,9 @@ public class MediaThumbCacheService  {
 
     public static final String VidataCacheFolder = "vidada.db";
     public static final String VidataThumbsFolder = VidataCacheFolder + "/thumbs";
+
+    /** Each media library has its own cache instance*/
+    private final Map<String, IImageCache> caches = new HashMap<>();
 
     private final IImageCache globalCache;
     private final Size maxThumbnailSize;
@@ -122,24 +126,40 @@ public class MediaThumbCacheService  {
         return imageCache;
     }
 
-    @Cacheable("libraryImageCaches")
+    /**
+     * Gets the media library cache for the given library
+     * @param library
+     * @return
+     */
     private IImageCache getLibraryCache(MediaLibrary library){
-        IImageCache libraryCache = buildLibraryCache(library);
-        libraryCache = new SizeFilterCacheProxy(libraryCache, maxThumbnailSize);
-        return imageCacheFactory.leveledCache(globalCache, libraryCache);
+
+        DirectoryLocation libraryRoot = library.getLibraryRoot();
+        String libraryKey = libraryRoot.getPath().toLowerCase();
+
+        if(!caches.containsKey(libraryKey)){
+            caches.put(libraryKey, buildLibraryCache(libraryRoot));
+        }
+
+        return caches.get(libraryKey);
     }
 
-    private IImageCache buildLibraryCache(MediaLibrary library){
+    private IImageCache buildLibraryCache(DirectoryLocation libraryRoot){
+        IImageCache libraryCache = buildLibraryLocalCache(libraryRoot);
+        libraryCache = new SizeFilterCacheProxy(libraryCache, maxThumbnailSize);
+        IImageCache cache = imageCacheFactory.leveledCache(globalCache, libraryCache);
+        return cache;
+    }
+
+    private IImageCache buildLibraryLocalCache(DirectoryLocation libraryRoot){
 
         IImageCache cache = null;
-        DirectoryLocation libraryRoot = library.getLibraryRoot();
         if(libraryRoot != null && libraryRoot.exists()){
             try {
                 DirectoryLocation libCache = DirectoryLocation.Factory.create(libraryRoot, VidataThumbsFolder);
-                logger.info("Opening new library cache...");
+                logger.info("Opening new library cache " + libraryRoot + "...");
                 cache = imageCacheFactory.openCache(libCache);
             } catch (URISyntaxException e1) {
-                logger.error("Failed to access library cache - path issue!", e1);
+                logger.error("Failed to access library cache - path issue! " + libraryRoot, e1);
             }
         }
         return cache;

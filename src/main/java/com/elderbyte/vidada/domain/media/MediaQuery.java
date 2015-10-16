@@ -24,15 +24,14 @@ public class MediaQuery extends AbstractQuery<MediaItem> {
 	private MediaType selectedtype = MediaType.ANY;
 	private String keywords = null;
 	private OrderProperty order = OrderProperty.FILENAME;
-	private Collection<Tag> requiredTags = new ArrayList<Tag>();
-	private Collection<Tag> blockedTags = new ArrayList<Tag>();
+	private Collection<Tag> requiredTags = new ArrayList<>();
+	private Collection<Tag> blockedTags = new ArrayList<>();
 	private boolean onlyAvailable = false;
 	private boolean reverseOrder = false;
+    private String tagExpression = "";
 
 
-
-
-	/**
+    /**
 	 * Creates a media query with the following
 	 * @param selectedType
 	 * @param keywords
@@ -44,7 +43,7 @@ public class MediaQuery extends AbstractQuery<MediaItem> {
 	 */
 	public MediaQuery(MediaType selectedType, String keywords,
 			OrderProperty order, List<Tag> requiredTags,
-			List<Tag> blockedTags, boolean onlyAvailable,
+			List<Tag> blockedTags, String tagExpression, boolean onlyAvailable,
 			boolean reverseOrder) {
 		this(AbstractQuery.QueryType.Query);
 		this.selectedtype = selectedType;
@@ -54,6 +53,7 @@ public class MediaQuery extends AbstractQuery<MediaItem> {
 		this.blockedTags = blockedTags;
 		this.setOnlyAvailable(onlyAvailable);
 		this.reverseOrder = reverseOrder;
+        this.tagExpression = tagExpression;
 	}
 
 	public MediaQuery(){
@@ -133,4 +133,11 @@ public class MediaQuery extends AbstractQuery<MediaItem> {
 		return !MediaType.ANY.equals(getMediaType());
 	}
 
+    public void setTagExpression(String tagExpression) {
+        this.tagExpression = tagExpression;
+    }
+
+    public String getTagExpression(){
+        return this.tagExpression;
+    }
 }

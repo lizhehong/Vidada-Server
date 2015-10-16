@@ -5,6 +5,12 @@ angular.module('vidadaApp')
         return $resource('api/libraries/:id', { id: '@_id' }, {
             update: {
                 method: 'PUT'
+            },
+
+            delete: {
+                method: 'DELETE',
+                params: {id: 'id'}
             }
+
         });
     });

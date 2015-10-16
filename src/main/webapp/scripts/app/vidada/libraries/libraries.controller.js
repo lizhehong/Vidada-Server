@@ -12,6 +12,34 @@ angular.module('vidadaApp')
             });
         };
 
+        $scope.editLibrary = function(currentLibrary){
+
+            var modalInstance = $modal.open({
+                templateUrl: 'EditLibrary.html',
+                controller: 'EditLibraryModelCtrl',
+                resolve: {
+                    library: function () {
+                        return currentLibrary;
+                    }
+                }
+            });
+
+            modalInstance.result.then(function (library) {
+                // User has accepted the dialog
+
+                MediaLibrary.save(library, function () {
+                    $scope.updateLibraries();
+                    ngToast.create('Updated library: ' + library.name);
+                }, function(err){
+                    ErrorHandler.showToast('Failed to update: ' + library.name + ' with rootPath ' + library.rootPath, err);
+                });
+
+            }, function () {
+                $scope.updateLibraries();
+            });
+
+        };
+
 
         $scope.newLibrary = function() {
 
@@ -39,16 +67,6 @@ angular.module('vidadaApp')
         };
 
 
-        $scope.deleteLibrary = function(library) {
-            //if (popupService.showPopup('Really delete this?')) {
-                library.$delete(function() {
-                    ngToast.create('Successfully deleted media-library!');
-                    $scope.updateLibraries();
-                });
-            //}
-        };
-
-
         $scope.updateLibraries();
 
     });
@@ -65,6 +83,26 @@ angular.module('vidadaApp').controller('NewLibraryModelCtrl', function ($scope, 
         ignoreImages: false
     };
 
+
+    $scope.ok = function () {
+        $modalInstance.close($scope.myLibrary);
+    };
+
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
+});
+
+angular.module('vidadaApp').controller('EditLibraryModelCtrl', function ($scope, ngToast, $modalInstance, library) {
+
+    $scope.myLibrary = library;
+
+    $scope.deleteLibrary = function() {
+        $scope.myLibrary.$delete(function() {
+            ngToast.create('Successfully deleted media-library!');
+            $modalInstance.dismiss('deleted');
+        });
+    };
 
     $scope.ok = function () {
         $modalInstance.close($scope.myLibrary);
