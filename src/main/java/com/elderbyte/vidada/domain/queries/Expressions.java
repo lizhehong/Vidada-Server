@@ -28,16 +28,6 @@ public class Expressions {
 		return VariableReferenceExpression.build(variable);
 	}
 
-	public static List<LiteralValueExpression<String>> literalStrings(Iterable<?> values){
-        if(values == null) throw new IllegalArgumentException("Parameter values must not be null!");
-
-		List<LiteralValueExpression<String>> literals = new ArrayList<>();
-		for (Object obj : values) {
-			literals.add(literalString(obj.toString()));
-		}
-		return literals;
-	}
-
 	public static LiteralValueExpression<String> literalString(String value){
 		return new LiteralStringExpression(value);
 	}

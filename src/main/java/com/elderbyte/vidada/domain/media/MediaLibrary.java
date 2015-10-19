@@ -43,7 +43,6 @@ public class MediaLibrary extends IdEntity {
      * Vidadas cache directory name in a users library folder root
      */
     public static final String VidataCacheFolder = "vidada.db";
-    public static final String VidataInfoFolder = VidataCacheFolder + "/info";
     public static final String VidataTagRelations = VidataCacheFolder + "/tags.txt";
 
     /***************************************************************************
@@ -205,20 +204,6 @@ public class MediaLibrary extends IdEntity {
         return new File(new File(getLibraryRoot().getPath()), VidataTagRelations);
     }
 
-    /**
-     * Returns the property cache / store for this media library.
-     *
-     * @return
-     */
-    public synchronized IMediaPropertyStore getPropertyStore(){
-        if(propertyStore == null){
-            DirectoryLocation libraryRoot = getLibraryRoot();
-            if(libraryRoot != null && libraryRoot.exists()){
-                propertyStore = new JsonMediaPropertyStore(new File(libraryRoot.getPath(), VidataInfoFolder));
-            }
-        }
-        return propertyStore;
-    }
 
     /**
      * Is this library / root path available?

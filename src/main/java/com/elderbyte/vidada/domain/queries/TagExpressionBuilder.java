@@ -109,9 +109,11 @@ public class TagExpressionBuilder {
     private Expression<Tag> isTagExpandedMemberOfExpression(Tag tag, VariableReferenceExpression<Tag> tagCollectionReference){
         ListExpression<Tag> tagDisjunction =  ListExpression.createDisjunction();
         Set<Tag> relatedTags = tagExpander.getAllRelatedTags(tag);
-        for (LiteralValueExpression<String> relatedTag : Expressions.literalStrings(relatedTags)) {
-            tagDisjunction.add(Expressions.memberOf(relatedTag, tagCollectionReference));
+
+        for (Tag relatedTag : relatedTags) {
+            tagDisjunction.add(isTagMemberOfExpression(relatedTag, tagCollectionReference));
         }
+
         return tagDisjunction;
     }
 
