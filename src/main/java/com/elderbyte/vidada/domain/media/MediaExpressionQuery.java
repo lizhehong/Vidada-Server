@@ -1,11 +1,10 @@
 package com.elderbyte.vidada.domain.media;
 
-import com.elderbyte.vidada.domain.queries.Expression;
-import com.elderbyte.vidada.domain.tags.Tag;
+import com.elderbyte.code.dom.expressions.ExpressionNode;
 
 public class MediaExpressionQuery {
 
-	private Expression<Tag> tagsExpression;
+	private ExpressionNode tagsExpression;
     private MediaType mediaType = MediaType.ANY;
 	private String keywords = null;
 	private OrderProperty order = OrderProperty.FILENAME;
@@ -13,7 +12,7 @@ public class MediaExpressionQuery {
 	private boolean reverseOrder = false;
 
 
-	public MediaExpressionQuery(Expression<Tag> tagsExpression,
+	public MediaExpressionQuery(ExpressionNode tagsExpression,
 			MediaType mediaType, String keywords, OrderProperty order,
 			boolean onlyAvailable, boolean reverseOrder) {
 		super();
@@ -26,7 +25,7 @@ public class MediaExpressionQuery {
 	}
 
 
-	public Expression<Tag> getTagsExpression() {
+	public ExpressionNode getTagsExpression() {
 		return tagsExpression;
 	}
 	public MediaType getMediaType() {
@@ -44,7 +43,7 @@ public class MediaExpressionQuery {
 	public boolean isReverseOrder() {
 		return reverseOrder;
 	}
-	public void setTagsExpression(Expression<Tag> tagsExpression) {
+	public void setTagsExpression(ExpressionNode tagsExpression) {
 		this.tagsExpression = tagsExpression;
 	}
 	public void setMediaType(MediaType mediaType) {

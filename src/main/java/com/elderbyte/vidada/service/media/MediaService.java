@@ -6,11 +6,11 @@ import archimedes.core.events.EventHandlerEx;
 import archimedes.core.events.IEvent;
 import archimedes.core.exceptions.NotSupportedException;
 import archimedes.core.io.locations.ResourceLocation;
+import com.elderbyte.code.dom.expressions.ExpressionNode;
 import com.elderbyte.vidada.domain.media.MediaExpressionQuery;
 import com.elderbyte.vidada.domain.media.MediaItem;
 import com.elderbyte.vidada.domain.media.MediaLibrary;
 import com.elderbyte.vidada.domain.media.MediaQuery;
-import com.elderbyte.vidada.domain.queries.Expression;
 import com.elderbyte.vidada.domain.queries.TagExpressionBuilder;
 import com.elderbyte.vidada.domain.tags.Tag;
 import com.elderbyte.vidada.repository.MediaRepository;
@@ -109,16 +109,16 @@ public class MediaService {
     @Transactional
 	public ListPage<MediaItem> query(final MediaQuery qry, final int pageIndex, final int maxPageSize) {
 
+        ExpressionNode tagExpression = null;
 
-        Expression<Tag> tagExpression = TagExpressionBuilder.create()
-                                                .requiredTags(qry.getRequiredTags())
-                                                .blockedTags(qry.getBlockedTags())
-                                                .expandTags( x -> tagService.getAllRelatedTags(x))
-                                                        // Add additional related tags to the users request -
-                                                        // This is what vidada makes intelligent
-                                                .build();
+        if(qry.getTagExpression() != null && !qry.getTagExpression().isEmpty()){
 
-        logger.debug("Created tag expression: " + tagExpression.code());
+            tagExpression = TagExpressionBuilder.create()
+                .expandTags(tagService::getAllRelatedTags)
+                    // Add additional related tags to the users request -
+                    // This is what vidada makes intelligent
+                .build(qry.getTagExpression());
+        }
 
         MediaExpressionQuery exprQuery = new MediaExpressionQuery(
                 tagExpression,

@@ -70,19 +70,13 @@ public class MediasResource {
         @RequestParam(value = "pageSize", defaultValue = "6")  Integer pageSize,
         @RequestParam(value = "query", defaultValue = "") String queryStr,
         @RequestParam(value = "tagExpression", defaultValue = "") String tagExpression,
-        @RequestParam(value = "tags", defaultValue = "") String requiredTags,
-        @RequestParam(value = "tagsNot", defaultValue = "") String blockedTags,
         @RequestParam(value = "type", defaultValue = "ANY") com.elderbyte.vidada.domain.media.MediaType type,
         @RequestParam(value = "orderBy", defaultValue = "FILENAME") OrderProperty order,
         @RequestParam(value = "reverse", defaultValue = "false") Boolean reverse) {
 
         MediaQuery query = new MediaQuery();
         query.setKeywords(queryStr);
-
         query.setTagExpression(tagExpression);
-        query.getRequiredTags().addAll(parseTags(requiredTags));
-        query.getBlockedTags().addAll(parseTags(blockedTags));
-
         query.setSelectedtype((type != null) ? type : com.elderbyte.vidada.domain.media.MediaType.ANY);
         query.setOrder((order != null) ? order : OrderProperty.FILENAME);
         query.setReverseOrder(reverse);
@@ -162,7 +156,13 @@ public class MediasResource {
 
         String streamUrl = baseUrl.toUriString() + "/stream/" + media.getFilehash();
         String thumbnailUrl = baseUrl.toUriString() + "/api/thumbs/" + media.getFilehash();
-        return new MediaDTO(media.getFilehash(), media.getFilename(), thumbnailUrl, streamUrl);
+        MediaDTO mediaDTO = new MediaDTO(media.getFilehash(), media.getFilename(), thumbnailUrl, streamUrl);
+
+        for(Tag tag : media.getTags()){
+            mediaDTO.getTags().add(tag.getName());
+        }
+
+        return mediaDTO;
     }
 
 }

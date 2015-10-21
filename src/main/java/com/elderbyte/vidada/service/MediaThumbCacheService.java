@@ -10,6 +10,7 @@ import com.elderbyte.vidada.domain.media.source.MediaSource;
 import com.elderbyte.vidada.domain.security.ICredentialManager;
 import com.elderbyte.vidada.VidadaSettings;
 import com.elderbyte.vidada.service.images.ImageCacheFactory;
+import org.hibernate.annotations.Synchronize;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -127,11 +128,11 @@ public class MediaThumbCacheService  {
     }
 
     /**
-     * Gets the media library cache for the given library
+     * Gets the media library cache for the given library.
      * @param library
      * @return
      */
-    private IImageCache getLibraryCache(MediaLibrary library){
+    private synchronized IImageCache getLibraryCache(MediaLibrary library){
 
         DirectoryLocation libraryRoot = library.getLibraryRoot();
         String libraryKey = libraryRoot.getPath().toLowerCase();
@@ -150,6 +151,11 @@ public class MediaThumbCacheService  {
         return cache;
     }
 
+    /**
+     * Builds a new cache for the given library
+     * @param libraryRoot
+     * @return
+     */
     private IImageCache buildLibraryLocalCache(DirectoryLocation libraryRoot){
 
         IImageCache cache = null;

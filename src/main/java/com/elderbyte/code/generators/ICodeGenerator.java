@@ -10,9 +10,9 @@ public interface ICodeGenerator {
 
     /**
      * Generate source code
-     * @param root Root AST node
+     * @param node Expression Node node
      * @return
      */
-    String generate(ExpressionNode root);
+    String generate(ExpressionNode node);
 
 }

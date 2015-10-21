@@ -8,6 +8,7 @@ import com.elderbyte.vidada.domain.media.MediaItem;
 import com.elderbyte.vidada.domain.media.MediaLibrary;
 import com.elderbyte.vidada.domain.media.OrderProperty;
 import com.elderbyte.vidada.domain.tags.Tag;
+import com.elderbyte.vidada.repository.codegen.JPQLExpressionCodeGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,6 +26,8 @@ import java.util.List;
 public class MediaRepositoryImpl implements MediaRepositoryCustom {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    private JPQLExpressionCodeGenerator jpqlCodeGenerator = new JPQLExpressionCodeGenerator();
 
 
     private final Provider<EntityManager> emProvider;
@@ -163,9 +166,14 @@ public class MediaRepositoryImpl implements MediaRepositoryCustom {
             where += "(m.type = :type) AND ";
         }
 
-        String tagExpr = qry.getTagsExpression().code();
-        if (!tagExpr.trim().isEmpty()) {
-            where += tagExpr + " AND ";
+        if(qry.getTagsExpression() != null) {
+            String tagExpr = jpqlCodeGenerator.generate(qry.getTagsExpression());
+
+            logger.debug("Tag-Query: " + tagExpr);
+
+            if (!tagExpr.trim().isEmpty()) {
+                where += tagExpr + " AND ";
+            }
         }
 
         where += "1=1";

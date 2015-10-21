@@ -118,7 +118,7 @@ public class TagService {
      */
     public void mergeRelation(TagRelationDefinition relationDef) {
         relationDefinition.merge(relationDef);
-        ensureTagIsInDB(relationDef.getAllTags());
+        ensureTagsExist(relationDef.getAllTags());
         // ensure that all known tags are in the Database
     }
 
@@ -129,7 +129,7 @@ public class TagService {
      **************************************************************************/
 
     @Transactional
-    void ensureTagIsInDB(final Collection<Tag> tags){
+    void ensureTagsExist(final Collection<Tag> tags){
         for (Tag tag : tags) {
             getTag(tag.getName());
         }

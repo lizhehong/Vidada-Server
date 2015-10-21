@@ -25,6 +25,13 @@ public class TagResource {
     @Inject
     private TagService tagService;
 
+    @RequestMapping(
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public Collection<Tag> getAll() {
+        return tagService.getAllTags();
+    }
 
     @RequestMapping(value = "used",
         method = RequestMethod.GET,

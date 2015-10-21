@@ -7,8 +7,8 @@ package com.elderbyte.code.dom.expressions;
  */
 public abstract class BinaryExpression  extends ExpressionNode {
 
-    private final ExpressionNode left;
-    private final ExpressionNode right;
+    private ExpressionNode left;
+    private ExpressionNode right;
 
     public BinaryExpression(ExpressionNode left, ExpressionNode right) {
         this.left = left;
@@ -21,5 +21,13 @@ public abstract class BinaryExpression  extends ExpressionNode {
 
     public ExpressionNode getRight() {
         return right;
+    }
+
+    public void setLeft(ExpressionNode left) {
+        this.left = left;
+    }
+
+    public void setRight(ExpressionNode right) {
+        this.right = right;
     }
 }

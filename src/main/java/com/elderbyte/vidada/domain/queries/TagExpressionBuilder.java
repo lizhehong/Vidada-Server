@@ -1,130 +1,100 @@
 package com.elderbyte.vidada.domain.queries;
 
-
-
+import com.elderbyte.code.dom.expressions.*;
 import com.elderbyte.vidada.domain.tags.Tag;
 
-import java.util.Collection;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 /**
- * Helps to build tag expressions
+ * Builds an Expression AST from a given tag expression
  */
 public class TagExpressionBuilder {
 
-    private Collection<Tag> requiredTags;
-    private Collection<Tag> blockedTags;
 
-    private ITagExpander tagExpander;
-    private boolean expandTags = false;
+    private final TagExpressionParser parser = new TagExpressionParser();
 
-    /**
-     * Hidden Constructor (use create() factory)
-     */
-    private TagExpressionBuilder(){ }
+    private Function<Tag, Set<Tag>> expander;
 
-    /**
-     * Creates a new TagExpressionBuilder
-     * @return
-     */
-    public static TagExpressionBuilder create() {
+    public static TagExpressionBuilder create(){
         return new TagExpressionBuilder();
     }
 
-
-    public TagExpressionBuilder requiredTags(Collection<Tag> requiredTags){
-        this.requiredTags = requiredTags;
-        return this;
-    }
-
-    public TagExpressionBuilder blockedTags(Collection<Tag> blockedTags){
-        this.blockedTags = blockedTags;
-        return this;
-    }
-
-    /**
-     * Expand each tag in the expression with similar tags.
-     * @param tagService Used to find related tags for expansion.
-     * @return
-     */
-    public TagExpressionBuilder expandTags(ITagExpander tagService){
-        expandTags = true;
-        this.tagExpander = tagService;
+    public TagExpressionBuilder expandTags(Function<Tag, Set<Tag>> expander){
+        this.expander = expander;
         return this;
     }
 
 
     /**
-     * Build the tag expression
+     * Build a tag-query expression.
+     * @param tagExpression Sample expression: 'action & comedy & (1080p | 720p)'
      * @return
      */
-    public Expression<Tag> build(){
+    public ExpressionNode build(String tagExpression){
 
-        Expression<Tag> required = createTagExpression(requiredTags, false);
-        Expression<Tag> blocked = createTagExpression(blockedTags, true);
+        ExpressionNode ast = parser.parseExpression(tagExpression);
 
-        Expression<Tag> tagExpression = Expressions.and(required, blocked);
-        return tagExpression;
+        // Since the expression implicitly assumes that each tag is replaced by '{x} MEMEBER OF tags'
+        // We have to repair the AST now. The tags are currently recognized as variable references (which they are not)
+        ast = repairMemberOf(ast, new VariableReference("tags"));
+
+        return ast;
     }
 
-    private Expression<Tag> createTagExpression(Collection<Tag> conjunction, boolean not){
+    private ExpressionNode repairMemberOf(ExpressionNode ast, ExpressionNode tagsRef) {
 
-        if(conjunction == null || conjunction.isEmpty()) return null;
+        Operator memberOf = new Operator("MEMBER OF", 5, true, false);
 
-        final VariableReferenceExpression<Tag> mediaTags = Expressions.varReference("m.tags");
+        // We replace all VariableReferences with MemberOfExpressions
 
-        ListExpression<Tag> tagConjunction = ListExpression.createConjunction();
+        return recursiveReplace(ast,
+            x -> (x instanceof VariableReference),
+            x -> {
+                VariableReference varRef = (VariableReference)x;
+                LiteralValueExpression literalTag = new LiteralValueExpression((varRef).getName());
 
-        for (Tag t : conjunction) {
+                return new BinaryOperatorExpression(literalTag, memberOf, tagsRef);
+            });
 
-            Expression<Tag> tagExpression;
+    }
 
-            if(expandTags){
-                tagExpression = isTagExpandedMemberOfExpression(t, mediaTags);
-            }else{
-                tagExpression = isTagMemberOfExpression(t, mediaTags);
-            }
+    /**
+     * Works similar to a string-replace method
+     *
+     * The whole AST Tree is recursively traversed and if a node matches (see matcher,
+     * then it will be replaced with whatever the replacer() returns.
+     *
+     * @param current
+     * @param matcher
+     * @param replacer
+     * @return
+     */
+    private static ExpressionNode recursiveReplace(ExpressionNode current, Predicate<ExpressionNode> matcher, Function<ExpressionNode,ExpressionNode> replacer){
 
-            tagConjunction.add(
-                    not
-                            ? Expressions.not(tagExpression)
-                            : tagExpression);
-
+        if(matcher.test(current)){
+            return replacer.apply(current);
         }
 
-        return tagConjunction;
-    }
+        // Traversal is currently hardcoded here, probably the visitor pattern could be enhanced to support replacements.
 
-    /**
-     * Create an [tag] 'isMemberOf' [tags] expression, for all related tags of the given one.
-     * Example:
-     * For tag := 'car', the following expression may be generated:
-     *
-     *  ('car' isMemberOf myTags) OR ('auto' isMemberOf myTags)
-     *
-     * @param tag The tag to check if he is part of the collection. This tag will be expanded.
-     * @param tagCollectionReference A reference to a collection of tags
-     * @return
-     */
-    private Expression<Tag> isTagExpandedMemberOfExpression(Tag tag, VariableReferenceExpression<Tag> tagCollectionReference){
-        ListExpression<Tag> tagDisjunction =  ListExpression.createDisjunction();
-        Set<Tag> relatedTags = tagExpander.getAllRelatedTags(tag);
-
-        for (Tag relatedTag : relatedTags) {
-            tagDisjunction.add(isTagMemberOfExpression(relatedTag, tagCollectionReference));
+        if(current instanceof UnaryExpression){
+            ExpressionNode replaced = recursiveReplace(((UnaryOperatorExpression) current).getInner(), matcher, replacer);
+            ((UnaryOperatorExpression) current).setInner(replaced);
         }
 
-        return tagDisjunction;
-    }
+        if(current instanceof BinaryExpression){
+            BinaryExpression binary = (BinaryExpression)current;
 
-    /**
-     * Create an [tag] 'isMemberOf' [tags] expression.
-     * @param tag The tag to check if he is part of the tagCollectionReference
-     * @param tagCollectionReference A reference to a collection of tags
-     * @return
-     */
-    private Expression<Tag> isTagMemberOfExpression(Tag tag, VariableReferenceExpression<Tag> tagCollectionReference){
-        return Expressions.memberOf(Expressions.literalString(tag.toString()), tagCollectionReference);
+            ExpressionNode replacedLeft = recursiveReplace(binary.getLeft(), matcher, replacer);
+            ExpressionNode replacedRight = recursiveReplace(binary.getRight(), matcher, replacer);
+
+            binary.setLeft(replacedLeft);
+            binary.setRight(replacedRight);
+        }
+
+        return current;
     }
 
 

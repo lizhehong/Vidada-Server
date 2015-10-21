@@ -2,6 +2,9 @@ package com.elderbyte.vidada.web.rest.dto;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Holds the data of a media
  */
@@ -15,6 +18,7 @@ public class MediaDTO {
     private String name;
     private String thumbnailUrl;
     private String streamUrl;
+    private List<String> tags = new ArrayList<>();
 
     public MediaDTO(String hash, String name, String thumbnailUrl, String streamUrl) {
         this.hash = hash;
@@ -53,5 +57,9 @@ public class MediaDTO {
 
     public void setStreamUrl(String streamUrl) {
         this.streamUrl = streamUrl;
+    }
+
+    public List<String> getTags() {
+        return tags;
     }
 }
