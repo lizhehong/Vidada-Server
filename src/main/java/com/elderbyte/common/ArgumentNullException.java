@@ -1,4 +1,4 @@
-package com.elderbyte.vidada.domain;
+package com.elderbyte.common;
 
 /**
  * Thrown when a method argument which is required (@NonNull) was Null!

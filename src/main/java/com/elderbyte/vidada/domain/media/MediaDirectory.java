@@ -9,7 +9,7 @@ import archimedes.core.io.locations.filters.IDirectoryFilter;
 import archimedes.core.io.locations.filters.ILocationFilter;
 import archimedes.core.util.FileSupport;
 import archimedes.core.util.Lists;
-import com.elderbyte.vidada.domain.ArgumentNullException;
+import com.elderbyte.common.ArgumentNullException;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 

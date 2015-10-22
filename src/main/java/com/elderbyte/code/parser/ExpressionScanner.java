@@ -1,9 +1,11 @@
 package com.elderbyte.code.parser;
 
 import com.elderbyte.code.dom.expressions.Operator;
+import com.elderbyte.common.ArgumentNullException;
 
+import javax.validation.constraints.NotNull;
 import java.util.*;
-import java.util.regex.Matcher;
+import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
 /**
@@ -12,11 +14,30 @@ import java.util.regex.Pattern;
  */
 public class ExpressionScanner {
 
+    /***************************************************************************
+     *                                                                         *
+     * Private Fields                                                          *
+     *                                                                         *
+     **************************************************************************/
+
     private final Map<String, Token> terminalMap = new HashMap<>();
+    private final Predicate<String> isWordPredicate;
 
+    private static final Pattern DefaultWordPattern = Pattern.compile("^\\w+$");
+    /***************************************************************************
+     *                                                                         *
+     * Constructor                                                             *
+     *                                                                         *
+     **************************************************************************/
 
+    /**
+     * Creates a new expression scanner
+     * @param operatorSet
+     */
     public ExpressionScanner(OperatorSet operatorSet){
-        this(defaultTerminals(operatorSet));
+        this(
+            defaultTerminals(operatorSet),
+            x -> DefaultWordPattern.matcher(x).matches());
     }
 
 
@@ -24,14 +45,34 @@ public class ExpressionScanner {
      * Creates a new ExpressionTokenizer with the given Operators
      * @param terminalTokens
      */
-    public ExpressionScanner(Iterable<Token> terminalTokens){
+    public ExpressionScanner(Iterable<Token> terminalTokens, Predicate<String> isWordPredicate){
+
+        if(terminalTokens == null) throw new ArgumentNullException("terminalTokens");
+        if(isWordPredicate == null) throw new ArgumentNullException("isWordPredicate");
+
+
+        this.isWordPredicate = isWordPredicate;
         for(Token op : terminalTokens){
             terminalMap.put(op.getValue(), op);
         }
     }
 
 
+    /***************************************************************************
+     *                                                                         *
+     * Public API                                                              *
+     *                                                                         *
+     **************************************************************************/
+
+    /**
+     * Turns the given string into a token stream
+     * @param expression
+     * @return
+     */
     public Iterable<Token> tokenize(String expression){
+
+        if(expression == null) throw new ArgumentNullException("expression");
+
 
         List<Token> tokens = new ArrayList<>();
 
@@ -47,7 +88,12 @@ public class ExpressionScanner {
         return tokens;
     }
 
-    static final Pattern wordPattern = Pattern.compile("^\\w+$");
+    /***************************************************************************
+     *                                                                         *
+     * Private methods                                                         *
+     *                                                                         *
+     **************************************************************************/
+
 
     private Token emit(String currentWord){
         Token t = getTerminal(currentWord);
@@ -56,8 +102,6 @@ public class ExpressionScanner {
             t = new Token(TokenType.Identifier, currentWord);
         }
 
-        //System.out.println("emitting: '" + currentWord + "' T: " + t);
-
         if(t != null && t.getType() != TokenType.Whitespace){
             return t;
         }else
@@ -65,8 +109,7 @@ public class ExpressionScanner {
     }
 
     private boolean isLiteral(String word){
-        Matcher m = wordPattern.matcher(word);
-        return m.matches();
+        return isWordPredicate.test(word);
     }
 
     private Token getTerminal(String terminal) {
@@ -78,6 +121,9 @@ public class ExpressionScanner {
 
 
     private static Iterable<Token> defaultTerminals(OperatorSet operatorSet){
+
+        if(operatorSet == null) throw new ArgumentNullException("operatorSet");
+
 
         List<Token> defaultTerminals = new ArrayList<>();
 

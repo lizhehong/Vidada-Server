@@ -1,9 +1,11 @@
 package com.elderbyte.code.parser;
 
+import com.elderbyte.code.CodeDomException;
+
 /**
- * Created by IsNull on 18.10.15.
+ * Thrown when generating the AST has failed
  */
-public class ASTGeneratorException extends RuntimeException {
+public class ASTGeneratorException extends CodeDomException {
 
     public ASTGeneratorException(String message){
         super(message);

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import javax.inject.Inject;
 
 /**
- *
+ * Manages all Thumbnails
  *
  */
 @Service

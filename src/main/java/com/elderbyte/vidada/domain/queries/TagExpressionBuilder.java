@@ -1,5 +1,6 @@
 package com.elderbyte.vidada.domain.queries;
 
+import com.elderbyte.code.CodeDomException;
 import com.elderbyte.code.dom.expressions.*;
 import com.elderbyte.vidada.domain.tags.Tag;
 
@@ -12,15 +13,35 @@ import java.util.function.Predicate;
  */
 public class TagExpressionBuilder {
 
+    /***************************************************************************
+     *                                                                         *
+     * Private Fields                                                          *
+     *                                                                         *
+     **************************************************************************/
 
     private final TagExpressionParser parser = new TagExpressionParser();
 
     private Function<Tag, Set<Tag>> expander;
 
+    /**
+     *
+     * @return
+     */
     public static TagExpressionBuilder create(){
         return new TagExpressionBuilder();
     }
 
+    /***************************************************************************
+     *                                                                         *
+     * Public API                                                              *
+     *                                                                         *
+     **************************************************************************/
+
+    /**
+     *
+     * @param expander
+     * @return
+     */
     public TagExpressionBuilder expandTags(Function<Tag, Set<Tag>> expander){
         this.expander = expander;
         return this;
@@ -31,6 +52,7 @@ public class TagExpressionBuilder {
      * Build a tag-query expression.
      * @param tagExpression Sample expression: 'action & comedy & (1080p | 720p)'
      * @return
+     * @exception CodeDomException Thrown when building the expression AST failed!
      */
     public ExpressionNode build(String tagExpression){
 
@@ -39,10 +61,21 @@ public class TagExpressionBuilder {
         // Since the expression implicitly assumes that each tag is replaced by '{x} MEMEBER OF tags'
         // We have to repair the AST now. The tags are currently recognized as variable references (which they are not)
         ast = repairMemberOf(ast, new VariableReference("tags"));
-
         return ast;
     }
 
+    /***************************************************************************
+     *                                                                         *
+     * Private methods                                                         *
+     *                                                                         *
+     **************************************************************************/
+
+    /**
+     * Repairs the given Expression
+     * @param ast
+     * @param tagsRef
+     * @return
+     */
     private ExpressionNode repairMemberOf(ExpressionNode ast, ExpressionNode tagsRef) {
 
         Operator memberOf = new Operator("MEMBER OF", 5, true, false);

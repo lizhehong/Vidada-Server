@@ -1,7 +1,7 @@
 package com.elderbyte.code.parser;
 
 /**
- * Created by IsNull on 18.10.15.
+ * Thrown when there where insufficent parameters for an operator
  */
 public class InsufficientParametersException extends ASTGeneratorException {
 

@@ -2,10 +2,8 @@ package com.elderbyte.vidada.domain.media;
 
 import archimedes.core.exceptions.NotSupportedException;
 import archimedes.core.io.locations.DirectoryLocation;
-import com.elderbyte.vidada.domain.ArgumentNullException;
 import com.elderbyte.vidada.domain.entities.IdEntity;
 import com.elderbyte.vidada.domain.media.extracted.IMediaPropertyStore;
-import com.elderbyte.vidada.domain.media.extracted.JsonMediaPropertyStore;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -18,7 +16,6 @@ import java.beans.Transient;
 import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.nio.file.InvalidPathException;
 
 /**
  * Represents an local user MediaLibrary folder.

@@ -1,6 +1,8 @@
 package com.elderbyte.code.parser;
 
+import com.elderbyte.code.CodeDomException;
 import com.elderbyte.code.dom.expressions.Operator;
+import com.elderbyte.common.ArgumentNullException;
 
 import java.util.*;
 
@@ -10,14 +12,46 @@ import java.util.*;
  */
 public class RPNTransformer {
 
+    /***************************************************************************
+     *                                                                         *
+     * Private Fields                                                          *
+     *                                                                         *
+     **************************************************************************/
+
     private final OperatorSet operatorSet;
 
+    /***************************************************************************
+     *                                                                         *
+     * Constructors                                                            *
+     *                                                                         *
+     **************************************************************************/
 
+    /**
+     * Creates a new RPNTransformer
+     * @param operatorSet
+     */
     public RPNTransformer(OperatorSet operatorSet){
-       this.operatorSet = operatorSet;
+
+        if(operatorSet == null) throw new ArgumentNullException("operatorSet");
+
+        this.operatorSet = operatorSet;
     }
 
+    /***************************************************************************
+     *                                                                         *
+     * Public API                                                              *
+     *                                                                         *
+     **************************************************************************/
 
+    /**
+     * Transfroms the given token stream into RPN.
+     * Runtime complexity is O(n)
+     *
+     * @param tokens
+     * @return A token stream in RPN order
+     *
+     * @exception CodeDomException Thrown when the transformation failed.
+     */
     public List<Token> toReversePolishNotation(Iterable<Token> tokens){
 
         Stack<Token> operatorStack = new Stack<>();
@@ -62,8 +96,11 @@ public class RPNTransformer {
                 }
                 if(!success)
                     throw new ParenthesisMismatchException("No closing Parenthesis found for open Parenthesis!");
+            }else{
+                throw new CodeDomException(String.format("Unexpected Token '%s' in RPN Expression!", token));
             }
         }
+
         while (!operatorStack.isEmpty()){
             Token op = operatorStack.pop();
             if(isParenthesis(op)){
@@ -74,6 +111,12 @@ public class RPNTransformer {
         return rpn;
     }
 
+
+    /***************************************************************************
+     *                                                                         *
+     * Private methods                                                         *
+     *                                                                         *
+     **************************************************************************/
 
     private boolean isParenthesis(Token token){
         return isLeftParenthesis(token) || isRightParenthesis(token);
@@ -90,7 +133,7 @@ public class RPNTransformer {
     private int precedence(Token operator){
         Operator op = operatorSet.findOperator(operator.getValue());
         if(op == null){
-            throw new IllegalStateException("Operator Token expected: " + operator);
+            throw new CodeDomException("Operator Token expected: " + operator);
         }
         return op.getPrecedence();
     }
@@ -99,7 +142,7 @@ public class RPNTransformer {
         Operator op = operatorSet.findOperator(operator.getValue());
 
         if(op == null){
-            throw new IllegalStateException("Operator Token expected: " + operator);
+            throw new CodeDomException("Operator Token expected: " + operator);
         }
         return op.isLeftAssociative();
     }

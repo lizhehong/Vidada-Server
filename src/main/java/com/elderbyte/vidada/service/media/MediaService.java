@@ -6,6 +6,7 @@ import archimedes.core.events.EventHandlerEx;
 import archimedes.core.events.IEvent;
 import archimedes.core.exceptions.NotSupportedException;
 import archimedes.core.io.locations.ResourceLocation;
+import com.elderbyte.code.CodeDomException;
 import com.elderbyte.code.dom.expressions.ExpressionNode;
 import com.elderbyte.vidada.domain.media.MediaExpressionQuery;
 import com.elderbyte.vidada.domain.media.MediaItem;
@@ -112,11 +113,16 @@ public class MediaService {
 
         if(qry.getTagExpression() != null && !qry.getTagExpression().isEmpty()){
 
-            tagExpression = TagExpressionBuilder.create()
-                .expandTags(tagService::getAllRelatedTags)
-                    // Add additional related tags to the users request -
-                    // This is what vidada makes intelligent
-                .build(qry.getTagExpression());
+            try {
+                tagExpression = TagExpressionBuilder.create()
+                    .expandTags(tagService::getAllRelatedTags)
+                        // Add additional related tags to the users request -
+                        // This is what vidada makes intelligent
+                    .build(qry.getTagExpression());
+            }catch (CodeDomException e){
+                logger.warn("Could not create Tag-Expression query!", e);
+            }
+
         }
 
         MediaExpressionQuery exprQuery = new MediaExpressionQuery(
