@@ -2,7 +2,7 @@ package com.elderbyte.vidada.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.elderbyte.vidada.domain.tags.Tag;
-import com.elderbyte.vidada.service.TagService;
+import com.elderbyte.vidada.service.tags.TagService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;

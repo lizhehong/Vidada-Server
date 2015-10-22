@@ -11,9 +11,15 @@ import com.elderbyte.vidada.domain.media.source.MediaSource;
 import com.elderbyte.vidada.repository.MediaLibraryRepository;
 import com.elderbyte.vidada.repository.MediaRepository;
 import com.elderbyte.vidada.repository.MediaSourceRepository;
+import com.elderbyte.vidada.service.tags.FileTagRelationSource;
+import com.elderbyte.vidada.service.tags.ITagRelationSource;
+import com.elderbyte.vidada.service.tags.TagService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +39,10 @@ public class MediaLibraryService  {
      *                                                                         *
      **************************************************************************/
 
+    private static final Logger log = LoggerFactory.getLogger(MediaLibraryService.class);
+
+
+    private final TagService tagService;
 	private final MediaLibraryRepository repository;
     private final MediaRepository mediaRepository;
     private final MediaSourceRepository mediaSourceRepository;
@@ -58,11 +68,17 @@ public class MediaLibraryService  {
      **************************************************************************/
 
     /**
-     *
+     * Creates a new MediaLibraryService
      * @param repository
      */
     @Inject
-	public MediaLibraryService(MediaLibraryRepository repository, MediaRepository mediaRepository, MediaSourceRepository mediaSourceRepository) {
+	public MediaLibraryService(
+        MediaLibraryRepository repository,
+        MediaRepository mediaRepository,
+        MediaSourceRepository mediaSourceRepository,
+        TagService tagService) {
+
+        this.tagService = tagService;
 		this.repository = repository;
         this.mediaRepository = mediaRepository;
         this.mediaSourceRepository = mediaSourceRepository;
@@ -74,6 +90,18 @@ public class MediaLibraryService  {
      *                                                                         *
      **************************************************************************/
 
+    @Transactional
+    @PostConstruct
+    public void init(){
+        List<MediaLibrary> libraries = getAllLibraries();
+
+        log.info(String.format("Initializing MediaLibraryService, found %s libraries.", libraries.size()));
+
+        for(MediaLibrary lib : libraries){
+            onLibraryAdded(lib);
+        }
+    }
+
 
     @Transactional
 	public List<MediaLibrary> getAllLibraries(){
@@ -84,6 +112,7 @@ public class MediaLibraryService  {
     @Transactional
 	public void addLibrary(final MediaLibrary lib){
         repository.save(lib);
+        onLibraryAdded(lib);
         libraryAddedEvent.fireEvent(this, EventArgsG.build(lib));
 	}
 
@@ -147,4 +176,9 @@ public class MediaLibraryService  {
 		}
 		return available;
 	}
+
+    private void onLibraryAdded(MediaLibrary library){
+        ITagRelationSource source = new FileTagRelationSource(library.getUserTagRelationDef());
+        tagService.registerTagRelationSource(source);
+    }
 }

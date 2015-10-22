@@ -9,7 +9,7 @@ import com.elderbyte.vidada.domain.tags.autoTag.ITagGuessingStrategy;
 import com.elderbyte.vidada.domain.tags.autoTag.KeywordBasedTagGuesser;
 import com.elderbyte.vidada.service.JobService;
 import com.elderbyte.vidada.service.MediaLibraryService;
-import com.elderbyte.vidada.service.TagService;
+import com.elderbyte.vidada.service.tags.TagService;
 import com.elderbyte.vidada.service.media.MediaHashService;
 import com.elderbyte.vidada.service.media.MediaService;
 import org.slf4j.Logger;
@@ -133,6 +133,9 @@ public class MediaImportService {
      */
     @Transactional
     protected CompletableFuture<?> synchronizeAllAsync(final IProgressListener progressListener){
+
+        // Ensure that tag-relations are reloaded
+        tagService.invalidateTagRelations();
 
         logger.info("Starting to synchronize all media libraries...");
 

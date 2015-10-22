@@ -1,6 +1,5 @@
-package com.elderbyte.vidada.service;
+package com.elderbyte.vidada.service.tags;
 
-import archimedes.core.util.Lists;
 import com.elderbyte.vidada.domain.tags.Tag;
 import com.elderbyte.vidada.domain.tags.TagUtil;
 import com.elderbyte.vidada.domain.tags.relations.TagRelationDefinition;
@@ -29,9 +28,10 @@ public class TagService {
 
     private static final Logger logger = LogManager.getLogger(TagService.class.getName());
 
-
     private final TagRepository repository;
-    private final TagRelationDefinition relationDefinition;
+    private final List<ITagRelationSource> tagRelationSources = new ArrayList<>();
+
+    private TagRelationDefinition relationDefinition;
 
     /***************************************************************************
      *                                                                         *
@@ -40,14 +40,20 @@ public class TagService {
      **************************************************************************/
 
     /**
-     *
+     * Creates a new TagService
      * @param repository
      */
     @Inject
     public TagService(TagRepository repository) {
         this.repository = repository;
-        relationDefinition = new TagRelationDefinition();
     }
+
+    /***************************************************************************
+     *                                                                         *
+     * Properties                                                              *
+     *                                                                         *
+     **************************************************************************/
+
 
 
     /***************************************************************************
@@ -59,7 +65,7 @@ public class TagService {
 
 
     public Set<Tag> getAllRelatedTags(Tag tag){
-        return relationDefinition.getAllRelatedTags(tag);
+        return getRelationDefinition().getAllRelatedTags(tag);
     }
 
 
@@ -72,13 +78,14 @@ public class TagService {
 
     @Transactional
     public Collection<Tag> getUsedTags() {
-        List<Tag> allTags = repository.findAll();
+
+        Collection<Tag> allTags = getAllTags();
 
         // Remove all synonyms from our tag list
-        Iterator<Tag> allTagsIt = allTags.iterator();
+        Iterator<Tag> allTagsIt = getAllTags().iterator();
         while (allTagsIt.hasNext()) {
             Tag tag = allTagsIt.next();
-            if (relationDefinition.isSlaveTag(tag)) {
+            if (getRelationDefinition().isSlaveTag(tag)) {
                 allTagsIt.remove();
             }
         }
@@ -88,6 +95,10 @@ public class TagService {
 
     @Transactional
     public Collection<Tag> getAllTags() {
+
+        // Ensure all tags from the relations are loaded and known
+        getRelationDefinition();
+
         return repository.findAll();
     }
 
@@ -111,22 +122,50 @@ public class TagService {
     }
 
     /**
-     * Merges the given Tag Relations into this Tag-Service.
-     * (This will cause this tag service to learn this relations)
-     *
-     * @param relationDef
+     * Update relation definition
      */
-    public void mergeRelation(TagRelationDefinition relationDef) {
-        relationDefinition.merge(relationDef);
-        ensureTagsExist(relationDef.getAllTags());
-        // ensure that all known tags are in the Database
+    public void invalidateTagRelations() {
+        relationDefinition = null;
     }
+
+    public synchronized void registerTagRelationSource(ITagRelationSource relationSource){
+        tagRelationSources.add(relationSource);
+        logger.info("TagRelationSource has been added!");
+        invalidateTagRelations();
+    }
+
 
     /***************************************************************************
      *                                                                         *
      * Private methods                                                         *
      *                                                                         *
      **************************************************************************/
+
+    private synchronized TagRelationDefinition getRelationDefinition(){
+
+        if(relationDefinition == null){
+            relationDefinition = buildRelationDefinition();
+        }
+        return relationDefinition;
+    }
+
+    private TagRelationDefinition buildRelationDefinition() {
+
+        logger.info(String.format("Rebuilding TagRelationDefinition from all registered %s sources...", tagRelationSources.size()));
+
+        TagRelationDefinition relationDefinition = new TagRelationDefinition();
+
+        for (ITagRelationSource relationSource : tagRelationSources){
+            TagRelationDefinition definition = relationSource.buildTagRelation();
+            if(definition != null){
+                relationDefinition.merge(definition);
+            }
+        }
+
+        ensureTagsExist(relationDefinition.getAllTags());
+        // ensure that all known tags are in the Database
+        return relationDefinition;
+    }
 
     @Transactional
     void ensureTagsExist(final Collection<Tag> tags){

@@ -45,6 +45,8 @@ public class KeywordBasedTagGuesser  implements ITagGuessingStrategy {
 	 */
 	public KeywordBasedTagGuesser(Collection<Tag> tags){
 		this.tags = tags;
+
+        logger.info(String.format("Creating Tag guesser with %s known tags!", tags.size()));
 	}
 
     /***************************************************************************

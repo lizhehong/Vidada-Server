@@ -88,7 +88,7 @@ public class MediaItemFactory {
      */
     public boolean updateBasicAttributes(MediaItem mediaItem){
 
-        LOG.info("updateBasicAttributes: " + mediaItem);
+        LOG.debug("Updating media " + mediaItem);
 
         boolean wasUpdated = false;
 

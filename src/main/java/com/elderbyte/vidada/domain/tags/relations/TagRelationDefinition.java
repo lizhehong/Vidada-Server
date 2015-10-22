@@ -10,6 +10,13 @@ import java.util.Map.Entry;
 /**
  * Represents relations between Tags.
  *
+ * Supported relations:
+ *
+ * --> Equality (synonyms)
+ * --> Hierarchy < (ParentOf)
+ *
+ * See also @link{TagRelationOperator}
+ *
  * @author IsNull
  *
  */
