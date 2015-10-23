@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('vidadaApp')
-    .controller('MediasController', function ($scope, Media, MediaInfinite, ParseText) {
+    .controller('MediasController', function ($scope, Media, MediaInfinite, ParseText, Tag) {
 
         $scope.query = "";
         $scope.tagExpression="";
@@ -55,19 +55,23 @@ angular.module('vidadaApp')
             $scope.tagExpressionCaret = getCaretPosition(myEl);
         };
 
+        $scope.knownTags = [];
 
+        $scope.updateTags = function() {
+            Tag.query().$promise.then(function (tags) {
+                $scope.knownTags = tags;
+                console.log("Got " + tags.length + " known Tags!");
+            });
+        };
 
-        // TODO Use tags from AJAX
-
-        var genres = ['action', 'comedy', 'drama', 'comic', 'horror', '720p', '1080p' /* ... */ ];
-
+        
         function findSuggestions(term){
             var q = term.toLowerCase().trim();
             var results = [];
 
             // Find first 10 states that start with `term`.
-            for (var i = 0; i < genres.length && results.length < 10; i++) {
-                var genre = genres[i];
+            for (var i = 0; i < $scope.knownTags.length && results.length < 10; i++) {
+                var genre = $scope.knownTags[i].name;
                 if (genre.toLowerCase().indexOf(q) === 0)
                     results.push({ label: genre, value: genre });
             }
@@ -96,5 +100,5 @@ angular.module('vidadaApp')
             suggest: suggest_tag
         };
 
-
+        $scope.updateTags();
     });
