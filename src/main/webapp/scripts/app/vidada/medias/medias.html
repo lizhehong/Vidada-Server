@@ -14,15 +14,17 @@
             </div>
             <div class="input-group">
                 <div class="input-group-addon">Tags</div>
-                <input type="text" class="form-control" ng-model="tagExpression" mass-autocomplete-item="autocomplete_options"
+                <input type="text" class="form-control" ng-model="tagExpression"
+                       ng-click="updateCursorPos($event)" ng-keyup="updateCursorPos($event)"
+                       mass-autocomplete-item="autocomplete_options"
                        placeholder="video (sci-fi | action) !comedy">
             </div>
         </div>
     </div>
     <div class="panel-footer">
         <p>Found {{mediaService.itemCount}} medias!</p>
+        <p>Caret: {{caretPos.get}}</p>
     </div>
-
 </div>
 
 
