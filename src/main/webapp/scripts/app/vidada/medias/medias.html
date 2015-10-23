@@ -3,23 +3,62 @@
 
 
 
+
 <div class="panel panel-default">
     <div class="panel-body">
+        <form class="form-horizontal">
+            <fieldset>
 
-        <!-- Media Search -->
-        <div class="form-group">
-            <div class="input-group">
-                <div class="input-group-addon">Search</div>
-                <input type="text" class="form-control" ng-model="query" ng-change="updateMedias()" placeholder="Star Wars...">
-            </div>
-            <div class="input-group">
-                <div class="input-group-addon">Tags</div>
-                <input type="text" class="form-control" ng-model="tagExpression" ng-change="updateMedias()"
-                       ng-click="updateCursorPos($event)" ng-keyup="updateCursorPos($event)"
-                       mass-autocomplete-item="autocomplete_options"
-                       placeholder="video (sci-fi | action) !comedy">
-            </div>
-        </div>
+                <!-- Media Search -->
+                <div class="form-group">
+                    <label for="inputQuery" class="col-xs-2 control-label">Search</label>
+                    <div class="col-xs-10">
+                        <input type="text" class="form-control floating-label" id="inputQuery" ng-model="query"
+                               ng-change="updateMedias()" placeholder="Star Wars...">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputTagQuery" class="col-xs-2 control-label">Tags</label>
+
+                    <div class="col-xs-10">
+                        <input type="text" class="form-control floating-label" id="inputTagQuery" ng-model="tagExpression" ng-change="updateMedias()"
+                               ng-click="updateCursorPos($event)" ng-keyup="updateCursorPos($event)"
+                               mass-autocomplete-item="autocomplete_options"
+                               placeholder="video (sci-fi | action) !comedy">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-xs-2 control-label">Order</label>
+
+                    <div class="dropdown">
+                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            Dropdown
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                            <li><a href="#">Action</a></li>
+                            <li><a href="#">Another action</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li><a href="#">Separated link</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col-xs-10">
+
+                        <div class="togglebutton">
+                            <label>
+                                Reverse
+                                <input type="checkbox" checked="">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+            </fieldset>
+        </form>
+
     </div>
     <div class="panel-footer">
         <p>Found {{mediaService.itemCount}} medias!</p>

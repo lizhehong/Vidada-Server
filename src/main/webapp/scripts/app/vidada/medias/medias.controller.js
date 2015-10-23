@@ -64,7 +64,7 @@ angular.module('vidadaApp')
             });
         };
 
-        
+
         function findSuggestions(term){
             var q = term.toLowerCase().trim();
             var results = [];
