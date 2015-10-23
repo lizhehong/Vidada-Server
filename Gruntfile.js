@@ -24,6 +24,18 @@ module.exports = function (grunt) {
     require('time-grunt')(grunt);
 
     grunt.initConfig({
+
+        app: {
+            // Application variables
+            scripts: [
+                // JS files to be included by includeSource task into index.html
+                'scripts/app/app.js',
+                'scripts/app/app.constants.js',
+                'scripts/components/**/*.js',
+                'scripts/app/**/*.js'
+            ]
+        },
+
         yeoman: {
             // configurable paths
             app: require('./bower.json').appPath || 'app',
@@ -40,6 +52,28 @@ module.exports = function (grunt) {
             },
             styles: {
                 files: ['src/main/webapp/assets/styles/**/*.css']
+            },
+            includeSource: {
+                // Watch for added and deleted scripts to update index.html
+                files: 'src/main/webapp/scripts/**/*.js',
+                tasks: ['includeSource'],
+                options: {
+                    event: ['added', 'deleted']
+                }
+            }
+        },
+        includeSource: {
+            // Task to include files into index.html
+            options: {
+                basePath: 'src/main/webapp',
+                baseUrl: '',
+                ordering: 'top-down'
+            },
+            app: {
+                files: {
+                    'src/main/webapp/index.html': 'src/main/webapp/index.html'
+                    // you can add karma config as well here if want inject to karma as well
+                }
             }
         },
         autoprefixer: {
@@ -394,6 +428,7 @@ module.exports = function (grunt) {
     grunt.registerTask('serve', [
         'clean:server',
         'wiredep',
+        'includeSource',
         'ngconstant:dev',
         'concurrent:server',
         'browserSync',
@@ -416,6 +451,7 @@ module.exports = function (grunt) {
     grunt.registerTask('build', [
         'clean:dist',
         'wiredep:app',
+        'includeSource',
         'ngconstant:prod',
         'useminPrepare',
         'ngtemplates',
