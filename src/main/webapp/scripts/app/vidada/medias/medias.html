@@ -10,11 +10,11 @@
         <div class="form-group">
             <div class="input-group">
                 <div class="input-group-addon">Search</div>
-                <input type="text" class="form-control" ng-model="query" placeholder="Star Wars...">
+                <input type="text" class="form-control" ng-model="query" ng-change="updateMedias()" placeholder="Star Wars...">
             </div>
             <div class="input-group">
                 <div class="input-group-addon">Tags</div>
-                <input type="text" class="form-control" ng-model="tagExpression"
+                <input type="text" class="form-control" ng-model="tagExpression" ng-change="updateMedias()"
                        ng-click="updateCursorPos($event)" ng-keyup="updateCursorPos($event)"
                        mass-autocomplete-item="autocomplete_options"
                        placeholder="video (sci-fi | action) !comedy">
@@ -23,7 +23,6 @@
     </div>
     <div class="panel-footer">
         <p>Found {{mediaService.itemCount}} medias!</p>
-        <p>Caret: {{caretPos.get}}</p>
     </div>
 </div>
 

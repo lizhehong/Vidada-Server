@@ -2,24 +2,14 @@
 'use strict';
 
 angular.module('vidadaApp')
-    .controller('MediasController', function ($scope, Media, MediaInfinite) {
+    .controller('MediasController', function ($scope, Media, MediaInfinite, ParseText) {
 
         $scope.query = "";
         $scope.tagExpression="";
         $scope.mediaService = new MediaInfinite("", "");
-
         $scope.dirty = {};
+        $scope.tagExpressionCaret = 0; // Current Position of the caret in the tagExpression input
 
-        $scope.tagExpressionCaret = 0;
-
-
-        $scope.$watch("query", function(newValue, oldValue) {
-            $scope.updateMedias();
-        });
-
-        $scope.$watch("tagExpression", function(newValue, oldValue) {
-            $scope.updateMedias();
-        });
 
         $scope.updateMedias= function(){
             $scope.mediaService = new MediaInfinite($scope.query, $scope.tagExpression);
@@ -66,6 +56,9 @@ angular.module('vidadaApp')
         };
 
 
+
+        // TODO Use tags from AJAX
+
         var genres = ['action', 'comedy', 'drama', 'comic', 'horror', '720p', '1080p' /* ... */ ];
 
         function findSuggestions(term){
@@ -83,14 +76,14 @@ angular.module('vidadaApp')
 
         function suggest_tag(tagExpression) {
 
-            var word = findWordAt(tagExpression, $scope.tagExpressionCaret);
+            var word = ParseText.findWordAt(tagExpression, $scope.tagExpressionCaret);
 
             console.log("Current tag: " + word);
 
             var suggestions = findSuggestions(word.text);
 
             suggestions.forEach(function (s) {
-                s.value = replaceWord(tagExpression, word, s.value);
+                s.value = ParseText.replaceWord(tagExpression, word, s.value);
             });
 
             console.log("Found " + suggestions.length + " suggestions for '" + word.text + "'!");
@@ -103,47 +96,5 @@ angular.module('vidadaApp')
             suggest: suggest_tag
         };
 
-
-        /**
-         *
-         * @param str
-         * @param word
-         * @param replacement
-         * @returns {*}
-         */
-        function replaceWord(str, word, replacement) {
-            return str.slice(0, word.left) + replacement + str.slice(word.right, str.length);
-        }
-
-        /**
-         * Finds the word in the given string at the given position
-         * @param str
-         * @param pos
-         * @returns {{left: Number, right: Number, text: string}}
-         */
-        function findWordAt(str, pos) {
-
-            // Perform type conversions.
-            str = String(str);
-            pos = Number(pos) >>> 0;
-
-            // Search for the word's beginning and end.
-            var left = str.slice(0, pos + 1).search(/[\w]+$/),
-                right = str.slice(pos).search(/[^\w]/);
-
-            // The last word in the string is a special case.
-            if (right < 0) {
-                right = str.length;
-            }else{
-                right = right + pos;
-            }
-
-            // Return the word, using the located bounds to extract it from the string.
-            return {
-                left: left,
-                right: right,
-                text: str.slice(left, right)
-            };
-        }
 
     });
