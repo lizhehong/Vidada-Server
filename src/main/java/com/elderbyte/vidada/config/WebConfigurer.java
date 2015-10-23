@@ -6,7 +6,7 @@ import com.codahale.metrics.servlets.MetricsServlet;
 import com.elderbyte.vidada.web.filter.CachingHttpHeadersFilter;
 import com.elderbyte.vidada.web.filter.StaticResourcesProductionFilter;
 import com.elderbyte.vidada.web.filter.gzip.GZipServletFilter;
-import com.elderbyte.vidada.web.servlets.MediaStreamServlet;
+import com.elderbyte.vidada.web.servlets.streaming.MediaStreamServlet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

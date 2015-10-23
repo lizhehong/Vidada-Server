@@ -1,4 +1,4 @@
-package com.elderbyte.vidada.web.servlets;
+package com.elderbyte.vidada.web.servlets.streaming;
 
 import archimedes.core.io.locations.ResourceLocation;
 import com.elderbyte.vidada.domain.media.MediaItem;
