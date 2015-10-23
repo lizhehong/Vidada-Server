@@ -39,4 +39,15 @@ public final class Operator {
     public boolean isLeftAssociative() {
         return isLeftAssociative;
     }
+
+
+    @Override
+    public String toString() {
+        return "Operator{" +
+            "isUnary=" + isUnary +
+            ", sign='" + sign + '\'' +
+            ", precedence=" + precedence +
+            ", isLeftAssociative=" + isLeftAssociative +
+            '}';
+    }
 }
