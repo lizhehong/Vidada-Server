@@ -37,6 +37,7 @@ module.exports = function (config) {
             'main/webapp/bower_components/stomp-websocket/lib/stomp.min.js',
             'main/webapp/bower_components/arrive/src/arrive.js',
             'main/webapp/bower_components/angular-mass-autocomplete/massautocomplete.min.js',
+            'main/webapp/bower_components/dropdown.js/jquery.dropdown.js',
             'main/webapp/bower_components/angular-mocks/angular-mocks.js',
             // endbower
             'main/webapp/scripts/app/app.js',

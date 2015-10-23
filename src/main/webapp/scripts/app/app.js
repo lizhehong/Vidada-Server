@@ -12,6 +12,8 @@ angular.module('vidadaApp', ['LocalStorageModule', 'tmh.dynamicLocale',
 
         $(function(){
             $.material.init();
+
+            $(".select").dropdown({ "autoinit" : ".select" });
         });
 
 

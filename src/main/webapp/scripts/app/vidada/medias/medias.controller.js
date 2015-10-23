@@ -4,20 +4,40 @@
 angular.module('vidadaApp')
     .controller('MediasController', function ($scope, Media, MediaInfinite, ParseText, Tag) {
 
-        $scope.query = "";
-        $scope.tagExpression="";
-        $scope.mediaService = new MediaInfinite("", "");
-        $scope.dirty = {};
+        $scope.mediaQuery = {
+            query: "",
+            tagExpression: "",
+            orderBy: {name: "Choose some"},
+            reversed: false
+        };
+
+        $scope.mediaService = new MediaInfinite($scope.mediaQuery);
         $scope.tagExpressionCaret = 0; // Current Position of the caret in the tagExpression input
+        $scope.availableOrderBy = [
+            {id: "FILENAME", name: "Name"},
+            {id: "OPENED", name: "Times opened"},
+            {id: "ADDEDDATE", name: "Date added"},
+            {id: "LASTACCESS", name: "Access Date"},
+            {id: "RATING", name: "Rating"},
+            {id: "SIZE", name: "File size"},
+            {id: "DURATION", name: "Duration"},
+            {id: "BITRATE", name: "Bitrate"},
+        ];
+
 
 
         $scope.updateMedias= function(){
-            $scope.mediaService = new MediaInfinite($scope.query, $scope.tagExpression);
+            $scope.mediaService = new MediaInfinite($scope.mediaQuery);
             $scope.mediaService.nextPage();
         };
 
         $scope.escape = function(text) {
             return escape(text);
+        };
+
+        $scope.setOrderBy = function(option){
+            $scope.mediaQuery.orderBy = option;
+            $scope.updateMedias();
         };
 
 
