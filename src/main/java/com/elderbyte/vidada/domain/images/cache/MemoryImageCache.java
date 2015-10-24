@@ -7,10 +7,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import java.lang.ref.SoftReference;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Implements a basic memory image cache for super fast
@@ -82,7 +79,7 @@ public class MemoryImageCache extends ImageCacheProxyBase {
     }
 
     /**
-	 * Wraps this memory cache around the given cache service,
+	 * Wraps this memory cache around the given IImageCache,
 	 * that means that images only once are requested from the
 	 * underlining cache.
 	 * (Or in case the memory cache exceeds its size limit)
@@ -93,7 +90,7 @@ public class MemoryImageCache extends ImageCacheProxyBase {
         super(unbufferedImageCache);
 		// Setup image cache
 		this.imageCache = Collections.synchronizedMap(
-				new LRUCache<Size, Map<String, SoftReference<IMemoryImage>>>(MAX_SCALED_CACHE_SIZEFOLDERS));
+            new LRUCache<>(MAX_SCALED_CACHE_SIZEFOLDERS));
 	}
 
     /***************************************************************************
@@ -142,7 +139,7 @@ public class MemoryImageCache extends ImageCacheProxyBase {
 
         super.removeImage(id);
 
-		for (Size d : new HashSet<Size>(imageCache.keySet())) {
+		for (Size d : new ArrayList<>(imageCache.keySet())) {
 			Map<String, SoftReference<IMemoryImage>> idImageMap = imageCache.get(d);
 			if(idImageMap.containsKey(id))
 			{
@@ -184,12 +181,11 @@ public class MemoryImageCache extends ImageCacheProxyBase {
 
         if (!imageCache.containsKey(imageSize)) {
             int maxScaledSize = (int) (MAX_MEMORY_SCALED_CACHE / AVERAGE_SCALED_IMAGE_SIZE);
-            Map<String, SoftReference<IMemoryImage>> realImageCache = new LRUCache<String, SoftReference<IMemoryImage>>(maxScaledSize);
-            imageCache.put(imageSize, realImageCache);
+            imageCache.put(imageSize, new LRUCache<>(maxScaledSize));
 
-            logger.info("Created Scaled image cache. maxScaledSize: " + maxScaledSize);
+            logger.info("Created scaled image cache. maxScaledSize: " + maxScaledSize);
         }
-        imageCache.get(imageSize).put(id, new SoftReference<IMemoryImage>(image));
+        imageCache.get(imageSize).put(id, new SoftReference<>(image));
     }
 
 

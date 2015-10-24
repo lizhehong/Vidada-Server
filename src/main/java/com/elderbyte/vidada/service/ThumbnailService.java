@@ -41,6 +41,9 @@ public class ThumbnailService {
     /**
      * Creates a new ThumbnailService
      * @param mediaService
+     * @param mediaThumbCacheService
+     * @param thumbImageCreator
+     * @param settings
      */
     @Inject
 	public ThumbnailService(MediaService mediaService,
@@ -61,6 +64,13 @@ public class ThumbnailService {
      **************************************************************************/
 
 
+    /**
+     * Returns a thumbnail for the given media in the desired size.
+     *
+     * @param media
+     * @param size
+     * @return
+     */
 	public IMemoryImage getThumbImage(MediaItem media, Size size) {
 
 		IMemoryImage thumb = null;
@@ -76,7 +86,11 @@ public class ThumbnailService {
 		return thumb;
 	}
 
-
+    /**
+     * Creates a new thumbnail for the given media at the given position.
+     * @param media
+     * @param pos A relative position in the movie range [0.0-1.0]
+     */
     public void renewThumbImage(MovieMediaItem media, float pos) {
 
         logger.info("Renewing thumbnail at position " + pos);

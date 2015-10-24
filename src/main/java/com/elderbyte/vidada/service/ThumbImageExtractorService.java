@@ -45,7 +45,11 @@ public class ThumbImageExtractorService {
 	 *                                                                         *
 	 **************************************************************************/
 
-
+    /**
+     * Returns true if a thumbnail can be extracted from the given media file.
+     * @param media
+     * @return
+     */
 	public boolean canExtractThumb(MediaItem media){
 		if(media.getType() == MediaType.IMAGE)
 			return true;
@@ -57,7 +61,12 @@ public class ThumbImageExtractorService {
 		}
 	}
 
-
+    /**
+     * Extracts a thumbnail from the given media in teh given resolution
+     * @param media
+     * @param size The desired resolution of the thumbnail.
+     * @return
+     */
 	public IMemoryImage extractThumb(MediaItem media, Size size){
 		IMemoryImage image = null;
 

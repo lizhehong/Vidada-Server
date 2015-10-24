@@ -20,6 +20,7 @@ import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
+
 @Service
 public class MediaThumbCacheService  {
 
@@ -112,16 +113,18 @@ public class MediaThumbCacheService  {
      * @return
      */
     public IImageCache getImageCache(MediaItem media){
-        IImageCache imageCache;
+        IImageCache imageCache = null;
 
         MediaSource source = media.getSource();
         if(source != null)
         {
             MediaLibrary library = source.getParentLibrary();
             imageCache = getLibraryCache(library);
+        }
 
-        } else {
+        if(imageCache == null){
             imageCache = globalCache;
+            logger.warn("No file based image cache available, falling back to memory cache!");
         }
 
         return imageCache;
@@ -158,17 +161,17 @@ public class MediaThumbCacheService  {
      */
     private IImageCache buildLibraryLocalCache(DirectoryLocation libraryRoot){
 
-        IImageCache cache = null;
         if(libraryRoot != null && libraryRoot.exists()){
             try {
                 DirectoryLocation libCache = DirectoryLocation.Factory.create(libraryRoot, VidataThumbsFolder);
                 logger.info("Opening new library cache " + libraryRoot + "...");
-                cache = imageCacheFactory.openCache(libCache);
+                return imageCacheFactory.openCache(libCache);
             } catch (URISyntaxException e1) {
                 logger.error("Failed to access library cache - path issue! " + libraryRoot, e1);
             }
         }
-        return cache;
+        logger.warn("Could not build image cache for library folder " + libraryRoot);
+        return null;
     }
 
 
