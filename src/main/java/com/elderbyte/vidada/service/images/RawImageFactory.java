@@ -7,6 +7,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -56,58 +58,14 @@ public class RawImageFactory implements IRawImageFactory {
 
     @Override
     public boolean writeImage(IMemoryImage iMemoryImage, OutputStream outputStream) {
+
+        RenderedImage img = (RenderedImage)iMemoryImage.getOriginal();
+
+        try {
+            return ImageIO.write(img, "png", outputStream);
+        } catch (Exception e) {
+            logger.error("Failed to write image to output stream.",e);
+        }
         return false;
     }
 }
-
-/*
-@Service
-public class RawImageFactoryFx implements IRawImageFactory {
-
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
-
-    public RawImageFactoryFx(){
-
-	}
-
-
-	@Override
-	public IMemoryImage createImage(InputStream inputStream) {
-		Image imageFx = new Image(inputStream);
-		return new MemoryImageFx(imageFx);
-	}
-
-	@Override
-	public boolean writeImage(IMemoryImage image, OutputStream outputStream) {
-		if(!(image.getOriginal() instanceof Image))
-			throw new IllegalArgumentException("image must be of type javafx.*.Image");
-
-		Image imageFX = (Image)image.getOriginal();
-
-		try {
-			return ImageIO.write(SwingFXUtils.fromFXImage(imageFX, null), "png", outputStream);
-		} catch (Exception e) {
-            logger.error("Failed to write image to output stream.",e);
-		}
-
-		return false;
-	}
-
-	@Override
-	public IMemoryImage createImage(File file) {
-		if(file.exists()){
-			return createImage(file.toURI());
-		}else{
-            logger.error("Can not create image from file: " + file + "(missing)");
-		}
-		return null;
-	}
-
-	@Override
-	public IMemoryImage createImage(URI file) {
-		return new MemoryImageFx(new Image(file.toString()));
-	}
-
-}
-*/
