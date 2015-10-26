@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
+import javax.print.attribute.standard.Media;
 import java.util.Collection;
 import java.util.List;
 
@@ -120,9 +121,11 @@ public class MediaService {
                         // This is what vidada makes intelligent
                     .build(qry.getTagExpression());
             }catch (CodeDomException e){
-                logger.warn("Could not create Tag-Expression query!", e);
-            }
+                logger.debug("Could not create Tag-Expression query!", e.getMessage());
+                logger.trace("Could not create Tag-Expression query!", e);
 
+                return new ListPage<>(null, 0, maxPageSize, 0); // No results since wrong expression query
+            }
         }
 
         MediaExpressionQuery exprQuery = new MediaExpressionQuery(
