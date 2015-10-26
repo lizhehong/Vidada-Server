@@ -30,7 +30,8 @@
     "swagger-ui": "2.0.24",
     "arrive": "~2.3.0",
     "angular-mass-autocomplete": "~0.2.3",
-    "dropdown.js": "*"
+    "dropdown.js": "*",
+    "angular-material": "~0.11.4"
   },
   "devDependencies": {
     "angular-mocks": null,
