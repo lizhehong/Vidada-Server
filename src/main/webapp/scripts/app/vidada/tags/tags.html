@@ -1,26 +1,20 @@
 <h2>Tags</h2>
 <p>Manage your {{tags.length}} Tags here!</p>
 
-<div class="panel panel-default">
 
-    <div class="panel-body">
+<md-content flex layout-padding>
 
-        <table class="table table-striped table-hover ">
-            <thead>
-            <tr>
-                <th>Tag</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr ng-repeat="tag in tags">
-                <td> <span class="label label-primary">{{tag.name}}</span></td>
-            </tr>
-            </tbody>
-        </table>
+    <md-list layout-align="start center">
+        <md-subheader class="md-no-sticky">Add or Remove your media libraries here!</md-subheader>
 
-    </div>
-</div>
+        <md-list-item class="md-3-line " ng-repeat="tag in tags" layout="row" layout-align="start center">
+            <md-chips>
+                <md-chip>{{tag.name}}</md-chip>
+            </md-chips>
+        </md-list-item>
+    </md-list>
 
+</md-content>
 
 
 
