@@ -2,98 +2,80 @@
 <h2>All Medias</h2>
 
 
+<md-content layout-padding>
+        <form>
+
+            <!-- Media Search -->
+
+            <md-input-container flex>
+                <label>Search</label>
+                <input type="text" ng-model="mediaQuery.query" ng-change="updateMedias()">
+            </md-input-container>
 
 
-<div class="panel panel-default">
-    <div class="panel-body">
-        <form class="form-horizontal">
-            <fieldset>
-
-                <!-- Media Search -->
-                <div class="form-group">
-                    <label for="inputQuery" class="col-xs-2 control-label">Search</label>
-                    <div class="col-xs-10">
-                        <input type="text" class="form-control floating-label" id="inputQuery" ng-model="mediaQuery.query"
-                               ng-change="updateMedias()" placeholder="Star Wars...">
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="inputTagQuery" class="col-xs-2 control-label">Tags</label>
-
-                    <div class="col-xs-10">
-                        <input type="text" class="form-control floating-label" id="inputTagQuery" ng-model="mediaQuery.tagExpression" ng-change="updateMedias()"
-                               ng-click="updateCursorPos($event)" ng-keyup="updateCursorPos($event)"
-                               mass-autocomplete-item="autocomplete_options"
-                               placeholder="video (sci-fi | action) !comedy">
-                    </div>
-                </div>
-
-                <div class="form-group row vertical-align">
+            <md-input-container flex>
+                <label>Tag Expression</label>
+                <input type="text" ng-model="mediaQuery.tagExpression" ng-change="updateMedias()"
+                       ng-click="updateCursorPos($event)" ng-keyup="updateCursorPos($event)"
+                       mass-autocomplete-item="autocomplete_options"
+                    >
+            </md-input-container>
 
 
-                    <label class="col-xs-2 control-label">Order</label>
+            <div layout layout-sm="column">
 
-                    <div class="col-xs-3">
+                <md-input-container flex>
+                    <label>Order By</label>
+                    <md-select ng-model="mediaQuery.orderBy.name" ng-change="updateMedias()">
+                        <md-option ng-repeat="option in availableOrderBy" value="{{option}}">
+                            {{option.name}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
 
-                        <div>
-                            <a class="btn btn-primary" data-toggle="dropdown">{{mediaQuery.orderBy.name}} <span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li ng-repeat="option in availableOrderBy">
-                                    <a ng-click="setOrderBy(option)" href="javascript:void(0)">{{option.name}}</a>
-                                </li>
-                            </ul>
-                        </div>
 
-                    </div>
-                    <div class="col-xs-4">
-                        <div class="togglebutton">
-                            <label>
-                                Reverse
-                                <input type="checkbox" ng-change="updateMedias()" checked="" ng-model="mediaQuery.reversed">
-                            </label>
-                        </div>
-                    </div>
-                </div>
 
-            </fieldset>
+                <md-input-container flex>
+                    <md-switch ng-model="mediaQuery.reversed" ng-change="updateMedias()" aria-label="Switch 1">
+                        Reverse
+                    </md-switch>
+                </md-input-container>
+
+
+            </div>
+
         </form>
 
-    </div>
-    <div class="panel-footer">
+    <md-content>
         <p>Found {{mediaService.itemCount}} medias!</p>
         <p>Found {{mediaQuery.reversed}} reversed!</p>
-
-    </div>
-</div>
-
-
-
+    </md-content>
+</md-content>
 
 
 
 <!-- Media Details -->
 <div>
     <div infinite-scroll='mediaService.nextPage()' infinite-scroll-disabled='mediaService.busy' infinite-scroll-distance='0'>
-    <div class="container-fluid" ng-repeat="item in mediaService.items" ng-switch="$index%4">
+        <md-content flex layout-padding  ng-repeat="item in mediaService.items" ng-switch="$index%4">
 
-        <div class="row" ng-switch-when="0">
-            <div ng-repeat="t in [1,2,3,4]">
+            <div class="row" ng-switch-when="0">
+                <md-whiteframe class="md-whiteframe-20dp" ng-repeat="t in [1,2,3,4]" >
 
-                <!-- Represents a single media item  -->
-                <div ng-show='mediaService.items.length > $parent.$index + $index' class="col-sm-3">
-                    <div class="well well-sm">
+                    <!-- Represents a single media item -->
+                    <div ng-show='mediaService.items.length > $parent.$index + $index' class="col-sm-3">
                         <a href="mpv://{{escape(mediaService.items[$parent.$index + $index].streamUrl)}}">
-                            <img src="{{mediaService.items[$parent.$index + $index].thumbnailUrl}}" class="img-responsive">
+                            <img ng-src="{{mediaService.items[$parent.$index + $index].thumbnailUrl}}" class="img-responsive">
                         </a>
                         <div>{{mediaService.items[$parent.$index + $index].name}}</div>
                     </div>
-                </div>
 
+
+
+                </md-whiteframe>
             </div>
-        </div>
 
-    </div>
+        </md-content>
     </div>
 
 
