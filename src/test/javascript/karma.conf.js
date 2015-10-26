@@ -27,8 +27,6 @@ module.exports = function (config) {
             'main/webapp/bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.js',
             'main/webapp/bower_components/angular-ui-router/release/angular-ui-router.js',
             'main/webapp/bower_components/bootstrap/dist/js/bootstrap.js',
-            'main/webapp/bower_components/bootstrap-material-design/dist/js/material.js',
-            'main/webapp/bower_components/bootstrap-material-design/dist/js/ripples.js',
             'main/webapp/bower_components/json3/lib/json3.js',
             'main/webapp/bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js',
             'main/webapp/bower_components/angular-animate/angular-animate.js',
@@ -38,6 +36,8 @@ module.exports = function (config) {
             'main/webapp/bower_components/arrive/src/arrive.js',
             'main/webapp/bower_components/angular-mass-autocomplete/massautocomplete.min.js',
             'main/webapp/bower_components/dropdown.js/jquery.dropdown.js',
+            'main/webapp/bower_components/angular-aria/angular-aria.js',
+            'main/webapp/bower_components/angular-material/angular-material.js',
             'main/webapp/bower_components/angular-mocks/angular-mocks.js',
             // endbower
             'main/webapp/scripts/app/app.js',

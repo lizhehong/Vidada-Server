@@ -1,35 +1,33 @@
 <h2>Media Libraries</h2>
 <p>Add or Remove your media libraries here!</p>
 
+<md-button class="md-raised md-primary" ng-click="newLibrary()">New</md-button>
 
 
-<form>
-    <button class="btn btn-success" ng-click="newLibrary()" >
-        New
-    </button>
-</form>
+<md-content flex layout-padding>
 
+    <md-list>
+        <md-subheader class="md-no-sticky">Add or Remove your media libraries here!</md-subheader>
 
-<!--
-        <a href="#" class="list-group-item" ng-repeat="library in libraries">
-        </a>
--->
+        <md-list-item class="md-3-line" ng-repeat="library in libraries" ng-click="editLibrary(library)">
 
-<div class="list-group" ng-repeat="library in libraries">
-
-        <a href="#" ng-click="editLibrary(library)" class="list-group-item well">
-            <div class="row-action-primary voffset2">
+            <md-icon class="md-primary">
                 <i class="fa fa-hdd-o fa-2x "></i>
+            </md-icon>
+
+            <div class="md-list-item-text">
+                <h3>{{library.name}}</h3>
+                <p>{{library.rootPath}}</p>
             </div>
+            <!--
+            <md-button class="md-secondary">Edit</md-button>
+            -->
+            <md-divider ng-if="!$last"></md-divider>
+        </md-list-item>
+    </md-list>
 
-            <div class="row-content voffset2">
-                <h4 class="list-group-item-heading">{{library.name}}</h4>
-                <p class="list-group-item-text">{{library.rootPath}}</p>
-            </div>
-        </a>
-</div>
 
-
+</md-content>
 
 
 
