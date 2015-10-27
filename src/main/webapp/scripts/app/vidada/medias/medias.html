@@ -1,5 +1,5 @@
 
-<h2>All Medias</h2>
+<h2 class="md-title">All Medias</h2>
 
 
 <md-content layout-padding>
@@ -17,10 +17,8 @@
                 <label>Tag Expression</label>
                 <input type="text" ng-model="mediaQuery.tagExpression" ng-change="updateMedias()"
                        ng-click="updateCursorPos($event)" ng-keyup="updateCursorPos($event)"
-                       mass-autocomplete-item="autocomplete_options"
-                    >
+                       mass-autocomplete-item="autocomplete_options" >
             </md-input-container>
-
 
             <div layout layout-sm="column">
 
@@ -33,31 +31,25 @@
                     </md-select>
                 </md-input-container>
 
-
-
                 <md-input-container flex>
                     <md-switch ng-model="mediaQuery.reversed" ng-change="updateMedias()" aria-label="Switch 1">
                         Reverse
                     </md-switch>
                 </md-input-container>
 
-
             </div>
 
         </form>
 
-    <md-content>
         <p>Found {{mediaService.itemCount}} medias!</p>
-        <p>Found {{mediaQuery.reversed}} reversed!</p>
-    </md-content>
 </md-content>
 
 
 
 <!-- Media Details -->
-<div>
+<md-content flex layout-padding>
     <div infinite-scroll='mediaService.nextPage()' infinite-scroll-disabled='mediaService.busy' infinite-scroll-distance='0'>
-        <md-content flex layout-padding  ng-repeat="item in mediaService.items" ng-switch="$index%4">
+        <div flex layout-padding  ng-repeat="item in mediaService.items" ng-switch="$index%4">
 
             <div class="row" ng-switch-when="0">
                 <md-whiteframe class="md-whiteframe-20dp" ng-repeat="t in [1,2,3,4]" >
@@ -70,12 +62,9 @@
                         <div>{{mediaService.items[$parent.$index + $index].name}}</div>
                     </div>
 
-
-
                 </md-whiteframe>
             </div>
-
-        </md-content>
+        </div>
     </div>
 
 
@@ -83,4 +72,4 @@
         <div>Loading data...</div>
     </div>
 
-</div>
+</md-content>

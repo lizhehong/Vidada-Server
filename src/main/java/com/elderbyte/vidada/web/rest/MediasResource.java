@@ -81,7 +81,7 @@ public class MediasResource {
         query.setOrder((order != null) ? order : OrderProperty.FILENAME);
         query.setReverseOrder(reverse);
 
-        logger.info("Delivering medias page: " + page + " pageSize: " + pageSize);
+        logger.debug("Delivering medias page: " + page + " pageSize: " + pageSize);
 
         ListPage<MediaItem> lp = mediaService.query(query, page, pageSize);
 
