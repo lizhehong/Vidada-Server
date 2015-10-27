@@ -3,42 +3,20 @@
 
 /* Global Styles */
 
-body {
-    margin-top: 100px;
-    /*background-color: #333;*/
-}
-
-@media(min-width:768px) {
-    body {
-        margin-top: 50px;
-    }
-}
-
-#wrapper {
-    padding-left: 0;
-}
-
-#page-wrapper {
-    width: 100%;
-    padding: 0;
-    /*background-color: #fff;*/
-}
 
 .huge {
     font-size: 50px;
     line-height: normal;
 }
 
-@media(min-width:768px) {
-    #wrapper {
-        padding-left: 225px;
-    }
-
-    #page-wrapper {
-        padding: 10px;
-    }
+.green {
+    background-color: green;
 }
 
+
+.nav-button {
+    text-align:left;
+}
 
 
 /* ==========================================================================

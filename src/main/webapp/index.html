@@ -27,21 +27,24 @@
         <link rel="stylesheet" href="assets/styles/nav.css">
 
     </head>
-    <body ng-app="vidadaApp" ng-cloak>
-        <toast></toast>
-        <!--[if lt IE 10]>
-            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
+    <body ng-app="vidadaApp" layout="column">
 
-        <div id="wrapper">
+        <div  layout="column" layout-fill>
 
-            <div ui-view="navbar" ng-cloak=""></div>
+            <div layout="row" ui-view="navbar"></div>
 
-            <div id="page-wrapper">
-                <div mass-autocomplete>
-                    <div ui-view="content"></div>
-                </div>
-            </div>
+            <toast></toast>
+
+
+            <section layout="row" flex>
+
+                <div layout="row" ui-view="sidenav"></div>
+
+                <md-content mass-autocomplete flex>
+                    <div  ui-view="content"></div>
+                </md-content>
+
+            </section>
 
             <!--
             <div class="footer">
