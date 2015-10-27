@@ -29,7 +29,7 @@
     </head>
     <body ng-app="vidadaApp" layout="column">
 
-        <div  layout="column" layout-fill>
+        <div layout="column" layout-fill>
 
             <div layout="row" ui-view="navbar"></div>
 
@@ -40,7 +40,7 @@
 
                 <div layout="row" ui-view="sidenav"></div>
 
-                <md-content mass-autocomplete flex>
+                <md-content layout-margin flex>
                     <div  ui-view="content"></div>
                 </md-content>
 
@@ -52,6 +52,8 @@
             </div>
             -->
         </div>
+
+
 
         <!-- build:js scripts/vendor.js -->
         <!-- bower:js -->

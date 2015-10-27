@@ -2,25 +2,47 @@
 <h2 class="md-title">All Medias</h2>
 
 
-<md-content layout-padding>
+<md-content layout-margin>
         <form>
 
             <!-- Media Search -->
 
-            <md-input-container flex>
-                <label>Search</label>
-                <input type="text" ng-model="mediaQuery.query" ng-change="updateMedias()">
-            </md-input-container>
+            <div layout="row" layout-sm="column">
+                <md-input-container flex>
+                    <label>Search</label>
+                    <input type="text" ng-model="mediaQuery.query" ng-change="updateMedias()">
+                </md-input-container>
 
 
-            <md-input-container flex>
-                <label>Tag Expression</label>
-                <input type="text" ng-model="mediaQuery.tagExpression" ng-change="updateMedias()"
-                       ng-click="updateCursorPos($event)" ng-keyup="updateCursorPos($event)"
-                       mass-autocomplete-item="autocomplete_options" >
-            </md-input-container>
+                <md-autocomplete
+                    md-floating-label="Tag Expression"
+                    md-no-cache="true"
+                    md-search-text-change="updateMedias()"
+                    md-selected-item-change="updateMedias()"
+                    md-search-text="mediaQuery.tagExpression"
+                    md-selected-item="selectedSuggestion"
+                    md-items="item in suggest_tags(mediaQuery.tagExpression)"
+                    md-item-text="item.value"
+                    md-min-length="0"
+                    placeholder="Enter a Tag Expression!"
+                    ng-click="updateCursorPos($event)" ng-keyup="updateCursorPos($event)"
+                    >
 
-            <div layout layout-sm="column">
+                    <md-item-template>
+                        <span>{{item.label}}</span>
+                    </md-item-template>
+                    <md-not-found>
+                        No matches found.
+                    </md-not-found>
+
+
+                </md-autocomplete>
+            </div>
+
+
+
+
+            <div layout="row">
 
                 <md-input-container flex>
                     <label>Order By</label>

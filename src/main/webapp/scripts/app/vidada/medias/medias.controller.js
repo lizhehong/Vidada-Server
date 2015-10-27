@@ -4,6 +4,8 @@
 angular.module('vidadaApp')
     .controller('MediasController', function ($scope, Media, MediaInfinite, ParseText, Tag) {
 
+        $scope.selectedSuggestion = null;
+
         $scope.mediaQuery = {
             query: "",
             tagExpression: "",
@@ -89,7 +91,6 @@ angular.module('vidadaApp')
             var q = term.toLowerCase().trim();
             var results = [];
 
-            // Find first 10 states that start with `term`.
             for (var i = 0; i < $scope.knownTags.length && results.length < 10; i++) {
                 var genre = $scope.knownTags[i].name;
                 if (genre.toLowerCase().indexOf(q) === 0)
@@ -98,7 +99,7 @@ angular.module('vidadaApp')
             return results;
         }
 
-        function suggest_tag(tagExpression) {
+        $scope.suggest_tags =  function(tagExpression) {
 
             var word = ParseText.findWordAt(tagExpression, $scope.tagExpressionCaret);
 
@@ -113,12 +114,10 @@ angular.module('vidadaApp')
             console.log("Found " + suggestions.length + " suggestions for '" + word.text + "'!");
 
             return suggestions;
-        }
-
-
-        $scope.autocomplete_options = {
-            suggest: suggest_tag
         };
+
+
+
 
         $scope.updateTags();
     });
