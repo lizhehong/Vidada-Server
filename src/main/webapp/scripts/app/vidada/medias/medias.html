@@ -8,13 +8,14 @@
             <!-- Media Search -->
 
             <div layout="row" layout-sm="column">
+
                 <md-input-container flex>
                     <label>Search</label>
                     <input type="text" ng-model="mediaQuery.query" ng-change="updateMedias()">
                 </md-input-container>
 
 
-                <md-autocomplete
+                <md-autocomplete flex
                     md-floating-label="Tag Expression"
                     md-no-cache="true"
                     md-search-text-change="updateMedias()"

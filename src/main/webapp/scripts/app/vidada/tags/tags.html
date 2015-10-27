@@ -4,15 +4,11 @@
 
 <md-content flex layout-padding>
 
-    <md-list layout-align="start center">
-        <md-subheader class="md-no-sticky">Add or Remove your media libraries here!</md-subheader>
-
-        <md-list-item class="md-3-line " ng-repeat="tag in tags" layout="row" layout-align="start center">
-            <md-chips>
-                <md-chip>{{tag.name}}</md-chip>
-            </md-chips>
-        </md-list-item>
-    </md-list>
+    <md-chips>
+        <md-chip ng-repeat="tag in tags">
+            {{tag.name}}
+        </md-chip>
+    </md-chips>
 
 </md-content>
 
