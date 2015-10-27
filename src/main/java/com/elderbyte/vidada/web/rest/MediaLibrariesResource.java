@@ -110,6 +110,7 @@ public class MediaLibrariesResource {
         return new MediaLibraryDTO(
             library.getName(),
             library.getLibraryRoot().getUriString(),
+            library.isAvailable(),
             true, /** ignore music**/
             library.isIgnoreMovies(),
             library.isIgnoreImages());

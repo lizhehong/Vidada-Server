@@ -133,8 +133,11 @@ public class MediaService {
                 qry.getMediaType(),
                 qry.getKeywords(),
                 qry.getOrder(),
-                qry.isOnlyAvailable(),
                 qry.isReverseOrder());
+
+        if(qry.isOnlyAvailable()){
+            exprQuery.getAllowedLibraries().addAll(mediaLibraryService.getAvailableLibraries());
+        }
 
         return repository.query(exprQuery, pageIndex, maxPageSize);
     }

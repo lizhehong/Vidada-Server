@@ -44,7 +44,7 @@ public class MediaQuery extends AbstractQuery<MediaItem> {
 		this.selectedtype = selectedType;
 		this.keywords = keywords;
 		this.order = order;
-		this.setOnlyAvailable(onlyAvailable);
+		this.onlyAvailable = onlyAvailable;
 		this.reverseOrder = reverseOrder;
         this.tagExpression = tagExpression;
 	}
@@ -94,15 +94,16 @@ public class MediaQuery extends AbstractQuery<MediaItem> {
 		return onlyAvailable;
 	}
 
-	public void setOnlyAvailable(boolean onlyAvailable) {
-		this.onlyAvailable = onlyAvailable;
-	}
+    public void setOnlyAvailable(boolean onlyAvailable) {
+        this.onlyAvailable = onlyAvailable;
+    }
 
 
-	// Helper methods to check which restrictions this query defines
+
+    // Helper methods to check which restrictions this query defines
 
 
-	public boolean hasKeyword() {
+    public boolean hasKeyword() {
 		return getKeywords() != null && !getKeywords().isEmpty();
 	}
 

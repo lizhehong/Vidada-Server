@@ -72,7 +72,8 @@ public class MediasResource {
         @RequestParam(value = "tagExpression", defaultValue = "") String tagExpression,
         @RequestParam(value = "type", defaultValue = "ANY") com.elderbyte.vidada.domain.media.MediaType type,
         @RequestParam(value = "orderBy", defaultValue = "FILENAME") OrderProperty order,
-        @RequestParam(value = "reverse", defaultValue = "false") Boolean reverse) {
+        @RequestParam(value = "reverse", defaultValue = "false") Boolean reverse,
+        @RequestParam(value = "onlyAvailable", defaultValue = "true") Boolean onlyAvailable) {
 
         MediaQuery query = new MediaQuery();
         query.setKeywords(queryStr);
@@ -80,6 +81,7 @@ public class MediasResource {
         query.setSelectedtype((type != null) ? type : com.elderbyte.vidada.domain.media.MediaType.ANY);
         query.setOrder((order != null) ? order : OrderProperty.FILENAME);
         query.setReverseOrder(reverse);
+        query.setOnlyAvailable(onlyAvailable);
 
         logger.debug("Delivering medias page: " + page + " pageSize: " + pageSize);
 
