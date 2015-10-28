@@ -51,7 +51,7 @@ public class MediaLibrariesResource {
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<MediaLibraryDTO> getLibrary(@PathVariable("id") Integer id) {
-        MediaLibrary library = mediaLibraryService.getById(id);
+        MediaLibrary library = mediaLibraryService.findById(id);
         return Optional.ofNullable(library)
             .map(m -> createDto(m))
             .map(m -> ResponseEntity.ok(m))
@@ -66,7 +66,7 @@ public class MediaLibrariesResource {
     @RequestMapping(value = "{id}",
         method = RequestMethod.DELETE)
     public ResponseEntity deleteLibrary(@PathVariable("id") int id) {
-        MediaLibrary library = mediaLibraryService.getById(id);
+        MediaLibrary library = mediaLibraryService.findById(id);
 
         if(library != null){
 
@@ -97,6 +97,30 @@ public class MediaLibrariesResource {
         }
     }
 
+    @RequestMapping(
+        value = "/{id}",
+        method = RequestMethod.PUT,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity updateLibrary(@PathVariable("id") int id, @RequestBody MediaLibraryDTO updatedLibraryDto){
+        try {
+            logger.info("Updating media library " + updatedLibraryDto);
+
+            MediaLibrary library = mediaLibraryService.findById(id);
+            if(library != null){
+                MediaLibrary newData = createLibraryFromDTO(updatedLibraryDto);
+                library.prototype(newData);
+                mediaLibraryService.save(library);
+                return ResponseEntity.status(HttpStatus.OK).build();
+            }else{
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+
+        }catch (Exception e){
+            logger.error("Could not update library " + updatedLibraryDto, e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+
 
     private MediaLibrary createLibraryFromDTO(MediaLibraryDTO dto) throws URISyntaxException{
         String rootPathUri = dto.getRootPath();
@@ -108,6 +132,7 @@ public class MediaLibrariesResource {
 
     private MediaLibraryDTO createDto(MediaLibrary library){
         return new MediaLibraryDTO(
+            library.getId(),
             library.getName(),
             library.getLibraryRoot().getUriString(),
             library.isAvailable(),

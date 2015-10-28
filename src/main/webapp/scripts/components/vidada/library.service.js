@@ -2,15 +2,9 @@
 
 angular.module('vidadaApp')
     .factory('MediaLibrary', function ($resource) {
-        return $resource('api/libraries/:id', { id: '@_id' }, {
+        return $resource('api/libraries/:libraryId', { libraryId: '@id' }, {
             update: {
                 method: 'PUT'
-            },
-
-            delete: {
-                method: 'DELETE',
-                params: {id: 'id'}
             }
-
         });
     });

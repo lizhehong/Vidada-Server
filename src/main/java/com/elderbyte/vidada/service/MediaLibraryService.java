@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -121,15 +122,11 @@ public class MediaLibraryService  {
         MediaLibrary libToDelete = repository.findOne(library.getId());
 
 
-        // TODO Remove all Sources which used this library
-
         // Find all medias which have this library
-        List<MediaSource> sourcesToDelete = new ArrayList<>();
         List<MediaItem> mediaItems = mediaRepository.queryByLibrary(library);
 
         for (MediaItem mediaItem : mediaItems) {
-            Set<MediaSource> sources = mediaItem.getSources();
-            for (MediaSource source : sources) {
+            for (MediaSource source : new HashSet<>(mediaItem.getSources())) {
                 if(source.getParentLibrary().equals(library)) {
                     mediaItem.getSources().remove(source);
                 }
@@ -143,27 +140,17 @@ public class MediaLibraryService  {
             }
         }
 
-        // Now delete all media sources...
-        mediaSourceRepository.deleteInBatch(sourcesToDelete);
-
         repository.delete(libToDelete);
         libraryRemovedEvent.fireEvent(this, EventArgsG.build(library));
 	}
 
     @Transactional
-	public void update(final MediaLibrary lib) {
+	public void save(final MediaLibrary lib) {
         repository.save(lib);
 	}
 
     @Transactional
-	public MediaLibrary findLibrary(final ResourceLocation file) {
-
-        throw new NotImplementedException();
-        //return repository.queryByLocation(file); // TODO implement this in repository...
-	}
-
-    @Transactional
-	public MediaLibrary getById(final int id) {
+	public MediaLibrary findById(final int id) {
 		return repository.findOne(id);
 	}
 

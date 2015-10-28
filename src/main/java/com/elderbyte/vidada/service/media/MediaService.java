@@ -165,10 +165,6 @@ public class MediaService {
     }
 
 
-	public MediaItem findOrCreateMedia(ResourceLocation file, boolean persist) {
-		return findAndCreateMedia(file, true, persist);
-	}
-
     @Transactional
     public int count() {
         return (int)repository.count();
@@ -187,56 +183,6 @@ public class MediaService {
      *                                                                         *
      **************************************************************************/
 
-    /**
-     * Search for the given media data by the given absolute path
-     */
-    private MediaItem findMediaData(ResourceLocation file) {
-        return findAndCreateMedia(file, false, false);
-    }
-
-	/**
-	 *
-	 * @param resource
-	 * @param canCreate
-	 * @param persist
-	 * @return
-	 */
-    @Transactional
-	protected MediaItem findAndCreateMedia(final ResourceLocation resource, final boolean canCreate, final boolean persist){
-		// We assume the given file is an absolute file path so we search for
-		// a matching media library to substitute the library path
-
-        MediaItem mediaData;
-
-        final MediaLibrary library = mediaLibraryService.findLibrary(resource);
-        if(library != null){
-
-            String hash = null;
-
-            // first we search for the media
-
-            mediaData = repository.queryByPath(resource, library);
-            if(mediaData == null)
-            {
-                hash = retrieveMediaHash(resource);
-                if(hash != null)
-                    mediaData = repository.findOneByFilehash(hash).orElse(null);
-            }
-
-            if(canCreate && mediaData == null){
-
-                // we could not find a matching media so we create a new one
-
-                mediaData = MediaItemFactory.instance().buildMedia(resource, library, hash);
-                if(persist && mediaData != null){
-                    repository.save(mediaData);
-                }
-            }
-        }else
-            throw new NotSupportedException("resource is not part of any media library");
-
-        return mediaData;
-	}
 
 	/**
 	 * Gets the hash for the given file

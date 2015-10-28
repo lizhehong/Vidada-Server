@@ -55,7 +55,6 @@ public class MediaLibrary extends IdEntity {
     private boolean ignoreMovies;
     private boolean ignoreImages;
 
-    transient private IMediaPropertyStore propertyStore = null;
     transient private MediaDirectory mediaDirectory = null;
     transient private DirectoryLocation libraryDirectoryLocation = null;
 
@@ -145,6 +144,16 @@ public class MediaLibrary extends IdEntity {
      **************************************************************************/
 
     /**
+     * Copys all values from the given prototype to this instance
+     * @param prototype
+     */
+    public void prototype(MediaLibrary prototype) {
+        this.setName(prototype.getName());
+        this.setIgnoreImages(prototype.isIgnoreImages());
+        this.setIgnoreMovies(prototype.isIgnoreMovies());
+    }
+
+    /**
      * Gets the media directory which represents the root of this media library.
      * @throws MediaLibraryException
      * @return
@@ -222,4 +231,6 @@ public class MediaLibrary extends IdEntity {
             ", ignoreImages=" + ignoreImages +
             '}';
     }
+
+
 }
