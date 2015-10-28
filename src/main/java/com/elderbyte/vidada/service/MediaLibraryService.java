@@ -46,7 +46,6 @@ public class MediaLibraryService  {
     private final TagService tagService;
 	private final MediaLibraryRepository repository;
     private final MediaRepository mediaRepository;
-    private final MediaSourceRepository mediaSourceRepository;
 
 	private final EventHandlerEx<EventArgsG<MediaLibrary>> libraryAddedEvent = new EventHandlerEx<>();
     private final EventHandlerEx<EventArgsG<MediaLibrary>> libraryRemovedEvent = new EventHandlerEx<>();
@@ -76,13 +75,11 @@ public class MediaLibraryService  {
 	public MediaLibraryService(
         MediaLibraryRepository repository,
         MediaRepository mediaRepository,
-        MediaSourceRepository mediaSourceRepository,
         TagService tagService) {
 
         this.tagService = tagService;
 		this.repository = repository;
         this.mediaRepository = mediaRepository;
-        this.mediaSourceRepository = mediaSourceRepository;
 	}
 
     /***************************************************************************
