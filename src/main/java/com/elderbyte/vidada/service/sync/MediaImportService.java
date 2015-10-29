@@ -167,4 +167,7 @@ public class MediaImportService {
         };
     }
 
+    public boolean isBusy() {
+        return currentImportJobId != null;
+    }
 }

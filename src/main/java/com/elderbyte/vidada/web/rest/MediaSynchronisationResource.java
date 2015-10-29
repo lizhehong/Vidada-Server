@@ -1,15 +1,20 @@
 package com.elderbyte.vidada.web.rest;
 
 import com.elderbyte.vidada.service.sync.MediaImportService;
+import com.elderbyte.vidada.web.rest.dto.MediaLibraryDTO;
+import com.elderbyte.vidada.web.rest.dto.SynchronisationDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.inject.Inject;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Represents the media synchronisation task which indexes the known
@@ -24,6 +29,18 @@ public class MediaSynchronisationResource {
     @Inject
     private MediaImportService importService;
 
+
+
+    /**
+     * Gets all libraries
+     * @return
+     */
+    @RequestMapping(
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    public SynchronisationDTO getSynchronisationStatus(){
+        return new SynchronisationDTO(importService.isBusy());
+    }
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity updateLibraries(){
