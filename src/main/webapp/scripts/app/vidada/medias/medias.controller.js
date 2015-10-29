@@ -28,8 +28,13 @@ angular.module('vidadaApp')
 
 
         $scope.play = function(media){
-            var mediaUrlArg = escape(media.streamUrl);
-            window.open('mpv://' + mediaUrlArg);
+
+            if(media.mediaType.toLowerCase() == 'movie'){
+                var mediaUrlArg = escape(media.streamUrl);
+                window.open('mpv://' + mediaUrlArg, '_self');
+            }else{
+                window.open(media.streamUrl);
+            }
         };
 
         $scope.updateMedias= function(){
