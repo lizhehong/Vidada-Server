@@ -1,25 +1,22 @@
-<h2>Tags</h2>
-<p>Manage your {{tags.length}} Tags here!</p>
+<md-card flex>
+    <md-card-content>
 
-<div class="panel panel-default">
+        <h2 class="md-title">Tags</h2>
+        <p>Manage your {{tags.length}} Tags here!</p>
 
-    <div class="panel-body">
 
-        <table class="table table-striped table-hover ">
-            <thead>
-            <tr>
-                <th>Tag</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr ng-repeat="tag in tags">
-                <td> <span class="label label-primary">{{tag.name}}</span></td>
-            </tr>
-            </tbody>
-        </table>
+        <md-content flex layout-padding>
 
-    </div>
-</div>
+            <md-chips>
+                <md-chip ng-repeat="tag in tags">
+                    {{tag.name}}
+                </md-chip>
+            </md-chips>
+
+        </md-content>
+    </md-card-content>
+</md-card>
+
 
 
 

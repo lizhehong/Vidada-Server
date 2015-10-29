@@ -27,5 +27,9 @@ angular.module('vidadaApp')
 
         };
 
+        $scope.openMenu = function($mdOpenMenu, ev) {
+            $mdOpenMenu(ev);
+        };
+
 
     });

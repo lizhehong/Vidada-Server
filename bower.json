@@ -4,21 +4,20 @@
   "appPath": "src/main/webapp",
   "testPath": "src/test/javascript/spec",
   "dependencies": {
-    "angular": "1.3.11",
-    "angular-bootstrap": "~0.12.1",
-    "angular-cache-buster": "0.4.3",
-    "angular-cookies": "1.3.11",
-    "angular-dynamic-locale": "0.1.24",
+    "angular": "~1.4.7",
+    "angular-bootstrap": "~0.14.3",
+    "angular-cache-buster": "~0.4.3",
+    "angular-cookies": "~1.4.7",
+    "angular-dynamic-locale": "0.1.27",
     "angular-i18n": "1.3.11",
     "angular-local-storage": "0.1.5",
-    "angular-resource": "1.3.11",
-    "angular-sanitize": "1.3.11",
-    "angular-translate": "2.6.0",
-    "angular-translate-loader-partial": "2.6.0",
-    "angular-translate-storage-cookie": "2.6.0",
-    "angular-ui-router": "0.2.13",
+    "angular-resource": null,
+    "angular-sanitize": null,
+    "angular-translate": "2.8.1",
+    "angular-translate-loader-partial": "2.8.1",
+    "angular-translate-storage-cookie": "2.8.1",
+    "angular-ui-router": "0.2.15",
     "bootstrap": "3.3.2",
-    "bootstrap-material-design": "~0.3.0",
     "components-font-awesome": "4.3.0",
     "jquery": "2.1.3",
     "json3": "3.3.2",
@@ -31,15 +30,13 @@
     "swagger-ui": "2.0.24",
     "arrive": "~2.3.0",
     "angular-mass-autocomplete": "~0.2.3",
-    "dropdown.js": "*"
+    "angular-material": "~0.11.4"
   },
   "devDependencies": {
-    "angular-mocks": "1.3.11",
-    "angular-scenario": "1.3.11"
+    "angular-mocks": null,
+    "angular-scenario": null
   },
   "resolutions": {
-    "angular": ">=1.2.15 <=1.4.0",
-    "angular-cookies": "1.3.11",
     "jquery": "2.1.3"
   }
 }

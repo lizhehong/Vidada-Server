@@ -1,44 +1,179 @@
-/*html { font-family:  'Roboto', Helvetica, sans-serif; }*/
+html, body {
+    font-family: 'Roboto', sans-serif;
+    font-size:14px;
+    height:100%;
+    margin: 0px;
+    padding: 0px;
+    background-color: gainsboro;
+}
+
+/* Toolbar area */
+
+.menu {
+    background-color: transparent;
+    border: none;
+    height: 38px;
+    margin: 16px;
+    width: 36px;
+}
+
+md-toolbar h1 {
+    margin: auto;
+}
+
+/* Sidenav area */
+
+md-list .md-button {
+    color: inherit;
+    font-weight: 500;
+    text-align: left;
+    width: 100%;
+}
+md-list .md-button.selected {
+    color: #03a9f4;
+}
+
+md-sidenav  md-list {
+    padding: 0px 0px 8px 0px;
+}
+
+
+/* Primary content area */
+
+#content {
+    overflow: hidden;
+}
+
+#content  {
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-top: 5px;
+}
+
+#content .md-button.contact {
+    background-color: transparent;
+    border: none;
+    width: 48px;
+    height: 48px;
+    margin: 8px auto 16px 0;
+    position: absolute;
+    top: 10px;
+    right: 40px;
+}
+
+#content md-icon.avatar {
+    margin-top: 10px;
+}
+
+#content .md-button.contact > md-icon {
+    fill:black;
+    width:36px;
+    height:36px;
+}
+
+md-button.menuBtn > md-icon {
+    fill:white;
+    width:24px;
+    height:24px;
+}
+
+#content .md-button.contact:active > md-icon {
+    background-color: #dadada;
+    border-radius: 75%;
+    padding:4px;
+    transition: all 100ms ease-out 30ms;
+}
+
+#content img {
+    display: block;
+    height: auto;
+    max-width: 500px;
+}
+
+/* Utils */
+
+.content-wrapper {
+    position: relative;
+}
+
+/* Typography support coming in 0.8.0 */
+
+md-toolbar h1 {
+    font-size: 1.250em;
+    font-weight: 400;
+}
+
+.avatar {
+    position: relative;
+    width: 128px;
+    height: 128px;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    display: inline-block;
+    overflow: hidden;
+    margin: 0px;
+    vertical-align: middle;
+    zoom:0.70;
+    transform: translateZ(0);
+    -webkit-transform: scale(0.70);
+    -moz-transform:scale(0.70);
+}
+
+
+md-bottom-sheet  md-icon {
+    margin-right:20px;
+}
+
+span.name {
+    font-weight: bold;
+    font-size:1.1em;
+    padding-left:5px;
+}
+
+.layout {
+    height: inherit;
+}
+
+
+.view-port {
+    display: block;
+    position: relative;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch; }
+.view-port[md-scroll-y] {
+    overflow-y: auto;
+    overflow-x: hidden; }
+.view-port[md-scroll-x] {
+    overflow-x: auto;
+    overflow-y: hidden; }
+.view-port.autoScroll {
+    -webkit-overflow-scrolling: auto; }
+
+
 
 
 /* Global Styles */
 
-body {
-    margin-top: 100px;
-    /*background-color: #333;*/
-}
-
-@media(min-width:768px) {
-    body {
-        margin-top: 50px;
-    }
-}
-
-#wrapper {
-    padding-left: 0;
-}
-
-#page-wrapper {
-    width: 100%;
-    padding: 0;
-    /*background-color: #fff;*/
-}
 
 .huge {
     font-size: 50px;
     line-height: normal;
 }
 
-@media(min-width:768px) {
-    #wrapper {
-        padding-left: 225px;
-    }
-
-    #page-wrapper {
-        padding: 10px;
-    }
+.green {
+    background-color: palegreen;
+}
+.blue {
+    background-color: dodgerblue;
+}
+.orange {
+    background-color: orange;
 }
 
+
+.nav-button {
+    text-align:left;
+}
 
 
 /* ==========================================================================
@@ -67,28 +202,31 @@ Browser Upgrade Prompt
     padding: 0.2em 0;
 }
 
-/*
-.hero-unit {
-    margin: 50px auto 0 auto;
-    width: 300px;
-    font-size: 18px;
-    font-weight: 200;
-    line-height: 30px;
-    background-color: #eee;
-    border-radius: 6px;
-    padding: 60px;
+
+
+md-content.md-default-theme {
+    background-color:  #eee;
+}
+md-card {
+    background-color: #fff;
 }
 
-.hero-unit h1 {
-    font-size: 60px;
-    line-height: 1;
-    letter-spacing: -1px;
-}*/
+md-card h2:first-of-type {
+    margin-top: 0;
+}
+
+
+.warn {
+    color: #DE3641;
+}
+
 
 .error {
     color: white;
     background-color: red;
 }
+
+
 
 /* wait autoprefixer update to allow simple generation of high pixel density media query */
 @media
@@ -167,3 +305,5 @@ ul#strength {
     width:20px;
 }
 /* end Password strength bar style */
+
+

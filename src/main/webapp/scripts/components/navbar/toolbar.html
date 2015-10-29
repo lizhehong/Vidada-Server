@@ -1,40 +1,60 @@
 <!-- Navigation -->
-<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand"> <span class="fa fa-diamond"></span>
-            <span>Vidada</span> <span class="navbar-version">v{{VERSION}}</span></a>
+
+<md-toolbar layout="row" layout-align="start center">
+    <div class="md-toolbar-tools">
+        <md-button class="md-icon-button" aria-label="Settings">
+            <md-icon md-font-icon="fa fa-2x fa-diamond"></md-icon>
+        </md-button>
+        <h2>
+            <span>Vidada</span>
+            <small class="navbar-version">v{{VERSION}}</small>
+        </h2>
+        <span flex></span>
+
+        <md-button class="md-icon-button" ng-click="syncAll()">
+            <md-icon>
+                <i class="material-icons">sync</i>
+            </md-icon>
+        </md-button>
+
+
+
+        <md-menu>
+            <md-button class="md-icon-button" ng-click="openMenu($mdOpenMenu, $event)">
+                <md-icon>
+                    <i class="material-icons">face</i>
+                </md-icon>
+            </md-button>
+
+            <md-menu-content width="4">
+                <md-menu-item>
+                    <md-button ui-sref="settings">
+                        <md-icon md-font-icon="fa fa-fw fa-user" md-menu-align-target></md-icon>
+                        Profile
+                    </md-button>
+                </md-menu-item>
+                <md-menu-item>
+                    <md-button ui-sref="password">
+                        <md-icon md-font-icon="fa fa-fw fa-lock"></md-icon>
+                        Password
+                    </md-button>
+                </md-menu-item>
+                <md-menu-divider></md-menu-divider>
+                <md-menu-item>
+                    <md-button ng-click="logout()">
+                        <md-icon md-font-icon="fa fa-fw fa-power-off"></md-icon>
+                        Log Off
+                    </md-button>
+                </md-menu-item>
+            </md-menu-content>
+        </md-menu>
+
     </div>
-    <!-- Top Menu Items -->
-    <ul class="nav navbar-right top-nav">
+</md-toolbar>
 
-        <li>
-            <a href="javascript:void(0)" ng-click="syncAll()" class="navbar-toggle mdi-av-replay"></a>
-        </li>
 
-        <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{account.login}} <b class="caret"></b></a>
-            <ul class="dropdown-menu">
-                <li ui-sref-active="active">
-                    <a ui-sref="settings"><i class="fa fa-fw fa-user"></i>Profile</a>
-                </li>
-                <li ui-sref-active="active">
-                    <a ui-sref="password"><i class="fa fa-fw fa-lock"></i>Password</a>
-                </li>
-                <li class="divider"></li>
-                <li>
-                    <a href="" ng-click="logout()"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
-                </li>
-            </ul>
-        </li>
-    </ul>
-    <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+
+    <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens
     <div class="collapse navbar-collapse navbar-ex1-collapse">
         <ul class="nav navbar-nav side-nav">
             <li ui-sref-active="active">
@@ -70,6 +90,6 @@
             </li>
         </ul>
     </div>
-    <!-- /.navbar-collapse -->
-</nav>
+     -->
+
 

@@ -17,6 +17,7 @@ import javax.inject.Provider;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -110,6 +111,7 @@ public class MediaRepositoryImpl implements MediaRepositoryCustom {
     private void setQueryParams(Query q, MediaExpressionQuery qry){
         if(qry.hasKeyword()) q.setParameter("keywords", "%" + qry.getKeywords() + "%");
         if(qry.hasMediaType()) q.setParameter("type", qry.getMediaType());
+        if(qry.hasAllowedLibraries()) q.setParameter("allowedLibraries", qry.getAllowedLibraries());
     }
 
     private String buildMediaOrderByQuery(MediaExpressionQuery qry){
@@ -153,7 +155,6 @@ public class MediaRepositoryImpl implements MediaRepositoryCustom {
 
                 // Search in the (relative) file path for a matching keyword
                 + "EXISTS (SELECT s from MediaSource s WHERE s MEMBER OF m.sources AND LOWER(s.relativePathUri) LIKE LOWER(:keywords)) OR "
-
             /*
             Also search in tags of the media for this keyword
             This will not respect any hierarchical Tag information
@@ -165,6 +166,11 @@ public class MediaRepositoryImpl implements MediaRepositoryCustom {
         if (qry.hasMediaType()) {
             where += "(m.type = :type) AND ";
         }
+
+        if(!qry.getAllowedLibraries().isEmpty()){
+            where += "EXISTS (SELECT s from MediaSource s WHERE s MEMBER OF m.sources AND s.parentLibrary IN (:allowedLibraries)) AND ";
+        }
+
 
         if(qry.getTagsExpression() != null) {
             String tagExpr = jpqlCodeGenerator.generate(qry.getTagsExpression());

@@ -13,12 +13,10 @@
         <!-- build:css assets/styles/vendor.css -->
         <!-- bower:css -->
         <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
-        <link rel="stylesheet" href="bower_components/bootstrap-material-design/dist/css/material.css" />
-        <link rel="stylesheet" href="bower_components/bootstrap-material-design/dist/css/ripples.css" />
         <link rel="stylesheet" href="bower_components/components-font-awesome/css/font-awesome.css" />
         <link rel="stylesheet" href="bower_components/ngtoast/dist/ngToast.css" />
         <link rel="stylesheet" href="bower_components/roboto-fontface/css/roboto-fontface.css" />
-        <link rel="stylesheet" href="bower_components/dropdown.js/jquery.dropdown.css" />
+        <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
         <!-- endbower -->
         <!-- endbuild -->
         <!-- build:css assets/styles/main.css -->
@@ -27,22 +25,26 @@
         <!-- -->
         <link rel="stylesheet" href="bower_components/angular-mass-autocomplete/massautocomplete.theme.css"/>
         <link rel="stylesheet" href="assets/styles/nav.css">
-
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     </head>
-    <body ng-app="vidadaApp">
-        <toast></toast>
-        <!--[if lt IE 10]>
-            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
+    <body ng-app="vidadaApp" layout="column">
 
-        <div id="wrapper">
-            <div ui-view="navbar" ng-cloak=""></div>
+        <div layout="column" flex>
 
-            <div id="page-wrapper">
-                <div class="container-fluid main-content" mass-autocomplete>
+            <div layout="column" ui-view="navbar"></div>
+
+            <toast></toast>
+
+
+            <section layout="row" flex>
+
+                <div layout="row" ui-view="sidenav"></div>
+
+                <div class="view-port" layout-margin flex>
                     <div ui-view="content"></div>
                 </div>
-            </div>
+
+            </section>
 
             <!--
             <div class="footer">
@@ -50,6 +52,8 @@
             </div>
             -->
         </div>
+
+
 
         <!-- build:js scripts/vendor.js -->
         <!-- bower:js -->
@@ -68,8 +72,6 @@
         <script src="bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.js"></script>
         <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
         <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
-        <script src="bower_components/bootstrap-material-design/dist/js/material.js"></script>
-        <script src="bower_components/bootstrap-material-design/dist/js/ripples.js"></script>
         <script src="bower_components/json3/lib/json3.js"></script>
         <script src="bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js"></script>
         <script src="bower_components/angular-animate/angular-animate.js"></script>
@@ -78,7 +80,8 @@
         <script src="bower_components/stomp-websocket/lib/stomp.min.js"></script>
         <script src="bower_components/arrive/src/arrive.js"></script>
         <script src="bower_components/angular-mass-autocomplete/massautocomplete.min.js"></script>
-        <script src="bower_components/dropdown.js/jquery.dropdown.js"></script>
+        <script src="bower_components/angular-aria/angular-aria.js"></script>
+        <script src="bower_components/angular-material/angular-material.js"></script>
         <!-- endbower -->
         <!-- endbuild -->
 

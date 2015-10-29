@@ -1,6 +1,7 @@
 package com.elderbyte.vidada.web.servlets.streaming;
 
 import archimedes.core.io.streaming.ISeekableInputStream;
+import com.elderbyte.common.ArgumentNullException;
 import com.elderbyte.vidada.web.servlets.AutowiredHttpServlet;
 import com.elderbyte.vidada.web.servlets.IllegalHttpRequestException;
 import org.slf4j.Logger;
@@ -489,6 +490,9 @@ public abstract class AbstractStreamServlet extends AutowiredHttpServlet {
     }
 
     /**
+     * Copy [toRead] bytes from the given input stream to the given output stream.
+     *
+     * Uses an internal buffered input steam to improve performance.
      *
      * @param input
      * @param output
@@ -496,6 +500,9 @@ public abstract class AbstractStreamServlet extends AutowiredHttpServlet {
      * @throws IOException
      */
     private static void copy(InputStream input, OutputStream output, long toRead) throws IOException {
+
+        if(input == null) throw new ArgumentNullException("input");
+        if(output == null) throw new ArgumentNullException("output");
 
 
         byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];

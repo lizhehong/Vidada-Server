@@ -12,19 +12,25 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
     getterVisibility = JsonAutoDetect.Visibility.NONE)
 public class MediaLibraryDTO {
 
-    String name;
-    String rootPath;
-    boolean ignoreMusic;
-    boolean ignoreVideos;
-    boolean ignoreImages;
+    private int id;
+    private String name;
+    private String rootPath;
+    private boolean isAvailabe;
+    private boolean ignoreMusic;
+    private boolean ignoreVideos;
+    private boolean ignoreImages;
 
+    /**
+     * Empty JSON deserializer constructor
+     */
+    protected MediaLibraryDTO(){ }
 
-    public MediaLibraryDTO(){}
-
-
-    public MediaLibraryDTO(String name, String rootPath, boolean ignoreMusic, boolean ignoreVideos, boolean ignoreImages) {
+    public MediaLibraryDTO(int id, String name, String rootPath, boolean isAvailabe,
+                           boolean ignoreMusic, boolean ignoreVideos, boolean ignoreImages) {
+        this.id = id;
         this.name = name;
         this.rootPath = rootPath;
+        this.isAvailabe = isAvailabe;
         this.ignoreMusic = ignoreMusic;
         this.ignoreVideos = ignoreVideos;
         this.ignoreImages = ignoreImages;
@@ -82,6 +88,18 @@ public class MediaLibraryDTO {
 
     public void setIgnoreImages(boolean ignoreImages) {
         this.ignoreImages = ignoreImages;
+    }
+
+    public boolean isAvailabe() {
+        return isAvailabe;
+    }
+
+    public void setIsAvailabe(boolean isAvailabe) {
+        this.isAvailabe = isAvailabe;
+    }
+
+    public int getId() {
+        return id;
     }
 
 }

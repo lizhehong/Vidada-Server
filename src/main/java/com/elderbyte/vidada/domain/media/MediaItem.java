@@ -40,7 +40,7 @@ public abstract class MediaItem extends BaseEntity {
 	 *                                                                         *
 	 **************************************************************************/
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<MediaSource> sources = new HashSet<>();
 
 	@ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.MERGE, CascadeType.REFRESH })

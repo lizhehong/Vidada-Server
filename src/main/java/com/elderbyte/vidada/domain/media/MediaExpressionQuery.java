@@ -2,25 +2,28 @@ package com.elderbyte.vidada.domain.media;
 
 import com.elderbyte.code.dom.expressions.ExpressionNode;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 public class MediaExpressionQuery {
 
 	private ExpressionNode tagsExpression;
     private MediaType mediaType = MediaType.ANY;
 	private String keywords = null;
 	private OrderProperty order = OrderProperty.FILENAME;
-	private boolean onlyAvailable = false;
+	private final List<MediaLibrary> allowedLibraries = new ArrayList<>();
 	private boolean reverseOrder = false;
 
 
-	public MediaExpressionQuery(ExpressionNode tagsExpression,
-			MediaType mediaType, String keywords, OrderProperty order,
-			boolean onlyAvailable, boolean reverseOrder) {
+
+    public MediaExpressionQuery(ExpressionNode tagsExpression,
+			MediaType mediaType, String keywords, OrderProperty order, boolean reverseOrder) {
 		super();
 		this.tagsExpression = tagsExpression;
 		this.mediaType = mediaType;
 		this.keywords = keywords;
 		this.order = order;
-		this.onlyAvailable = onlyAvailable;
 		this.reverseOrder = reverseOrder;
 	}
 
@@ -37,12 +40,14 @@ public class MediaExpressionQuery {
 	public OrderProperty getOrder() {
 		return order;
 	}
-	public boolean isOnlyAvailable() {
-		return onlyAvailable;
-	}
 	public boolean isReverseOrder() {
 		return reverseOrder;
 	}
+
+    public List<MediaLibrary> getAllowedLibraries() {
+        return allowedLibraries;
+    }
+
 	public void setTagsExpression(ExpressionNode tagsExpression) {
 		this.tagsExpression = tagsExpression;
 	}
@@ -54,9 +59,6 @@ public class MediaExpressionQuery {
 	}
 	public void setOrder(OrderProperty order) {
 		this.order = order;
-	}
-	public void setOnlyAvailable(boolean onlyAvailable) {
-		this.onlyAvailable = onlyAvailable;
 	}
 	public void setReverseOrder(boolean reverseOrder) {
 		this.reverseOrder = reverseOrder;
@@ -72,4 +74,8 @@ public class MediaExpressionQuery {
 	public boolean hasMediaType() {
 		return !MediaType.ANY.equals(getMediaType());
 	}
+
+    public boolean hasAllowedLibraries() {
+        return !getAllowedLibraries().isEmpty();
+    }
 }
