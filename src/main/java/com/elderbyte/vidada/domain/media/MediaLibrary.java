@@ -144,11 +144,13 @@ public class MediaLibrary extends IdEntity {
      **************************************************************************/
 
     /**
-     * Copys all values from the given prototype to this instance
+     * Copy all values from the given prototype to this instance
      * @param prototype
      */
     public void prototype(MediaLibrary prototype) {
         this.setName(prototype.getName());
+        this.setLibraryRoot(prototype.getLibraryRoot());
+
         this.setIgnoreImages(prototype.isIgnoreImages());
         this.setIgnoreMovies(prototype.isIgnoreMovies());
     }
@@ -217,8 +219,13 @@ public class MediaLibrary extends IdEntity {
      */
     @Transient
     public boolean isAvailable(){
-        DirectoryLocation root = getLibraryRoot();
-        return root != null && root.exists();
+        try{
+            DirectoryLocation root = getLibraryRoot();
+            return root != null && root.exists();
+        }catch (Exception e){
+            logger.error("Availability check failed." , e);
+            return false;
+        }
     }
 
     @Override

@@ -1,41 +1,109 @@
-<h2 class="md-title">Media Libraries</h2>
-<p>Add or Remove your media libraries here!</p>
 
-<md-button class="md-raised md-primary" ng-click="newLibrary()">New</md-button>
+<md-content flex md-scroll-y>
 
 
-<md-content flex layout-padding>
+    <md-card flex-gt-sm="90" flex-gt-md="80">
+        <md-card-content>
 
-    <md-list>
-        <md-subheader class="md-no-sticky">Add or Remove your media libraries here!</md-subheader>
+            <h3 class="md-title">
+                <span>Media Libraries</span>
+            </h3>
 
-        <md-list-item class="md-3-line" ng-repeat="library in libraries" ng-click="editLibrary($event, library)">
-
-            <md-icon class="md-primary">
-                <i class="fa fa-hdd-o fa-2x "></i>
-            </md-icon>
-
-            <div class="md-list-item-text">
-                <h3>{{library.name}}  <small class="warn" ng-hide="library.isAvailabe">Not available!</small></h3>
-                <p>{{library.rootPath}}</p>
-            </div>
-
-            <md-button class="md-secondary md-warn md-icon-button" ng-click="deleteLibrary($event, library)">
-                <md-icon md-font-icon="fa fa-trash-o fa-2x"></md-icon>
+            <md-button class="md-fab md-fab-bottom-right" aria-label="Add" ng-click="newLibrary($event)">
+                <i class="material-icons">add</i>
             </md-button>
 
-            <md-divider ng-if="!$last"></md-divider>
-        </md-list-item>
-    </md-list>
 
-    <p>{{status}}</p>
+            <md-content flex layout-padding>
+
+                <md-list>
+                    <md-subheader class="md-no-sticky">Add or Remove your media libraries here!</md-subheader>
+
+                    <md-list-item class="md-3-line" ng-repeat="library in libraries" ng-click="editLibrary($event, library)">
+
+                        <md-icon class="md-primary">
+                            <i class="fa fa-hdd-o fa-2x "></i>
+                        </md-icon>
+
+                        <div class="md-list-item-text">
+                            <h3>{{library.name}}  <small class="warn" ng-hide="library.isAvailabe">Not available!</small></h3>
+                            <p>{{library.rootPath}}</p>
+                        </div>
+
+                        <md-button class="md-secondary md-warn md-icon-button" ng-click="deleteLibrary($event, library)">
+                            <md-icon md-font-icon="fa fa-trash-o fa-2x"></md-icon>
+                        </md-button>
+
+                        <md-divider ng-if="!$last"></md-divider>
+                    </md-list-item>
+                </md-list>
+
+                <p>{{status}}</p>
+
+            </md-content>
+
+
+        </md-card-content>
+    </md-card>
 
 </md-content>
 
 
 
 
+
+
+
 <script type="text/ng-template" id="AddNewLibrary.html">
+
+
+    <md-dialog ng-cloak>
+        <form>
+            <md-toolbar>
+                <div class="md-toolbar-tools">
+                    <h2>New Media Library</h2>
+                    <span flex></span>
+                    <md-button class="md-icon-button" ng-click="cancel()">
+                        <md-icon class="fa" md-font-icon="fa-times" aria-label="Close dialog"></md-icon>
+                    </md-button>
+                </div>
+            </md-toolbar>
+            <md-dialog-content style="max-width:800px;max-height:810px;">
+                <div class="md-dialog-content">
+
+                    <form layout="column">
+
+                        <p>Create a new media library based on a root folder.</p>
+
+                        <md-input-container flex>
+                            <label>Name</label>
+                            <input type="text" ng-model="myLibrary.name" placeholder="My Videos">
+                        </md-input-container>
+
+                        <md-input-container flex>
+                            <label>Path</label>
+                            <input type="text" ng-model="myLibrary.rootPath" placeholder="file:/Users/Max/Movies">
+                        </md-input-container>
+
+                        <md-checkbox ng-model="myLibrary.ignoreMusic">Ignore Music</md-checkbox>
+                        <md-checkbox ng-model="myLibrary.ignoreVideos">Ignore Videos</md-checkbox>
+                        <md-checkbox ng-model="myLibrary.ignoreImages">Ignore Images</md-checkbox>
+
+                    </form>
+
+                </div>
+            </md-dialog-content>
+
+            <div class="md-actions" layout="row">
+                <md-button ng-click="ok()" style="margin-right:20px;" >
+                    Save
+                </md-button>
+            </div>
+        </form>
+    </md-dialog>
+
+
+    <!--
     <div class="modal-header">
         <button type="button" class="close" ng-click="cancel()">&times;</button>
         <h3 class="modal-title">New media library</h3>
@@ -80,6 +148,8 @@
     <div class="modal-footer">
         <button class="btn btn-primary" ng-click="ok()">Create</button>
     </div>
+
+    -->
 </script>
 
 

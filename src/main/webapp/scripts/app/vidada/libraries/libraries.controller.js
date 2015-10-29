@@ -39,7 +39,7 @@ angular.module('vidadaApp')
 
         $scope.editLibrary = function(ev, currentLibrary){
             $mdDialog.show({
-                controller: 'EditLibraryModelCtrl',
+                controller: EditLibraryModelCtrl,
                 templateUrl: 'EditLibrary.html',
                 parent: angular.element(document.body),
                 targetEvent: ev,
@@ -57,75 +57,78 @@ angular.module('vidadaApp')
                 }, function(err){
                     ErrorHandler.showToast('Failed to update: ' + library.name + ' with rootPath ' + library.rootPath, err);
                 });
-            }, function() {
-                $scope.status = 'You cancelled the dialog.';
             });
         };
 
 
 
-        $scope.newLibrary = function() {
+        $scope.newLibrary = function(ev) {
 
-            var modalInstance = $modal.open({
+            $mdDialog.show({
+                controller: NewLibraryModelCtrl,
                 templateUrl: 'AddNewLibrary.html',
-                controller: 'NewLibraryModelCtrl'
-            });
-
-            modalInstance.result.then(function (library) {
+                parent: angular.element(document.body),
+                targetEvent: ev,
+                clickOutsideToClose: true
+            })
+            .then(function(library) {
                 // User has accepted the dialog
-
                 MediaLibrary.save(library, function () {
                     $scope.updateLibraries();
                     ngToast.create('Created library: ' + library.name);
                 }, function(err){
                     ErrorHandler.showToast('Failed to create: ' + library.name + ' with rootPath ' + library.rootPath, err);
                 });
-
-
-            }, function () {
-                // User has canceled the dialog
-                ngToast.create('Modal dismissed at: ' + new Date());
             });
-
         };
 
         $scope.updateLibraries();
+
+
+
+        function EditLibraryModelCtrl($scope, $mdDialog, library){
+            $scope.myLibrary = library;
+
+            $scope.ok = function () {
+                $mdDialog.hide($scope.myLibrary);
+            };
+
+            $scope.hide = function() {
+                $mdDialog.hide();
+            };
+            $scope.cancel = function() {
+                $mdDialog.cancel();
+            };
+        }
+
+
+        function NewLibraryModelCtrl($scope, $mdDialog){
+
+            $scope.myLibrary = {
+                name : null,
+                rootPath : null,
+                ignoreMusic : true,
+                ignoreVideos: false,
+                ignoreImages: false
+            };
+
+
+            $scope.ok = function () {
+                $mdDialog.hide($scope.myLibrary);
+            };
+
+            $scope.hide = function() {
+                $mdDialog.hide();
+            };
+
+            $scope.cancel = function () {
+                $mdDialog.cancel();
+            };
+        }
+
+
     });
 
 
 
-angular.module('vidadaApp').controller('NewLibraryModelCtrl', function ($scope, $modalInstance) {
 
-    $scope.myLibrary = {
-        name : null,
-        rootPath : null,
-        ignoreMusic : true,
-        ignoreVideos: false,
-        ignoreImages: false
-    };
-
-
-    $scope.ok = function () {
-        $modalInstance.close($scope.myLibrary);
-    };
-
-    $scope.cancel = function () {
-        $modalInstance.dismiss('cancel');
-    };
-});
-
-angular.module('vidadaApp').controller('EditLibraryModelCtrl', function ($scope, $mdDialog, library) {
-
-    $scope.myLibrary = library;
-
-    $scope.ok = function () {
-        $mdDialog.hide($scope.myLibrary);
-    };
-
-    $scope.hide = function() {
-        $mdDialog.hide();
-    };
-    $scope.cancel = function() {
-        $mdDialog.cancel();
-    };
-});
