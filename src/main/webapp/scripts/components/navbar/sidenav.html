@@ -4,31 +4,41 @@
 
     <md-content flex role="navigation">
 
-        <div layout="column">
+        <div layout="column" layout-align="center">
 
             <md-button ui-sref-active="md-primary" class="nav-button" ui-sref="medias" flex>
-                <md-icon md-font-icon="fa fa-fw fa-film"></md-icon>
-                Media
+                <md-icon>
+                    <i class="material-icons">ondemand_video</i>
+                </md-icon>
+                <span>Media</span>
             </md-button>
 
             <md-button ui-sref-active="md-primary" class="nav-button" ui-sref="libraries" flex>
-                <md-icon md-font-icon="fa fa-fw fa-database"></md-icon>
-                Media Libraries
+                <md-icon>
+                    <i class="material-icons">video_library</i>
+                </md-icon>
+                <span>Media Libraries</span>
             </md-button>
 
             <md-button ui-sref-active="md-primary" class="nav-button" ui-sref="tags" flex>
-                <md-icon md-font-icon="fa fa-fw fa-tag"></md-icon>
-                Tags
+                <md-icon>
+                    <i class="material-icons">bookmark_border</i>
+                </md-icon>
+                <span>Tags</span>
             </md-button>
 
             <md-button ui-sref-active="md-primary" class="nav-button" ui-sref="settings" flex>
-                <md-icon md-font-icon="fa fa-fw fa-wrench"></md-icon>
-                Settings
+                <md-icon>
+                    <i class="material-icons">settings</i>
+                </md-icon>
+                <span>Settings</span>
             </md-button>
 
             <md-button ui-sref-active="md-primary" class="nav-button" href="#" data-toggle="collapse" data-target="#demo">
-                <md-icon md-font-icon="fa fa-fw fa-life-ring"></md-icon>
-                Administration <i class="fa fa-fw fa-caret-down"></i>
+                <md-icon>
+                    <i class="material-icons">settings_applications</i>
+                </md-icon>
+                <span>Administration <i class="fa fa-fw fa-caret-down"></i></span>
             </md-button>
             <ul id="demo" class="collapse">
                 <li ui-sref-active="active"><a ui-sref="tracker"><span class="glyphicon glyphicon-eye-open"></span>
