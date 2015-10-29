@@ -330,17 +330,17 @@ ul#strength {
 
 .media-toolbar {
     position:absolute;
-    bottom:0;
+    top:0;
     right:0;
     display: none;
     width:100%;
-    background-color: rgba(255,255,255,0.4);
-
+    background-color: rgba(0,0,0,0.4);!important;
 }
 
 
 .media-toolbar i{
     font-size: 22pt;
+    color: white;
 }
 
 

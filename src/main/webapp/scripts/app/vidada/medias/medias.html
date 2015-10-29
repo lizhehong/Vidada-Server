@@ -84,41 +84,75 @@
             md-cols="3" md-cols-sm="1" md-cols-gt-sm="2" md-cols-md="3"  md-cols-lg="4" md-cols-gt-lg="4"
             md-row-height="4:3"
             md-gutter="8px" md-gutter-gt-sm="4px" >
-            <md-grid-tile ng-repeat="item in mediaService.items"
-                          md-colspan="1" >
 
+
+            <md-grid-tile ng-repeat="item in mediaService.items" md-colspan="1" >
+
+                <!-- main content of tile -->
                 <div class="media-item-content" flex>
 
                     <img ng-src="{{item.thumbnailUrl}}" layout-fill>
 
-
+                    <!-- -->
                     <div class="media-toolbar">
+
                         <md-button class="md-icon-button" ng-click="play(item)">
                             <md-icon>
                                 <i class="material-icons">play_circle_outline</i>
                             </md-icon>
                         </md-button>
 
-                        <md-button class="md-icon-button">
-                            <md-icon>
-                                <i class="material-icons">more_horiz</i>
-                            </md-icon>
-                        </md-button>
+
+                        <md-fab-speed-dial class="md-fling">
+                            <md-fab-trigger>
+                                <md-button aria-label="menu" class="md-icon-button">
+                                    <md-icon>
+                                        <i class="material-icons">more_horiz</i>
+                                    </md-icon>
+                                </md-button>
+                            </md-fab-trigger>
+                            <md-fab-actions>
+                                <md-button aria-label="Twitter" class="md-fab md-raised md-mini">
+                                    <md-icon>
+                                        <i class="material-icons">android</i>
+                                    </md-icon>
+                                </md-button>
+                                <md-button aria-label="Facebook" class="md-fab md-raised md-mini">
+                                    <md-icon>
+                                        <i class="material-icons">android</i>
+                                    </md-icon>
+                                </md-button>
+                                <md-button aria-label="Google Hangout" class="md-fab md-raised md-mini">
+                                    <md-icon>
+                                        <i class="material-icons">android</i>
+                                    </md-icon>
+                                </md-button>
+                            </md-fab-actions>
+                        </md-fab-speed-dial>
+
 
                     </div>
+
+
 
                 </div>
 
                 <md-grid-tile-footer><h3>{{item.name}}</h3></md-grid-tile-footer>
             </md-grid-tile>
+
+
+            <!-- last tile is a loading indicator -->
+            <md-grid-tile ng-show='mediaService.busy' md-colspan="1">
+                <div layout="row" layout-sm="column" layout-align="space-around">
+                    <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+                </div>
+            </md-grid-tile>
+
         </md-grid-list>
-
     </div>
 
 
-    <div ng-show='mediaService.busy' layout="row" layout-sm="column" layout-align="space-around">
-        <md-progress-circular md-mode="indeterminate"></md-progress-circular>
-    </div>
+
 
 
 
