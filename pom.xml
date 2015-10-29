@@ -22,7 +22,7 @@
 
     <properties>
 
-        <ch.securityvision.archimedes>0.2.6-SNAPSHOT</ch.securityvision.archimedes>
+        <ch.securityvision.archimedes>0.2.7-SNAPSHOT</ch.securityvision.archimedes>
         <ch.securityvision.xattrj>1.3</ch.securityvision.xattrj>
 
         <HikariCP.version>2.2.5</HikariCP.version>

@@ -19,8 +19,11 @@ public final class MediaTypeUtil {
      *                                                                         *
      **************************************************************************/
 
-    private final static Map<MediaType, String[]> mediaTypeExtensions = new HashMap<MediaType, String[]>();
-    private final static Map<MediaType, ILocationFilter> typeFilters = new HashMap<MediaType, ILocationFilter>();
+    private final static Map<MediaType, String[]> mediaTypeExtensions = new HashMap<>();
+    private final static Map<String, MediaType> extensionMediaType = new HashMap<>();
+
+
+    private final static Map<MediaType, ILocationFilter> typeFilters = new HashMap<>();
 
     /***************************************************************************
      *                                                                         *
@@ -35,7 +38,7 @@ public final class MediaTypeUtil {
         // Mostly compiled from
         // http://en.wikipedia.org/wiki/Comparison_of_container_formats
 
-        String[] knownMovieExtensions = {
+        String[] knownVideoExtensions = {
                 ".3gp", ".3g2", ".avi", ".aaf", ".asf",
                 ".wmv", ".divx",
                 ".vob", ".evo", ".m2p", ".ps", ".ts", ".m2ts", ".mts",
@@ -60,8 +63,17 @@ public final class MediaTypeUtil {
                 ".svg"
         };
 
-        mediaTypeExtensions.put(MediaType.MOVIE, knownMovieExtensions);
+        mediaTypeExtensions.put(MediaType.MOVIE, knownVideoExtensions);
         mediaTypeExtensions.put(MediaType.IMAGE, knownImageExtensions);
+
+        for(String imageExt : knownImageExtensions){
+            extensionMediaType.put(imageExt.toLowerCase(), MediaType.IMAGE);
+        }
+
+        for(String videoExt : knownVideoExtensions){
+            extensionMediaType.put(videoExt.toLowerCase(), MediaType.MOVIE);
+        }
+
     }
 
 
@@ -134,4 +146,11 @@ public final class MediaTypeUtil {
 		return getPathFilter(type).accept(file);
 	}
 
+    public static MediaType findTypeByResource(ResourceLocation resourceLocation) {
+        String extensionWithDot = resourceLocation.getExtension().toLowerCase();
+        if(extensionMediaType.containsKey(extensionWithDot)){
+            return extensionMediaType.get(extensionWithDot);
+        }
+        return MediaType.UNKNOWN;
+    }
 }

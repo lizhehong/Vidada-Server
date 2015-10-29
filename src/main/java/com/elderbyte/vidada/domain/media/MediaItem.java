@@ -71,7 +71,7 @@ public abstract class MediaItem extends BaseEntity {
 	transient private MediaSource source;
 	transient private IObservableCollection<Tag> _tags;
 
-	/***************************************************************************
+    /***************************************************************************
 	 *                                                                         *
 	 * Constructors                                                            *
 	 *                                                                         *
@@ -82,16 +82,6 @@ public abstract class MediaItem extends BaseEntity {
 	 */
 	protected MediaItem() { }
 
-	/**
-	 * Creates a new MediaData item assigned to the given MediaLibrary and with
-	 * the relative file path
-	 *
-	 * @param parentLibrary
-	 * @param relativeFilePath
-	 */
-	protected MediaItem(MediaLibrary parentLibrary, URI relativeFilePath) {
-		this(new MediaSource(parentLibrary, relativeFilePath));
-	}
 
 	/**
 	 * Creates a new MediaData item assigned to the given MediaLibrary and with

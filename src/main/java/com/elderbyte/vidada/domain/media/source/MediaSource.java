@@ -3,6 +3,8 @@ package com.elderbyte.vidada.domain.media.source;
 import archimedes.core.io.locations.ResourceLocation;
 import com.elderbyte.vidada.domain.entities.IdEntity;
 import com.elderbyte.vidada.domain.media.MediaLibrary;
+import com.elderbyte.vidada.domain.media.MediaType;
+import com.elderbyte.vidada.domain.media.MediaTypeUtil;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -134,4 +136,37 @@ public class MediaSource extends IdEntity {
 		ResourceLocation absolutePath = getResourceLocation();
 		return absolutePath != null && absolutePath.exists();
 	}
+
+
+    /**
+     * Returns the mime type for this media source
+     * @return
+     */
+    public String getMimeType() {
+
+        String mimeType;
+        String extensionWithoutDot = getResourceLocation().getExtension().substring(1);
+
+        switch (findMediaType()){
+            case MOVIE:
+                mimeType = "video/" + extensionWithoutDot;
+                break;
+            case IMAGE:
+                mimeType = "image/" + extensionWithoutDot;
+                break;
+
+            default:
+                return "application/octet-stream";
+        }
+        return mimeType;
+    }
+
+    /**
+     * Gets the media type of this source
+     * @return
+     */
+    public MediaType findMediaType(){
+        return MediaTypeUtil.findTypeByResource(getResourceLocation());
+    }
+
 }

@@ -58,25 +58,21 @@ public class MediaItemFactory {
 
 		MediaItem newMedia = null;
 
+        MediaSource source = new MediaSource(parentLibrary, parentLibrary.getMediaDirectory().getRelativePath(mediaLocation));
 
-		// Find the correct Media type for the given media
-		if(MediaTypeUtil.isFileOfType(mediaLocation, MediaType.MOVIE))
-		{
-			newMedia = new MovieMediaItem(
-                    parentLibrary,
-                    parentLibrary.getMediaDirectory().getRelativePath(mediaLocation),
-                    mediaHash);
+        switch (source.findMediaType()){
+            case MOVIE:
+                newMedia = new MovieMediaItem( source, mediaHash);
+                break;
 
-		}else if(MediaTypeUtil.isFileOfType(mediaLocation, MediaType.IMAGE)){
+            case IMAGE:
+                newMedia = new ImageMediaItem( source, mediaHash);
+                break;
 
-			newMedia = new ImageMediaItem(
-                    parentLibrary,
-                    parentLibrary.getMediaDirectory().getRelativePath(mediaLocation),
-                    mediaHash);
-
-		}else {
-            LOG.error("Can not build media for " + mediaLocation.toString());
-		}
+            default:
+                LOG.error("Can not build media for " + mediaLocation.toString());
+                break;
+        }
 
         return newMedia;
 	}

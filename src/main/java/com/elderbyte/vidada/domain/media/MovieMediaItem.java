@@ -1,5 +1,7 @@
 package com.elderbyte.vidada.domain.media;
 
+import com.elderbyte.vidada.domain.media.source.MediaSource;
+
 import javax.persistence.Entity;
 import java.net.URI;
 
@@ -41,19 +43,18 @@ public class MovieMediaItem extends MediaItem implements Cloneable {
 		classinfo = "movie";
 	}
 
-	/**
-	 * Creates a new MoviePart
-	 *
-	 * @param parentLibrary
-	 * @param relativePath
-	 * @param hash
-	 */
-	public MovieMediaItem(MediaLibrary parentLibrary, URI relativePath, String hash) {
-		super(parentLibrary, relativePath);
-		setFilehash(hash);
-		setType(MediaType.MOVIE);
-		classinfo = "movie";
-	}
+
+    /**
+     *
+     * @param source
+     * @param hash
+     */
+    public MovieMediaItem(MediaSource source, String hash) {
+        super(source);
+        setFilehash(hash);
+        setType(MediaType.MOVIE);
+        classinfo = "movie";
+    }
 
 	/**
 	 * Copy constructor

@@ -1,5 +1,7 @@
 package com.elderbyte.vidada.domain.media;
 
+import com.elderbyte.vidada.domain.media.source.MediaSource;
+
 import javax.persistence.Entity;
 import java.net.URI;
 
@@ -31,12 +33,10 @@ public class ImageMediaItem extends MediaItem {
 	/**
 	 * Create a new Imagepart
 	 *
-	 * @param parentLibrary
-	 * @param relativeFilePath
 	 * @param hash
 	 */
-	public ImageMediaItem(MediaLibrary parentLibrary, URI relativeFilePath, String hash) {
-		super(parentLibrary, relativeFilePath);
+	public ImageMediaItem(MediaSource source, String hash) {
+		super(source);
 		setFilehash(hash);
 		setType(MediaType.IMAGE);
 		classinfo = "image";

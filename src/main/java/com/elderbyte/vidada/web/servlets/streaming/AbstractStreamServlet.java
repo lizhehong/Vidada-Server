@@ -122,7 +122,7 @@ public abstract class AbstractStreamServlet extends AutowiredHttpServlet {
             // Prepare and initialize response --------------------------------------------------------
 
             // Get content type and set default GZIP support and content disposition.
-            String contentType = resource.getResource().getMimeType();
+            String contentType = resource.getMimeType();
             boolean acceptsGzip = false;
             String disposition = "inline";
 
@@ -508,7 +508,7 @@ public abstract class AbstractStreamServlet extends AutowiredHttpServlet {
         byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
 
         // Wrap the input stream into a buffer so we don't waste input-reads
-        input = new BufferedInputStream(input);
+        //input = new BufferedInputStream(input);
 
         int read;
 

@@ -2,6 +2,7 @@ package com.elderbyte.vidada.web.servlets.streaming;
 
 import archimedes.core.io.locations.ResourceLocation;
 import com.elderbyte.vidada.domain.media.MediaItem;
+import com.elderbyte.vidada.domain.media.MediaTypeUtil;
 import com.elderbyte.vidada.domain.media.source.MediaSource;
 import com.elderbyte.vidada.service.media.MediaService;
 import org.slf4j.Logger;
@@ -45,7 +46,12 @@ public class MediaStreamServlet extends AbstractStreamServlet {
                     MediaSource localSource = media.getSource();
                     if (localSource != null) {
                         resource = localSource.getResourceLocation();
-                        return new StreamResource(media.getFilename(), resource.length(), Integer.MAX_VALUE, resource);
+                        return new StreamResource(
+                            media.getFilename(),
+                            resource.length(),
+                            Integer.MAX_VALUE,
+                            resource,
+                            localSource.getMimeType());
                     } else {
                         logger.error("Server: Stream - Media has no source! relative uri was: " + relativeUri);
                     }
