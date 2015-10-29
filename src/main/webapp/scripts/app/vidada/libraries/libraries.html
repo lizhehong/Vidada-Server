@@ -6,7 +6,7 @@
                 <span>Media Libraries</span>
             </h3>
 
-            <md-button class="md-fab md-fab-bottom-right" aria-label="Add" ng-click="newLibrary($event)">
+            <md-button class="md-fab md-fab-top-right" aria-label="Add" ng-click="newLibrary($event)">
                 <i class="material-icons">add</i>
             </md-button>
 
@@ -19,7 +19,7 @@
                     <md-list-item class="md-3-line" ng-repeat="library in libraries" ng-click="editLibrary($event, library)">
 
                         <md-icon class="md-primary">
-                            <i class="fa fa-hdd-o fa-2x "></i>
+                            <i class="fa fa-hdd-o"></i>
                         </md-icon>
 
                         <div class="md-list-item-text">
@@ -27,8 +27,10 @@
                             <p>{{library.rootPath}}</p>
                         </div>
 
-                        <md-button class="md-secondary md-warn md-icon-button" ng-click="deleteLibrary($event, library)">
-                            <md-icon md-font-icon="fa fa-trash-o fa-2x"></md-icon>
+                        <md-button class="md-warn md-icon-button" ng-click="deleteLibrary($event, library)">
+                            <md-icon>
+                                <i class="material-icons">delete</i>
+                            </md-icon>
                         </md-button>
 
                         <md-divider ng-if="!$last"></md-divider>
