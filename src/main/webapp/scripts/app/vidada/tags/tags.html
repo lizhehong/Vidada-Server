@@ -1,16 +1,23 @@
-<h2 class="md-title">Tags</h2>
-<p>Manage your {{tags.length}} Tags here!</p>
+<md-card flex>
+    <md-card-content>
+
+        <h2 class="md-title">Tags</h2>
+        <p>Manage your {{tags.length}} Tags here!</p>
 
 
-<md-content flex layout-padding>
+        <md-content flex layout-padding>
 
-    <md-chips>
-        <md-chip ng-repeat="tag in tags">
-            {{tag.name}}
-        </md-chip>
-    </md-chips>
+            <md-chips>
+                <md-chip ng-repeat="tag in tags">
+                    {{tag.name}}
+                </md-chip>
+            </md-chips>
 
-</md-content>
+        </md-content>
+    </md-card-content>
+</md-card>
+
+
 
 
 

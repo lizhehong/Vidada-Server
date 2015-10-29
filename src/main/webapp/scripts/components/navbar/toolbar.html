@@ -10,14 +10,20 @@
             <small class="navbar-version">v{{VERSION}}</small>
         </h2>
         <span flex></span>
+
         <md-button class="md-icon-button" ng-click="syncAll()">
-            <md-icon md-font-icon="fa fa-fw fa-2x fa-refresh" ></md-icon>
+            <md-icon>
+                <i class="material-icons">sync</i>
+            </md-icon>
         </md-button>
+
 
 
         <md-menu>
             <md-button class="md-icon-button" ng-click="openMenu($mdOpenMenu, $event)">
-                <md-icon md-menu-origin md-font-icon="fa fa-fw fa-2x fa-user"></md-icon>
+                <md-icon>
+                    <i class="material-icons">face</i>
+                </md-icon>
             </md-button>
 
             <md-menu-content width="4">

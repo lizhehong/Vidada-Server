@@ -29,9 +29,9 @@
     </head>
     <body ng-app="vidadaApp" layout="column">
 
-        <div layout="column" layout-fill>
+        <div layout="column" flex>
 
-            <div layout="row" ui-view="navbar"></div>
+            <div layout="column" ui-view="navbar"></div>
 
             <toast></toast>
 
@@ -40,9 +40,9 @@
 
                 <div layout="row" ui-view="sidenav"></div>
 
-                <md-content layout-margin flex>
-                    <div  ui-view="content"></div>
-                </md-content>
+                <div class="view-port" layout-margin flex>
+                    <div ui-view="content"></div>
+                </div>
 
             </section>
 
