@@ -3,10 +3,7 @@ package com.elderbyte.vidada.repository;
 import archimedes.core.data.pagination.ListPage;
 import archimedes.core.exceptions.NotImplementedException;
 import archimedes.core.io.locations.ResourceLocation;
-import com.elderbyte.vidada.domain.media.MediaExpressionQuery;
-import com.elderbyte.vidada.domain.media.MediaItem;
-import com.elderbyte.vidada.domain.media.MediaLibrary;
-import com.elderbyte.vidada.domain.media.OrderProperty;
+import com.elderbyte.vidada.domain.media.*;
 import com.elderbyte.vidada.domain.tags.Tag;
 import com.elderbyte.vidada.repository.codegen.JPQLExpressionCodeGenerator;
 import org.slf4j.Logger;
@@ -110,7 +107,7 @@ public class MediaRepositoryImpl implements MediaRepositoryCustom {
 
     private void setQueryParams(Query q, MediaExpressionQuery qry){
         if(qry.hasKeyword()) q.setParameter("keywords", "%" + qry.getKeywords() + "%");
-        if(qry.hasMediaType()) q.setParameter("type", qry.getMediaType());
+        if(qry.hasMediaType()) q.setParameter("type", MediaTypeUtil.findTypeByFilter(qry.getMediaType()));
         if(qry.hasAllowedLibraries()) q.setParameter("allowedLibraries", qry.getAllowedLibraries());
     }
 

@@ -11,7 +11,7 @@ import java.util.Map;
  * Provides helper methods to deal with media files
  * and extensions.
  */
-public class MediaTypeUtil {
+public final class MediaTypeUtil {
 
     /***************************************************************************
      *                                                                         *
@@ -74,8 +74,7 @@ public class MediaTypeUtil {
     /**
      *
      */
-	private MediaTypeUtil(){
-	}
+	private MediaTypeUtil(){ }
 
 
     /***************************************************************************
@@ -108,6 +107,21 @@ public class MediaTypeUtil {
             typeFilters.put(type, fileFilter);
         }
         return fileFilter;
+    }
+
+    public static MediaType findTypeByFilter(MediaFilterType filter){
+        switch (filter){
+
+            case IMAGE:
+                return MediaType.IMAGE;
+
+            case MOVIE:
+                return MediaType.MOVIE;
+
+            default:
+                return MediaType.UNKNOWN;
+
+        }
     }
 
     /**

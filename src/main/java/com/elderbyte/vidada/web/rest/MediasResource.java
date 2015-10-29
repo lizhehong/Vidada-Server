@@ -1,9 +1,7 @@
 package com.elderbyte.vidada.web.rest;
 
 import archimedes.core.data.pagination.ListPage;
-import com.elderbyte.vidada.domain.media.MediaItem;
-import com.elderbyte.vidada.domain.media.MediaQuery;
-import com.elderbyte.vidada.domain.media.OrderProperty;
+import com.elderbyte.vidada.domain.media.*;
 import com.elderbyte.vidada.domain.tags.Tag;
 import com.elderbyte.vidada.domain.tags.TagUtil;
 import com.elderbyte.vidada.service.media.MediaService;
@@ -70,7 +68,7 @@ public class MediasResource {
         @RequestParam(value = "pageSize", defaultValue = "6")  Integer pageSize,
         @RequestParam(value = "query", defaultValue = "") String queryStr,
         @RequestParam(value = "tagExpression", defaultValue = "") String tagExpression,
-        @RequestParam(value = "type", defaultValue = "ANY") com.elderbyte.vidada.domain.media.MediaType type,
+        @RequestParam(value = "type", defaultValue = "ANY") MediaFilterType type,
         @RequestParam(value = "orderBy", defaultValue = "FILENAME") OrderProperty order,
         @RequestParam(value = "reverse", defaultValue = "false") Boolean reverse,
         @RequestParam(value = "onlyAvailable", defaultValue = "true") Boolean onlyAvailable) {
@@ -78,7 +76,7 @@ public class MediasResource {
         MediaQuery query = new MediaQuery();
         query.setKeywords(queryStr);
         query.setTagExpression(tagExpression);
-        query.setSelectedtype((type != null) ? type : com.elderbyte.vidada.domain.media.MediaType.ANY);
+        query.setSelectedtype((type != null) ? type : MediaFilterType.ANY);
         query.setOrder((order != null) ? order : OrderProperty.FILENAME);
         query.setReverseOrder(reverse);
         query.setOnlyAvailable(onlyAvailable);
@@ -158,7 +156,9 @@ public class MediasResource {
 
         String streamUrl = baseUrl.toUriString() + "/stream/" + media.getFilehash();
         String thumbnailUrl = baseUrl.toUriString() + "/api/thumbs/" + media.getFilehash();
-        MediaDTO mediaDTO = new MediaDTO(media.getFilehash(), media.getFilename(), thumbnailUrl, streamUrl);
+        media.getType();
+
+        MediaDTO mediaDTO = new MediaDTO(media.getFilehash(), media.getFilename(), media.getType(), thumbnailUrl, streamUrl);
 
         for(Tag tag : media.getTags()){
             mediaDTO.getTags().add(tag.getName());

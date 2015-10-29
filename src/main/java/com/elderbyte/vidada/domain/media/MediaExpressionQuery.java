@@ -3,13 +3,12 @@ package com.elderbyte.vidada.domain.media;
 import com.elderbyte.code.dom.expressions.ExpressionNode;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class MediaExpressionQuery {
 
 	private ExpressionNode tagsExpression;
-    private MediaType mediaType = MediaType.ANY;
+    private MediaFilterType mediaType = MediaFilterType.ANY;
 	private String keywords = null;
 	private OrderProperty order = OrderProperty.FILENAME;
 	private final List<MediaLibrary> allowedLibraries = new ArrayList<>();
@@ -18,7 +17,7 @@ public class MediaExpressionQuery {
 
 
     public MediaExpressionQuery(ExpressionNode tagsExpression,
-			MediaType mediaType, String keywords, OrderProperty order, boolean reverseOrder) {
+        MediaFilterType mediaType, String keywords, OrderProperty order, boolean reverseOrder) {
 		super();
 		this.tagsExpression = tagsExpression;
 		this.mediaType = mediaType;
@@ -31,7 +30,7 @@ public class MediaExpressionQuery {
 	public ExpressionNode getTagsExpression() {
 		return tagsExpression;
 	}
-	public MediaType getMediaType() {
+	public MediaFilterType getMediaType() {
 		return mediaType;
 	}
 	public String getKeywords() {
@@ -51,7 +50,7 @@ public class MediaExpressionQuery {
 	public void setTagsExpression(ExpressionNode tagsExpression) {
 		this.tagsExpression = tagsExpression;
 	}
-	public void setMediaType(MediaType mediaType) {
+	public void setMediaType(MediaFilterType mediaType) {
 		this.mediaType = mediaType;
 	}
 	public void setKeywords(String keywords) {
@@ -72,7 +71,7 @@ public class MediaExpressionQuery {
 	}
 
 	public boolean hasMediaType() {
-		return !MediaType.ANY.equals(getMediaType());
+		return !MediaFilterType.ANY.equals(getMediaType());
 	}
 
     public boolean hasAllowedLibraries() {

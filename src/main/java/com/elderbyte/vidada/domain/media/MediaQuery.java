@@ -21,7 +21,7 @@ public class MediaQuery extends AbstractQuery<MediaItem> {
 	 */
 	public static final MediaQuery ALL = new MediaQuery(AbstractQuery.QueryType.All);
 
-	private MediaType selectedtype = MediaType.ANY;
+	private MediaFilterType selectedtype = MediaFilterType.ANY;
 	private String keywords = null;
 	private OrderProperty order = OrderProperty.FILENAME;
 	private boolean onlyAvailable = false;
@@ -37,7 +37,7 @@ public class MediaQuery extends AbstractQuery<MediaItem> {
 	 * @param onlyAvailable
 	 * @param reverseOrder
 	 */
-	public MediaQuery(MediaType selectedType, String keywords,
+	public MediaQuery(MediaFilterType selectedType, String keywords,
 			OrderProperty order, String tagExpression, boolean onlyAvailable,
 			boolean reverseOrder) {
 		this(AbstractQuery.QueryType.Query);
@@ -58,7 +58,7 @@ public class MediaQuery extends AbstractQuery<MediaItem> {
 	}
 
 
-	public MediaType getMediaType() {
+	public MediaFilterType getMediaType() {
 		return selectedtype;
 	}
 
@@ -74,7 +74,7 @@ public class MediaQuery extends AbstractQuery<MediaItem> {
 		return reverseOrder;
 	}
 
-	public void setSelectedtype(MediaType selectedtype) {
+	public void setSelectedtype(MediaFilterType selectedtype) {
 		this.selectedtype = selectedtype;
 	}
 
@@ -108,7 +108,7 @@ public class MediaQuery extends AbstractQuery<MediaItem> {
 	}
 
 	public boolean hasMediaType() {
-		return !MediaType.ANY.equals(getMediaType());
+		return !MediaFilterType.ANY.equals(getMediaType());
 	}
 
     public void setTagExpression(String tagExpression) {

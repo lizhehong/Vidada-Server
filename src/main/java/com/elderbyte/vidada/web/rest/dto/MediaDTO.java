@@ -1,5 +1,6 @@
 package com.elderbyte.vidada.web.rest.dto;
 
+import com.elderbyte.vidada.domain.media.MediaType;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
 import java.util.ArrayList;
@@ -14,25 +15,30 @@ import java.util.List;
     getterVisibility = JsonAutoDetect.Visibility.NONE)
 public class MediaDTO {
 
-    private String hash;
+    private String id;
     private String name;
+    private MediaType mediaType;
     private String thumbnailUrl;
     private String streamUrl;
     private List<String> tags = new ArrayList<>();
 
-    public MediaDTO(String hash, String name, String thumbnailUrl, String streamUrl) {
-        this.hash = hash;
+    protected MediaDTO(){ }
+
+
+    public MediaDTO(String id, String name, MediaType mediaType, String thumbnailUrl, String streamUrl) {
+        this.id = id;
         this.name = name;
+        this.mediaType = mediaType;
         this.thumbnailUrl = thumbnailUrl;
         this.streamUrl = streamUrl;
     }
 
-    public String getHash() {
-        return hash;
+    public String getId() {
+        return id;
     }
 
-    public void setHash(String hash) {
-        this.hash = hash;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -61,5 +67,13 @@ public class MediaDTO {
 
     public List<String> getTags() {
         return tags;
+    }
+
+    public MediaType getMediaType() {
+        return mediaType;
+    }
+
+    public void setMediaType(MediaType mediaType) {
+        this.mediaType = mediaType;
     }
 }

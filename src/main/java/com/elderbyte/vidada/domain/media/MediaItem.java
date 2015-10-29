@@ -54,7 +54,7 @@ public abstract class MediaItem extends BaseEntity {
 	private Size resolution = Size.Empty;
 	private int opened = 0;
 	private int rating = 0;
-	private MediaType type = MediaType.NONE;
+	private MediaType type = MediaType.UNKNOWN;
     private DateTime lastAccessed = new DateTime();
 
 
@@ -247,7 +247,7 @@ public abstract class MediaItem extends BaseEntity {
 	}
 
 	public void setType(MediaType mediaType) {
-		if(mediaType.equals(MediaType.NONE)) throw new IllegalArgumentException("mediaType must not be NONE!");
+		if(mediaType.equals(MediaType.UNKNOWN)) throw new IllegalArgumentException("mediaType must not be UNKNOWN!");
 		this.type = mediaType;
 		firePropertyChange("mediaType");
 	}
