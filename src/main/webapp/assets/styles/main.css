@@ -307,3 +307,48 @@ ul#strength {
 /* end Password strength bar style */
 
 
+/* start media item style */
+
+.media-item {
+    margin: 0.2em;
+    padding: 0;
+}
+
+.media-item p {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.media-item-content {
+    background-color: #dd514c;
+    display:inline-block;
+    position:relative;
+    margin: 0;
+    padding: 0;
+}
+
+.media-toolbar {
+    position:absolute;
+    bottom:0;
+    right:0;
+    display: none;
+    width:100%;
+    background-color: rgba(255,255,255,0.4);
+
+}
+
+
+.media-toolbar i{
+    font-size: 22pt;
+}
+
+
+
+.media-item-content:hover .media-toolbar {
+    display: block;
+}
+
+/* end media item style */
+
+

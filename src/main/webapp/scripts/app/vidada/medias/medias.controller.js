@@ -27,15 +27,16 @@ angular.module('vidadaApp')
         ];
 
 
+        $scope.play = function(media){
+            var mediaUrlArg = escape(media.streamUrl);
+            window.open('mpv://' + mediaUrlArg);
+        };
 
         $scope.updateMedias= function(){
             $scope.mediaService = new MediaInfinite($scope.mediaQuery);
             $scope.mediaService.nextPage();
         };
 
-        $scope.escape = function(text) {
-            return escape(text);
-        };
 
         $scope.setOrderBy = function(option){
             $scope.mediaQuery.orderBy = option;

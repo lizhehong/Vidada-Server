@@ -71,36 +71,57 @@
             <p>Found {{mediaService.itemCount}} medias!</p>
         </div>
 
-        <md-divider></md-divider>
-
-        <!-- Media Details -->
-        <div flex layout-padding>
-            <div infinite-scroll='mediaService.nextPage()' infinite-scroll-disabled='mediaService.busy' infinite-scroll-distance='0'>
-                <div flex layout-padding  ng-repeat="item in mediaService.items" ng-switch="$index%4">
-
-                    <div class="row" ng-switch-when="0">
-                        <md-whiteframe class="md-whiteframe-20dp" ng-repeat="t in [1,2,3,4]" >
-
-                            <!-- Represents a single media item -->
-                            <div ng-show='mediaService.items.length > $parent.$index + $index' class="col-sm-3">
-                                <a href="mpv://{{escape(mediaService.items[$parent.$index + $index].streamUrl)}}">
-                                    <img ng-src="{{mediaService.items[$parent.$index + $index].thumbnailUrl}}" class="img-responsive">
-                                </a>
-                                <div>{{mediaService.items[$parent.$index + $index].name}}</div>
-                            </div>
-
-                        </md-whiteframe>
-                    </div>
-                </div>
-            </div>
-
-
-            <div ng-show='mediaService.busy' class="well">
-                <div>Loading data...</div>
-            </div>
-
-        </div>
-
     </md-card-content>
 </md-card>
+
+
+<!-- Media Details -->
+<div flex layout-padding>
+    <div infinite-scroll='mediaService.nextPage()' infinite-scroll-disabled='mediaService.busy' infinite-scroll-distance='0'>
+
+
+        <md-grid-list
+            md-cols="3" md-cols-sm="1" md-cols-gt-sm="2" md-cols-md="3"  md-cols-lg="4" md-cols-gt-lg="4"
+            md-row-height="4:3"
+            md-gutter="8px" md-gutter-gt-sm="4px" >
+            <md-grid-tile ng-repeat="item in mediaService.items"
+                          md-colspan="1" >
+
+                <div class="media-item-content" flex>
+
+                    <img ng-src="{{item.thumbnailUrl}}" layout-fill>
+
+
+                    <div class="media-toolbar">
+                        <md-button class="md-icon-button" ng-click="play(item)">
+                            <md-icon>
+                                <i class="material-icons">play_circle_outline</i>
+                            </md-icon>
+                        </md-button>
+
+                        <md-button class="md-icon-button">
+                            <md-icon>
+                                <i class="material-icons">more_horiz</i>
+                            </md-icon>
+                        </md-button>
+
+                    </div>
+
+                </div>
+
+                <md-grid-tile-footer><h3>{{item.name}}</h3></md-grid-tile-footer>
+            </md-grid-tile>
+        </md-grid-list>
+
+    </div>
+
+
+    <div ng-show='mediaService.busy' layout="row" layout-sm="column" layout-align="space-around">
+        <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+    </div>
+
+
+
+
+</div>
 
