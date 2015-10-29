@@ -168,7 +168,7 @@ public class MediaRepositoryImpl implements MediaRepositoryCustom {
         }
 
         if(!qry.getAllowedLibraries().isEmpty()){
-            where += "EXISTS (SELECT s from MediaSource s WHERE s MEMBER OF m.sources AND s.parentLibrary IN :allowedLibraries) AND ";
+            where += "EXISTS (SELECT s from MediaSource s WHERE s MEMBER OF m.sources AND s.parentLibrary IN (:allowedLibraries)) AND ";
         }
 
 
