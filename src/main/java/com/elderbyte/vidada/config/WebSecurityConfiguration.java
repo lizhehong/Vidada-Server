@@ -47,8 +47,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(
             SessionCreationPolicy.STATELESS);
-        http.addFilterAfter(new JwtFilter(authenticationManagerBean()),
-            AnonymousAuthenticationFilter.class);
+        http.addFilterAfter(new JwtFilter(authenticationManagerBean()), AnonymousAuthenticationFilter.class);
 
     }
 

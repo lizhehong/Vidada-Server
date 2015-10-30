@@ -32,16 +32,15 @@ public class JwtFilter extends GenericFilterBean {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response,
                          FilterChain chain) throws IOException, ServletException {
-        System.out.println("JwtFilter.doFilter");
-        System.out.println("JwtFilter.authenticationManager"
-            + authenticationManager);
+
+        logger.info("Filtering JWT with authenticaiton Manager: " + authenticationManager);
 
         HttpServletRequest req = (HttpServletRequest) request;
 
         String stringToken = req.getHeader("Authorization");
-        System.out.println("JwtFilter.doFilter.stringToken:" + stringToken);
+        logger.info("stringToken: " + stringToken);
 
-        if (stringToken != null && stringToken != "") {
+        if (stringToken != null && !stringToken.isEmpty()) {
             try {
                 SignedJWT sjwt = SignedJWT.parse(stringToken);
                 JwtToken token = new JwtToken(sjwt);

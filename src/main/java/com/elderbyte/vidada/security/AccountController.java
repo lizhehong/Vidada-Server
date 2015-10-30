@@ -5,7 +5,6 @@ import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import com.elderbyte.vidada.security.LoginDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -35,17 +34,20 @@ public class AccountController {
     private String SecretKey = "494847a9c8a147bf82f4ca6da59efe61"; // TODO
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String login(@Valid @RequestBody LoginDto model,
-                        HttpServletRequest request) {
-        System.out.println("AccountController.login");
+    public String login(@Valid @RequestBody LoginDto user) {
+
+        logger.info("User attempts to login: " + user);
+
         try {
             JWSSigner signer = new MACSigner(SecretKey);
             JWTClaimsSet.Builder builder = new JWTClaimsSet.Builder();
-            builder.subject(model.username);
+
+            // TODO Check if the user exists and fetch his authorities / roles
+            builder.subject(user.username);
             builder.issuer("myself");
             builder.claim("roles", "ROLE_ADMIN");
-            builder.expirationTime(new Date(new Date().getTime() + 24 * 60 * 60
-                * 1000));
+
+            builder.expirationTime(new Date(new Date().getTime() + 24 * 60 * 60  * 1000));
             SignedJWT signedJWT = new SignedJWT(new JWSHeader(
                 JWSAlgorithm.HS256), builder.build());
 
