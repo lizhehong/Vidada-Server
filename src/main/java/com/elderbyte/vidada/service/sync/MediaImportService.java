@@ -14,10 +14,10 @@ import com.elderbyte.vidada.service.media.MediaHashService;
 import com.elderbyte.vidada.service.media.MediaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.inject.Inject;
 import java.util.concurrent.CompletableFuture;
 
 @Service
@@ -47,7 +47,7 @@ public class MediaImportService {
      *                                                                         *
      **************************************************************************/
 
-    @Inject
+    @Autowired
     public MediaImportService(
             JobService jobService,
             TagService tagService,

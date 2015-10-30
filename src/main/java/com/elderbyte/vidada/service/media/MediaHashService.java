@@ -7,9 +7,9 @@ import com.elderbyte.vidada.domain.metadata.MediaMetaAttribute;
 import com.elderbyte.vidada.VidadaSettings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.inject.Inject;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -43,7 +43,7 @@ public class MediaHashService {
     /**
      * Default Instance Constructor
      */
-    @Inject
+    @Autowired
 	public MediaHashService(MediaMetaDataService metaDataService, VidadaSettings settings){
         this.metaDataService = metaDataService;
         this.fileHashAlgorithm = FileHashAlgorythms.instance().getButtikscheHashAlgorythm();

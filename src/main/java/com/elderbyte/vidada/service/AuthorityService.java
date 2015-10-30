@@ -3,10 +3,10 @@ package com.elderbyte.vidada.service;
 import com.elderbyte.vidada.domain.security.Authority;
 import com.elderbyte.vidada.domain.security.KnownAuthority;
 import com.elderbyte.vidada.repository.AuthorityRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.inject.Inject;
 
 /**
  * Manages security authorities (roles)
@@ -17,7 +17,7 @@ public class AuthorityService {
 
     private final AuthorityRepository authorityRepository;
 
-    @Inject
+    @Autowired
     public AuthorityService(AuthorityRepository authorityRepository){
         this.authorityRepository = authorityRepository;
         ensureDefaultAuthorities();

@@ -11,11 +11,10 @@ import com.elderbyte.vidada.domain.tags.Tag;
 import com.elderbyte.vidada.domain.tags.TagUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.List;
+
 import java.util.Set;
 
 /**
@@ -29,7 +28,7 @@ public class MetadataSynchronizer {
 
     private final MediaMetaDataService metaDataService;
 
-    @Inject
+    @Autowired
     public MetadataSynchronizer(MediaMetaDataService metaDataService){
         this.metaDataService = metaDataService;
     }

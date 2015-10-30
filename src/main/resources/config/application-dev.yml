@@ -6,8 +6,8 @@ spring:
         active: dev
     datasource:
         dataSourceClassName: org.h2.jdbcx.JdbcDataSource
-        _url: jdbc:h2:mem:hipster;DB_CLOSE_DELAY=-1
-        url: jdbc:h2:./vidadadb;DB_CLOSE_DELAY=-1
+        url: jdbc:h2:mem:hipster;DB_CLOSE_DELAY=-1
+        _url: jdbc:h2:./vidadadb;DB_CLOSE_DELAY=-1
         databaseName:
         serverName:
         username:

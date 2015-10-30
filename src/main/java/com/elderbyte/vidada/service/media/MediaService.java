@@ -4,13 +4,11 @@ import archimedes.core.data.pagination.ListPage;
 import archimedes.core.events.EventArgs;
 import archimedes.core.events.EventHandlerEx;
 import archimedes.core.events.IEvent;
-import archimedes.core.exceptions.NotSupportedException;
 import archimedes.core.io.locations.ResourceLocation;
 import com.elderbyte.code.CodeDomException;
 import com.elderbyte.code.dom.expressions.ExpressionNode;
 import com.elderbyte.vidada.domain.media.MediaExpressionQuery;
 import com.elderbyte.vidada.domain.media.MediaItem;
-import com.elderbyte.vidada.domain.media.MediaLibrary;
 import com.elderbyte.vidada.domain.media.MediaQuery;
 import com.elderbyte.vidada.domain.queries.TagExpressionBuilder;
 import com.elderbyte.vidada.repository.MediaRepository;
@@ -18,11 +16,10 @@ import com.elderbyte.vidada.service.MediaLibraryService;
 import com.elderbyte.vidada.service.tags.TagService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.inject.Inject;
-import javax.print.attribute.standard.Media;
 import java.util.Collection;
 import java.util.List;
 
@@ -67,7 +64,7 @@ public class MediaService {
      * @param mediaLibraryService
      * @param tagService
      */
-    @Inject
+    @Autowired
     public MediaService(
             MediaRepository repository,
             MediaLibraryService mediaLibraryService,

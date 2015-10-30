@@ -8,13 +8,12 @@ import com.elderbyte.vidada.domain.tags.Tag;
 import com.elderbyte.vidada.repository.codegen.JPQLExpressionCodeGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.ObjectFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.inject.Inject;
-import javax.inject.Provider;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -28,10 +27,10 @@ public class MediaRepositoryImpl implements MediaRepositoryCustom {
     private JPQLExpressionCodeGenerator jpqlCodeGenerator = new JPQLExpressionCodeGenerator();
 
 
-    private final Provider<EntityManager> emProvider;
+    private final ObjectFactory<EntityManager> emProvider;
 
-    @Inject
-    public MediaRepositoryImpl(Provider<EntityManager> emProvider){
+    @Autowired
+    public MediaRepositoryImpl(ObjectFactory<EntityManager> emProvider){
         this.emProvider = emProvider;
     }
 
@@ -54,13 +53,13 @@ public class MediaRepositoryImpl implements MediaRepositoryCustom {
     @Override
     public Collection<MediaItem> query(Tag tag) {
         String sQry = "SELECT m from MediaItem m WHERE '" + tag + "' MEMBER OF m.tags";
-        TypedQuery<MediaItem> q = emProvider.get().createQuery(sQry, MediaItem.class);
+        TypedQuery<MediaItem> q = emProvider.getObject().createQuery(sQry, MediaItem.class);
         return q.getResultList();
     }
 
     @Override
     public List<MediaItem> queryByLibrary(MediaLibrary library) {
-        TypedQuery<MediaItem> query = emProvider.get().createQuery(
+        TypedQuery<MediaItem> query = emProvider.getObject().createQuery(
             "SELECT distinct m from MediaItem m inner join m.sources s where s.parentLibrary = :library",
             MediaItem.class);
         query.setParameter("library", library);
@@ -87,7 +86,7 @@ public class MediaRepositoryImpl implements MediaRepositoryCustom {
      **************************************************************************/
 
     private long queryCount(MediaExpressionQuery qry){
-        Query cQuery = emProvider.get().createQuery("SELECT COUNT(m) from MediaItem m WHERE " + buildMediaWhereQuery(qry));
+        Query cQuery = emProvider.getObject().createQuery("SELECT COUNT(m) from MediaItem m WHERE " + buildMediaWhereQuery(qry));
         setQueryParams(cQuery, qry);
         Number result = (Number) cQuery.getSingleResult();
         return result.longValue();
@@ -99,7 +98,7 @@ public class MediaRepositoryImpl implements MediaRepositoryCustom {
 
         logger.debug(sQry);
 
-        TypedQuery<MediaItem> q = emProvider.get().createQuery(sQry, MediaItem.class);
+        TypedQuery<MediaItem> q = emProvider.getObject().createQuery(sQry, MediaItem.class);
         setQueryParams(q, qry);
 
         return q;

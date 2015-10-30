@@ -3,28 +3,24 @@ package com.elderbyte.vidada.service;
 import archimedes.core.events.EventArgsG;
 import archimedes.core.events.EventHandlerEx;
 import archimedes.core.events.IEvent;
-import archimedes.core.exceptions.NotImplementedException;
-import archimedes.core.io.locations.ResourceLocation;
 import com.elderbyte.vidada.domain.media.MediaItem;
 import com.elderbyte.vidada.domain.media.MediaLibrary;
 import com.elderbyte.vidada.domain.media.source.MediaSource;
 import com.elderbyte.vidada.repository.MediaLibraryRepository;
 import com.elderbyte.vidada.repository.MediaRepository;
-import com.elderbyte.vidada.repository.MediaSourceRepository;
 import com.elderbyte.vidada.service.tags.FileTagRelationSource;
 import com.elderbyte.vidada.service.tags.ITagRelationSource;
 import com.elderbyte.vidada.service.tags.TagService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Manages all MediaLibraries
@@ -71,7 +67,7 @@ public class MediaLibraryService  {
      * Creates a new MediaLibraryService
      * @param repository
      */
-    @Inject
+    @Autowired
 	public MediaLibraryService(
         MediaLibraryRepository repository,
         MediaRepository mediaRepository,

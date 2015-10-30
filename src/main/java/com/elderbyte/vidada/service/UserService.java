@@ -9,16 +9,15 @@ import com.elderbyte.vidada.service.util.RandomUtil;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.inject.Inject;
-import java.util.HashSet;
+
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 /**
  * Service class for managing users.
@@ -33,7 +32,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final AuthorityService authorityService;
 
-    @Inject
+    @Autowired
     public UserService(PasswordEncoder passwordEncoder, UserRepository userRepository, AuthorityService authorityService){
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
@@ -91,12 +90,14 @@ public class UserService {
     }
 
     public void changePassword(String password) {
+
         userRepository.findOneByLogin(SecurityUtils.getCurrentLogin()).ifPresent(u-> {
             String encryptedPassword = passwordEncoder.encode(password);
             u.setPassword(encryptedPassword);
             userRepository.save(u);
             log.debug("Changed password for User: {}", u);
         });
+
     }
 
     /**

@@ -8,9 +8,9 @@ import com.elderbyte.vidada.VidadaSettings;
 import com.elderbyte.vidada.service.media.MediaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.inject.Inject;
 
 /**
  * Manages all Thumbnails
@@ -45,7 +45,7 @@ public class ThumbnailService {
      * @param thumbImageCreator
      * @param settings
      */
-    @Inject
+    @Autowired
 	public ThumbnailService(MediaService mediaService,
                             MediaThumbCacheService mediaThumbCacheService,
                             ThumbImageExtractorService thumbImageCreator,
