@@ -1,22 +1,19 @@
 package com.elderbyte.ffmpeg;
 
-
-import com.elderbyte.ffmpeg.FFmpegInterop;
-
 import java.io.File;
+import java.io.IOException;
 import java.net.URI;
 
 class FFmpegInteropWindows extends FFmpegInterop
 {
 	static {
-		encoder = extractFFMpeg("tools/ffmpeg.exe");
-	}
+        try {
+            encoder = ResourceUtil.extractResource("tools/ffmpeg.exe");
+        } catch (IOException e) {
+            logger.error("Failed to extract ffmeg!", e);
+        }
+    }
 
-
-	@Override
-	public File getFFmpegBinaryFile() {
-		return encoder;
-	}
 
 	@Override
 	protected String shieldPathArgument(File pathArg){
@@ -32,11 +29,11 @@ class FFmpegInteropWindows extends FFmpegInterop
 
 	@Override
 	public String getFFmpegCMD() {
-		return shieldPathArgument(getFFmpegBinaryFile());
+		return shieldPathArgument(encoder);
 	}
 
 	@Override
 	public boolean isAvaiable() {
-		return getFFmpegBinaryFile().exists();
+		return encoder.exists();
 	}
 }

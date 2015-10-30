@@ -1,31 +1,27 @@
 package com.elderbyte.ffmpeg;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URI;
 
-/**
- * frame=    0 fps=0.0 q=0.0 size=N/A time=00:00:00.00 bitrate=N/A
- *
- *??
- * @author IsNull
- *
- */
+
 class FFmpegInteropUnix extends FFmpegInterop
 {
 	private static File encoder;
 
 	static {
-		encoder = extractFFMpeg("tools/ffmpeg");
-	}
+        try {
+            encoder = ResourceUtil.extractResource("tools/ffmpeg");
+            encoder.setExecutable(true);
+        } catch (IOException e) {
+            logger.error("Failed to extract ffmeg!", e);
+        }
+    }
 
-	@Override
-	public File getFFmpegBinaryFile() {
-		return encoder;
-	}
 
 	@Override
 	public String getFFmpegCMD() {
-		return shieldPathArgument(getFFmpegBinaryFile()); 		//return "ffmpeg";
+		return shieldPathArgument(encoder);	//return "ffmpeg";
 	}
 
 	@Override
@@ -44,7 +40,7 @@ class FFmpegInteropUnix extends FFmpegInterop
 	@Override
 	public boolean isAvaiable() {
 		if(isAvaiableDirty){
-			isAvaiable = getFFmpegBinaryFile().exists();
+			isAvaiable = encoder.exists();
 			isAvaiableDirty = false;
 		}
 

@@ -22,7 +22,8 @@ import java.util.regex.Pattern;
 import java.util.zip.ZipException;
 
 /**
- * Platform independent ffmpeg access
+ * Platform independent ffmpeg wrapper to extract thumbnails and basic media info
+ *
  * @author IsNull
  *
  */
@@ -34,7 +35,7 @@ public abstract class FFmpegInterop {
      *                                                                         *
      **************************************************************************/
 
-    private static final Logger logger = LogManager.getLogger(FFmpegInterop.class.getName());
+    protected static final Logger logger = LogManager.getLogger(FFmpegInterop.class.getName());
 
 
     protected static File encoder;
@@ -46,7 +47,7 @@ public abstract class FFmpegInterop {
      * Gets the FFmpegInterop instance
      * @return
      */
-	public static FFmpegInterop instance(){
+	public synchronized static FFmpegInterop instance(){
 
 		if(instance == null){
 			if(OSValidator.isWindows()){
@@ -60,34 +61,7 @@ public abstract class FFmpegInterop {
 		return instance;
 	}
 
-	/**
-	 * Extracts the ffmpeg binary for the current platform
-	 * @param ffmpegPackagePath
-	 * @return Returns the path to the ffmpeg binary
-	 */
-	protected static File extractFFMpeg(String ffmpegPackagePath) {
 
-		File ffmpeg = null;
-
-		try {
-			URI jar = PackageUtil.getJarURI(FFmpegInterop.class);
-			URI ffmpegURI = PackageUtil.extractFile(jar, ffmpegPackagePath);
-
-			ffmpeg = new File(ffmpegURI);
-			ffmpeg.setExecutable(true);
-
-            logger.info("FFmpegInterop: Extracted ffmpeg to " + ffmpeg);
-
-		} catch (URISyntaxException e) {
-            logger.error(e);
-		} catch (ZipException e) {
-            logger.error(e);
-		} catch (IOException e) {
-            logger.error(e);
-		}
-
-		return ffmpeg;
-	}
 
 	/**
 	 *  Extracts the frame at the given time as an image.
@@ -252,8 +226,6 @@ public abstract class FFmpegInterop {
 	 * @return
 	 */
 	public abstract boolean isAvaiable();
-
-	public abstract File getFFmpegBinaryFile();
 
 	protected abstract String getFFmpegCMD();
 
