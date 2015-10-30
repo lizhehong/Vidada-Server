@@ -2,6 +2,9 @@ package com.elderbyte.vidada.web.rest;
 
 import com.elderbyte.vidada.domain.User;
 import com.elderbyte.vidada.repository.UserRepository;
+import com.elderbyte.vidada.security.PrincipalDto;
+import com.elderbyte.vidada.security.SecurityUtils;
+import com.elderbyte.vidada.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +22,13 @@ import java.util.List;
  * REST controller for managing users.
  */
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/users")
 public class UserResource {
 
     private final Logger log = LoggerFactory.getLogger(UserResource.class);
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private UserRepository userRepository;
@@ -30,7 +36,7 @@ public class UserResource {
     /**
      * GET  /users -> get all users.
      */
-    @RequestMapping(value = "/users",
+    @RequestMapping(
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     public List<User> getAll() {
@@ -41,7 +47,7 @@ public class UserResource {
     /**
      * GET  /users/:login -> get the "login" user.
      */
-    @RequestMapping(value = "/users/{login}",
+    @RequestMapping(value = "{login}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<User> getUser(@PathVariable String login) {
@@ -50,4 +56,28 @@ public class UserResource {
                 .map(user -> new ResponseEntity<>(user, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
+
+
+    //@Secured ({"ROLE_USER", "ROLE_ADMIN"})
+    @RequestMapping(
+        value = "current", // /api/users/current
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<PrincipalDto> getCurrentPrincipal() {
+
+        String login = SecurityUtils.getCurrentLogin();
+
+        log.info("Current Login from JWT: " + login);
+
+        User user = userService.getUser(login);
+
+        if(user != null){
+            log.info("REST request to get current User details: '" + login + "'");
+            return new ResponseEntity<>(new PrincipalDto(user), HttpStatus.OK);
+        }else{
+            log.info("REST request to get current User, but could not find a user with this name: '" + login + "'");
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+    }
+
 }

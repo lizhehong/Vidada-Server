@@ -98,7 +98,7 @@ public class MediaLibrariesResource {
     }
 
     @RequestMapping(
-        value = "/{id}",
+        value = "{id}",
         method = RequestMethod.PUT,
         produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity updateLibrary(@PathVariable("id") int id, @RequestBody MediaLibraryDTO updatedLibraryDto){

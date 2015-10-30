@@ -2,14 +2,7 @@
 
 angular.module('vidadaApp')
     .factory('Account', function Account($resource) {
-        return $resource('api/account', {}, {
-            'get': { method: 'GET', params: {}, isArray: false,
-                interceptor: {
-                    response: function(response) {
-                        // expose response
-                        return response;
-                    }
-                }
-            }
+        return $resource('/api/users/current', {}, {
+            'get': { method: 'GET', params: {}, isArray: false  }
         });
     });

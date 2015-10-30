@@ -1,5 +1,7 @@
 package com.elderbyte.vidada.security;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -16,9 +18,12 @@ import com.nimbusds.jwt.SignedJWT;
 @SuppressWarnings("serial")
 public class JwtToken implements Authentication {
 
-    final SignedJWT sjwt;
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
+
+    private final SignedJWT sjwt;
     private JWTClaimsSet claims;
-    boolean authenticated;
+    private boolean authenticated;
 
     public JwtToken(SignedJWT sjwt) {
         this.sjwt = sjwt;
@@ -40,7 +45,6 @@ public class JwtToken implements Authentication {
 
     @Override
     public String getName() {
-        System.out.println("JwtToken.getName");
         return this.claims.getSubject();
     }
 
@@ -50,9 +54,9 @@ public class JwtToken implements Authentication {
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
         if (claimsString != null && claimsString != "") {
             String[] roles = claimsString.split(",");
-            System.out.println("JwtToken.getAuthorities.roles:" + roles);
+            logger.info(" roles:" + roles);
             for (String role : roles) {
-                System.out.println("JwtToken.getAuthorities.role:" + role);
+                logger.info("role: " + role);
                 grantedAuthorities.add(new SimpleGrantedAuthority(role));
             }
         }
@@ -61,32 +65,36 @@ public class JwtToken implements Authentication {
 
     @Override
     public Object getCredentials() {
-        System.out.println("JwtToken.getCredentials");
         return "";
     }
 
     @Override
     public Object getDetails() {
-        System.out.println("JwtToken.getDetails");
         return claims.toJSONObject();
     }
 
     @Override
     public Object getPrincipal() {
-        System.out.println("JwtToken.getPrincipal");
         return claims.getSubject();
     }
 
     @Override
     public boolean isAuthenticated() {
-        System.out.println("JwtToken.isAuthenticated");
         return authenticated;
     }
 
     @Override
     public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
-        System.out.println("JwtToken.setAuthenticated");
         this.authenticated = isAuthenticated;
     }
 
+    @Override
+    public String toString() {
+        return "JwtToken{" +
+            "sjwt=" + sjwt +
+            ", principal=" + getPrincipal() +
+            ", claims=" + claims +
+            ", authenticated=" + authenticated +
+            '}';
+    }
 }

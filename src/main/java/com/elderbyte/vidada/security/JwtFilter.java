@@ -33,21 +33,28 @@ public class JwtFilter extends GenericFilterBean {
     public void doFilter(ServletRequest request, ServletResponse response,
                          FilterChain chain) throws IOException, ServletException {
 
-        logger.info("Filtering JWT with authenticaiton Manager: " + authenticationManager);
-
         HttpServletRequest req = (HttpServletRequest) request;
 
         String stringToken = req.getHeader("Authorization");
-        logger.info("stringToken: " + stringToken);
+        logger.info("JWT filter got stringToken: " + stringToken);
 
         if (stringToken != null && !stringToken.isEmpty()) {
+
+            stringToken = stringToken.replace("Bearer", "").trim();
+
             try {
                 SignedJWT sjwt = SignedJWT.parse(stringToken);
                 JwtToken token = new JwtToken(sjwt);
                 Authentication auth = authenticationManager.authenticate(token);
+
+                logger.info("Valid JWT - request is now authenticated!" + token);
+
                 SecurityContextHolder.getContext().setAuthentication(auth);
+
+                logger.info("Valid JWT - request is now authenticated!" + auth);
+
             } catch (ParseException e) {
-                logger.error("Parsing JWT Token failed!", e);
+                logger.error("Parsing JWT Token failed! Token: '" + stringToken + "'", e);
             } catch (AuthenticationException e) {
                 logger.error("Authentication failed!", e);
             }

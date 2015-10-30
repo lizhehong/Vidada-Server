@@ -2,6 +2,8 @@ package com.elderbyte.vidada.config;
 
 import com.elderbyte.vidada.security.JwtAuthenticationProvider;
 import com.elderbyte.vidada.security.JwtFilter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -23,6 +25,9 @@ import org.springframework.security.web.authentication.AnonymousAuthenticationFi
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
+
     @Autowired
     private UserDetailsService userDetailsService;
 
@@ -34,16 +39,25 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     @Autowired
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        System.out
-            .println("WebSecurityConfig.configure@AuthenticationManagerBuilder");
-
+        logger.info("configure @AuthenticationManagerBuilder");
         auth.authenticationProvider(new JwtAuthenticationProvider());
+    }
 
+
+
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+
+        logger.info("configureGlobal @AuthenticationManagerBuilder");
+
+        auth
+            .userDetailsService(userDetailsService)
+            .passwordEncoder(passwordEncoder());
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        System.out.println("WebSecurityConfig.configure@HttpSecurity");
+        logger.info("configure @HttpSecurity");
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(
             SessionCreationPolicy.STATELESS);
@@ -51,23 +65,21 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     }
 
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-            .userDetailsService(userDetailsService)
-            .passwordEncoder(passwordEncoder());
-    }
-
     @Override
     public void configure(WebSecurity web) throws Exception {
+
+        logger.info("configuring @WebSecurity...");
+
         web.ignoring()
+            .antMatchers("/api/auth/**")
+            .antMatchers("/api/register")
+            .antMatchers("/api/activate")
+
             .antMatchers("/scripts/**/*.{js,html}")
             .antMatchers("/bower_components/**")
             .antMatchers("/i18n/**")
             .antMatchers("/assets/**")
             .antMatchers("/swagger-ui/**")
-            .antMatchers("/api/register")
-            .antMatchers("/api/activate")
             .antMatchers("/test/**")
             .antMatchers("/console/**");
     }

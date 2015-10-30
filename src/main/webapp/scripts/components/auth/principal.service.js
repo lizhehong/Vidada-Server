@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('vidadaApp')
-    .factory('Principal', function Principal($q, Account, Tracker) {
+    .factory('Principal', function Principal($q, Account) {
         var _identity,
             _authenticated = false;
 
@@ -52,14 +52,17 @@ angular.module('vidadaApp')
                 }
 
                 // retrieve the identity data from the server, update the identity object, and then resolve.
+                console.log("retrieving the identy / principal data from the server...");
+
                 Account.get().$promise
                     .then(function (account) {
+                        console.log("Successfully got the account: " + JSON.stringify(account));
                         _identity = account.data;
                         _authenticated = true;
                         deferred.resolve(_identity);
-                        Tracker.connect();
                     })
                     .catch(function() {
+                        console.log("Failed to fetch account from server!");
                         _identity = null;
                         _authenticated = false;
                         deferred.resolve(_identity);
