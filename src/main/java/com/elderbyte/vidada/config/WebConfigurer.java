@@ -1,8 +1,5 @@
 package com.elderbyte.vidada.config;
 
-import com.codahale.metrics.MetricRegistry;
-import com.codahale.metrics.servlet.InstrumentedFilter;
-import com.codahale.metrics.servlets.MetricsServlet;
 import com.elderbyte.vidada.web.filter.CachingHttpHeadersFilter;
 import com.elderbyte.vidada.web.filter.StaticResourcesProductionFilter;
 import com.elderbyte.vidada.web.filter.gzip.GZipServletFilter;
@@ -10,13 +7,11 @@ import com.elderbyte.vidada.web.servlets.streaming.MediaStreamServlet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.context.embedded.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
-import javax.inject.Inject;
 import javax.servlet.*;
 import java.util.Arrays;
 import java.util.EnumSet;
@@ -27,17 +22,12 @@ import java.util.Map;
  * Configuration of web application with Servlet 3.0 APIs.
  */
 @Configuration
-@AutoConfigureAfter(CacheConfiguration.class)
 public class WebConfigurer implements ServletContextInitializer, EmbeddedServletContainerCustomizer {
 
     private final Logger log = LoggerFactory.getLogger(WebConfigurer.class);
 
-    @Inject
+    @Autowired
     private Environment env;
-
-    @Autowired(required = false)
-    private MetricRegistry metricRegistry;
-
 
 
     @Bean
@@ -49,9 +39,6 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
     public void onStartup(ServletContext servletContext) throws ServletException {
         log.info("Web application configuration, using profiles: {}", Arrays.toString(env.getActiveProfiles()));
         EnumSet<DispatcherType> disps = EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD, DispatcherType.ASYNC);
-        if (!env.acceptsProfiles(Constants.SPRING_PROFILE_FAST)) {
-            initMetrics(servletContext, disps);
-        }
         if (env.acceptsProfiles(Constants.SPRING_PROFILE_PRODUCTION)) {
             initCachingHttpHeadersFilter(servletContext, disps);
             initStaticResourcesProductionFilter(servletContext, disps);
@@ -69,9 +56,7 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
     @Override
     public void customize(ConfigurableEmbeddedServletContainer container) {
         MimeMappings mappings = new MimeMappings(MimeMappings.DEFAULT);
-        // IE issue, see https://github.com/jhipster/generator-jhipster/pull/711
         mappings.add("html", "text/html;charset=utf-8");
-        // CloudFoundry issue, see https://github.com/cloudfoundry/gorouter/issues/64
         mappings.add("json", "text/html;charset=utf-8");
         container.setMimeMappings(mappings);
     }
@@ -128,40 +113,17 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
         cachingHttpHeadersFilter.setAsyncSupported(true);
     }
 
-    /**
-     * Initializes Metrics.
-     */
-    private void initMetrics(ServletContext servletContext, EnumSet<DispatcherType> disps) {
-        log.debug("Initializing Metrics registries");
-        servletContext.setAttribute(InstrumentedFilter.REGISTRY_ATTRIBUTE,
-                metricRegistry);
-        servletContext.setAttribute(MetricsServlet.METRICS_REGISTRY,
-                metricRegistry);
-
-        log.debug("Registering Metrics Filter");
-        FilterRegistration.Dynamic metricsFilter = servletContext.addFilter("webappMetricsFilter",
-                new InstrumentedFilter());
-
-        metricsFilter.addMappingForUrlPatterns(disps, true, "/*");
-        metricsFilter.setAsyncSupported(true);
-
-        log.debug("Registering Metrics Servlet");
-        ServletRegistration.Dynamic metricsAdminServlet =
-                servletContext.addServlet("metricsServlet", new MetricsServlet());
-
-        metricsAdminServlet.addMapping("/metrics/metrics/*");
-        metricsAdminServlet.setAsyncSupported(true);
-        metricsAdminServlet.setLoadOnStartup(2);
-    }
 
     /**
      * Initializes H2 console
      */
     private void initH2Console(ServletContext servletContext) {
+        /*
         log.debug("Initialize H2 console");
         ServletRegistration.Dynamic h2ConsoleServlet = servletContext.addServlet("H2Console", new org.h2.server.web.WebServlet());
         h2ConsoleServlet.addMapping("/console/*");
         h2ConsoleServlet.setInitParameter("-properties", "src/main/resources");
         h2ConsoleServlet.setLoadOnStartup(1);
+        */
     }
 }

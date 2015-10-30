@@ -6,8 +6,8 @@ spring:
         active: dev
     datasource:
         dataSourceClassName: org.h2.jdbcx.JdbcDataSource
-        _url: jdbc:h2:mem:hipster;DB_CLOSE_DELAY=-1
-        url: jdbc:h2:./vidadadb;DB_CLOSE_DELAY=-1
+        url: jdbc:h2:mem:hipster;DB_CLOSE_DELAY=-1
+        _url: jdbc:h2:./vidadadb;DB_CLOSE_DELAY=-1
         databaseName:
         serverName:
         username:
@@ -23,10 +23,9 @@ spring:
             ddl-auto: update
             naming-strategy: org.hibernate.cfg.EJB3NamingStrategy
         properties:
-            hibernate.cache.use_second_level_cache: true
+            hibernate.cache.use_second_level_cache: false
             hibernate.cache.use_query_cache: false
             hibernate.generate_statistics: true
-            hibernate.cache.region.factory_class: org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
 
     mail:
         baseUrl: http://localhost:8080

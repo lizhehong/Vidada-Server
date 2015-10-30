@@ -8,13 +8,12 @@ import com.elderbyte.vidada.service.ThumbnailService;
 import com.elderbyte.vidada.service.media.MediaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.inject.Inject;
-import javax.websocket.server.PathParam;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Optional;
@@ -30,10 +29,10 @@ public class ThumbnailResource {
     private static int MIN_SIZE = 50;
     private static int MAX_SIZE = 1000;
 
-    @Inject
+    @Autowired
     private ThumbnailService thumbnailService;
 
-    @Inject
+    @Autowired
     private MediaService mediaService;
 
 

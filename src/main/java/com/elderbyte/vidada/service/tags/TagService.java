@@ -6,11 +6,11 @@ import com.elderbyte.vidada.domain.tags.relations.TagRelationDefinition;
 import com.elderbyte.vidada.repository.TagRepository;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.inject.Inject;
 import java.util.*;
 
 /**
@@ -43,7 +43,7 @@ public class TagService {
      * Creates a new TagService
      * @param repository
      */
-    @Inject
+    @Autowired
     public TagService(TagRepository repository) {
         this.repository = repository;
     }

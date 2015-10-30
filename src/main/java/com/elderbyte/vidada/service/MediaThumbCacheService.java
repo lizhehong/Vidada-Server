@@ -10,12 +10,11 @@ import com.elderbyte.vidada.domain.media.source.MediaSource;
 import com.elderbyte.vidada.domain.security.ICredentialManager;
 import com.elderbyte.vidada.VidadaSettings;
 import com.elderbyte.vidada.service.images.ImageCacheFactory;
-import org.hibernate.annotations.Synchronize;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.inject.Inject;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
@@ -52,7 +51,7 @@ public class MediaThumbCacheService  {
      * Creates a new GlobalImageCacheManager without a central file cache.
      * Instead, a central memory cache is used during the session.
      */
-    @Inject
+    @Autowired
     public MediaThumbCacheService(ICredentialManager credentialManager, ImageCacheFactory imageCacheFactory, VidadaSettings settings){
 
         this.imageCacheFactory = imageCacheFactory;

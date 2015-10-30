@@ -4,9 +4,9 @@ import archimedes.core.geometry.Size;
 import archimedes.core.images.IMemoryImage;
 import archimedes.core.io.locations.IResourceAccessContext;
 import archimedes.core.io.locations.ResourceLocation;
+import com.elderbyte.ffmpeg.VideoInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import vidada.ffmpeg.VideoInfo;
 
 import java.io.IOException;
 

@@ -12,10 +12,9 @@ import com.elderbyte.vidada.domain.images.cache.crypto.ICacheKeyProvider;
 import com.elderbyte.vidada.domain.security.ICredentialManager;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
-import javax.inject.Inject;
 import java.io.File;
 
 /**
@@ -29,7 +28,7 @@ public class ImageCacheFactory {
     private final IRawImageFactory imageFactory;
 
 
-    @Inject
+    @Autowired
     public ImageCacheFactory(IRawImageFactory imageFactory){
         this.imageFactory = imageFactory;
     }

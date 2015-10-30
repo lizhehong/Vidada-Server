@@ -61,10 +61,15 @@ angular.module('vidadaApp', ['LocalStorageModule', 'tmh.dynamicLocale',
         return {
             // Add authorization token to headers
             request: function (config) {
+
                 config.headers = config.headers || {};
                 var token = localStorageService.get('token');
 
-                if (token && token.expires_at && token.expires_at > new Date().getTime()) {
+                // token.expires_at && token.expires_at > new Date().getTime()
+
+                if (token) {
+
+                    console.log("Add authorization token to headers: " + token.access_token);
                     config.headers.Authorization = 'Bearer ' + token.access_token;
                 }
 
@@ -76,6 +81,9 @@ angular.module('vidadaApp', ['LocalStorageModule', 'tmh.dynamicLocale',
     .factory('authExpiredInterceptor', function ($rootScope, $q, $injector, localStorageService) {
         return {
             responseError: function (response) {
+
+                console.log("Checking if token has expired: " + response.status + " msg: " + response.data.error);
+
                 // token has expired
                 if (response.status === 401 && (response.data.error == 'invalid_token' || response.data.error == 'Unauthorized')) {
                     localStorageService.remove('token');

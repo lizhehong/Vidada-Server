@@ -2,7 +2,7 @@ package com.elderbyte.vidada.domain.video;
 
 import archimedes.core.geometry.Size;
 import archimedes.core.images.IMemoryImage;
-import vidada.ffmpeg.VideoInfo;
+import com.elderbyte.ffmpeg.VideoInfo;
 
 import java.net.URI;
 

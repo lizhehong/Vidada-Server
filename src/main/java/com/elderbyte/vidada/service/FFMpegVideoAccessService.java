@@ -4,21 +4,23 @@ import archimedes.core.geometry.Size;
 import archimedes.core.images.IMemoryImage;
 import archimedes.core.images.IRawImageFactory;
 
+import com.elderbyte.ffmpeg.FFmpegException;
+import com.elderbyte.ffmpeg.FFmpegInterop;
+import com.elderbyte.ffmpeg.VideoInfo;
 import com.elderbyte.vidada.domain.video.IVideoAccessService;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import vidada.ffmpeg.FFmpegException;
-import vidada.ffmpeg.FFmpegInterop;
-import vidada.ffmpeg.VideoInfo;
 
-import javax.inject.Inject;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
+
 
 @Service
 public class FFMpegVideoAccessService implements IVideoAccessService {
@@ -36,7 +38,7 @@ public class FFMpegVideoAccessService implements IVideoAccessService {
 	private final Map<String, VideoInfo> videoInfoCache = new HashMap<String, VideoInfo>();
 
 
-    @Inject
+    @Autowired
     public FFMpegVideoAccessService(IRawImageFactory imageFactory){
         this.imageFactory = imageFactory;
     }

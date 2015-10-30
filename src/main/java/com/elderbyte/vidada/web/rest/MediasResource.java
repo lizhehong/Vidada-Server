@@ -8,6 +8,7 @@ import com.elderbyte.vidada.service.media.MediaService;
 import com.elderbyte.vidada.web.rest.dto.MediaDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.UriComponents;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
@@ -33,10 +33,10 @@ public class MediasResource {
 
     private static final Logger logger = LoggerFactory.getLogger(MediasResource.class);
 
-    @Inject
+    @Autowired
     private HttpServletRequest request;
 
-    @Inject
+    @Autowired
     private MediaService mediaService;
 
     /***************************************************************************

@@ -3,7 +3,6 @@ package com.elderbyte.vidada.service.media;
 import archimedes.core.io.locations.ResourceLocation;
 import com.elderbyte.vidada.domain.media.*;
 import com.elderbyte.vidada.domain.media.source.MediaSource;
-import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,6 +12,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
 public class MediaItemFactory {
 
@@ -98,8 +99,7 @@ public class MediaItemFactory {
                 BasicFileAttributes attr = Files.readAttributes(mediaFile, BasicFileAttributes.class);
                 FileTime time = attr.creationTime();
                 long fileSize = attr.size();
-
-                mediaItem.setAddedDate(new DateTime(time.toMillis()));
+                mediaItem.setAddedDate(ZonedDateTime.ofInstant(time.toInstant(), ZoneId.systemDefault()));
                 mediaItem.setFileSize(fileSize);
                 wasUpdated = true;
             } catch (IOException e) {

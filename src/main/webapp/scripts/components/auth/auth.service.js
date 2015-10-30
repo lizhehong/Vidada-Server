@@ -1,19 +1,26 @@
 'use strict';
 
 angular.module('vidadaApp')
-    .factory('Auth', function Auth($rootScope, $state, $q, $translate, Principal, AuthServerProvider, Account, Register, Activate, Password, Tracker) {
+    .factory('Auth', function Auth($rootScope, $state, $q, $translate, Principal, AuthServerProvider, Account, Register, Activate, Password) {
         return {
             login: function (credentials, callback) {
                 var cb = callback || angular.noop;
                 var deferred = $q.defer();
 
                 AuthServerProvider.login(credentials).then(function (data) {
+
+                    console.log("Successfully logged in, now getting current users principal...");
+
                     // retrieve the logged account information
                     Principal.identity(true).then(function(account) {
-                        // After the login the language will be changed to
-                        // the language selected by the user during his registration
-                        $translate.use(account.langKey);
-                        Tracker.sendActivity();
+
+                        console.log("Got the principal: " + JSON.stringify(account))
+
+                        if(account.langKey){
+                            // After the login the language will be changed to
+                            // the language selected by the user during his registration
+                            $translate.use(account.langKey);
+                        }
                         deferred.resolve(data);
                     });
                     return cb();
@@ -27,6 +34,9 @@ angular.module('vidadaApp')
             },
 
             logout: function () {
+
+                console.log("Logging out...");
+
                 AuthServerProvider.logout();
                 Principal.authenticate(null);
             },
@@ -38,10 +48,15 @@ angular.module('vidadaApp')
 
                         if ($rootScope.toState.data.roles && $rootScope.toState.data.roles.length > 0 && !Principal.isInAnyRole($rootScope.toState.data.roles)) {
                             if (isAuthenticated) {
+
+                                console.log("User is signed in but not authorized for desired state!");
+
                                 // user is signed in but not authorized for desired state
                                 $state.go('accessdenied');
                             }
                             else {
+                                console.log("User is not authenticated!");
+
                                 // user is not authenticated. stow the state they wanted before you
                                 // send them to the signin state, so you can return them when you're done
                                 $rootScope.returnToState = $rootScope.toState;

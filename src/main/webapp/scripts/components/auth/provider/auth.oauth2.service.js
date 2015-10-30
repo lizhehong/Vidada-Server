@@ -4,26 +4,33 @@ angular.module('vidadaApp')
     .factory('AuthServerProvider', function loginService($http, localStorageService, Base64) {
         return {
             login: function(credentials) {
-                var data = "username=" + credentials.username + "&password="
-                    + credentials.password + "&grant_type=password&scope=read%20write&" +
-                    "client_secret=mySecretOAuthSecret&client_id=vidadaapp";
-                return $http.post('oauth/token', data, {
-                    headers: {
-                        "Content-Type": "application/x-www-form-urlencoded",
-                        "Accept": "application/json",
-                        "Authorization": "Basic " + Base64.encode("vidadaapp" + ':' + "mySecretOAuthSecret")
-                    }
-                }).success(function (response) {
-                    var expiredAt = new Date();
-                    expiredAt.setSeconds(expiredAt.getSeconds() + response.expires_in);
-                    response.expires_at = expiredAt.getTime();
-                    localStorageService.set('token', response);
-                    return response;
+
+                return $http.post('/api/auth/login', credentials).then(function(response) {
+
+                    var jwt = response.data.token;
+
+                    console.log('Login success, got token: ' + jwt);
+
+                    localStorageService.set('token', {
+                        access_token: jwt,
+                        expires_at: null
+                    });
+
+                    return jwt;
+
+                }, function(){
+                    console.log('Login failed!');
                 });
+
             },
             logout: function() {
                 // logout from the server
+
+                console.log('Logging out, clearing local JWT!');
+
                 $http.post('api/logout').then(function() {
+                    localStorageService.clearAll();
+                }, function(){
                     localStorageService.clearAll();
                 });
             },
@@ -32,7 +39,9 @@ angular.module('vidadaApp')
             },
             hasValidToken: function () {
                 var token = this.getToken();
-                return token && token.expires_at && token.expires_at > new Date().getTime();
+                //return token && token.expires_at && token.expires_at > new Date().getTime();
+                return token && true;
             }
         };
     });
+

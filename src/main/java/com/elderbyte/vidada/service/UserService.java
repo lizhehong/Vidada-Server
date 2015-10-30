@@ -6,19 +6,14 @@ import com.elderbyte.vidada.domain.security.KnownAuthority;
 import com.elderbyte.vidada.repository.UserRepository;
 import com.elderbyte.vidada.security.SecurityUtils;
 import com.elderbyte.vidada.service.util.RandomUtil;
-import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.inject.Inject;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 /**
  * Service class for managing users.
@@ -33,7 +28,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final AuthorityService authorityService;
 
-    @Inject
+    @Autowired
     public UserService(PasswordEncoder passwordEncoder, UserRepository userRepository, AuthorityService authorityService){
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
@@ -91,12 +86,14 @@ public class UserService {
     }
 
     public void changePassword(String password) {
+
         userRepository.findOneByLogin(SecurityUtils.getCurrentLogin()).ifPresent(u-> {
             String encryptedPassword = passwordEncoder.encode(password);
             u.setPassword(encryptedPassword);
             userRepository.save(u);
             log.debug("Changed password for User: {}", u);
         });
+
     }
 
     /**
@@ -115,24 +112,6 @@ public class UserService {
         Optional<User> user = userRepository.findOneByLogin(login);
         return user.orElse(null);
     }
-
-    /**
-     * Not activated users should be automatically deleted after 3 days.
-     * <p/>
-     * <p>
-     * This is scheduled to get fired everyday, at 01:00 (am).
-     * </p>
-     */
-    @Scheduled(cron = "0 0 1 * * ?")
-    public void removeNotActivatedUsers() {
-        DateTime now = new DateTime();
-        List<User> users = userRepository.findAllByActivatedIsFalseAndCreatedDateBefore(now.minusDays(3));
-        for (User user : users) {
-            log.debug("Deleting not activated user {}", user.getLogin());
-            userRepository.delete(user);
-        }
-    }
-
 
 
     @Transactional
