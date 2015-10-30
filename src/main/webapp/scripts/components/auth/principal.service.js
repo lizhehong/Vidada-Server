@@ -52,12 +52,12 @@ angular.module('vidadaApp')
                 }
 
                 // retrieve the identity data from the server, update the identity object, and then resolve.
-                console.log("retrieving the identy / principal data from the server...");
+                console.log("retrieving the identity / principal data from the server...");
 
                 Account.get().$promise
                     .then(function (account) {
                         console.log("Successfully got the account: " + JSON.stringify(account));
-                        _identity = account.data;
+                        _identity = account;
                         _authenticated = true;
                         deferred.resolve(_identity);
                     })
