@@ -117,24 +117,6 @@ public class UserService {
         return user.orElse(null);
     }
 
-    /**
-     * Not activated users should be automatically deleted after 3 days.
-     * <p/>
-     * <p>
-     * This is scheduled to get fired everyday, at 01:00 (am).
-     * </p>
-     */
-    @Scheduled(cron = "0 0 1 * * ?")
-    public void removeNotActivatedUsers() {
-        DateTime now = new DateTime();
-        List<User> users = userRepository.findAllByActivatedIsFalseAndCreatedDateBefore(now.minusDays(3));
-        for (User user : users) {
-            log.debug("Deleting not activated user {}", user.getLogin());
-            userRepository.delete(user);
-        }
-    }
-
-
 
     @Transactional
     private void ensureKnownUsers() {
