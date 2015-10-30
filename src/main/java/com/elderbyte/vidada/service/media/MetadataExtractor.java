@@ -5,6 +5,7 @@ import archimedes.core.geometry.Size;
 import archimedes.core.io.locations.ResourceLocation;
 import archimedes.core.swing.images.ImageInfo;
 import archimedes.core.swing.images.SimpleImageInfo;
+import com.elderbyte.ffmpeg.VideoInfo;
 import com.elderbyte.vidada.domain.media.ImageMediaItem;
 import com.elderbyte.vidada.domain.media.MediaItem;
 import com.elderbyte.vidada.domain.media.MediaLibrary;
@@ -16,7 +17,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import vidada.ffmpeg.VideoInfo;
 
 import java.io.IOException;
 import java.io.InputStream;

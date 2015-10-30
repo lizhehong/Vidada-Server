@@ -10,11 +10,10 @@ import com.elderbyte.vidada.domain.tags.Tag;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import java.beans.Transient;
-import java.net.URI;
+import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -49,14 +48,13 @@ public abstract class MediaItem extends BaseEntity {
 	@Id
 	private String filehash = null;
 	private String filename = null;
-	private DateTime addedDate = new DateTime();
+	private ZonedDateTime addedDate = ZonedDateTime.now();
     private long fileSize = -1;
 	private Size resolution = Size.Empty;
 	private int opened = 0;
 	private int rating = 0;
 	private MediaType type = MediaType.UNKNOWN;
-    private DateTime lastAccessed = new DateTime();
-
+    private ZonedDateTime lastAccessed = ZonedDateTime.now();
 
 
     @javax.persistence.Transient // Only used for JSON serialisation
@@ -137,7 +135,7 @@ public abstract class MediaItem extends BaseEntity {
 	 *
 	 * @return
 	 */
-	public DateTime getAddedDate() {
+	public ZonedDateTime getAddedDate() {
 		return addedDate;
 	}
 
@@ -146,7 +144,7 @@ public abstract class MediaItem extends BaseEntity {
 	 *
 	 * @param addedDate
 	 */
-	public void setAddedDate(DateTime addedDate) {
+	public void setAddedDate(ZonedDateTime addedDate) {
 		this.addedDate = addedDate;
 		firePropertyChange("addedDate");
 	}
@@ -330,11 +328,11 @@ public abstract class MediaItem extends BaseEntity {
 		firePropertyChange("rating");
 	}
 
-    public DateTime getLastAccessed() {
+    public ZonedDateTime getLastAccessed() {
         return lastAccessed;
     }
 
-    public void setLastAccessed(DateTime lastAccessed) {
+    public void setLastAccessed(ZonedDateTime lastAccessed) {
 		this.lastAccessed = lastAccessed;
 		firePropertyChange("lastAccessed");
 	}

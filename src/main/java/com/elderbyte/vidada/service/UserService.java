@@ -6,17 +6,13 @@ import com.elderbyte.vidada.domain.security.KnownAuthority;
 import com.elderbyte.vidada.repository.UserRepository;
 import com.elderbyte.vidada.security.SecurityUtils;
 import com.elderbyte.vidada.service.util.RandomUtil;
-import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
-import java.util.List;
 import java.util.Optional;
 
 /**
