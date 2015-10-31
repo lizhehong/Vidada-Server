@@ -4,6 +4,7 @@ package com.elderbyte.ffmpeg;
 import archimedes.core.geometry.Size;
 import archimedes.core.shell.ShellExec;
 import archimedes.core.util.OSValidator;
+import com.elderbyte.common.ArgumentNullException;
 import com.elderbyte.common.Version;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.LogManager;
@@ -273,6 +274,11 @@ public abstract class FFmpegInterop {
      * @exception FFmpegException Thrown when there was a problem executing the command.
      */
     private String ffmpegExec(String... args) throws FFmpegException {
+
+        if(args.length == 0){
+            throw new FFmpegException("At least one argument is required for ffmpeg!");
+        }
+
         return ffmpegExec(Arrays.asList(args), DEFAULT_TIMEOUT);
     }
 
@@ -286,27 +292,31 @@ public abstract class FFmpegInterop {
      */
     private String ffmpegExec(List<String> args, long timeout) throws FFmpegException {
 
+        if(args == null) throw new ArgumentNullException("args");
+
         StringBuilder output = new StringBuilder();
 
-        String[] command = null;
         try {
-            args.add(0, ffmpegCmd());
-            command = args.toArray(new String[args.size()]);
+            String ffmpegCommand = ffmpegCmd();
+            if(ffmpegCommand == null || ffmpegCommand.isEmpty()) throw new FFmpegException("ffmpeg command is not properly configured!");
+
+            args.add(0, ffmpegCommand);
+            String[] command = args.toArray(new String[args.size()]);
             int exitVal = ShellExec.executeAndWait(command, output, timeout);
 
             if(exitVal != 0) {
                 // No success!
                 throw new FFmpegException(
-                    String.format("Failed with exit-code %s to execute command '%s'!", exitVal, toFlatString(command)));
+                    String.format("Failed with exit-code %s to execute command '%s'!", exitVal, toFlatString(args)));
             }
 
         } catch(Exception e){
-            throw new FFmpegException(String.format("Failed to execute command '%s'!", toFlatString(command)), e);
+            throw new FFmpegException(String.format("Failed to execute command '%s'!", toFlatString(args)), e);
         }
         return output.toString();
     }
 
-    private static String toFlatString(String[] args){
+    private static String toFlatString(Iterable<String> args){
         String flat = "";
         for (String arg : args){
             flat += arg + " ";
