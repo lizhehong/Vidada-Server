@@ -118,6 +118,15 @@
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
 
+        <!-- "zero-overhead" production ready JDBC connection pool  -->
+
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>2.4.1</version>
+        </dependency>
+
+
         <!-- JWT Token security -->
 
         <dependency>
