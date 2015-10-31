@@ -35,12 +35,18 @@ public class FFMpegVideoAccessService implements IVideoAccessService {
 
     private final IRawImageFactory imageFactory;
 	private final static FFmpegInterop ffmpeg = FFmpegInterop.instance();
-	private final Map<String, VideoInfo> videoInfoCache = new HashMap<String, VideoInfo>();
+	private final Map<String, VideoInfo> videoInfoCache = new HashMap<>();
 
 
     @Autowired
     public FFMpegVideoAccessService(IRawImageFactory imageFactory){
         this.imageFactory = imageFactory;
+
+        try {
+            logger.info("Initialized ffmpeg wrapper @ version " + ffmpeg.ffmpegVersion());
+        } catch (FFmpegException e) {
+            logger.warn("Failed to initialize ffmpeg!");
+        }
     }
 
 
@@ -56,11 +62,20 @@ public class FFMpegVideoAccessService implements IVideoAccessService {
 		String pathstr = pathToVideFile.toString();
 		if(!videoInfoCache.containsKey(pathstr))
 		{
-			VideoInfo info = ffmpeg.getVideoInfo(pathToVideFile);
-			if(info.hasAllInfos())
-				videoInfoCache.put(pathstr, info);
+            VideoInfo info = null;
+            try {
+                info = ffmpeg.getVideoInfo(pathToVideFile);
+                if(info.hasAllInfos()) {
+                    videoInfoCache.put(pathstr, info);
+                }
+            } catch (FFmpegException e) {
+               logger.error("Failed to extract video info!", e);
+            }
 		}
-		return videoInfoCache.get(pathstr);
+        if(videoInfoCache.containsKey(pathstr)){
+            return videoInfoCache.get(pathstr);
+        }
+		return null;
 	}
 
 
@@ -125,7 +140,7 @@ public class FFMpegVideoAccessService implements IVideoAccessService {
 
     @Override
     public boolean isAvailable() {
-        return ffmpeg.isAvaiable();
+        return ffmpeg.isAvailable();
     }
 
     /***************************************************************************
@@ -149,7 +164,7 @@ public class FFMpegVideoAccessService implements IVideoAccessService {
 		try {
 			pathToImage = File.createTempFile("thumb", ".png");
 			try {
-				ffmpeg.createImage(pathToVideFile, pathToImage, second, size);
+				ffmpeg.extractFrame(pathToVideFile, pathToImage, second, size);
 				//load the file...
 				frame = imageFactory.createImage(pathToImage);
 

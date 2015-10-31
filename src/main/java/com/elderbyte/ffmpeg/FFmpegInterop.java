@@ -4,22 +4,19 @@ package com.elderbyte.ffmpeg;
 import archimedes.core.geometry.Size;
 import archimedes.core.shell.ShellExec;
 import archimedes.core.util.OSValidator;
-import archimedes.core.util.PackageUtil;
+import com.elderbyte.common.Version;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.TimeoutException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.zip.ZipException;
 
 /**
  * Platform independent ffmpeg wrapper to extract thumbnails and basic media info
@@ -37,11 +34,23 @@ public abstract class FFmpegInterop {
 
     protected static final Logger logger = LogManager.getLogger(FFmpegInterop.class.getName());
 
+    private static final Version ffmpegRequiredVersion = new Version(2, 0, 0); // Minimal required verison of ffmpeg
 
-    protected static File encoder;
+    private static FFmpegInterop instance = null;
+    private static int DEFAULT_TIMEOUT = 1000 * 5; // ms
 
-	private static FFmpegInterop instance = null;
-	private static int DEFAULT_TIMEOUT = 1000 * 5; // ms
+    // Patterns to extract ffmpeg information from console output
+
+    private static final Pattern regex_Duration = Pattern.compile("Duration: (\\d\\d):(\\d\\d):(\\d\\d)\\.(\\d\\d)");
+    private static final Pattern regex_BitRate = Pattern.compile("bitrate: (\\d*) kb/s");
+    private static final Pattern regex_Resolution = Pattern.compile("Video: .* (\\d{2,})x(\\d{2,})");
+
+
+    /***************************************************************************
+     *                                                                         *
+     * Singleton                                                               *
+     *                                                                         *
+     **************************************************************************/
 
     /**
      * Gets the FFmpegInterop instance
@@ -61,7 +70,11 @@ public abstract class FFmpegInterop {
 		return instance;
 	}
 
-
+    /***************************************************************************
+     *                                                                         *
+     * Public API                                                              *
+     *                                                                         *
+     **************************************************************************/
 
 	/**
 	 *  Extracts the frame at the given time as an image.
@@ -72,11 +85,11 @@ public abstract class FFmpegInterop {
 	 * @param size
 	 * @throws FFmpegException
 	 */
-	public void createImage(URI pathToVideo, File pathToImage, int second, Size size) throws FFmpegException {
+	public final void extractFrame(URI pathToVideo, File pathToImage, int second, Size size) throws FFmpegException {
 
 		FileUtils.deleteQuietly(pathToImage);
 
-		List<String> argumentBuilder = new ArrayList<String>();
+		List<String> argumentBuilder = new ArrayList<>();
 
 		argumentBuilder.add("-ss"); 		// seek - better before setting the -i input!
 		argumentBuilder.add(second +"");
@@ -102,24 +115,20 @@ public abstract class FFmpegInterop {
 
 		if(!pathToImage.exists())
 		{
-			throw new FFmpegException("Image could not been created.(file missing)", log);
+			throw new FFmpegException("Frame could not be extracted! (image file missing) Console: " + log);
 		}
 	}
 
 
-	//
-	// define the patterns to extract the information
-	//
-	private static final Pattern regex_Duration = Pattern.compile("Duration: (\\d\\d):(\\d\\d):(\\d\\d)\\.(\\d\\d)");
-	private static final Pattern regex_BitRate = Pattern.compile("bitrate: (\\d*) kb/s");
-	private static final Pattern regex_Resolution = Pattern.compile("Video: .* (\\d{2,})x(\\d{2,})");
+    /**
+     * Returns basic information about the given media item
+     * @param pathToVideo Path to the video file.
+     * @return
+     * @exception FFmpegException Thrown when there was a problem executing the command.
+     */
+	public final VideoInfo getVideoInfo(URI pathToVideo) throws FFmpegException {
 
-	public VideoInfo getVideoInfo(URI pathToVideo) {
-
-		//if(!pathToVideo.exists())
-		//	throw new IllegalArgumentException("file must exist and being readable! @ " + pathToVideo.toString());
-
-		List<String> argumentBuilder = new ArrayList<String>();
+		List<String> argumentBuilder = new ArrayList<>();
 
 		argumentBuilder.add("-ss"); 		// seek -
 		argumentBuilder.add("2");
@@ -184,34 +193,53 @@ public abstract class FFmpegInterop {
 		return new VideoInfo(videoDuration, videoBitrate, resolution);
 	}
 
+    /**
+     * Returns the version of ffmpeg currently used.
+     *
+     *  @exception FFmpegException Thrown when there was a problem executing the command.
+     */
+    public final Version ffmpegVersion() throws FFmpegException {
 
-	/**
-	 * Execute the given ffmpeg command
-	 * @param args
-	 * @param timeout
-	 * @return
-	 */
-	private String ffmpegExec(List<String> args, long timeout){
+        String version = ffmpegExec("--version");
 
-		StringBuilder output = new StringBuilder();
+        if(version != null && !version.isEmpty()){
+            try {
+                return Version.ofString(version.trim());
+            } catch (Version.VersionFormatException e) {
+                throw new FFmpegException("Could not parse ffmpeg version!", e);
+            }
+        }
+        throw new FFmpegException("Failed to retrieve ffmpeg version!");
+    }
 
-		try {
-			args.add(0, getFFmpegCMD());
-			String[] command = args.toArray(new String[0]);
+    private Boolean isAvailableCache = null;
 
-			int exitVal = ShellExec.executeAndWait(command, output, timeout);
+    /**
+     * Returns true if ffmpeg is available?
+     */
+    public final boolean isAvailable(){
 
-		} catch( TimeoutException e){
-            logger.warn("ffmpeg process timed out: " + e.getMessage());
-        } catch(Exception e) {
-            logger.error(e);
-		}
-		return output.toString();
-	}
+        if(isAvailableCache == null){
+            try {
+                Version version = ffmpegVersion();
+                if(version != null){
+                    isAvailableCache = true;
+                }
+            }catch (Exception e){
+                logger.error("ffmpeg available failed!", e);
+            }
+            isAvailableCache = false;
+        }
 
-	protected String dimensionToString(Size size){
-		return  size.width + "x" + size.height;
-	}
+        return isAvailableCache;
+    }
+
+
+    /***************************************************************************
+     *                                                                         *
+     * Protected Methods                                                       *
+     *                                                                         *
+     **************************************************************************/
 
 	protected String shieldPathArgument(File pathArg){
 		return "\"" + pathArg.getAbsolutePath() + "\"";
@@ -221,12 +249,69 @@ public abstract class FFmpegInterop {
 		return "\"" + pathArg.getPath() + "\"";
 	}
 
-	/**
-	 * Is ffmpeg avaiable
-	 * @return
-	 */
-	public abstract boolean isAvaiable();
 
-	protected abstract String getFFmpegCMD();
+    /**
+     * Subclasses have to implement this method and specify the exact command/path which
+     * has to be executed as ffmpeg.
+     *
+     * If ffmpeg is extracted or downloaded on demand, subclasses also have to handle this here.
+     *
+     * @return
+     */
+	protected abstract String ffmpegCmd();
+
+    /***************************************************************************
+     *                                                                         *
+     * Private Methods                                                         *
+     *                                                                         *
+     **************************************************************************/
+
+    /**
+     * Execute the given ffmpeg command and returns the console output.
+     * @param args The arguments to pass to ffmpeg
+     * @return Returns the console output of the successful command.
+     * @exception FFmpegException Thrown when there was a problem executing the command.
+     */
+    private String ffmpegExec(String... args) throws FFmpegException {
+        return ffmpegExec(Arrays.asList(args), DEFAULT_TIMEOUT);
+    }
+
+
+    /**
+     * Execute the given ffmpeg command and returns the console output.
+     * @param args The arguments to pass to ffmpeg
+     * @param timeout How long should we wait for a response from ffmpeg?
+     * @return Returns the console output of the successful command.
+     * @exception FFmpegException Thrown when there was a problem executing the command.
+     */
+    private String ffmpegExec(List<String> args, long timeout) throws FFmpegException {
+
+        StringBuilder output = new StringBuilder();
+
+        String[] command = null;
+        try {
+            args.add(0, ffmpegCmd());
+            command = args.toArray(new String[args.size()]);
+            int exitVal = ShellExec.executeAndWait(command, output, timeout);
+
+            if(exitVal != 0) {
+                // No success!
+                throw new FFmpegException(
+                    String.format("Failed with exit-code %s to execute command '%s'!", exitVal, toFlatString(command)));
+            }
+
+        } catch(Exception e){
+            throw new FFmpegException(String.format("Failed to execute command '%s'!", toFlatString(command)), e);
+        }
+        return output.toString();
+    }
+
+    private static String toFlatString(String[] args){
+        String flat = "";
+        for (String arg : args){
+            flat += arg + " ";
+        }
+        return flat.trim();
+    }
 
 }

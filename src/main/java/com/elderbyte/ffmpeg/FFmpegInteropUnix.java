@@ -7,21 +7,24 @@ import java.net.URI;
 
 class FFmpegInteropUnix extends FFmpegInterop
 {
-	private static File encoder;
+    private String ffmpegCommand = "ffmpeg";
 
-	static {
+
+    public FFmpegInteropUnix(){
         try {
-            encoder = ResourceUtil.extractResource("tools/ffmpeg");
-            encoder.setExecutable(true);
+            File ffmpeg = ResourceUtil.extractResource("tools/ffmpeg");
+            if(ffmpeg != null && ffmpeg.exists()){
+                ffmpeg.setExecutable(true);
+                ffmpegCommand = shieldPathArgument(ffmpeg);
+            }
         } catch (IOException e) {
             logger.error("Failed to extract ffmeg!", e);
         }
     }
 
-
 	@Override
-	public String getFFmpegCMD() {
-		return shieldPathArgument(encoder);	//return "ffmpeg";
+	public String ffmpegCmd() {
+		return ffmpegCommand;
 	}
 
 	@Override
@@ -34,17 +37,5 @@ class FFmpegInteropUnix extends FFmpegInterop
 		return pathArg.getPath();
 	}
 
-	boolean isAvaiable;
-	boolean isAvaiableDirty = true;
-
-	@Override
-	public boolean isAvaiable() {
-		if(isAvaiableDirty){
-			isAvaiable = encoder.exists();
-			isAvaiableDirty = false;
-		}
-
-		return isAvaiable;
-	}
 
 }

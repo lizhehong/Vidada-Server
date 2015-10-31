@@ -6,14 +6,19 @@ import java.net.URI;
 
 class FFmpegInteropWindows extends FFmpegInterop
 {
-	static {
+    private String ffmpegCommand = "ffmpeg";
+
+
+    public FFmpegInteropWindows(){
         try {
-            encoder = ResourceUtil.extractResource("tools/ffmpeg.exe");
+            File ffmpeg = ResourceUtil.extractResource("tools/ffmpeg.exe");
+            if(ffmpeg != null && ffmpeg.exists()){
+                ffmpegCommand = shieldPathArgument(ffmpeg);
+            }
         } catch (IOException e) {
             logger.error("Failed to extract ffmeg!", e);
         }
     }
-
 
 	@Override
 	protected String shieldPathArgument(File pathArg){
@@ -28,12 +33,8 @@ class FFmpegInteropWindows extends FFmpegInterop
 
 
 	@Override
-	public String getFFmpegCMD() {
-		return shieldPathArgument(encoder);
+	public String ffmpegCmd() {
+		return ffmpegCommand;
 	}
 
-	@Override
-	public boolean isAvaiable() {
-		return encoder.exists();
-	}
 }
