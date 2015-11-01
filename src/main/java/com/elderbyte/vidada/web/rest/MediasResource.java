@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.UriComponents;
@@ -19,7 +20,7 @@ import org.springframework.web.util.UriComponents;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
-
+@Secured({"ROLE_USER"})
 @RestController
 @RequestMapping("/api/medias")
 public class MediasResource {

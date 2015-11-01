@@ -19,8 +19,8 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
     private String SecretKey = "494847a9c8a147bf82f4ca6da59efe61"; // TODO Use key strategy
 
     @Override
-    public Authentication authenticate(Authentication authentication)
-        throws AuthenticationException {
+    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+
         JwtToken jwtToken = (JwtToken) authentication;
         logger.info("JWT authentication with token: " + jwtToken);
         try {
@@ -30,7 +30,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
                 logger.info("JWT is verified and authenticated!");
                 jwtToken.setAuthenticated(true);
             } else {
-                throw new JwtAuthenticationException("authentication failed");
+                throw new JwtAuthenticationException("Authentication failed - MAC not matching!");
             }
             return jwtToken;
         } catch (JOSEException e) {

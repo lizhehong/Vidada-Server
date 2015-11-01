@@ -1,7 +1,7 @@
 package com.elderbyte.vidada.service;
 
 import com.elderbyte.vidada.domain.security.Authority;
-import com.elderbyte.vidada.domain.security.KnownAuthority;
+import com.elderbyte.vidada.domain.security.KnownRole;
 import com.elderbyte.vidada.repository.AuthorityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,7 +41,7 @@ public class AuthorityService {
      */
     @Transactional
     private void ensureDefaultAuthorities(){
-        for(String role : KnownAuthority.values()) {
+        for(String role : KnownRole.values()) {
             Authority auth = get(role);
             if (auth == null) {
                 create(role);

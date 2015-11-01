@@ -2,7 +2,7 @@ package com.elderbyte.vidada.service;
 
 import com.elderbyte.vidada.domain.security.Authority;
 import com.elderbyte.vidada.domain.User;
-import com.elderbyte.vidada.domain.security.KnownAuthority;
+import com.elderbyte.vidada.domain.security.KnownRole;
 import com.elderbyte.vidada.repository.UserRepository;
 import com.elderbyte.vidada.security.SecurityUtils;
 import com.elderbyte.vidada.service.util.RandomUtil;
@@ -56,7 +56,7 @@ public class UserService {
     public User createUserInformation(String login, String password, String firstName, String lastName, String email,
                                       String langKey) {
         User newUser = new User();
-        Authority authority = authorityService.get(KnownAuthority.USER);
+        Authority authority = authorityService.get(KnownRole.USER);
         String encryptedPassword = passwordEncoder.encode(password);
         newUser.setLogin(login);
         // new user gets initially a generated password
@@ -86,14 +86,12 @@ public class UserService {
     }
 
     public void changePassword(String password) {
-
         userRepository.findOneByLogin(SecurityUtils.getCurrentLogin()).ifPresent(u-> {
             String encryptedPassword = passwordEncoder.encode(password);
             u.setPassword(encryptedPassword);
             userRepository.save(u);
             log.debug("Changed password for User: {}", u);
         });
-
     }
 
     /**
@@ -123,14 +121,14 @@ public class UserService {
 
         if(admin == null){
             User u = createUserInformation("admin", "1337", "Administrator", "Administrator", "admin@vidada", "en");
-            u.getAuthorities().add(authorityService.get(KnownAuthority.ADMIN));
+            u.getAuthorities().add(authorityService.get(KnownRole.ADMIN));
             u.setActivated(true);
             userRepository.save(u);
         }
 
         if(system == null){
             User u = createUserInformation("system", "1337", "System", "", "system@vidada", "en");
-            u.getAuthorities().add(authorityService.get(KnownAuthority.ADMIN));
+            u.getAuthorities().add(authorityService.get(KnownRole.ADMIN));
             u.setActivated(true);
             userRepository.save(u);
         }
@@ -138,10 +136,9 @@ public class UserService {
         if(anonymousUser == null){
             User u =  createUserInformation("anonymous", "", "Anonymous", "", "anon@vidada", "en");
             u.getAuthorities().clear();
-            u.getAuthorities().add(authorityService.get(KnownAuthority.ANONYMOUS));
+            u.getAuthorities().add(authorityService.get(KnownRole.ANONYMOUS));
             u.setActivated(true);
             userRepository.save(u);
         }
-
     }
 }

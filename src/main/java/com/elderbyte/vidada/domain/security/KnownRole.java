@@ -3,9 +3,9 @@ package com.elderbyte.vidada.domain.security;
 /**
  * Holds the known Authorities
  */
-public final class  KnownAuthority {
+public final class KnownRole {
 
-    private KnownAuthority(){}
+    private KnownRole(){}
 
     public static final String USER = "ROLE_USER";
 

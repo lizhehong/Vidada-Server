@@ -9,6 +9,7 @@ import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.Collection;
 
 /**
  * An authority (a security role) used by Spring Security.
@@ -67,5 +68,21 @@ public class Authority implements Serializable {
         return "Authority{" +
                 "name='" + name + '\'' +
                 "}";
+    }
+
+    /**
+     * Returns a comma delimited string of authorities
+     * @param authorities
+     * @return
+     */
+    public static String toFlatString(Collection<Authority> authorities){
+        String roleString = "";
+        if(!authorities.isEmpty()){
+            for (Authority role : authorities){
+                roleString += role.getName()+",";
+            }
+            return roleString.substring(0, roleString.length()-1);
+        }
+        return roleString;
     }
 }
