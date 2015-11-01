@@ -3,19 +3,19 @@ package com.elderbyte.ffmpeg;
 
 import archimedes.core.geometry.Size;
 import archimedes.core.shell.ShellExec;
+import archimedes.core.util.Lists;
 import archimedes.core.util.OSValidator;
 import com.elderbyte.common.ArgumentNullException;
 import com.elderbyte.common.Version;
 import org.apache.commons.io.FileUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 import java.io.File;
 import java.net.URI;
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -33,7 +33,7 @@ public abstract class FFmpegInterop {
      *                                                                         *
      **************************************************************************/
 
-    protected static final Logger logger = LogManager.getLogger(FFmpegInterop.class.getName());
+    private final static Logger logger = LoggerFactory.getLogger(FFmpegInterop.class);
 
     private static final Version ffmpegRequiredVersion = new Version(2, 0, 0); // Minimal required verison of ffmpeg
 
@@ -45,6 +45,7 @@ public abstract class FFmpegInterop {
     private static final Pattern regex_Duration = Pattern.compile("Duration: (\\d\\d):(\\d\\d):(\\d\\d)\\.(\\d\\d)");
     private static final Pattern regex_BitRate = Pattern.compile("bitrate: (\\d*) kb/s");
     private static final Pattern regex_Resolution = Pattern.compile("Video: .* (\\d{2,})x(\\d{2,})");
+    private static final Pattern regex_Version = Pattern.compile("ffmpeg version ([\\d|\\.]+)");
 
 
     /***************************************************************************
@@ -131,18 +132,22 @@ public abstract class FFmpegInterop {
 
 		List<String> argumentBuilder = new ArrayList<>();
 
+        /*
 		argumentBuilder.add("-ss"); 		// seek -
 		argumentBuilder.add("2");
-
+        */
 		argumentBuilder.add("-i");
 		argumentBuilder.add(shieldPathArgument(pathToVideo));
 
+
 		argumentBuilder.add("-an");			// no audio
 
+        /*
 		argumentBuilder.add("-frames:v");	// frames to extract
 		argumentBuilder.add("1");
+		*/
 
-		String log = ffmpegExec(argumentBuilder, DEFAULT_TIMEOUT);
+		String output = ffmpegExec(argumentBuilder, DEFAULT_TIMEOUT);
 
 		int videoDuration = 0;
 		int videoBitrate = 0;
@@ -152,7 +157,7 @@ public abstract class FFmpegInterop {
 		//
 		// parse duration
 		//
-		Matcher m = regex_Duration.matcher(log);
+		Matcher m = regex_Duration.matcher(output);
 		if(m.find()){
 			// Duration: 02:41:41.68,
 
@@ -169,7 +174,7 @@ public abstract class FFmpegInterop {
 		//
 		// parse bitrate
 		//
-		m = regex_BitRate.matcher(log);
+		m = regex_BitRate.matcher(output);
 		if(m.find()){
 			// bitrate: 10731 kb/s
 			videoBitrate = Integer.parseInt(m.group(1));
@@ -182,7 +187,7 @@ public abstract class FFmpegInterop {
 		//
 		// parse native resolution
 		//
-		m = regex_Resolution.matcher(log);
+		m = regex_Resolution.matcher(output);
 		if(m.find()){
 			resolution = new Size(
 					Integer.parseInt(m.group(1)),
@@ -201,14 +206,25 @@ public abstract class FFmpegInterop {
      */
     public final Version ffmpegVersion() throws FFmpegException {
 
-        String version = ffmpegExec("--version");
+        String output = ffmpegExec("-version");
 
-        if(version != null && !version.isEmpty()){
-            try {
-                return Version.ofString(version.trim());
-            } catch (Version.VersionFormatException e) {
-                throw new FFmpegException("Could not parse ffmpeg version!", e);
+        if(output != null && !output.isEmpty()){
+
+            // extract the version string from the ffmpeg output
+            // ffmpeg version 2.8.1 ....
+
+            Matcher matcher = regex_Version.matcher(output);
+            if(matcher.find()){
+                String versionStr = matcher.group(1);
+                try {
+                    return Version.ofString(versionStr);
+                } catch (Version.VersionFormatException e) {
+                    throw new FFmpegException("Could not parse ffmpeg version!", e);
+                }
+            }else{
+                throw new FFmpegException("Could not parse ffmpeg version, regex does not match output!");
             }
+
         }
         throw new FFmpegException("Failed to retrieve ffmpeg version!");
     }
@@ -225,11 +241,14 @@ public abstract class FFmpegInterop {
                 Version version = ffmpegVersion();
                 if(version != null){
                     isAvailableCache = true;
+                }else{
+                    logger.warn("ffmpeg version was null, assuming not available!");
+                    isAvailableCache = false;
                 }
             }catch (Exception e){
                 logger.error("ffmpeg available failed!", e);
+                isAvailableCache = false;
             }
-            isAvailableCache = false;
         }
 
         return isAvailableCache;
@@ -290,30 +309,44 @@ public abstract class FFmpegInterop {
      * @return Returns the console output of the successful command.
      * @exception FFmpegException Thrown when there was a problem executing the command.
      */
-    private String ffmpegExec(List<String> args, long timeout) throws FFmpegException {
+    private String ffmpegExec(Collection<String> args, long timeout) throws FFmpegException {
 
         if(args == null) throw new ArgumentNullException("args");
 
         StringBuilder output = new StringBuilder();
 
         try {
+            List<String> fullArgs = new ArrayList<>();
             String ffmpegCommand = ffmpegCmd();
-            if(ffmpegCommand == null || ffmpegCommand.isEmpty()) throw new FFmpegException("ffmpeg command is not properly configured!");
 
-            args.add(0, ffmpegCommand);
-            String[] command = args.toArray(new String[args.size()]);
+            logger.info("ffmpegCommand: '" + ffmpegCommand + "'");
+
+            if(ffmpegCommand != null && !ffmpegCommand.isEmpty()){
+                fullArgs.add(ffmpegCommand);
+            }else {
+                throw new FFmpegException(String.format("ffmpeg-command '%s' is not properly configured!", ffmpegCommand));
+            }
+            fullArgs.addAll(args);
+
+            String[] command = Lists.toArray(fullArgs, String.class);
             int exitVal = ShellExec.executeAndWait(command, output, timeout);
+
+            /* TODO Since we use ffmpeg -i for extracting information, and this actually returns -1 we cant handle it this way...
 
             if(exitVal != 0) {
                 // No success!
                 throw new FFmpegException(
-                    String.format("Failed with exit-code %s to execute command '%s'!", exitVal, toFlatString(args)));
-            }
+                    String.format("Failed with exit-code %s to execute command '%s'! Output: %s", exitVal, toFlatString(args), output));
+            }*/
 
         } catch(Exception e){
             throw new FFmpegException(String.format("Failed to execute command '%s'!", toFlatString(args)), e);
         }
+
         return output.toString();
+
+
+
     }
 
     private static String toFlatString(Iterable<String> args){

@@ -1,8 +1,8 @@
 package com.elderbyte.ffmpeg;
 
 import archimedes.core.util.PackageUtil;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,7 +12,7 @@ import java.net.URI;
 public final class ResourceUtil {
 
 
-    private static final Logger logger = LogManager.getLogger(ResourceUtil.class.getName());
+    private static final Logger logger =  LoggerFactory.getLogger(ResourceUtil.class);
 
     /**
      * Tries to extract a resource packed withhin this jar

@@ -4,8 +4,8 @@ import com.elderbyte.vidada.domain.tags.Tag;
 import com.elderbyte.vidada.domain.tags.TagUtil;
 import com.elderbyte.vidada.domain.tags.relations.TagRelationDefinition;
 import com.elderbyte.vidada.repository.TagRepository;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -26,7 +26,8 @@ public class TagService {
      *                                                                         *
      **************************************************************************/
 
-    private static final Logger logger = LogManager.getLogger(TagService.class.getName());
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
 
     private final TagRepository repository;
     private final List<ITagRelationSource> tagRelationSources = new ArrayList<>();

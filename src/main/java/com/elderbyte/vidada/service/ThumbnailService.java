@@ -173,7 +173,7 @@ public class ThumbnailService {
 					}
 				}
 			}else{
-                logger.warn("Thumbnail creation is not possible on this system!");
+                logger.warn("Thumbnail extraction is not possible!");
             }
 		}
 		return loadedImage;

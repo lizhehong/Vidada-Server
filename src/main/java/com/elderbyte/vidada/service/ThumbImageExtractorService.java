@@ -54,9 +54,18 @@ public class ThumbImageExtractorService {
 		if(media.getType() == MediaType.IMAGE)
 			return true;
 		if(media.getType() == MediaType.MOVIE){
-			return ((MovieMediaItem) media).canCreateThumbnail() && isGenericEncoderPresent();
+
+            if(!((MovieMediaItem) media).canCreateThumbnail()){
+                logger.warn("Extracting thumbnail is not possible for media " + media);
+                return false;
+            }
+            if(!isVideoAccessServiceAvailable()){
+                logger.warn("Extracting thumbnail is not possible since VideoAccessService reports not available on this system!");
+                return false;
+            }
+            return true;
 		}else{
-            logger.warn("ThumbImageExtractor::canExtractThumb: Unknown media type: " + media.getClass().getName());
+            logger.warn("Unknown media type: " + media.getClass().getName());
 			return false;
 		}
 	}
@@ -158,7 +167,7 @@ public class ThumbImageExtractorService {
 		return frame;
 	}
 
-    private boolean isGenericEncoderPresent(){
+    private boolean isVideoAccessServiceAvailable(){
         return videoAccessService.isAvailable();
     }
 

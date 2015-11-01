@@ -9,8 +9,8 @@ import com.elderbyte.ffmpeg.FFmpegInterop;
 import com.elderbyte.ffmpeg.VideoInfo;
 import com.elderbyte.vidada.domain.video.IVideoAccessService;
 import org.apache.commons.io.FileUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +31,7 @@ public class FFMpegVideoAccessService implements IVideoAccessService {
      *                                                                         *
      **************************************************************************/
 
-    private static final Logger logger = LogManager.getLogger(FFMpegVideoAccessService.class.getName());
+    private final Logger logger =  LoggerFactory.getLogger(this.getClass());
 
     private final IRawImageFactory imageFactory;
 	private final static FFmpegInterop ffmpeg = FFmpegInterop.instance();
@@ -169,10 +169,10 @@ public class FFMpegVideoAccessService implements IVideoAccessService {
 				frame = imageFactory.createImage(pathToImage);
 
 			} catch (FFmpegException e) {
-				logger.error(e);
+				logger.error("", e);
 			}
 		} catch (IOException e1) {
-            logger.error(e1);
+            logger.error("", e1);
 		}finally{
 			// remove the temporary image
 			FileUtils.deleteQuietly(pathToImage);

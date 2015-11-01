@@ -1,5 +1,8 @@
 package com.elderbyte.ffmpeg;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -8,6 +11,9 @@ import java.net.URI;
 class FFmpegInteropUnix extends FFmpegInterop
 {
     private String ffmpegCommand = "ffmpeg";
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
 
 
     public FFmpegInteropUnix(){

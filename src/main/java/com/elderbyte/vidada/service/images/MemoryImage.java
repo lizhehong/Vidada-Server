@@ -1,7 +1,8 @@
 package com.elderbyte.vidada.service.images;
 
 import archimedes.core.images.IMemoryImage;
-import archimedes.core.swing.images.ScalrEx;
+import archimedes.core.images.ScalrEx;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;

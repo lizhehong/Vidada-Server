@@ -1,11 +1,16 @@
 package com.elderbyte.ffmpeg;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 
 class FFmpegInteropWindows extends FFmpegInterop
 {
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     private String ffmpegCommand = "ffmpeg";
 
 
