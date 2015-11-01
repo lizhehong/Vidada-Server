@@ -3,6 +3,7 @@
 angular.module('vidadaApp')
     .config(function ($stateProvider) {
         $stateProvider
+
             .state('medias', {
                 parent: 'vidada',
                 url: '/medias',
@@ -22,6 +23,17 @@ angular.module('vidadaApp')
                         return $translate.refresh();
                     }]
                 }
+            })
+            .state('medias_detail', {
+                parent: 'medias',
+                url: "/medias/{mediaId}",
+                data: {
+                    roles: ['ROLE_USER'],
+                    pageTitle: 'medias.title'
+                },
+
+                templateUrl: 'scripts/app/vidada/medias/medias.detail.html',
+                controller: 'MediasDetailController'
             });
     });
 

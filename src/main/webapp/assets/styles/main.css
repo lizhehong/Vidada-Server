@@ -288,12 +288,12 @@ ul#strength {
     top:0;
     right:0;
     display: none;
-    width:100%;
+    width: 100%;
     background-color: rgba(0,0,0,0.4);!important;
 }
 
 
-.media-toolbar i{
+.media-toolbar i {
     font-size: 22pt;
     color: white;
 }

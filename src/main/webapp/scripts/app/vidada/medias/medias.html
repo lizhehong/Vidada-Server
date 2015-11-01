@@ -74,6 +74,8 @@
     </md-card-content>
 </md-card>
 
+<div ui-view></div> <!-- Container for medias.detail -->
+
 
 <!-- Media Details -->
 <div flex layout-padding>
@@ -102,37 +104,13 @@
                             </md-icon>
                         </md-button>
 
-                        <md-fab-speed-dial class="md-fling">
-                            <md-fab-trigger>
-                                <md-button aria-label="menu" class="md-icon-button">
-                                    <md-icon>
-                                        <i class="material-icons">more_horiz</i>
-                                    </md-icon>
-                                </md-button>
-                            </md-fab-trigger>
-                            <md-fab-actions>
-                                <md-button aria-label="Twitter" class="md-fab md-raised md-mini">
-                                    <md-icon>
-                                        <i class="material-icons">android</i>
-                                    </md-icon>
-                                </md-button>
-                                <md-button aria-label="Facebook" class="md-fab md-raised md-mini">
-                                    <md-icon>
-                                        <i class="material-icons">android</i>
-                                    </md-icon>
-                                </md-button>
-                                <md-button aria-label="Google Hangout" class="md-fab md-raised md-mini">
-                                    <md-icon>
-                                        <i class="material-icons">android</i>
-                                    </md-icon>
-                                </md-button>
-                            </md-fab-actions>
-                        </md-fab-speed-dial>
-
+                        <md-button class="md-icon-button" ng-click="showDetail(item)">
+                            <md-icon>
+                                <i class="material-icons">details</i>
+                            </md-icon>
+                        </md-button>
 
                     </div>
-
-
 
                 </div>
 

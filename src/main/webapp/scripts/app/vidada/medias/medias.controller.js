@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('vidadaApp')
-    .controller('MediasController', function ($scope, Media, MediaInfinite, ParseText, Tag) {
+    .controller('MediasController', function ($scope, $state, Media, MediaInfinite, ParseText, Tag) {
 
         $scope.selectedSuggestion = null;
 
@@ -36,6 +36,11 @@ angular.module('vidadaApp')
                 window.open(media.streamUrl);
             }
         };
+
+        $scope.showDetail = function(media){
+            $state.go('medias_detail', {mediaId: media.id})
+        };
+
 
         $scope.updateMedias= function(){
             $scope.mediaService = new MediaInfinite($scope.mediaQuery);
