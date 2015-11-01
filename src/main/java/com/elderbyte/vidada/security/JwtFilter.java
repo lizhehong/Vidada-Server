@@ -18,6 +18,14 @@ import org.springframework.web.filter.GenericFilterBean;
 
 import com.nimbusds.jwt.SignedJWT;
 
+/**
+ * Filters each HTTP request and looks for a JWT authentication token.
+ *
+ * If a token is present, it parses the token and sets the security context authentication
+ * accordingly. This way, the next HTTP handlers down the chain will have a valid authentication
+ * handy.
+ *
+ */
 public class JwtFilter extends GenericFilterBean {
 
 
@@ -35,33 +43,47 @@ public class JwtFilter extends GenericFilterBean {
 
         HttpServletRequest req = (HttpServletRequest) request;
 
-        String stringToken = req.getHeader("Authorization");
-        logger.info("JWT filter got stringToken: " + stringToken);
+        String stringToken = findAuthToken(req);
+
+        // Check if we have an Authorization header
 
         if (stringToken != null && !stringToken.isEmpty()) {
 
+            // Remove the 'Bearer' prefix, if any.
             stringToken = stringToken.replace("Bearer", "").trim();
 
             try {
                 SignedJWT sjwt = SignedJWT.parse(stringToken);
                 JwtToken token = new JwtToken(sjwt);
                 Authentication auth = authenticationManager.authenticate(token);
-
-                logger.info("Valid JWT - request is now authenticated!" + token);
-
                 SecurityContextHolder.getContext().setAuthentication(auth);
-
-                logger.info("Valid JWT - request is now authenticated!" + auth);
+                // JWT was valid and this request is now authenticated!
 
             } catch (ParseException e) {
                 logger.error("Parsing JWT Token failed! Token: '" + stringToken + "'", e);
             } catch (AuthenticationException e) {
                 logger.error("Authentication failed!", e);
             }
+        }else{
+            logger.debug("HTTP request without authorisation!");
         }
 
         chain.doFilter(request, response);
     }
 
+    /**
+     * Extract the auth token from the request.
+     * Support Authorization headers and ?token parameter
+     * @param request
+     * @return
+     */
+    private String findAuthToken(HttpServletRequest request){
+        String stringToken = request.getHeader("Authorization");
+        if(stringToken == null || stringToken.isEmpty()){
+            // No Authorization Header was found. Maybe a simple url parameter was used
+            stringToken = request.getParameter("token");
+        }
+        return stringToken;
+    }
 
 }
