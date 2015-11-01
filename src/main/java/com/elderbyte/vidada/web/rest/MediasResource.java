@@ -4,6 +4,7 @@ import archimedes.core.data.pagination.ListPage;
 import com.elderbyte.vidada.domain.media.*;
 import com.elderbyte.vidada.domain.tags.Tag;
 import com.elderbyte.vidada.domain.tags.TagUtil;
+import com.elderbyte.vidada.security.JwtFilter;
 import com.elderbyte.vidada.service.media.MediaService;
 import com.elderbyte.vidada.web.rest.dto.MediaDTO;
 import org.slf4j.Logger;
@@ -155,8 +156,10 @@ public class MediasResource {
 
         UriComponents baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build();
 
+        String token = JwtFilter.findAuthToken(request);
+
         String streamUrl = baseUrl.toUriString() + "/stream/" + media.getFilehash();
-        String thumbnailUrl = baseUrl.toUriString() + "/api/thumbs/" + media.getFilehash();
+        String thumbnailUrl = baseUrl.toUriString() + "/api/thumbs/" + media.getFilehash() + "?token="+token;
         media.getType();
 
         MediaDTO mediaDTO = new MediaDTO(media.getFilehash(), media.getFilename(), media.getType(), thumbnailUrl, streamUrl);
@@ -167,5 +170,7 @@ public class MediasResource {
 
         return mediaDTO;
     }
+
+
 
 }

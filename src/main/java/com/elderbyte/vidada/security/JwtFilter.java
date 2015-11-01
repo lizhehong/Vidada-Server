@@ -45,12 +45,11 @@ public class JwtFilter extends GenericFilterBean {
 
         String stringToken = findAuthToken(req);
 
+        logger.debug("HTTP Request with token: " + stringToken);
+
         // Check if we have an Authorization header
 
         if (stringToken != null && !stringToken.isEmpty()) {
-
-            // Remove the 'Bearer' prefix, if any.
-            stringToken = stringToken.replace("Bearer", "").trim();
 
             try {
                 SignedJWT sjwt = SignedJWT.parse(stringToken);
@@ -71,18 +70,29 @@ public class JwtFilter extends GenericFilterBean {
         chain.doFilter(request, response);
     }
 
+
+
     /**
      * Extract the auth token from the request.
      * Support Authorization headers and ?token parameter
      * @param request
      * @return
      */
-    private String findAuthToken(HttpServletRequest request){
+    public static String findAuthToken(HttpServletRequest request){
+
         String stringToken = request.getHeader("Authorization");
         if(stringToken == null || stringToken.isEmpty()){
             // No Authorization Header was found. Maybe a simple url parameter was used
             stringToken = request.getParameter("token");
         }
+
+        if(stringToken != null){
+            // Clean the JWT token
+
+            // Remove the 'Bearer' prefix, if any.
+            stringToken = stringToken.replace("Bearer", "").trim();
+        }
+
         return stringToken;
     }
 

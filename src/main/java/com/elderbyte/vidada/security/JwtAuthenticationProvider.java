@@ -22,12 +22,11 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
         JwtToken jwtToken = (JwtToken) authentication;
-        logger.info("JWT authentication with token: " + jwtToken);
         try {
             JWSVerifier verifier = new MACVerifier(SecretKey);
             boolean isVerified = jwtToken.getSignedToken().verify(verifier);
             if (isVerified) {
-                logger.info("JWT is verified and authenticated!");
+                //logger.info("JWT is verified and authenticated!");
                 jwtToken.setAuthenticated(true);
             } else {
                 throw new JwtAuthenticationException("Authentication failed - MAC not matching!");

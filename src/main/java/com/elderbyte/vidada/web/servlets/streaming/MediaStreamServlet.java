@@ -20,7 +20,6 @@ import java.util.regex.Pattern;
 public class MediaStreamServlet extends AbstractStreamServlet {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
     private static Pattern streamPattern = Pattern.compile("stream/([^/]+)");
 
 

@@ -54,10 +54,8 @@ public class JwtToken implements Authentication {
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
         if (claimsString != null && claimsString != "") {
             String[] roles = claimsString.split(",");
-            logger.info("Found roles: " + roles.length);
             for (String role : roles) {
                 if(!role.isEmpty()){
-                    logger.info("role: " + role);
                     grantedAuthorities.add(new SimpleGrantedAuthority(role));
                 }
             }
