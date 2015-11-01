@@ -159,7 +159,7 @@ public class MediasResource {
         String token = JwtFilter.findAuthToken(request);
 
         String streamUrl = baseUrl.toUriString() + "/stream/" + media.getFilehash();
-        String thumbnailUrl = baseUrl.toUriString() + "/api/thumbs/" + media.getFilehash() + "?token="+token;
+        String thumbnailUrl = baseUrl.toUriString() + "/api/thumbs/" + media.getFilehash() + "?jwt="+token;
         media.getType();
 
         MediaDTO mediaDTO = new MediaDTO(media.getFilehash(), media.getFilename(), media.getType(), thumbnailUrl, streamUrl);

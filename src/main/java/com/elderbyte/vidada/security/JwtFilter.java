@@ -83,7 +83,7 @@ public class JwtFilter extends GenericFilterBean {
         String stringToken = request.getHeader("Authorization");
         if(stringToken == null || stringToken.isEmpty()){
             // No Authorization Header was found. Maybe a simple url parameter was used
-            stringToken = request.getParameter("token");
+            stringToken = request.getParameter("jwt");
         }
 
         if(stringToken != null){
