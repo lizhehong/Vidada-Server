@@ -1,5 +1,10 @@
 server:
     port: 8080
+    ssl:
+        key-store: keystore.p12
+        key-store-password: tomcat1337
+        keyStoreType: PKCS12
+        keyAlias: tomcat
 
 spring:
     profiles:
