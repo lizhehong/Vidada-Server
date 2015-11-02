@@ -29,7 +29,8 @@
     "swagger-ui": "2.0.24",
     "arrive": "~2.3.0",
     "angular-mass-autocomplete": "~0.2.3",
-    "angular-material": "~0.11.4"
+    "angular-material": "~0.11.4",
+    "animate.css": "~3.4.0"
   },
   "devDependencies": {
     "angular-mocks": null,
