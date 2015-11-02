@@ -64,15 +64,10 @@ angular.module('vidadaApp', ['LocalStorageModule', 'tmh.dynamicLocale',
 
                 config.headers = config.headers || {};
                 var token = localStorageService.get('token');
-
-                // token.expires_at && token.expires_at > new Date().getTime()
-
+                // TODO token.expires_at && token.expires_at > new Date().getTime()
                 if (token) {
-
-                    console.log("Add authorization token to headers: " + token.access_token);
                     config.headers.Authorization = 'Bearer ' + token.access_token;
                 }
-
                 return config;
             }
         };

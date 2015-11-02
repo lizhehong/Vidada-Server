@@ -2,9 +2,12 @@
 'use strict';
 
 angular.module('vidadaApp')
-    .controller('MediasController', function ($scope, $state, Media, MediaInfinite, ParseText, Tag) {
+    .controller('MediasController', function ($rootScope, $scope, $state, $anchorScroll, $timeout, $mdDialog, Media, MediaInfinite, ParseText, Tag) {
 
         $scope.selectedSuggestion = null;
+        $scope.$state = $state;
+        $scope.currentMedia = null;
+
 
         $scope.mediaQuery = {
             query: "",
@@ -26,8 +29,23 @@ angular.module('vidadaApp')
             {id: "BITRATE", name: "Bitrate"},
         ];
 
+        $scope.$on('$viewContentLoaded',
+            function(event){
+                if($state.current.name === 'medias') {
+                    $timeout($scope.scrollToCurrent, 10);
+                }
+            });
+
+        $scope.scrollToCurrent = function(){
+            if($scope.currentMedia != null){
+                console.log("Scrolling to " + $scope.currentMedia.id);
+                $anchorScroll($scope.currentMedia.id);
+            }
+        };
 
         $scope.play = function(media){
+
+            $scope.currentMedia = media;
 
             if(media.mediaType.toLowerCase() == 'movie'){
                 var mediaUrlArg = escape(media.streamUrl);
@@ -37,8 +55,22 @@ angular.module('vidadaApp')
             }
         };
 
-        $scope.showDetail = function(media){
-            $state.go('medias_detail', {mediaId: media.id})
+        $scope.showDetail = function(ev, media){
+
+            $scope.currentMedia = media;
+
+            $state.go('medias_detail', {mediaId: media.id});
+
+            $mdDialog.show({
+                controller: MediaDetailDialogCtrl,
+                templateUrl: 'MediaDetailDialog.html',
+                parent: angular.element(document.body),
+                targetEvent: ev,
+                clickOutsideToClose:true,
+                locals : {
+                    media : media
+                }
+            });
         };
 
 
@@ -128,7 +160,20 @@ angular.module('vidadaApp')
         };
 
 
+        function MediaDetailDialogCtrl($scope, $mdDialog, media){
+            $scope.myMedia = media;
 
+            $scope.ok = function () {
+                $mdDialog.hide();
+            };
+
+            $scope.hide = function() {
+                $mdDialog.hide();
+            };
+            $scope.cancel = function() {
+                $mdDialog.cancel();
+            };
+        }
 
         $scope.updateTags();
     });
