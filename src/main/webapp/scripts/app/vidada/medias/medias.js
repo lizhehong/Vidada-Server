@@ -26,7 +26,7 @@ angular.module('vidadaApp')
             })
             .state('medias_detail', {
                 parent: 'medias',
-                url: "/medias/{mediaId}",
+                url: "/{mediaId}",
                 data: {
                     roles: ['ROLE_USER'],
                     pageTitle: 'medias.title'
