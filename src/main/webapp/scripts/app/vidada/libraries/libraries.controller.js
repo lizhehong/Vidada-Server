@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('vidadaApp')
-    .controller('LibrariesController', function ($scope, $window, MediaLibrary, ngToast, ErrorHandler, $modal, $mdDialog) {
+    .controller('LibrariesController', function ($scope, $window, $mdToast, MediaLibrary, ErrorHandler, $modal, $mdDialog) {
 
         $scope.libraries = [];
 
@@ -26,11 +26,19 @@ angular.module('vidadaApp')
                 // User wants to delete it!
 
                 currentLibrary.$delete(function() {
-                    ngToast.create('Successfully deleted media-library!');
+                    $mdToast.show(
+                        $mdToast.simple()
+                            .content('Successfully deleted media-library!')
+                            .hideDelay(2000)
+                    );
                     $scope.updateLibraries();
                 }, function(err){
                     console.log(err);
-                    ngToast.create('Failed to delete media-library! ');
+                    $mdToast.show(
+                        $mdToast.simple()
+                            .content('Failed to delete media-library!')
+                            .hideDelay(2000)
+                    );
                 });
 
             });
@@ -53,7 +61,11 @@ angular.module('vidadaApp')
 
                 MediaLibrary.update(library, function () {
                     $scope.updateLibraries();
-                    ngToast.create('Updated library: ' + library.name);
+                    $mdToast.show(
+                        $mdToast.simple()
+                            .content('Updated library: ' + library.name)
+                            .hideDelay(2000)
+                    );
                 }, function(err){
                     ErrorHandler.showToast('Failed to update: ' + library.name + ' with rootPath ' + library.rootPath, err);
                 });
@@ -75,7 +87,11 @@ angular.module('vidadaApp')
                 // User has accepted the dialog
                 MediaLibrary.save(library, function () {
                     $scope.updateLibraries();
-                    ngToast.create('Created library: ' + library.name);
+                    $mdToast.show(
+                        $mdToast.simple()
+                            .content('Created library: ' + library.name)
+                            .hideDelay(2000)
+                    );
                 }, function(err){
                     ErrorHandler.showToast('Failed to create: ' + library.name + ' with rootPath ' + library.rootPath, err);
                 });
