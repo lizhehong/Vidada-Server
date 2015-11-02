@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('vidadaApp')
-    .controller('NavbarController', function ($scope, $location, $state, Auth, Principal, $mdToast, MediaSynchronisation, ErrorHandler) {
+    .controller('NavbarController', function ($scope, $location, $state, $mdSidenav, Auth, Principal, $mdToast, MediaSynchronisation, ErrorHandler) {
 
         Principal.identity().then(function(account) {
             $scope.account = account;
@@ -14,6 +14,10 @@ angular.module('vidadaApp')
         $scope.logout = function () {
             Auth.logout();
             $state.go('home');
+        };
+
+        $scope.toggleLeftSideNav = function() {
+            $mdSidenav('left').toggle();
         };
 
         $scope.syncAll = function () {
