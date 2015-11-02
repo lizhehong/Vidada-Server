@@ -306,4 +306,16 @@ ul#strength {
 
 /* end media item style */
 
+/* Animations when content is swapped out */
+/* Requires animation.css  */
 
+.ng-enter        { animation: 0.5s zoomIn; }
+/*.ng-leave        { animation: 0.5s fadeOut; }*/
+/*.ng-hide-add     { animation: 0.5s fadeOut; }*/
+.ng-hide-remove  { animation: 0.5s zoomIn; }
+/*
+.ng-enter        { animation: 0.5s fadeInLeft; }
+.ng-leave        { animation: 0.5s fadeOutRight; }
+.ng-hide-add     { animation: 0.5s fadeOutLeft ease; }
+.ng-hide-remove  { animation: 0.5s fadeInLeft ease; }
+*/
