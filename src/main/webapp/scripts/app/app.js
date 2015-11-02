@@ -3,7 +3,7 @@
 angular.module('vidadaApp', ['LocalStorageModule', 'tmh.dynamicLocale',
     'ngResource', 'ui.router', 'ngCookies',
     'pascalprecht.translate', 'ngCacheBuster',
-    'infinite-scroll', 'ngToast', 'ui.bootstrap',
+    'infinite-scroll', 'ui.bootstrap',
     'MassAutoComplete', 'ngSanitize', 'ngMaterial', 'ngAnimate', 'ngAria'])
 
     .run(function ($rootScope, $location, $window, $http, $state, $translate,

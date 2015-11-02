@@ -2,16 +2,15 @@
 'use strict';
 
 angular.module('vidadaApp')
-    .service('ErrorHandler', function (ngToast) {
+    .service('ErrorHandler', function ($mdToast) {
 
         this.showToast = function (msg, err) {
-
-            ngToast.create({
-                className: 'danger',
-                content: msg + ' - ' + err.data.error + ' - ' + err.data.exception
-            });
-
+            $mdToast.show(
+                $mdToast.simple()
+                    .content('Error: ' + msg + ' - ' + err.data.error + ' - ' + err.data.exception)
+                    .position('top')
+                    .hideDelay(2000)
+            );
         };
-    })
-    ;
+    });
 
