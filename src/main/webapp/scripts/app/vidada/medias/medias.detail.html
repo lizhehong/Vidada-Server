@@ -1,7 +1,39 @@
-<div>
-    <h1>Detail of Media {{id}}</h1>
-    <p>{{media.id}}</p>
-    <p>{{media.name}}</p>
+<div ng-show="media">
+
+    <md-card flex>
+        <md-card-content layout="column" flex>
+
+            <div>
+                <h1 class="md-title">{{media.name}}</h1>
+            </div>
+
+            <div layout="row" layout-margin flex>
+
+                <div flex>
+                    <img ng-src="{{media.thumbnailUrl}}">
+                </div>
+
+                <div flex>
+                    <md-content>
+                        <!-- media details -->
+                        <p>{{media.id}}</p>
+                        <p>{{media.name}}</p>
+
+                        <md-chips>
+                            <md-chip ng-repeat="tag in media.tags">
+                                {{tag}}
+                            </md-chip>
+                        </md-chips>
+
+                    </md-content>
+                </div>
+            </div>
+
+
+
+
+        </md-card-content>
+    </md-card>
 
     <pre>{{mediaDump}}</pre>
 </div>

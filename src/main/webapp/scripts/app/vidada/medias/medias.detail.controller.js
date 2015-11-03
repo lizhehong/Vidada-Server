@@ -8,12 +8,18 @@ angular.module('vidadaApp')
         $scope.mediaDump = {};
 
         $scope.loadMedia = function() {
-            Media.get({id : $scope.mediaId}).$promise.then(function (media) {
-                $scope.media = media;
-                $scope.mediaDump = JSON.stringify(media, null, 2);
-            }, function(err){
-                console.log("Failed to fetch media " + $scope.mediaId);
-            });
+
+            if (/\S/.test($scope.mediaId)) {
+                Media.get({id : $scope.mediaId}).$promise.then(function (media) {
+                    $scope.media = media;
+                    $scope.mediaDump = JSON.stringify(media, null, 2);
+                }, function(err){
+                    console.log("Failed to fetch media " + $scope.mediaId);
+                });
+            }
+
+
+
         };
 
         $scope.loadMedia();
