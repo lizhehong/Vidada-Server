@@ -7,7 +7,7 @@ angular.module('vidadaApp', ['LocalStorageModule', 'tmh.dynamicLocale',
     'MassAutoComplete', 'ngSanitize', 'ngMaterial', 'ngAnimate', 'ngAria'])
 
     .run(function ($rootScope, $location, $window, $http, $state, $translate,
-                   Auth, Principal, Language, ENV, VERSION) {
+                   Auth, Principal, Language, ENV, VERSION, tmhDynamicLocale) {
 
 
         $rootScope.ENV = ENV;
@@ -50,6 +50,9 @@ angular.module('vidadaApp', ['LocalStorageModule', 'tmh.dynamicLocale',
                 $state.go($rootScope.previousStateName, $rootScope.previousStateParams);
             }
         };
+
+        tmhDynamicLocale.set('de');
+
     })
 
     .factory('authInterceptor', function ($rootScope, $q, $location, localStorageService) {
@@ -133,7 +136,7 @@ angular.module('vidadaApp', ['LocalStorageModule', 'tmh.dynamicLocale',
         });
 
         $translateProvider.preferredLanguage('en');
-        $translateProvider.useCookieStorage();
+        //$translateProvider.useCookieStorage();
 
         tmhDynamicLocaleProvider.localeLocationPattern('bower_components/angular-i18n/angular-locale_{{locale}}.js');
         tmhDynamicLocaleProvider.useCookieStorage('NG_TRANSLATE_LANG_KEY');
