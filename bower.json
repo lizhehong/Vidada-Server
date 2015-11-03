@@ -35,8 +35,5 @@
   "devDependencies": {
     "angular-mocks": null,
     "angular-scenario": null
-  },
-  "resolutions": {
-    "jquery": "2.1.3"
   }
 }
