@@ -1,8 +1,13 @@
 package com.elderbyte.vidada.web.rest.dto;
 
+import archimedes.core.geometry.Size;
+import archimedes.core.util.Lists;
+import com.elderbyte.vidada.domain.media.MediaItem;
 import com.elderbyte.vidada.domain.media.MediaType;
+import com.elderbyte.vidada.domain.tags.Tag;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,14 +26,42 @@ public class MediaDTO {
     private String thumbnailUrl;
     private String streamUrl;
     private List<String> tags = new ArrayList<>();
+    private int rating;
+    private Size resolution;
+    private int timesOpened;
+    private long fileSize;
+    private ZonedDateTime addedDate;
+    private ZonedDateTime lastAccessedDate;
 
+
+    /**
+     * Empty constructor for JSON
+     */
     protected MediaDTO(){ }
 
 
-    public MediaDTO(String id, String name, MediaType mediaType, String thumbnailUrl, String streamUrl) {
-        this.id = id;
-        this.name = name;
-        this.mediaType = mediaType;
+    /**
+     * Creates a new DTO from the domain entity
+     * @param media
+     * @param thumbnailUrl
+     * @param streamUrl
+     */
+    public MediaDTO(MediaItem media, String thumbnailUrl, String streamUrl) {
+
+        this.id = media.getFilehash();
+        this.name = media.getFilename();
+        this.mediaType = media.getType();
+
+        for(Tag tag : media.getTags()){
+            this.getTags().add(tag.getName());
+        }
+
+        this.fileSize = media.getFileSize();
+        this.addedDate = media.getAddedDate();
+        this.lastAccessedDate = media.getLastAccessed();
+        this.rating = media.getRating();
+        this.resolution = media.getResolution();
+        this.timesOpened = media.getOpened();
         this.thumbnailUrl = thumbnailUrl;
         this.streamUrl = streamUrl;
     }
@@ -75,5 +108,54 @@ public class MediaDTO {
 
     public void setMediaType(MediaType mediaType) {
         this.mediaType = mediaType;
+    }
+
+
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
+
+    public Size getResolution() {
+        return resolution;
+    }
+
+    public void setResolution(Size resolution) {
+        this.resolution = resolution;
+    }
+
+    public int getTimesOpened() {
+        return timesOpened;
+    }
+
+    public void setTimesOpened(int timesOpened) {
+        this.timesOpened = timesOpened;
+    }
+
+    public long getFileSize() {
+        return fileSize;
+    }
+
+    public void setFileSize(long fileSize) {
+        this.fileSize = fileSize;
+    }
+
+    public ZonedDateTime getAddedDate() {
+        return addedDate;
+    }
+
+    public void setAddedDate(ZonedDateTime addedDate) {
+        this.addedDate = addedDate;
+    }
+
+    public ZonedDateTime getLastAccessedDate() {
+        return lastAccessedDate;
+    }
+
+    public void setLastAccessedDate(ZonedDateTime lastAccessedDate) {
+        this.lastAccessedDate = lastAccessedDate;
     }
 }

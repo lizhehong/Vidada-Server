@@ -160,13 +160,10 @@ public class MediasResource {
 
         String streamUrl = baseUrl.toUriString() + "/stream/" + media.getFilehash();
         String thumbnailUrl = baseUrl.toUriString() + "/api/thumbs/" + media.getFilehash() + "?jwt="+token;
-        media.getType();
 
-        MediaDTO mediaDTO = new MediaDTO(media.getFilehash(), media.getFilename(), media.getType(), thumbnailUrl, streamUrl);
+        MediaDTO mediaDTO = new MediaDTO(media, thumbnailUrl, streamUrl);
 
-        for(Tag tag : media.getTags()){
-            mediaDTO.getTags().add(tag.getName());
-        }
+
 
         return mediaDTO;
     }
