@@ -18,8 +18,6 @@ angular.module('vidadaApp')
 
                     return jwt;
 
-                }, function(){
-                    console.log('Login failed!');
                 });
 
             },

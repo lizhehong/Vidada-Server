@@ -25,6 +25,10 @@ angular.module('vidadaApp')
                     });
                     return cb();
                 }).catch(function (err) {
+
+                    console.log("Auth failed, rejecting...");
+
+
                     this.logout();
                     deferred.reject(err);
                     return cb(err);

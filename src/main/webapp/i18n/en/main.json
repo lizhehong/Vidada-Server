@@ -1,7 +1,7 @@
 {
     "main": {
         "title": "Welcome to Vidada",
-        "subtitle": "This is your homepage",
+        "subtitle": "The super intelligent media manager!",
         "logged": {
             "message": "You are logged in as user \"{{username}}\"."
         },
