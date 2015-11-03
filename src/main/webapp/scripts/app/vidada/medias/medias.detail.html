@@ -19,6 +19,11 @@
                         <p>{{media.id}}</p>
                         <p>{{media.name}}</p>
 
+                        <p>{{media.addedDate | date:'medium'}}</p>
+                        <p>{{media.lastAccessedDate | date:'medium'}}</p>
+                        <p>{{media.sampleDateIso | date:'medium'}}</p>
+
+                        <!-- -->
                         <md-chips>
                             <md-chip ng-repeat="tag in media.tags">
                                 {{tag}}

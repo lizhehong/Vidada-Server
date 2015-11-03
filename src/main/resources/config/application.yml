@@ -21,16 +21,6 @@ async:
     queueCapacity: 10000
 
 spring:
-    mail:
-        host: localhost
-        port: 25
-        user:
-        password:
-        protocol: smtp
-        tls: false
-        auth: false
-        from: vidada@localhost
-
     messageSource:
         cacheSeconds: 1
 
@@ -39,12 +29,6 @@ spring:
         jadira.usertype.databaseZone: UTC
         jadira.usertype.javaZone: UTC
 
-authentication:
-    oauth:
-        clientid: vidadaapp
-        secret: mySecretOAuthSecret
-        # Token is valid 30 minutes
-        tokenValidityInSeconds: 1800
 
 swagger:
     title: vidada API

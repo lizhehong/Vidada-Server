@@ -21,7 +21,9 @@ angular.module('vidadaApp')
                 return $resource('api/medias', {}, {
                     'get': {
                         method: 'GET',
-                        transformResponse: function (data) {return angular.fromJson(data)},
+                        transformResponse: function (data) {
+                            return angular.fromJson(data)
+                        },
                         isArray: false
                     }
                 }).get({

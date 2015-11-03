@@ -11,6 +11,12 @@ angular.module('vidadaApp')
 
             if (/\S/.test($scope.mediaId)) {
                 Media.get({id : $scope.mediaId}).$promise.then(function (media) {
+
+                    media.addedDate = new Date(media.addedDate);
+                    //media.lastAccessedDate = new Date(media.lastAccessedDate);
+                    media.sampleDateIso = new Date(media.sampleDateIso);
+
+
                     $scope.media = media;
                     $scope.mediaDump = JSON.stringify(media, null, 2);
                 }, function(err){
