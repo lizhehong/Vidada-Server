@@ -32,6 +32,8 @@
         <commons-lang.version>2.6</commons-lang.version>
         <guava.version>18.0</guava.version>
         <nimbus-jose-jwt.version>4.3</nimbus-jose-jwt.version>
+        <rest-assured.version>2.5.0</rest-assured.version>
+        <hikariCP.version>2.4.1</hikariCP.version>
 
     </properties>
 
@@ -123,7 +125,7 @@
         <dependency>
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
-            <version>2.4.1</version>
+            <version>${hikariCP.version}</version>
         </dependency>
 
 
@@ -142,7 +144,7 @@
         <dependency>
             <groupId>com.jayway.restassured</groupId>
             <artifactId>rest-assured</artifactId>
-            <version>2.5.0</version>
+            <version>${rest-assured.version}</version>
             <scope>test</scope>
         </dependency>
 
