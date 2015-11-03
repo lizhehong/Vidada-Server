@@ -3,13 +3,17 @@
 angular.module('vidadaApp')
     .controller('NavbarController', function ($scope, $location, $state, $mdSidenav, Auth, Principal, $mdToast, MediaSynchronisation, ErrorHandler) {
 
+        $scope.$state = $state;
+
+
         Principal.identity().then(function(account) {
             $scope.account = account;
-            $scope.isAuthenticated = Principal.isAuthenticated;
         });
 
+        $scope.isAuthenticated = function(){
+            return Principal.isAuthenticated();
+        };
 
-        $scope.$state = $state;
 
         $scope.logout = function () {
             Auth.logout();

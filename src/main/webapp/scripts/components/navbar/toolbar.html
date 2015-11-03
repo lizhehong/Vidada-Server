@@ -2,7 +2,7 @@
 
 <md-toolbar layout="row" layout-align="start center">
     <div class="md-toolbar-tools">
-        <md-button class="md-icon-button" aria-label="Menu" ng-click="toggleLeftSideNav()">
+        <md-button ng-show="isAuthenticated()" class="md-icon-button" aria-label="Menu" ng-click="toggleLeftSideNav()">
             <md-icon>
                 <i class="material-icons">menu</i>
             </md-icon>
@@ -13,7 +13,10 @@
         </h2>
         <span flex></span>
 
-        <md-button class="md-icon-button" ng-click="syncAll()">
+
+
+
+        <md-button ng-show="isAuthenticated()" class="md-icon-button" ng-click="syncAll()">
             <md-icon>
                 <i class="material-icons">sync</i>
             </md-icon>
@@ -21,7 +24,7 @@
 
 
 
-        <md-menu>
+        <md-menu ng-show="isAuthenticated()">
             <md-button class="md-icon-button" ng-click="openMenu($mdOpenMenu, $event)">
                 <md-icon>
                     <i class="material-icons">face</i>

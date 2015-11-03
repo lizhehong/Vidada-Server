@@ -16,12 +16,13 @@
                 <div flex>
                     <md-content>
                         <!-- media details -->
-                        <p>{{media.id}}</p>
-                        <p>{{media.name}}</p>
+                        <p>Size {{media.fileSize | bytes}}</p>
+                        <p>Rating {{media.rating}}</p>
 
-                        <p>{{media.addedDate | date:'medium'}}</p>
-                        <p>{{media.lastAccessedDate | date:'medium'}}</p>
-                        <!-- -->
+                        <p>Added Date: {{media.addedDate | date:'medium'}}</p>
+                        <p>Last Accessed: {{media.lastAccessedDate | date:'medium'}}</p>
+
+                        <h3 class="md-title">Tags</h3>
                         <md-chips>
                             <md-chip ng-repeat="tag in media.tags">
                                 {{tag}}
