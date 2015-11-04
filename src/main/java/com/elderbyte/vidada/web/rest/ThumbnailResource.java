@@ -62,9 +62,11 @@ public class ThumbnailResource {
     @RequestMapping(value = "{hash}",
         method = RequestMethod.GET,
         produces = MediaType.IMAGE_PNG_VALUE)
-    public ResponseEntity<byte[]> getPNG(@PathVariable("hash") String hash,
-                           @RequestParam(value = "width", defaultValue = "250") Integer width,
-                           @RequestParam(value = "height", defaultValue = "180") Integer height) {
+    public ResponseEntity<byte[]> getPNG(
+                            @PathVariable("hash") String hash,
+                            @RequestParam(value = "width", defaultValue = "250") Integer width,
+                            @RequestParam(value = "height", defaultValue = "180") Integer height) {
+
         MediaItem media = mediaService.queryByHash(hash);
 
         if(media == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);

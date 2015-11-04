@@ -1,6 +1,5 @@
 package com.elderbyte.vidada.domain.video;
 
-import archimedes.core.geometry.Size;
 import archimedes.core.images.IMemoryImage;
 import archimedes.core.io.locations.IResourceAccessContext;
 import archimedes.core.io.locations.ResourceLocation;
