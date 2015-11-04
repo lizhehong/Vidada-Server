@@ -7,10 +7,10 @@
 
         <md-content flex layout-padding>
 
-            <md-chips>
-                <md-chip ng-repeat="tag in tags">
-                    {{tag.name}}
-                </md-chip>
+            <md-chips ng-model="tags" readonly="true" flex>
+                <md-chip-template>
+                   {{$chip.name}}
+                </md-chip-template>
             </md-chips>
 
         </md-content>
