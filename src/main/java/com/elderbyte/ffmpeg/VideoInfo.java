@@ -1,7 +1,7 @@
 package com.elderbyte.ffmpeg;
 
 
-import archimedes.core.geometry.Size;
+import com.elderbyte.vidada.domain.media.Resolution;
 
 public class VideoInfo {
 
@@ -18,7 +18,7 @@ public class VideoInfo {
 	/**
 	 * Gets the native video resolution
 	 */
-	public final Size NativeResolution;
+	public final Resolution NativeResolution;
 
 
 	public boolean hasAllInfos(){
@@ -32,7 +32,7 @@ public class VideoInfo {
 	 * @param bitrate bitrate in Kb
 	 * @param resolution resolution in pixels
 	 */
-	public VideoInfo(int duration, int bitrate, Size resolution){
+	public VideoInfo(int duration, int bitrate, Resolution resolution){
 		this.Duration = duration;
 		this.BitRate = bitrate;
 		this.NativeResolution = resolution;

@@ -5,10 +5,7 @@ import archimedes.core.geometry.Size;
 import archimedes.core.images.IMemoryImage;
 import archimedes.core.images.IRawImageFactory;
 import archimedes.core.io.locations.ResourceLocation;
-import com.elderbyte.vidada.domain.media.ImageMediaItem;
-import com.elderbyte.vidada.domain.media.MediaItem;
-import com.elderbyte.vidada.domain.media.MediaType;
-import com.elderbyte.vidada.domain.media.MovieMediaItem;
+import com.elderbyte.vidada.domain.media.*;
 import com.elderbyte.vidada.domain.media.source.MediaSource;
 import com.elderbyte.vidada.domain.video.IVideoAccessService;
 import com.elderbyte.vidada.domain.video.Video;
@@ -76,7 +73,7 @@ public class ThumbImageExtractorService {
      * @param size The desired resolution of the thumbnail.
      * @return
      */
-	public IMemoryImage extractThumb(MediaItem media, Size size){
+	public IMemoryImage extractThumb(MediaItem media, Resolution size){
 		IMemoryImage image = null;
 
         logger.info("Extracting thumbnail for media " + media.getFilehash() + " ("+ media.getType() +"), size: " + size);
@@ -132,14 +129,14 @@ public class ThumbImageExtractorService {
 		return bufferedImage;
 	}
 
-	private IMemoryImage extractImageThumb(ImageMediaItem media, Size size){
+	private IMemoryImage extractImageThumb(ImageMediaItem media, Resolution size){
 		IMemoryImage nativeImage = readNativeImage(media);
 		if(nativeImage != null)
-			nativeImage = nativeImage.rescale(size.width, size.height);
+			nativeImage = nativeImage.rescale(size.getWidth(), size.getHeight());
 		return nativeImage;
 	}
 
-	private IMemoryImage extractMovieThumb(MovieMediaItem media, Size size){
+	private IMemoryImage extractMovieThumb(MovieMediaItem media, Resolution size){
 		return extractMovieThumb(media, size, media.getThumbPos());
 	}
 
@@ -151,7 +148,7 @@ public class ThumbImageExtractorService {
 	 *            0.0 - 1.0
 	 * @return
 	 */
-	private IMemoryImage extractMovieThumb(MovieMediaItem media, Size size, float position) {
+	private IMemoryImage extractMovieThumb(MovieMediaItem media, Resolution size, float position) {
 
 		Video video = getVideo(media);
 

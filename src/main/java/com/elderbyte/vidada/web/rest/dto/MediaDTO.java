@@ -1,9 +1,8 @@
 package com.elderbyte.vidada.web.rest.dto;
 
-import archimedes.core.geometry.Size;
-import archimedes.core.util.Lists;
 import com.elderbyte.vidada.domain.media.MediaItem;
 import com.elderbyte.vidada.domain.media.MediaType;
+import com.elderbyte.vidada.domain.media.Resolution;
 import com.elderbyte.vidada.domain.tags.Tag;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
@@ -27,7 +26,7 @@ public class MediaDTO {
     private String streamUrl;
     private List<String> tags = new ArrayList<>();
     private int rating;
-    private Size resolution;
+    private String resolution;
     private int timesOpened;
     private long fileSize;
     private ZonedDateTime addedDate;
@@ -60,7 +59,7 @@ public class MediaDTO {
         this.addedDate = media.getAddedDate();
         this.lastAccessedDate = media.getLastAccessed();
         this.rating = media.getRating();
-        this.resolution = media.getResolution();
+        setResolution(media.getResolution());
         this.timesOpened = media.getOpened();
         this.thumbnailUrl = thumbnailUrl;
         this.streamUrl = streamUrl;
@@ -119,12 +118,12 @@ public class MediaDTO {
         this.rating = rating;
     }
 
-    public Size getResolution() {
-        return resolution;
+    public Resolution getResolution() {
+        return Resolution.ofString(resolution);
     }
 
-    public void setResolution(Size resolution) {
-        this.resolution = resolution;
+    public void setResolution(Resolution resolution) {
+        this.resolution = resolution.toString();
     }
 
     public int getTimesOpened() {

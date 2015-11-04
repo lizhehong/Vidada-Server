@@ -2,6 +2,7 @@ package com.elderbyte.vidada;
 
 import archimedes.core.geometry.Size;
 import archimedes.core.util.OSValidator;
+import com.elderbyte.vidada.domain.media.Resolution;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -43,9 +44,9 @@ public class VidadaSettings {
 	 * (HDPI aware)
 	 * @return
 	 */
-	public Size getMaxThumbResolution(){
+	public Resolution getMaxThumbResolution(){
 		int maxWidth = getMaxThubnailWidth() * (OSValidator.isHDPI() ? 2 : 1);
-		return new Size(
+		return new Resolution(
 				maxWidth,
 				(int)((double)maxWidth*thumbnailAspectRatio()));
 	}

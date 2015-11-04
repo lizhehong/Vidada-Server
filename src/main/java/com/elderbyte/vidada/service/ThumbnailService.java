@@ -5,6 +5,7 @@ import archimedes.core.images.IMemoryImage;
 import com.elderbyte.vidada.domain.media.MediaItem;
 import com.elderbyte.vidada.domain.media.MovieMediaItem;
 import com.elderbyte.vidada.VidadaSettings;
+import com.elderbyte.vidada.domain.media.Resolution;
 import com.elderbyte.vidada.service.media.MediaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +29,7 @@ public class ThumbnailService {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final MediaService mediaService;
-    private final Size maxThumbSize;
+    private final Resolution maxThumbSize;
 	private final ThumbImageExtractorService thumbImageCreator;
     private final MediaThumbCacheService mediaThumbCacheService;
 
@@ -71,7 +72,7 @@ public class ThumbnailService {
      * @param size
      * @return
      */
-	public IMemoryImage getThumbImage(MediaItem media, Size size) {
+	public IMemoryImage getThumbImage(MediaItem media, Resolution size) {
 
 		IMemoryImage thumb = null;
 
@@ -122,10 +123,10 @@ public class ThumbnailService {
      * @param requestedSize
      * @return
      */
-    private Size enforceSizeLimit(Size requestedSize){
-        return new Size(
-                Math.min(maxThumbSize.width, requestedSize.width),
-                Math.min(maxThumbSize.height, requestedSize.height)
+    private Resolution enforceSizeLimit(Resolution requestedSize){
+        return new Resolution(
+                Math.min(maxThumbSize.getWidth(), requestedSize.getWidth()),
+                Math.min(maxThumbSize.getHeight(), requestedSize.getHeight())
         );
     }
 
@@ -139,7 +140,7 @@ public class ThumbnailService {
 	 * @return
 	 * @throws Exception
 	 */
-	private IMemoryImage fetchThumb(MediaItem media, Size size) throws Exception {
+	private IMemoryImage fetchThumb(MediaItem media, Resolution size) throws Exception {
 
 		IMemoryImage loadedImage;
 
@@ -168,7 +169,7 @@ public class ThumbnailService {
 					if(size.equals(maxThumbSize)){
 						loadedImage = maxThumb;
 					}else{
-						loadedImage = maxThumb.rescale(size.width, size.height);
+						loadedImage = maxThumb.rescale(size.getWidth(), size.getHeight());
                         mediaThumbCacheService.storeImage(media, loadedImage);
 					}
 				}

@@ -4,10 +4,7 @@ import archimedes.core.exceptions.NotSupportedException;
 import archimedes.core.geometry.Size;
 import archimedes.core.io.locations.ResourceLocation;
 import com.elderbyte.ffmpeg.VideoInfo;
-import com.elderbyte.vidada.domain.media.ImageMediaItem;
-import com.elderbyte.vidada.domain.media.MediaItem;
-import com.elderbyte.vidada.domain.media.MediaLibrary;
-import com.elderbyte.vidada.domain.media.MovieMediaItem;
+import com.elderbyte.vidada.domain.media.*;
 import com.elderbyte.vidada.domain.media.source.MediaSource;
 import com.elderbyte.vidada.domain.video.IVideoAccessService;
 import com.elderbyte.vidada.domain.video.Video;
@@ -96,7 +93,7 @@ public class MetadataExtractor {
         ResourceLocation imageResource = source.getResourceLocation();
         if(imageResource != null && imageResource.exists()){
             try{
-                Size resolution = ImageUtil.getImageResolution(imageResource);
+                Resolution resolution = ImageUtil.getImageResolution(imageResource);
 
                 if(resolution != null){
                     imageMedia.setResolution(resolution);

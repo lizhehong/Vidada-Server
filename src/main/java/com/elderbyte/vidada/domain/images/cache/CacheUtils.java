@@ -2,13 +2,12 @@ package com.elderbyte.vidada.domain.images.cache;
 
 import archimedes.core.geometry.Size;
 import archimedes.core.images.IMemoryImage;
-import archimedes.core.util.Debug;
 import archimedes.core.util.Lists;
+import com.elderbyte.vidada.domain.media.Resolution;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
@@ -35,11 +34,11 @@ public class CacheUtils {
 	 * @return
 	 */
 	@SuppressWarnings("rawtypes")
-	public static IMemoryImage getRescaledInstance(IImageCache imageCache, String id, Size desiredSize ){
+	public static IMemoryImage getRescaledInstance(IImageCache imageCache, String id, Resolution desiredSize ){
 
 		IMemoryImage sourceImage, resizedImage = null;
 
-		Size size = getBestMatchingSize(imageCache, id, desiredSize);
+		Resolution size = getBestMatchingSize(imageCache, id, desiredSize);
 
 		if(size != null)
 		{
@@ -53,7 +52,7 @@ public class CacheUtils {
 					resizedImage = sourceImage;
 				}else{
                     logger.debug("The existing image is too big, so will scale it down to fit the desired size " + desiredSize+ "!");
-                    resizedImage =  sourceImage.rescale(desiredSize.width, desiredSize.height);
+                    resizedImage =  sourceImage.rescale(desiredSize.getWidth(), desiredSize.getHeight());
 				}
 			}else{
 				logger.warn("The expected thumb " + id + " with size " + size + " was not found in the image cache!");
@@ -70,23 +69,18 @@ public class CacheUtils {
 	 * @param desiredSize
 	 * @return
 	 */
-	private static Size getBestMatchingSize(IImageCache imageCache, String id, Size desiredSize){
+	private static Resolution getBestMatchingSize(IImageCache imageCache, String id, Resolution desiredSize){
 
-		Set<Size> dims = imageCache.getCachedDimensions(id);
+		Set<Resolution> dims = imageCache.getCachedDimensions(id);
 
 		if(!dims.isEmpty()){
 
-			List<Size> dimensions = Lists.toList(dims);
-			Collections.sort(dimensions, new Comparator<Size>() {
-				@Override
-				public int compare(Size o1, Size o2) {
-					return Double.compare(o1.width, o2.width) ;
-				}
-			});
+			List<Resolution> dimensions = Lists.toList(dims);
+			Collections.sort(dimensions, (o1, o2) -> Double.compare(o1.getWidth(), o2.getWidth()));
 
 			int index = -1;
 			for (int i = 0; i < dimensions.size(); i++) {
-				if(dimensions.get(i).width >= desiredSize.width){
+				if(dimensions.get(i).getWidth() >= desiredSize.getWidth()){
 					index = i;
 					break;
 				}

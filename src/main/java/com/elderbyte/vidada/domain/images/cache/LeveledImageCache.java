@@ -1,7 +1,7 @@
 package com.elderbyte.vidada.domain.images.cache;
 
-import archimedes.core.geometry.Size;
 import archimedes.core.images.IMemoryImage;
+import com.elderbyte.vidada.domain.media.Resolution;
 
 import java.util.Set;
 
@@ -37,7 +37,7 @@ public class LeveledImageCache implements IImageCache {
 
 
 	@Override
-	public IMemoryImage getImageById(String id, Size size) {
+	public IMemoryImage getImageById(String id, Resolution size) {
 
 		IMemoryImage image = firstLevelCache.getImageById(id, size);
 
@@ -55,16 +55,16 @@ public class LeveledImageCache implements IImageCache {
 	}
 
 	@Override
-	public Set<Size> getCachedDimensions(String id) {
-		Set<Size> fd = firstLevelCache.getCachedDimensions(id);
-		Set<Size> sd = secondLevelCache.getCachedDimensions(id);
+	public Set<Resolution> getCachedDimensions(String id) {
+		Set<Resolution> fd = firstLevelCache.getCachedDimensions(id);
+		Set<Resolution> sd = secondLevelCache.getCachedDimensions(id);
 		fd.addAll(sd); // Merge
 
 		return fd;
 	}
 
 	@Override
-	public boolean exists(String id, Size size) {
+	public boolean exists(String id, Resolution size) {
 		return firstLevelCache.exists(id, size) || secondLevelCache.exists(id, size);
 	}
 

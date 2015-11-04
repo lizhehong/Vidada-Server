@@ -6,6 +6,7 @@ import archimedes.core.io.locations.DirectoryLocation;
 import com.elderbyte.vidada.domain.images.cache.*;
 import com.elderbyte.vidada.domain.media.MediaItem;
 import com.elderbyte.vidada.domain.media.MediaLibrary;
+import com.elderbyte.vidada.domain.media.Resolution;
 import com.elderbyte.vidada.domain.media.source.MediaSource;
 import com.elderbyte.vidada.domain.security.ICredentialManager;
 import com.elderbyte.vidada.VidadaSettings;
@@ -37,7 +38,7 @@ public class MediaThumbCacheService  {
     private final Map<String, IImageCache> caches = new HashMap<>();
 
     private final IImageCache globalCache;
-    private final Size maxThumbnailSize;
+    private final Resolution maxThumbnailSize;
     private final ImageCacheFactory imageCacheFactory;
 
     /***************************************************************************
@@ -72,7 +73,7 @@ public class MediaThumbCacheService  {
         imageCache.removeImage(media.getFilehash());
     }
 
-    public IMemoryImage getImage(MediaItem media, Size size) {
+    public IMemoryImage getImage(MediaItem media, Resolution size) {
 
         IMemoryImage loadedImage = null;
 

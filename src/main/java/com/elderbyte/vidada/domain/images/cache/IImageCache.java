@@ -3,6 +3,7 @@ package com.elderbyte.vidada.domain.images.cache;
 
 import archimedes.core.geometry.Size;
 import archimedes.core.images.IMemoryImage;
+import com.elderbyte.vidada.domain.media.Resolution;
 
 import java.util.Set;
 
@@ -22,14 +23,14 @@ public interface IImageCache {
 	 * @param size The size of the image
 	 * @return
 	 */
-	IMemoryImage getImageById(String id, Size size);
+	IMemoryImage getImageById(String id, Resolution size);
 
 	/**
 	 * For the given id, returns all available image dimensions
 	 * @param id The id of the image
 	 * @return
 	 */
-	Set<Size> getCachedDimensions(String id);
+	Set<Resolution> getCachedDimensions(String id);
 
 	/**
 	 * Does the given image exist in this cache?
@@ -37,7 +38,7 @@ public interface IImageCache {
 	 * @param size
 	 * @return
 	 */
-	boolean exists(String id, Size size);
+	boolean exists(String id, Resolution size);
 
 	/**
 	 * Persist the given image in this cache

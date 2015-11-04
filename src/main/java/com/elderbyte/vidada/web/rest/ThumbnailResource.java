@@ -1,9 +1,9 @@
 package com.elderbyte.vidada.web.rest;
 
-import archimedes.core.geometry.Size;
 import archimedes.core.images.IMemoryImage;
 import com.elderbyte.vidada.domain.media.MediaItem;
 import com.elderbyte.vidada.domain.media.MovieMediaItem;
+import com.elderbyte.vidada.domain.media.Resolution;
 import com.elderbyte.vidada.service.ThumbnailService;
 import com.elderbyte.vidada.service.media.MediaService;
 import org.slf4j.Logger;
@@ -67,14 +67,14 @@ public class ThumbnailResource {
                            @RequestParam(value = "height", defaultValue = "180") Integer height) {
         MediaItem media = mediaService.queryByHash(hash);
 
-        if(media == null) return new ResponseEntity<byte[]>(HttpStatus.NOT_FOUND);
+        if(media == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         width = Math.max(width, MIN_SIZE);
         height = Math.max(height, MIN_SIZE);
         width = Math.min(width, MAX_SIZE);
         height = Math.min(height, MAX_SIZE);
 
-        Size thumbSize = new Size(width, height);
+        Resolution thumbSize = new Resolution(width, height);
 
 
         final IMemoryImage image = thumbnailService.getThumbImage(media, thumbSize);

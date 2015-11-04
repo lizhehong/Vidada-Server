@@ -3,6 +3,7 @@ package com.elderbyte.vidada.domain.video;
 import archimedes.core.geometry.Size;
 import archimedes.core.images.IMemoryImage;
 import com.elderbyte.ffmpeg.VideoInfo;
+import com.elderbyte.vidada.domain.media.Resolution;
 
 import java.net.URI;
 
@@ -48,6 +49,6 @@ public interface IVideoAccessService {
 	 * @param frameSize The requested thumb size
 	 * @return
 	 */
-	IMemoryImage extractFrame(URI pathToVideoFile, float position, Size frameSize);
+	IMemoryImage extractFrame(URI pathToVideoFile, float position, Resolution frameSize);
 
 }

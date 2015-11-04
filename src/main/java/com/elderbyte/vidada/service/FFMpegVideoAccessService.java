@@ -7,6 +7,7 @@ import archimedes.core.images.IRawImageFactory;
 import com.elderbyte.ffmpeg.FFmpegException;
 import com.elderbyte.ffmpeg.FFmpegInterop;
 import com.elderbyte.ffmpeg.VideoInfo;
+import com.elderbyte.vidada.domain.media.Resolution;
 import com.elderbyte.vidada.domain.video.IVideoAccessService;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
@@ -86,7 +87,7 @@ public class FFMpegVideoAccessService implements IVideoAccessService {
 		VideoInfo info = extractVideoInfo(pathToVideFile);
 		if(info != null)
 		{
-			Size resoulution = info.NativeResolution;
+            Resolution resoulution = info.NativeResolution;
 			if(resoulution != null)
 				frame = extractFrame(pathToVideFile, second, resoulution);
 		}
@@ -116,7 +117,7 @@ public class FFMpegVideoAccessService implements IVideoAccessService {
 	}
 
 	@Override
-	public IMemoryImage extractFrame(URI pathToVideFile, float position, Size frameSize) {
+	public IMemoryImage extractFrame(URI pathToVideFile, float position, Resolution frameSize) {
 		position = Math.min(1f, Math.abs(position)); // ensure position is in valid range
 
 		IMemoryImage frame = null;
@@ -156,7 +157,7 @@ public class FFMpegVideoAccessService implements IVideoAccessService {
 	 * @param size
 	 * @return returns a bufferedimage representing the frame
 	 */
-	private IMemoryImage extractFrame(URI pathToVideFile, int second, Size size){
+	private IMemoryImage extractFrame(URI pathToVideFile, int second, Resolution size){
 		IMemoryImage frame = null;
 
 		File pathToImage = null;

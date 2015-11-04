@@ -6,6 +6,7 @@ import archimedes.core.io.locations.ResourceLocation;
 import com.elderbyte.vidada.domain.media.ImageMediaItem;
 import com.elderbyte.vidada.domain.media.MediaItem;
 import com.elderbyte.vidada.domain.media.MovieMediaItem;
+import com.elderbyte.vidada.domain.media.Resolution;
 import com.elderbyte.vidada.domain.metadata.MediaMetaAttribute;
 import com.elderbyte.vidada.domain.tags.Tag;
 import com.elderbyte.vidada.domain.tags.TagUtil;
@@ -194,7 +195,7 @@ public class MetadataSynchronizer {
         if(!media.hasResolution()) {
             String resolutionStr = metaDataService.readMetaData(physicalFile, MediaMetaAttribute.Resolution);
             if(resolutionStr != null){
-                Size resolution = Size.parse(resolutionStr);
+                Resolution resolution = Resolution.ofString(resolutionStr);
                 if(resolution != null) {
                     media.setResolution(resolution);
                     updated = true;
@@ -210,7 +211,7 @@ public class MetadataSynchronizer {
         if(!media.hasResolution()) {
             String resolutionStr = metaDataService.readMetaData(physicalFile, MediaMetaAttribute.Resolution);
             if(resolutionStr != null){
-                Size resolution = Size.parse(resolutionStr);
+                Resolution resolution = Resolution.ofString(resolutionStr);
                 if(resolution != null) {
                     media.setResolution(resolution);
                     updated = true;

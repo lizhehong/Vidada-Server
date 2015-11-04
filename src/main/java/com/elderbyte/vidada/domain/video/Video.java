@@ -5,6 +5,7 @@ import archimedes.core.images.IMemoryImage;
 import archimedes.core.io.locations.IResourceAccessContext;
 import archimedes.core.io.locations.ResourceLocation;
 import com.elderbyte.ffmpeg.VideoInfo;
+import com.elderbyte.vidada.domain.media.Resolution;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -72,7 +73,7 @@ public class Video {
 	 * @param thumbSize
 	 * @return
 	 */
-	public IMemoryImage getFrame(float position, Size thumbSize){
+	public IMemoryImage getFrame(float position, Resolution thumbSize){
 		IResourceAccessContext ctx = videoResource.openResourceContext();
 		try{
             logger.debug("Extracting Frame at relative position " + position + ", size = " + thumbSize);

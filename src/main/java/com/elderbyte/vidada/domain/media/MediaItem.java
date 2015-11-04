@@ -50,7 +50,7 @@ public abstract class MediaItem extends BaseEntity {
 	private String filename = null;
 	private ZonedDateTime addedDate = ZonedDateTime.now();
     private long fileSize = -1;
-	private Size resolution = Size.Empty;
+	private Resolution resolution = Resolution.Empty;
 	private int opened = 0;
 	private int rating = 0;
 	private MediaType type = MediaType.UNKNOWN;
@@ -290,7 +290,7 @@ public abstract class MediaItem extends BaseEntity {
 	 * Get the image/video resolution of this media
 	 * @return
 	 */
-	public Size getResolution() {
+	public Resolution getResolution() {
 		return resolution;
 	}
 
@@ -298,7 +298,7 @@ public abstract class MediaItem extends BaseEntity {
 	 * Set the image/video resolution
 	 * @param resolution
 	 */
-	public void setResolution(Size resolution) {
+	public void setResolution(Resolution resolution) {
 		this.resolution = resolution;
 		firePropertyChange("resolution");
 	}

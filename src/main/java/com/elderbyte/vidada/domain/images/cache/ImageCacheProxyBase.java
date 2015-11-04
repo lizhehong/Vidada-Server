@@ -2,6 +2,7 @@ package com.elderbyte.vidada.domain.images.cache;
 
 import archimedes.core.geometry.Size;
 import archimedes.core.images.IMemoryImage;
+import com.elderbyte.vidada.domain.media.Resolution;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -47,17 +48,17 @@ public abstract class ImageCacheProxyBase implements IImageCache {
      **************************************************************************/
 
 	@Override
-	public IMemoryImage getImageById(String id, Size size) {
+	public IMemoryImage getImageById(String id, Resolution size) {
 		return original != null ? original.getImageById(id, size) : null;
 	}
 
 	@Override
-	public Set<Size> getCachedDimensions(String id) {
-		return original != null ? original.getCachedDimensions(id) : new HashSet<Size>();
+	public Set<Resolution> getCachedDimensions(String id) {
+		return original != null ? original.getCachedDimensions(id) : new HashSet<>();
 	}
 
 	@Override
-	public boolean exists(String id, Size size) {
+	public boolean exists(String id, Resolution size) {
 		return original != null && original.exists(id, size);
 	}
 

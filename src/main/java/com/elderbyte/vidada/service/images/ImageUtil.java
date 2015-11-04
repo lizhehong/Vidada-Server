@@ -1,8 +1,8 @@
 package com.elderbyte.vidada.service.images;
 
 
-import archimedes.core.geometry.Size;
 import archimedes.core.io.locations.ResourceLocation;
+import com.elderbyte.vidada.domain.media.Resolution;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,8 +19,8 @@ public class ImageUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(ImageUtil.class);
 
-    public static Size getImageResolution(final ResourceLocation resource) {
-        Size result = null;
+    public static Resolution getImageResolution(final ResourceLocation resource) {
+        Resolution result = null;
         String suffix = cleanExtension(resource.getExtension());
         Iterator<ImageReader> iter = ImageIO.getImageReadersBySuffix(suffix);
         if (iter.hasNext()) {
@@ -32,7 +32,7 @@ public class ImageUtil {
                 reader.setInput(stream);
                 int width = reader.getWidth(reader.getMinIndex());
                 int height = reader.getHeight(reader.getMinIndex());
-                result = new Size(width, height);
+                result = new Resolution(width, height);
             } catch (IOException e) {
                 logger.error("", e);
             } finally {
@@ -51,8 +51,8 @@ public class ImageUtil {
     }
 
 
-    public static Size getImageResolution(final String path) {
-        Size result = null;
+    public static Resolution getImageResolution(final String path) {
+        Resolution result = null;
         String suffix = getFileSuffix(path);
         Iterator<ImageReader> iter = ImageIO.getImageReadersBySuffix(suffix);
         if (iter.hasNext()) {
@@ -62,7 +62,7 @@ public class ImageUtil {
                 reader.setInput(stream);
                 int width = reader.getWidth(reader.getMinIndex());
                 int height = reader.getHeight(reader.getMinIndex());
-                result = new Size(width, height);
+                result = new Resolution(width, height);
             } catch (IOException e) {
                 logger.error("", e);
             } finally {

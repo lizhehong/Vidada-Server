@@ -3,6 +3,7 @@ package com.elderbyte.vidada.domain.images.cache;
 import archimedes.core.data.caching.LRUCache;
 import archimedes.core.geometry.Size;
 import archimedes.core.images.IMemoryImage;
+import com.elderbyte.vidada.domain.media.Resolution;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -32,7 +33,7 @@ public class MemoryImageCache extends ImageCacheProxyBase {
 
     private static final Logger logger = LogManager.getLogger(MemoryImageCache.class.getName());
 
-	private final Map<Size, Map<String, SoftReference<IMemoryImage>>> imageCache;
+	private final Map<Resolution, Map<String, SoftReference<IMemoryImage>>> imageCache;
 
 	/**
 	 * Average scaled image size in MB
@@ -101,7 +102,7 @@ public class MemoryImageCache extends ImageCacheProxyBase {
 
 
 	@Override
-	public IMemoryImage getImageById(String id, Size size) {
+	public IMemoryImage getImageById(String id, Resolution size) {
 		IMemoryImage image = null;
 
 		if(existsInMemoryCache(id, size))
@@ -117,13 +118,13 @@ public class MemoryImageCache extends ImageCacheProxyBase {
 	}
 
 	@Override
-	public Set<Size> getCachedDimensions(String id) {
+	public Set<Resolution> getCachedDimensions(String id) {
         // TODO Memory cached dimensions?
 		return super.getCachedDimensions(id);
 	}
 
 	@Override
-	public boolean exists(String id, Size size) {
+	public boolean exists(String id, Resolution size) {
 		return existsInMemoryCache(id, size) || super.exists(id, size);
 	}
 
@@ -139,7 +140,7 @@ public class MemoryImageCache extends ImageCacheProxyBase {
 
         super.removeImage(id);
 
-		for (Size d : new ArrayList<>(imageCache.keySet())) {
+		for (Resolution d : new ArrayList<>(imageCache.keySet())) {
 			Map<String, SoftReference<IMemoryImage>> idImageMap = imageCache.get(d);
 			if(idImageMap.containsKey(id))
 			{
@@ -159,7 +160,7 @@ public class MemoryImageCache extends ImageCacheProxyBase {
      **************************************************************************/
 
 
-	protected boolean existsInMemoryCache(String id, Size size){
+	protected boolean existsInMemoryCache(String id, Resolution size){
 		Map<String, SoftReference<IMemoryImage>> map = imageCache.get(size);
 		if(map != null){
 			SoftReference<IMemoryImage> imageRef = map.get(id);
@@ -171,12 +172,12 @@ public class MemoryImageCache extends ImageCacheProxyBase {
 
 	protected void storeImageInMemoryCache(String id, IMemoryImage image) {
         if(image == null) throw new IllegalArgumentException("image must not be NULL");
-        Size d = new Size(image.getWidth(), image.getHeight());
+        Resolution d = new Resolution(image.getWidth(), image.getHeight());
         storeImageInMemoryCache(id, image, d);
     }
 
 
-	protected void storeImageInMemoryCache(String id, IMemoryImage image, Size imageSize) {
+	protected void storeImageInMemoryCache(String id, IMemoryImage image, Resolution imageSize) {
         if (image == null) throw new IllegalArgumentException("image must not be NULL");
 
         if (!imageCache.containsKey(imageSize)) {

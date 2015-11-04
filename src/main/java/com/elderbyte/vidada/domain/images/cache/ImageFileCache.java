@@ -7,6 +7,7 @@ import archimedes.core.images.IMemoryImage;
 import archimedes.core.images.IRawImageFactory;
 import archimedes.core.io.locations.DirectoryLocation;
 import archimedes.core.io.locations.ResourceLocation;
+import com.elderbyte.vidada.domain.media.Resolution;
 import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -45,9 +46,9 @@ public class ImageFileCache implements IImageCache {
 
 	// file path caches
 	private final Map<Integer, ResourceLocation> dimensionPathCache = new HashMap<>(2000);
-	private final Map<Size, DirectoryLocation> resolutionFolders = new HashMap<>(10);
+	private final Map<Resolution, DirectoryLocation> resolutionFolders = new HashMap<>(10);
 
-	private final Set<Size> knownDimensions = new HashSet<>();
+	private final Set<Resolution> knownDimensions = new HashSet<>();
 	private final Object knownDimensionsLOCK = new Object();
 
     /***************************************************************************
@@ -87,11 +88,11 @@ public class ImageFileCache implements IImageCache {
 	 * Returns all cached image dimensions for the given id.
 	 */
 	@Override
-	public Set<Size> getCachedDimensions(String id) {
+	public Set<Resolution> getCachedDimensions(String id) {
 
-		Set<Size> avaiableForId = new HashSet<>();
+		Set<Resolution> avaiableForId = new HashSet<>();
 
-		for (Size knownDim : getKnownDimensions())
+		for (Resolution knownDim : getKnownDimensions())
 		{
 			if(getFilePath( id, knownDim ).exists())
 			{
@@ -103,7 +104,7 @@ public class ImageFileCache implements IImageCache {
 	}
 
 	@Override
-	public IMemoryImage getImageById(String id, Size size) {
+	public IMemoryImage getImageById(String id, Resolution size) {
 
 		IMemoryImage thumbnail = null;
 
@@ -132,7 +133,7 @@ public class ImageFileCache implements IImageCache {
 			throw new IllegalArgumentException("image can not be null");
 
 
-		Size imageSize = new Size(image.getWidth(), image.getHeight());
+        Resolution imageSize = new Resolution(image.getWidth(), image.getHeight());
 		ResourceLocation outputfile = getFilePath(id, imageSize);
 
 		persist(image, outputfile);
@@ -146,7 +147,7 @@ public class ImageFileCache implements IImageCache {
 
 
 	@Override
-	public boolean exists(String id, Size size) {
+	public boolean exists(String id, Resolution size) {
 		ResourceLocation cachedPath = getFilePath(id, size);
 		//
 		// The appropriate thing here would be Files.isReadable( cachedPath );
@@ -161,7 +162,7 @@ public class ImageFileCache implements IImageCache {
 	public void removeImage(String id) {
 
 		ResourceLocation path;
-		for (Size knownDim : getKnownDimensions())
+		for (Resolution knownDim : getKnownDimensions())
 		{
 			path = getFilePath(id, knownDim);
 			path.delete();
@@ -187,7 +188,7 @@ public class ImageFileCache implements IImageCache {
      * Gets all known dimensions in this cache
      * @return
      */
-    protected Set<Size> getKnownDimensions(){
+    protected Set<Resolution> getKnownDimensions(){
         synchronized (knownDimensionsLOCK) {
             return new HashSet<>(this.knownDimensions);
         }
@@ -275,7 +276,7 @@ public class ImageFileCache implements IImageCache {
 	 * @param size
 	 * @return
 	 */
-	protected ResourceLocation getFilePath(String id, Size size){
+	protected ResourceLocation getFilePath(String id, Resolution size){
 
 		int combindedHash = BiTuple.hashCode(id, size);
 
@@ -306,9 +307,9 @@ public class ImageFileCache implements IImageCache {
      * Scans the given folder for dimension subfolders
      * @param scaledCacheDataBase
      */
-    private Set<Size> readExistingScaleDimensions(DirectoryLocation scaledCacheDataBase) {
+    private Set<Resolution> readExistingScaleDimensions(DirectoryLocation scaledCacheDataBase) {
 
-        Set<Size> existingDimensions = new HashSet<>();
+        Set<Resolution> existingDimensions = new HashSet<>();
         List<DirectoryLocation> resolutionFolders = scaledCacheDataBase.listDirs();
 
         if(resolutionFolders != null && !resolutionFolders.isEmpty())
@@ -317,7 +318,7 @@ public class ImageFileCache implements IImageCache {
                 String[] parts  = folder.getName().split(RESOLUTION_DELEMITER);
                 if(parts.length == 2){
                     try {
-                        existingDimensions.add(new Size(Integer.parseInt(parts[0]), Integer.parseInt(parts[1])));
+                        existingDimensions.add(new Resolution(Integer.parseInt(parts[0]), Integer.parseInt(parts[1])));
                     } catch (NumberFormatException e) {
                         // Ignore wrong (NON resolution) folders
                     }
@@ -327,13 +328,13 @@ public class ImageFileCache implements IImageCache {
         return existingDimensions;
     }
 
-	private DirectoryLocation getFolderForResolution(Size size){
+	private DirectoryLocation getFolderForResolution(Resolution size){
 
 		DirectoryLocation resolutionFolder = resolutionFolders.get(size);
 
 		if(resolutionFolder == null){
 
-			String resolutionName = size.width + RESOLUTION_DELEMITER + size.height;
+			String resolutionName = size.getWidth() + RESOLUTION_DELEMITER + size.getHeight();
 
 			try {
 				resolutionFolder = DirectoryLocation.Factory

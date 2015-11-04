@@ -7,6 +7,7 @@ import archimedes.core.util.Lists;
 import archimedes.core.util.OSValidator;
 import com.elderbyte.common.ArgumentNullException;
 import com.elderbyte.common.Version;
+import com.elderbyte.vidada.domain.media.Resolution;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -87,7 +88,7 @@ public abstract class FFmpegInterop {
 	 * @param size
 	 * @throws FFmpegException
 	 */
-	public final void extractFrame(URI pathToVideo, File pathToImage, int second, Size size) throws FFmpegException {
+	public final void extractFrame(URI pathToVideo, File pathToImage, int second, Resolution size) throws FFmpegException {
 
 		FileUtils.deleteQuietly(pathToImage);
 
@@ -109,7 +110,7 @@ public abstract class FFmpegInterop {
 		// thumb size
 		argumentBuilder.add("-vf");
 		// the following will scale the thumb to the desired size but not stretch the image
-		argumentBuilder.add("scale=max("+size.width+"\\,a*"+size.height+"):max("+size.height+"\\,"+size.width+"/a),crop="+size.width+":"+size.height);
+		argumentBuilder.add("scale=max("+size.getWidth()+"\\,a*"+size.getHeight()+"):max("+size.getHeight()+"\\,"+size.getWidth()+"/a),crop="+size.getWidth()+":"+size.getHeight());
 
 		argumentBuilder.add(shieldPathArgument(pathToImage));
 
@@ -151,7 +152,7 @@ public abstract class FFmpegInterop {
 
 		int videoDuration = 0;
 		int videoBitrate = 0;
-		Size resolution = null;
+        Resolution resolution = Resolution.Empty;
 
 
 		//
@@ -189,7 +190,7 @@ public abstract class FFmpegInterop {
 		//
 		m = regex_Resolution.matcher(output);
 		if(m.find()){
-			resolution = new Size(
+			resolution = new Resolution(
 					Integer.parseInt(m.group(1)),
 					Integer.parseInt(m.group(2)));
 		}else {
