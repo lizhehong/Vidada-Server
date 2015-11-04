@@ -1,14 +1,11 @@
 package com.elderbyte.vidada.domain.video;
 
 import archimedes.core.images.IMemoryImage;
-import archimedes.core.io.locations.IResourceAccessContext;
 import archimedes.core.io.locations.ResourceLocation;
 import com.elderbyte.ffmpeg.VideoInfo;
 import com.elderbyte.vidada.domain.media.Resolution;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
 
 /**
  * Represents a Video-File
@@ -42,16 +39,7 @@ public class Video {
 	 */
 	public VideoInfo getVideoInfo(){
 		if(videoInfo == null){
-			IResourceAccessContext ctx = videoResource.openResourceContext();
-			try{
-				videoInfo = videoAccessService.extractVideoInfo(ctx.getUri());
-			}finally{
-				try {
-					ctx.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
+            videoInfo = videoAccessService.extractVideoInfo(videoResource.getUri());
 		}
 		return videoInfo;
 	}
@@ -73,17 +61,7 @@ public class Video {
 	 * @return
 	 */
 	public IMemoryImage getFrame(float position, Resolution thumbSize){
-		IResourceAccessContext ctx = videoResource.openResourceContext();
-		try{
-            logger.debug("Extracting Frame at relative position " + position + ", size = " + thumbSize);
-			return videoAccessService.extractFrame(ctx.getUri(), position, thumbSize);
-		}finally{
-			try {
-				ctx.close();
-			} catch (IOException e) {
-                logger.error("Failed to close IResourceAccessContext!", e);
-			}
-		}
+        return videoAccessService.extractFrame(videoResource.getUri(), position, thumbSize);
 	}
 
 }
