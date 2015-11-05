@@ -68,7 +68,7 @@ public class ThumbImageExtractorService {
 	}
 
     /**
-     * Extracts a thumbnail from the given media in teh given resolution
+     * Extracts a thumbnail from the given media in the given resolution
      * @param media
      * @param size The desired resolution of the thumbnail.
      * @return

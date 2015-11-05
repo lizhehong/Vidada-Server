@@ -22,8 +22,6 @@ public class MediaDTO {
     private String id;
     private String name;
     private MediaType mediaType;
-    private String thumbnailUrl;
-    private String streamUrl;
     private List<String> tags = new ArrayList<>();
     private int rating;
     private String resolution;
@@ -31,6 +29,10 @@ public class MediaDTO {
     private long fileSize;
     private ZonedDateTime addedDate;
     private ZonedDateTime lastAccessedDate;
+
+    // Urls
+    private AsyncResourceDTO thumbnailResource;
+    private String streamUrl;
 
 
     /**
@@ -42,17 +44,17 @@ public class MediaDTO {
     /**
      * Creates a new DTO from the domain entity
      * @param media
-     * @param thumbnailUrl
+     * @param thumbnailResource
      * @param streamUrl
      */
-    public MediaDTO(MediaItem media, String thumbnailUrl, String streamUrl) {
+    public MediaDTO(MediaItem media, AsyncResourceDTO thumbnailResource, String streamUrl) {
 
         this.id = media.getFilehash();
         this.name = media.getFilename();
         this.mediaType = media.getType();
 
         for(Tag tag : media.getTags()){
-            this.getTags().add(tag.getName());
+            this.tags.add(tag.getName());
         }
 
         this.fileSize = media.getFileSize();
@@ -61,61 +63,8 @@ public class MediaDTO {
         this.rating = media.getRating();
         setResolution(media.getResolution());
         this.timesOpened = media.getOpened();
-        this.thumbnailUrl = thumbnailUrl;
+        this.thumbnailResource = thumbnailResource;
         this.streamUrl = streamUrl;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getThumbnailUrl() {
-        return thumbnailUrl;
-    }
-
-    public void setThumbnailUrl(String thumbnailUrl) {
-        this.thumbnailUrl = thumbnailUrl;
-    }
-
-    public String getStreamUrl() {
-        return streamUrl;
-    }
-
-    public void setStreamUrl(String streamUrl) {
-        this.streamUrl = streamUrl;
-    }
-
-    public List<String> getTags() {
-        return tags;
-    }
-
-    public MediaType getMediaType() {
-        return mediaType;
-    }
-
-    public void setMediaType(MediaType mediaType) {
-        this.mediaType = mediaType;
-    }
-
-
-    public int getRating() {
-        return rating;
-    }
-
-    public void setRating(int rating) {
-        this.rating = rating;
     }
 
     public Resolution getResolution() {
@@ -124,37 +73,5 @@ public class MediaDTO {
 
     public void setResolution(Resolution resolution) {
         this.resolution = resolution.toString();
-    }
-
-    public int getTimesOpened() {
-        return timesOpened;
-    }
-
-    public void setTimesOpened(int timesOpened) {
-        this.timesOpened = timesOpened;
-    }
-
-    public long getFileSize() {
-        return fileSize;
-    }
-
-    public void setFileSize(long fileSize) {
-        this.fileSize = fileSize;
-    }
-
-    public ZonedDateTime getAddedDate() {
-        return addedDate;
-    }
-
-    public void setAddedDate(ZonedDateTime addedDate) {
-        this.addedDate = addedDate;
-    }
-
-    public ZonedDateTime getLastAccessedDate() {
-        return lastAccessedDate;
-    }
-
-    public void setLastAccessedDate(ZonedDateTime lastAccessedDate) {
-        this.lastAccessedDate = lastAccessedDate;
     }
 }

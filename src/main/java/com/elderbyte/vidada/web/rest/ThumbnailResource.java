@@ -2,7 +2,6 @@ package com.elderbyte.vidada.web.rest;
 
 import archimedes.core.images.IMemoryImage;
 import com.elderbyte.vidada.domain.media.MediaItem;
-import com.elderbyte.vidada.domain.media.MovieMediaItem;
 import com.elderbyte.vidada.domain.media.Resolution;
 import com.elderbyte.vidada.service.ThumbnailService;
 import com.elderbyte.vidada.service.media.MediaService;
@@ -17,7 +16,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 /**
  * REST controller for managing tags.
@@ -28,8 +28,6 @@ import java.util.Optional;
 public class ThumbnailResource {
 
     private final Logger log = LoggerFactory.getLogger(ThumbnailResource.class);
-    private static int MIN_SIZE = 50;
-    private static int MAX_SIZE = 1000;
 
     @Autowired
     private ThumbnailService thumbnailService;
@@ -38,7 +36,13 @@ public class ThumbnailResource {
     private MediaService mediaService;
 
 
+    /***************************************************************************
+     *                                                                         *
+     * Public API                                                              *
+     *                                                                         *
+     **************************************************************************/
 
+    /*
     @RequestMapping(value = "{hash}",
         method = RequestMethod.POST)
     public ResponseEntity updateThumb(
@@ -57,42 +61,64 @@ public class ThumbnailResource {
         }
         return ResponseEntity.notFound().build();
     }
+    */
 
 
+    /**
+     * Returns a thumbnail image for the given media
+     * @param hash The media id (hash)
+     * @param position The relative position of the frame [0.0-1.0] if this media is a movie
+     * @param width
+     * @param height
+     * @return
+     */
     @RequestMapping(value = "{hash}",
         method = RequestMethod.GET,
         produces = MediaType.IMAGE_PNG_VALUE)
     public ResponseEntity<byte[]> getPNG(
                             @PathVariable("hash") String hash,
+                            @RequestParam(value = "position", required = false) Float position,
                             @RequestParam(value = "width", defaultValue = "250") Integer width,
                             @RequestParam(value = "height", defaultValue = "180") Integer height) {
 
         MediaItem media = mediaService.queryByHash(hash);
 
-        if(media == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
-        width = Math.max(width, MIN_SIZE);
-        height = Math.max(height, MIN_SIZE);
-        width = Math.min(width, MAX_SIZE);
-        height = Math.min(height, MAX_SIZE);
+        if(media == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         Resolution thumbSize = new Resolution(width, height);
 
+        final CompletableFuture<IMemoryImage> imageTask = thumbnailService.getThumbnailAsync(media, thumbSize);
 
-        final IMemoryImage image = thumbnailService.getThumbImage(media, thumbSize);
+        if(imageTask.isDone()){
+            // If the requested thumbnail is available, send it to the client
 
-        return Optional.ofNullable(image).map(img -> {
-                // Create a byte array output stream.
-                ByteArrayOutputStream bao = new ByteArrayOutputStream();
-                try {
-                    img.writePNG(bao);
+            try {
+                IMemoryImage image = imageTask.get();
+
+                if(image != null){
+                    // Create a byte array output stream.
+                    ByteArrayOutputStream bao = new ByteArrayOutputStream();
+                    image.writePNG(bao);
                     return new ResponseEntity<>(bao.toByteArray(), HttpStatus.OK);
-                } catch (IOException e) {
-                    log.error("Failed to send image byte stream!", e);
-                    return new ResponseEntity<byte[]>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }else{
+                    return new ResponseEntity<byte[]>(HttpStatus.NOT_FOUND);
                 }
+
+            } catch (InterruptedException e) {
+                log.error("Interrupted!", e);
+                return new ResponseEntity<byte[]>(HttpStatus.INTERNAL_SERVER_ERROR);
+            } catch (ExecutionException e) {
+                log.error("Failed to extract thumbnail!", e);
+                return new ResponseEntity<byte[]>(HttpStatus.INTERNAL_SERVER_ERROR);
+            } catch (IOException e) {
+                log.error("Failed to send image byte stream!", e);
+                return new ResponseEntity<byte[]>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
-        ).orElse(new ResponseEntity<byte[]>(HttpStatus.NOT_FOUND));
+        }else {
+            // Still waiting for the thumb to be extracted - this url is not (yet) valid!
+            return new ResponseEntity<byte[]>(HttpStatus.NOT_FOUND);
+        }
     }
 
 }

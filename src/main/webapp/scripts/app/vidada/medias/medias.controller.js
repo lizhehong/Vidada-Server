@@ -29,12 +29,7 @@ angular.module('vidadaApp')
             {id: "BITRATE", name: "Bitrate"},
         ];
 
-        $scope.$on('$viewContentLoaded',
-            function(event){
-                if($state.current.name === 'medias') {
-                    $timeout($scope.scrollToCurrent, 10);
-                }
-            });
+
 
         $scope.scrollToCurrent = function(){
             if($scope.currentMedia != null){
@@ -84,6 +79,13 @@ angular.module('vidadaApp')
             $scope.mediaQuery.orderBy = option;
             $scope.updateMedias();
         };
+
+        $scope.$on('$viewContentLoaded', function(event){
+            if($state.current.name === 'medias') {
+                $timeout($scope.scrollToCurrent, 10);
+            }
+        });
+
 
 
         var getCaretPosition = function(oField) {

@@ -85,15 +85,12 @@
             md-gutter="8px" md-gutter-gt-sm="4px" >
 
 
-            <md-grid-tile id="{{item.id}}" ng-repeat="item in mediaService.items" md-colspan="1" >
+            <md-grid-tile class="media-item" id="{{item.id}}" ng-repeat="item in mediaService.items" md-colspan="1" >
 
-                <!-- main content of tile -->
-                <div class="media-item-content" flex>
 
-                    <img ng-src="{{item.thumbnailUrl}}" layout-fill>
-
-                    <!-- Media Actions -->
-                    <div class="media-toolbar">
+                <md-grid-tile-header class="media-toolbar">
+                    <div>
+                        <!-- Media Actions -->
 
                         <md-button class="md-icon-button" ng-click="play(item)">
                             <md-icon>
@@ -108,10 +105,26 @@
                         </md-button>
 
                     </div>
+                </md-grid-tile-header>
+
+                <!-- main content of tile -->
+                <div class="media-item-content">
+
+                    <!-- Placeholder incase no thubnail -->
+                    <div ng-hide="item.thumbnailResource.resourceUrl" layout-fill>
+                        <md-icon>
+                            <i class="material-icons">more_horiz</i>
+                        </md-icon>
+                    </div>
+
+                    <!-- Media thubnail -->
+                    <img ng-show="item.thumbnailResource.resourceUrl" ng-src="{{item.thumbnailResource.resourceUrl}}" layout-fill>
 
                 </div>
 
                 <md-grid-tile-footer><h3>{{item.name}}</h3></md-grid-tile-footer>
+
+
             </md-grid-tile>
 
 

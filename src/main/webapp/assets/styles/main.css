@@ -265,18 +265,11 @@ ul#strength {
 /* start media item style */
 
 .media-item {
-    margin: 0.2em;
-    padding: 0;
+    background-color: whitesmoke;
 }
 
-.media-item p {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
 
 .media-item-content {
-    background-color: #dd514c;
     display:inline-block;
     position:relative;
     margin: 0;
@@ -284,14 +277,9 @@ ul#strength {
 }
 
 .media-toolbar {
-    position:absolute;
-    top:0;
-    right:0;
     display: none;
-    width: 100%;
-    background-color: rgba(0,0,0,0.4);!important;
+    z-index: 1000;
 }
-
 
 .media-toolbar i {
     font-size: 22pt;
@@ -300,7 +288,7 @@ ul#strength {
 
 
 
-.media-item-content:hover .media-toolbar {
+.media-item:hover .media-toolbar {
     display: block;
 }
 

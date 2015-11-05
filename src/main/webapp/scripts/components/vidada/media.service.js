@@ -1,12 +1,19 @@
 'use strict';
 
 angular.module('vidadaApp')
+
     .factory('Media', function ($resource) {
-        return $resource('api/medias/:id', { id: '@_id' }, {
+        return $resource('api/medias/:id', { id: '@id' }, {
             update: {
                 method: 'PUT'
             },
             'get': {
+                method: 'GET',
+                transformResponse: function (data) {return angular.fromJson(data)},
+                isArray: false
+            },
+            getThumb: {
+                url: 'api/medias/:id/thumbnail',
                 method: 'GET',
                 transformResponse: function (data) {return angular.fromJson(data)},
                 isArray: false
@@ -74,7 +81,7 @@ angular.module('vidadaApp')
                     console.log("Got page " + data.page + " with " + newItems.length + " items!");
 
                     for (var i = 0; i < newItems.length; i++) {
-                        this.items.push(newItems[i]);
+                        this.addMedia(newItems[i]);
                     }
                     this.busy = false;
                 }.bind(this));
@@ -82,6 +89,10 @@ angular.module('vidadaApp')
                 console.log("Already all pages loaded, skipping nextPage() request!");
                 this.busy = false;
             }
+        };
+
+        MediaInfinite.prototype.addMedia = function(media) {
+            this.items.push(media);
         };
 
         return MediaInfinite;

@@ -1,12 +1,16 @@
 package com.elderbyte.vidada.web.rest;
 
 import archimedes.core.data.pagination.ListPage;
+import archimedes.core.images.IMemoryImage;
 import com.elderbyte.vidada.domain.media.*;
 import com.elderbyte.vidada.domain.tags.Tag;
 import com.elderbyte.vidada.domain.tags.TagUtil;
 import com.elderbyte.vidada.security.JwtFilter;
+import com.elderbyte.vidada.service.ThumbnailService;
 import com.elderbyte.vidada.service.media.MediaService;
+import com.elderbyte.vidada.web.rest.dto.AsyncResourceDTO;
 import com.elderbyte.vidada.web.rest.dto.MediaDTO;
+import com.elderbyte.vidada.web.rest.util.TokenUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +24,7 @@ import org.springframework.web.util.UriComponents;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 
 @Secured({"ROLE_USER"})
 @RestController
@@ -40,6 +45,9 @@ public class MediasResource {
 
     @Autowired
     private MediaService mediaService;
+
+    @Autowired
+    private ThumbnailService thumbnailService;
 
     /***************************************************************************
      *                                                                         *
@@ -121,6 +129,14 @@ public class MediasResource {
             .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
+
+
+    /***************************************************************************
+     *                                                                         *
+     * Private methods                                                         *
+     *                                                                         *
+     **************************************************************************/
+
     /**
      * Parses the tags query param string into Tag objects
      * @param tagsParam
@@ -154,18 +170,35 @@ public class MediasResource {
 
     private MediaDTO build(MediaItem media){
 
-        UriComponents baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build();
+        String selfLink = baseUri().toUriString() + "/api/medias/" + media.getFilehash();
 
-        String token = JwtFilter.findAuthToken(request);
-
-        String streamUrl = baseUrl.toUriString() + "/stream/" + media.getFilehash();
-        String thumbnailUrl = baseUrl.toUriString() + "/api/thumbs/" + media.getFilehash() + "?jwt="+token;
-
-        MediaDTO mediaDTO = new MediaDTO(media, thumbnailUrl, streamUrl);
-
-
+        String streamUrl = baseUri().toUriString() + "/stream/" + media.getFilehash();
+        MediaDTO mediaDTO = new MediaDTO(media, buildThumbnailAsync(media), streamUrl);
 
         return mediaDTO;
+    }
+
+
+    private AsyncResourceDTO buildThumbnailAsync(MediaItem media){
+        AsyncResourceDTO asyncResource;
+
+        CompletableFuture<IMemoryImage> imageTask = thumbnailService.getThumbnailAsync(media);
+        if(imageTask.isDone()){
+            // The thumbnail has been processed for this media
+            String thumbnailUrl = baseUri().toUriString() + "/api/thumbs/" + media.getFilehash();
+            thumbnailUrl = TokenUtil.authenticateLink(thumbnailUrl, request);
+            asyncResource = AsyncResourceDTO.ofResource(thumbnailUrl);
+        }else{
+            // Thumbnail has not yet been created
+            asyncResource = AsyncResourceDTO.Processing;
+        }
+
+        return asyncResource;
+    }
+
+
+    private static UriComponents baseUri(){
+        return  ServletUriComponentsBuilder.fromCurrentContextPath().build();
     }
 
 
