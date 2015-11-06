@@ -5,7 +5,8 @@ angular.module('vidadaApp')
 
         $scope.mediaId = $stateParams.mediaId;
         $scope.media = null;
-        $scope.enableWatch = false;
+
+        $scope.thumbnailPositionEdit = 0;
 
 
         $scope.mediaDump = {};
@@ -16,6 +17,8 @@ angular.module('vidadaApp')
                 Media.get({id : $scope.mediaId}).$promise.then(function (media) {
                     $scope.enableWatch = false;
                     $scope.media = media;
+                    $scope.thumbnailPositionEdit = media.thumbnailPosition;
+
                     $scope.mediaDump = JSON.stringify(media, null, 2);
                     $scope.enableWatch = true;
                 }, function(err){
@@ -25,7 +28,7 @@ angular.module('vidadaApp')
         };
 
 
-        $scope.$watch('media.thumbnailPosition', function (tmpStr)
+        $scope.$watch('thumbnailPositionEdit', function (tmpStr)
         {
             if (!$scope.enableWatch || !tmpStr || tmpStr.length == 0)
                 return 0;
@@ -33,26 +36,37 @@ angular.module('vidadaApp')
 
                 // if thumbnailPosition is still the same..
                 // go ahead and update thumbnailPosition
-                if (tmpStr === $scope.media.thumbnailPosition)
+                if (tmpStr === $scope.thumbnailPositionEdit)
                 {
-                    $scope.updateMedia();
+                    $scope.media.thumbnailPosition = $scope.thumbnailPositionEdit;
+                    // Submit the new thumb position to the server
+                    Media.update($scope.media, function () {
+                        $scope.awaitNewThumbnail();
+                    });
                 }
             }, 200);
         });
 
-        /** Update the media on the server */
-        $scope.updateMedia = function(){
-            // Submit the new thumb position to the server
-            Media.update($scope.media, function () {
-                // Updated successfully
-                console.log("Updated media successfully!");
-                // Reload the media data to get the new thumb link
-                $scope.loadMedia();
-            }, function(err){
-                console.log("Failed to update media!");
+
+        $scope.awaitNewThumbnail = function(){
+
+            Media.get({id : $scope.mediaId}).$promise.then(function (media) {
+                if(media.thumbnailResource.state == 'Ready'){
+                    // New thumb ready
+                    $scope.media.thumbnailResource = media.thumbnailResource;
+                    //$scope.loadMedia();
+                }else{
+
+                    setTimeout(function() {
+
+                        // Wait a sec and then try again
+                        $scope.awaitNewThumbnail();
+                    }, 100);
+                }
+            }, function(){
+                console.log("Failed to fetch media for thumb update!");
             });
         };
 
         $scope.loadMedia();
-
     });
