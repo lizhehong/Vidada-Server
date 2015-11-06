@@ -7,6 +7,7 @@ angular.module('vidadaApp')
         $scope.media = null;
 
         $scope.thumbnailPositionEdit = 0;
+        $scope.tagsEdit = [];
 
 
         $scope.mediaDump = {};
@@ -17,7 +18,9 @@ angular.module('vidadaApp')
                 Media.get({id : $scope.mediaId}).$promise.then(function (media) {
                     $scope.enableWatch = false;
                     $scope.media = media;
+
                     $scope.thumbnailPositionEdit = media.thumbnailPosition;
+                    $scope.tagsEdit = media.tags;
 
                     $scope.mediaDump = JSON.stringify(media, null, 2);
                     $scope.enableWatch = true;
@@ -30,7 +33,7 @@ angular.module('vidadaApp')
 
         $scope.$watch('thumbnailPositionEdit', function (tmpStr)
         {
-            if (!$scope.enableWatch || !tmpStr || tmpStr.length == 0)
+            if (!$scope.enableWatch || !tmpStr)
                 return 0;
             setTimeout(function() {
 
