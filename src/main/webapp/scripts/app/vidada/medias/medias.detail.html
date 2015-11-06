@@ -9,8 +9,18 @@
 
             <div layout="row" layout-margin flex>
 
-                <div flex>
-                    <img ng-src="{{media.thumbnailResource.resourceUrl}}">
+                <!-- Main Thumbnail -->
+                <div layout="column" flex>
+                    <div flex  layout="row">
+                        <img style="width: 100%;" flex ng-src="{{media.thumbnailResource.resourceUrl}}">
+                    </div>
+
+                    <md-slider flex min="0" step="0.001" max="1" ng-model="media.thumbnailPosition" aria-label="thumbnailPosition"
+                               id="thumbnail-slider" class>
+                    </md-slider>
+
+                    <p>{{media.thumbnailPosition}}</p>
+
                 </div>
 
                 <div flex>
