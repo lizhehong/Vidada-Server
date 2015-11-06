@@ -10,6 +10,7 @@ import java.util.List;
  * @author IsNull
  *
  */
+@Deprecated
 public class MediaDataInfoPack {
 
 

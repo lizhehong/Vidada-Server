@@ -2,6 +2,7 @@ package com.elderbyte.vidada.web.rest.dto;
 
 import com.elderbyte.vidada.domain.media.MediaItem;
 import com.elderbyte.vidada.domain.media.MediaType;
+import com.elderbyte.vidada.domain.media.MovieMediaItem;
 import com.elderbyte.vidada.domain.media.Resolution;
 import com.elderbyte.vidada.domain.tags.Tag;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
@@ -13,12 +14,12 @@ import java.util.List;
 /**
  * Holds the data of a media
  */
-@JsonAutoDetect(// We use fields for JSON (de)serialisation
-    fieldVisibility = JsonAutoDetect.Visibility.ANY,
-    isGetterVisibility = JsonAutoDetect.Visibility.NONE,
-    getterVisibility = JsonAutoDetect.Visibility.NONE)
+// We use fields for JSON (de)serialisation
 public class MediaDTO {
 
+    private int duration;
+    private int bitrate;
+    private float thumbnailPosition;
     private String id;
     private String name;
     private MediaType mediaType;
@@ -65,6 +66,127 @@ public class MediaDTO {
         this.timesOpened = media.getOpened();
         this.thumbnailResource = thumbnailResource;
         this.streamUrl = streamUrl;
+
+        if(media instanceof MovieMediaItem){
+            MovieMediaItem movieMeida = (MovieMediaItem)media;
+            this.duration = movieMeida.getDuration();
+            this.bitrate = movieMeida.getBitrate();
+            this.thumbnailPosition = movieMeida.getThumbnailPosition();
+        }
+    }
+
+
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    public int getBitrate() {
+        return bitrate;
+    }
+
+    public void setBitrate(int bitrate) {
+        this.bitrate = bitrate;
+    }
+
+    public float getThumbnailPosition() {
+        return thumbnailPosition;
+    }
+
+    public void setThumbnailPosition(float thumbnailPosition) {
+        this.thumbnailPosition = thumbnailPosition;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public MediaType getMediaType() {
+        return mediaType;
+    }
+
+    public void setMediaType(MediaType mediaType) {
+        this.mediaType = mediaType;
+    }
+
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
+    }
+
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
+
+    public int getTimesOpened() {
+        return timesOpened;
+    }
+
+    public void setTimesOpened(int timesOpened) {
+        this.timesOpened = timesOpened;
+    }
+
+    public long getFileSize() {
+        return fileSize;
+    }
+
+    public void setFileSize(long fileSize) {
+        this.fileSize = fileSize;
+    }
+
+    public ZonedDateTime getAddedDate() {
+        return addedDate;
+    }
+
+    public void setAddedDate(ZonedDateTime addedDate) {
+        this.addedDate = addedDate;
+    }
+
+    public ZonedDateTime getLastAccessedDate() {
+        return lastAccessedDate;
+    }
+
+    public void setLastAccessedDate(ZonedDateTime lastAccessedDate) {
+        this.lastAccessedDate = lastAccessedDate;
+    }
+
+    public AsyncResourceDTO getThumbnailResource() {
+        return thumbnailResource;
+    }
+
+    public void setThumbnailResource(AsyncResourceDTO thumbnailResource) {
+        this.thumbnailResource = thumbnailResource;
+    }
+
+    public String getStreamUrl() {
+        return streamUrl;
+    }
+
+    public void setStreamUrl(String streamUrl) {
+        this.streamUrl = streamUrl;
     }
 
     public Resolution getResolution() {
@@ -73,5 +195,13 @@ public class MediaDTO {
 
     public void setResolution(Resolution resolution) {
         this.resolution = resolution.toString();
+    }
+
+    public static void updateFromDto(MediaItem existing, MediaDTO mediaDto) {
+        existing.setFilename(mediaDto.getName());
+        existing.setRating(mediaDto.getRating());
+        if(existing instanceof MovieMediaItem){
+            ((MovieMediaItem) existing).setThumbnailPosition(mediaDto.getThumbnailPosition());
+        }
     }
 }

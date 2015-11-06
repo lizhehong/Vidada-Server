@@ -113,7 +113,7 @@ class MediaImportStrategy {
 
 		Map<String, MediaItem> existingMediaData = new HashMap<String, MediaItem>();
 
-		List<MediaItem> knownMedias = mediaService.getAllMedias();
+		List<MediaItem> knownMedias = mediaService.findAllMedias();
 
 		for (MediaItem mediaData : knownMedias) {
 			existingMediaData.put(mediaData.getFilehash(), mediaData);

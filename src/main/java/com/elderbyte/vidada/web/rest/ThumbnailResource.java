@@ -49,7 +49,7 @@ public class ThumbnailResource {
         @PathVariable("hash") String hash,
         @RequestBody float pos){
 
-        MediaItem media = mediaService.queryByHash(hash);
+        MediaItem media = mediaService.findById(hash);
         if(media != null){
             if(media instanceof MovieMediaItem){
                 thumbnailService.renewThumbImage((MovieMediaItem)media, pos);
@@ -67,7 +67,7 @@ public class ThumbnailResource {
     /**
      * Returns a thumbnail image for the given media
      * @param hash The media id (hash)
-     * @param position The relative position of the frame [0.0-1.0] if this media is a movie
+     * @param position The relative position of the frame [0.0-1.0] if this media is a movie.
      * @param width
      * @param height
      * @return
@@ -77,18 +77,18 @@ public class ThumbnailResource {
         produces = MediaType.IMAGE_PNG_VALUE)
     public ResponseEntity<byte[]> getPNG(
                             @PathVariable("hash") String hash,
-                            @RequestParam(value = "position", required = false) Float position,
+                            @RequestParam(value = "position", defaultValue = "0") Float position,
                             @RequestParam(value = "width", defaultValue = "250") Integer width,
                             @RequestParam(value = "height", defaultValue = "180") Integer height) {
 
-        MediaItem media = mediaService.queryByHash(hash);
+        MediaItem media = mediaService.findById(hash).orElse(null);
 
 
         if(media == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         Resolution thumbSize = new Resolution(width, height);
 
-        final CompletableFuture<IMemoryImage> imageTask = thumbnailService.getThumbnailAsync(media, thumbSize);
+        final CompletableFuture<IMemoryImage> imageTask = thumbnailService.getThumbnailAsync(media, thumbSize, position);
 
         if(imageTask.isDone()){
             // If the requested thumbnail is available, send it to the client

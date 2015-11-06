@@ -71,9 +71,10 @@ public class ThumbImageExtractorService {
      * Extracts a thumbnail from the given media in the given resolution
      * @param media
      * @param size The desired resolution of the thumbnail.
+     * @param position Relative frame position  [0.0 - 1.0]
      * @return
      */
-	public IMemoryImage extractThumb(MediaItem media, Resolution size){
+	public IMemoryImage extractThumb(MediaItem media, Resolution size, float position){
 		IMemoryImage image = null;
 
         logger.info("Extracting thumbnail for media " + media.getFilehash() + " ("+ media.getType() +"), size: " + size);
@@ -81,7 +82,7 @@ public class ThumbImageExtractorService {
 		if(media.getType() == MediaType.IMAGE){
 			image = extractImageThumb((ImageMediaItem)media, size);
 		}else if(media.getType() == MediaType.MOVIE){
-			image = extractMovieThumb((MovieMediaItem)media, size);
+			image = extractMovieThumb((MovieMediaItem)media, size, position);
 		}else
 			throw new NotSupportedException("Unknown media type: " + media.getClass().getName());
 
@@ -136,10 +137,6 @@ public class ThumbImageExtractorService {
 		return nativeImage;
 	}
 
-	private IMemoryImage extractMovieThumb(MovieMediaItem media, Resolution size){
-		return extractMovieThumb(media, size, media.getThumbPos());
-	}
-
 	/**
 	 * Create a thumb at the given position.
 	 *
@@ -154,7 +151,6 @@ public class ThumbImageExtractorService {
 
 		IMemoryImage frame = video.getFrame(position, size);
 		if (frame != null) {
-			media.setCurrentThumbPosition(position);
 			media.onThumbCreationSuccess();
 		} else {
 			// the thumb could not be generated

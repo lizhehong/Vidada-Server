@@ -10,7 +10,6 @@ import com.elderbyte.vidada.service.ThumbnailService;
 import com.elderbyte.vidada.service.media.MediaService;
 import com.elderbyte.vidada.web.rest.dto.AsyncResourceDTO;
 import com.elderbyte.vidada.web.rest.dto.MediaDTO;
-import com.elderbyte.vidada.web.rest.util.TokenUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +17,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
@@ -55,14 +55,23 @@ public class MediasResource {
      *                                                                         *
      **************************************************************************/
 
+    @Transactional
     @RequestMapping(
-        method = RequestMethod.POST,
+        value = "{id}",
+        method = RequestMethod.PUT,
         produces = MediaType.APPLICATION_JSON_VALUE,
         consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity update(@RequestBody MediaItem media){
+    public ResponseEntity update(@RequestBody MediaDTO mediaDto){
         try {
-            mediaService.update(media);
-            return ResponseEntity.ok().build();
+
+            MediaItem existing = mediaService.findById(mediaDto.getId()).orElse(null);
+            if(existing != null){
+                MediaDTO.updateFromDto(existing, mediaDto);
+                mediaService.update(existing);
+                return ResponseEntity.ok().build();
+            }else{
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
         }catch (Exception e){
             logger.error("Failed to update media!", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -123,8 +132,7 @@ public class MediasResource {
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<MediaDTO> getMedia(@PathVariable("hash") String hash) {
-        MediaItem media = mediaService.queryByHash(hash);
-        return Optional.ofNullable(media)
+        return mediaService.findById(hash)
             .map(m -> ResponseEntity.ok(build(m)))
             .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
@@ -170,11 +178,10 @@ public class MediasResource {
 
     private MediaDTO build(MediaItem media){
 
-        String selfLink = baseUri().toUriString() + "/api/medias/" + media.getFilehash();
+        //UriComponentsBuilder self = baseUri().path("/api/medias/").pathSegment(media.getFilehash());
 
-        String streamUrl = baseUri().toUriString() + "/stream/" + media.getFilehash();
-        MediaDTO mediaDTO = new MediaDTO(media, buildThumbnailAsync(media), streamUrl);
-
+        UriComponentsBuilder streamUrl = baseUri().path("/stream").pathSegment(media.getFilehash());
+        MediaDTO mediaDTO = new MediaDTO(media, buildThumbnailAsync(media), streamUrl.toUriString());
         return mediaDTO;
     }
 
@@ -182,12 +189,16 @@ public class MediasResource {
     private AsyncResourceDTO buildThumbnailAsync(MediaItem media){
         AsyncResourceDTO asyncResource;
 
-        CompletableFuture<IMemoryImage> imageTask = thumbnailService.getThumbnailAsync(media);
+        float thumbPosition = media instanceof MovieMediaItem ? ((MovieMediaItem)media).getThumbnailPosition() : 0;
+
+        CompletableFuture<IMemoryImage> imageTask = thumbnailService.getThumbnailAsync(media, thumbPosition);
         if(imageTask.isDone()){
-            // The thumbnail has been processed for this media
-            String thumbnailUrl = baseUri().toUriString() + "/api/thumbs/" + media.getFilehash();
-            thumbnailUrl = TokenUtil.authenticateLink(thumbnailUrl, request);
-            asyncResource = AsyncResourceDTO.ofResource(thumbnailUrl);
+            // The thumbnail has been processed for this media, create matching url
+            UriComponentsBuilder thumbnailUrl = baseUri().path("/api/thumbs/").pathSegment(media.getFilehash())
+                .queryParam("position", thumbPosition)
+                .queryParam("jwt", JwtFilter.findAuthToken(request));
+
+            asyncResource = AsyncResourceDTO.ofResource(thumbnailUrl.toUriString());
         }else{
             // Thumbnail has not yet been created
             asyncResource = AsyncResourceDTO.Processing;
@@ -197,8 +208,8 @@ public class MediasResource {
     }
 
 
-    private static UriComponents baseUri(){
-        return  ServletUriComponentsBuilder.fromCurrentContextPath().build();
+    private static UriComponentsBuilder baseUri(){
+        return  ServletUriComponentsBuilder.fromCurrentContextPath();
     }
 
 

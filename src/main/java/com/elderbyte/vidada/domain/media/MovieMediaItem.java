@@ -21,11 +21,10 @@ public class MovieMediaItem extends MediaItem implements Cloneable {
      *                                                                         *
      **************************************************************************/
 
-	transient public final static int INVALID_POSITION = -1;
 	transient private final static int MAX_THUMB_RETRY_COUNT = 2;
 
-	private float preferredThumbPosition = INVALID_POSITION;
-	private float currentThumbPosition = INVALID_POSITION;
+	private float thumbnailPosition = 0.35f;
+
 	private volatile int thumbCreationFails = 0;
 	private int bitrate;
 	private int duration;
@@ -82,13 +81,6 @@ public class MovieMediaItem extends MediaItem implements Cloneable {
     }
 
     /**
-     * Sets the current used thumb as preferred one
-     */
-    public void setCurrentThumbAsPreferred() {
-        setPreferredThumbPosition(getCurrentThumbPosition());
-    }
-
-    /**
      * Returns a clone of this instance
      * @return
      */
@@ -120,42 +112,21 @@ public class MovieMediaItem extends MediaItem implements Cloneable {
 		setThumbCreationFails(0);
 	}
 
-	/**
-	 * Get the preferred thumb position of this movie
-	 *
-	 * @return
-	 */
-	public float getPreferredThumbPosition() {
-		return preferredThumbPosition;
-	}
+    /**
+     * Gets the relative thumbnail position [0.0 - 1.0]
+     * @return
+     */
+    public float getThumbnailPosition() {
+        return thumbnailPosition;
+    }
 
-	/**
-	 * Set the preferred thumb position of this movie
-	 *
-	 * @param position
-	 */
-	public void setPreferredThumbPosition(float position) {
-		this.preferredThumbPosition = position;
-	}
-
-	/**
-	 * Get the current position of the thumb
-	 *
-	 * @return
-	 */
-	public float getCurrentThumbPosition() {
-		return currentThumbPosition;
-	}
-
-	/**
-	 * Set the current position of the thumb
-	 *
-	 * @param position
-	 */
-	public void setCurrentThumbPosition(float position) {
-		this.currentThumbPosition = position;
-	}
-
+    /**
+     * Sets the relative thumbnail position
+     * @param thumbnailPosition [0.0 - 1.0]
+     */
+    public void setThumbnailPosition(float thumbnailPosition) {
+        this.thumbnailPosition = thumbnailPosition;
+    }
 
 	/**
 	 * Is it possible to create a thumb of this movie part?
@@ -169,19 +140,7 @@ public class MovieMediaItem extends MediaItem implements Cloneable {
 		return thumbCreationFails <= MAX_THUMB_RETRY_COUNT  && isAvailable();
 	}
 
-    /**
-     * Returns the desired thumbnail position.
-     * @return
-     */
-	public float getThumbPos(){
-		float pos = 0.5f;
-		if (getPreferredThumbPosition() != MovieMediaItem.INVALID_POSITION) {
-			pos = getPreferredThumbPosition();
-		} else if (getCurrentThumbPosition() != MovieMediaItem.INVALID_POSITION) {
-			pos = getCurrentThumbPosition();
-		}
-		return pos;
-	}
+
 
 	/**
 	 * Set the bitrate in Kilo bits (Kb)
@@ -220,9 +179,7 @@ public class MovieMediaItem extends MediaItem implements Cloneable {
      * @param prototype
      */
     private void prototype(MovieMediaItem prototype) {
-
-        setPreferredThumbPosition(prototype.getPreferredThumbPosition());
-        setCurrentThumbPosition(prototype.getCurrentThumbPosition());
+        setThumbnailPosition(0);
         setBitrate(prototype.getBitrate());
         setDuration(prototype.getDuration());
     }
@@ -243,5 +200,6 @@ public class MovieMediaItem extends MediaItem implements Cloneable {
         pos = Math.min(pos, 0.90f);
         return pos;
     }
+
 
 }

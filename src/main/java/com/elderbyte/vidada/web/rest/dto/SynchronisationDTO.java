@@ -5,10 +5,7 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 /**
  *
  */
-@JsonAutoDetect(// We use fields for JSON (de)serialisation
-    fieldVisibility = JsonAutoDetect.Visibility.ANY,
-    isGetterVisibility = JsonAutoDetect.Visibility.NONE,
-    getterVisibility = JsonAutoDetect.Visibility.NONE)
+// We use fields for JSON (de)serialisation
 public class SynchronisationDTO {
 
     private boolean isSynchronizing;

@@ -20,6 +20,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 
+/**
+ * Manages the thumbnail cache for all medias
+ */
 @Service
 public class MediaThumbCacheService  {
 
@@ -33,7 +36,7 @@ public class MediaThumbCacheService  {
     public static final String VidataCacheFolder = "vidada.db";
     public static final String VidataThumbsFolder = VidataCacheFolder + "/thumbs";
 
-    /** Each media library has its own cache instance*/
+    /** Each media library has its own cache instance */
     private final Map<String, IImageCache> caches = new HashMap<>();
 
     private final IImageCache globalCache;
@@ -67,36 +70,57 @@ public class MediaThumbCacheService  {
      *                                                                         *
      **************************************************************************/
 
-    public void removeImage(MediaItem media) {
-        IImageCache imageCache = getImageCache(media);
-        imageCache.removeImage(media.getFilehash());
+    public void removeImage(MediaItem media, String subId) {
+        IImageCache imageCache = findImageCache(media);
+        imageCache.removeImage(toThumbId(media, subId));
     }
 
-    public IMemoryImage getImage(MediaItem media, Resolution size) {
+    /**
+     * Returns the cached thumbnail if available.
+     *
+     * @param media The media (used for id and library based image-caches)
+     * @param subId A sub id of the thumb, i.e. useful for movies with positions
+     * @param size The desired size
+     * @return
+     */
+    public IMemoryImage getImage(MediaItem media, String subId, Resolution size) {
 
         IMemoryImage loadedImage = null;
 
-        IImageCache imageCache = getImageCache(media);
+        IImageCache imageCache = findImageCache(media);
         if(imageCache != null){
-            loadedImage = imageCache.getImageById(media.getFilehash(), size);
+
+            String thumbId = toThumbId(media, subId);
+
+            loadedImage = imageCache.getImageById(thumbId, size);
 
             if(loadedImage == null){
                 // Bad luck, the image does not exist in the cache.
 
                 // But we may already have cached a bigger version of the requested size.
                 // If so, we rescale this bigger thumb to the required size.
-                loadedImage = CacheUtils.getRescaledInstance(imageCache, media.getFilehash(), size);
+                loadedImage = CacheUtils.getRescaledInstance(imageCache, thumbId, size);
                 if(loadedImage != null) {
-                    storeImage(media, loadedImage);
+                    storeImage(media, subId, loadedImage);
                 }
             }
         }
         return loadedImage;
     }
 
-    public void storeImage(MediaItem media, IMemoryImage thumbnail) {
-        IImageCache imageCache = getImageCache(media);
-        imageCache.storeImage(media.getFilehash(), thumbnail);
+    /**
+     * Stores the given thumbnail in this cache.
+     *
+     * @param media The media item
+     * @param subId A sub id of the thumb, i.e. useful for movie medias with many thumbs
+     * @param thumbnail
+     */
+    public void storeImage(MediaItem media, String subId, IMemoryImage thumbnail) {
+        IImageCache imageCache = findImageCache(media);
+        if(imageCache != null){
+            String thumbId = toThumbId(media, subId);
+            imageCache.storeImage(thumbId, thumbnail);
+        }
     }
 
     /***************************************************************************
@@ -106,12 +130,17 @@ public class MediaThumbCacheService  {
      **************************************************************************/
 
 
+    private String toThumbId(MediaItem media, String subId){
+        return media.getFilehash() + "_" + subId;
+    }
+
+
     /**
      * Gets the image cache for the given media
      * @param media
      * @return
      */
-    public IImageCache getImageCache(MediaItem media){
+    private IImageCache findImageCache(MediaItem media){
         IImageCache imageCache = null;
 
         MediaSource source = media.getSource();

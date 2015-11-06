@@ -7,6 +7,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.List;
 
+// We use fields for JSON (de)serialisation
 public class UserDTO {
 
     @Pattern(regexp = "^[a-z0-9]*$")

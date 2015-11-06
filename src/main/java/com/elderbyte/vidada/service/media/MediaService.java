@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MediaService {
@@ -141,9 +142,20 @@ public class MediaService {
 
 
     @Transactional
-	public List<MediaItem> getAllMedias(){
+	public List<MediaItem> findAllMedias(){
 		return repository.findAll();
 	}
+
+    /**
+     * Returns the media with the given id / hash
+     * @param hash
+     * @return
+     */
+    @Transactional
+    public Optional<MediaItem> findById(final String hash) {
+        return repository.findOneByFilehash(hash);
+    }
+
 
     @Transactional
 	public void delete(final MediaItem media) {
@@ -165,12 +177,6 @@ public class MediaService {
     @Transactional
     public int count() {
         return (int)repository.count();
-    }
-
-
-    @Transactional
-    public MediaItem queryByHash(final String hash) {
-        return repository.findOneByFilehash(hash).orElse(null);
     }
 
 

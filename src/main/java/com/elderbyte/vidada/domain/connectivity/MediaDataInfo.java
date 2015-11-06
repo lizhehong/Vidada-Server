@@ -17,6 +17,7 @@ import java.util.List;
  * @author IsNull
  *
  */
+@Deprecated
 public class MediaDataInfo {
 
 	public MediaDataInfo(){
@@ -26,7 +27,7 @@ public class MediaDataInfo {
 
 	public MediaDataInfo(MovieMediaItem movieMedia){
 		this((MediaItem)movieMedia);
-		ThumbPosition = movieMedia.getPreferredThumbPosition();
+		ThumbPosition = movieMedia.getThumbnailPosition();
 	}
 
 	public MediaDataInfo(MediaItem media){
@@ -45,7 +46,7 @@ public class MediaDataInfo {
 	 * @return
 	 */
 	public boolean hasInfo() {
-		return Rating != 0 || ThumbPosition != MovieMediaItem.INVALID_POSITION || !Tags.isEmpty();
+		return Rating != 0 || !Tags.isEmpty();
 	}
 
 
@@ -58,7 +59,7 @@ public class MediaDataInfo {
 	public List<String> Tags;
 
 	// MoviePart
-	public float ThumbPosition = MovieMediaItem.INVALID_POSITION;
+	public float ThumbPosition = 0.35f;
 
 
 }

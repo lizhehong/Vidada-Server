@@ -2,7 +2,6 @@ package com.elderbyte.vidada.web.servlets.streaming;
 
 import archimedes.core.io.locations.ResourceLocation;
 import com.elderbyte.vidada.domain.media.MediaItem;
-import com.elderbyte.vidada.domain.media.MediaTypeUtil;
 import com.elderbyte.vidada.domain.media.source.MediaSource;
 import com.elderbyte.vidada.service.media.MediaService;
 import org.slf4j.Logger;
@@ -39,7 +38,7 @@ public class MediaStreamServlet extends AbstractStreamServlet {
 
             if(matcher.find()){
                 String hash =  matcher.group(1);
-                MediaItem media = mediaService.queryByHash(hash);
+                MediaItem media = mediaService.findById(hash).orElse(null);
 
                 if (media != null) {
                     MediaSource localSource = media.getSource();
