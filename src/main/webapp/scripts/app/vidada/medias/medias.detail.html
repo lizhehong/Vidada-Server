@@ -11,11 +11,18 @@
 
                 <!-- Main Thumbnail -->
                 <div layout="column" flex>
-                    <div flex  layout="row">
-                        <img style="width: 100%;" flex ng-src="{{media.thumbnailResource.resourceUrl}}">
+
+
+                    <div ng-show="false" flex layout="row" layout-sm="column" layout-align="space-around">
+                        <md-progress-circular md-mode="indeterminate"></md-progress-circular>
                     </div>
 
-                    <md-slider flex min="0" step="0.001" max="1" ng-model="media.thumbnailPosition" aria-label="thumbnailPosition"
+
+                    <div layout="row" ng-show="true">
+                        <img class="media-thumb-aspect" ng-src="{{media.thumbnailResource.resourceUrl}}">
+                    </div>
+
+                    <md-slider flex min="0" step="0.001" max="1" ng-model="thumbnailPositionEdit" aria-label="thumbnailPosition"
                                id="thumbnail-slider" class>
                     </md-slider>
 

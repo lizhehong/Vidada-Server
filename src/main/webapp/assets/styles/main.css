@@ -268,6 +268,19 @@ ul#strength {
     background-color: whitesmoke;
 }
 
+.media-thumb {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    width: auto;
+}
+
+.media-thumb-aspect{
+    max-width:800px;
+    width:100%;
+    height:auto;
+}
+
 
 .media-item-content {
     display:inline-block;
