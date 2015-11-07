@@ -1,8 +1,7 @@
 package com.elderbyte.vidada;
 
-import archimedes.core.geometry.Size;
 import archimedes.core.util.OSValidator;
-import com.elderbyte.vidada.domain.media.Resolution;
+import com.elderbyte.vidada.media.Resolution;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 

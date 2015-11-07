@@ -1,7 +1,7 @@
 package com.elderbyte.vidada.web.rest;
 
 import com.elderbyte.vidada.Application;
-import com.elderbyte.vidada.repository.UserRepository;
+import com.elderbyte.vidada.security.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

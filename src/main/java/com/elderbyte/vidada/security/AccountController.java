@@ -1,14 +1,9 @@
 package com.elderbyte.vidada.security;
 
 import java.util.Date;
-import java.util.Set;
 
 import javax.validation.Valid;
 
-import com.elderbyte.vidada.domain.User;
-import com.elderbyte.vidada.domain.security.Authority;
-import com.elderbyte.vidada.service.UserService;
-import com.google.common.base.Joiner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

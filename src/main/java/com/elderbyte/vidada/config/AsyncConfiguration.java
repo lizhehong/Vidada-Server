@@ -17,7 +17,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.util.concurrent.Executor;
 
-import com.elderbyte.vidada.async.ExceptionHandlingAsyncTaskExecutor;
+import com.elderbyte.vidada.config.async.ExceptionHandlingAsyncTaskExecutor;
 
 @Configuration
 @EnableAsync

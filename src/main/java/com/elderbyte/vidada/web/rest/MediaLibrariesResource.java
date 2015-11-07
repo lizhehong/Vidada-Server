@@ -1,8 +1,8 @@
 package com.elderbyte.vidada.web.rest;
 
 import archimedes.core.io.locations.DirectoryLocation;
-import com.elderbyte.vidada.domain.media.MediaLibrary;
-import com.elderbyte.vidada.service.MediaLibraryService;
+import com.elderbyte.vidada.media.libraries.MediaLibrary;
+import com.elderbyte.vidada.media.libraries.MediaLibraryService;
 import com.elderbyte.vidada.web.rest.dto.MediaLibraryDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

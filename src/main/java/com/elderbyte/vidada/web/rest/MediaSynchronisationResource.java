@@ -1,6 +1,6 @@
 package com.elderbyte.vidada.web.rest;
 
-import com.elderbyte.vidada.service.sync.MediaSynchronisationService;
+import com.elderbyte.vidada.synchronisation.MediaSynchronisationService;
 import com.elderbyte.vidada.web.rest.dto.SynchronisationDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

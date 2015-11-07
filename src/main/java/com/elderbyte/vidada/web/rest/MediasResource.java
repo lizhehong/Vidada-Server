@@ -2,12 +2,12 @@ package com.elderbyte.vidada.web.rest;
 
 import archimedes.core.data.pagination.ListPage;
 import archimedes.core.images.IMemoryImage;
-import com.elderbyte.vidada.domain.media.*;
-import com.elderbyte.vidada.domain.tags.Tag;
-import com.elderbyte.vidada.domain.tags.TagUtil;
-import com.elderbyte.vidada.security.JwtFilter;
-import com.elderbyte.vidada.service.ThumbnailService;
-import com.elderbyte.vidada.service.media.MediaService;
+import com.elderbyte.vidada.media.*;
+import com.elderbyte.vidada.tags.Tag;
+import com.elderbyte.vidada.tags.TagUtil;
+import com.elderbyte.vidada.security.jwt.JwtFilter;
+import com.elderbyte.vidada.thumbnails.ThumbnailService;
+import com.elderbyte.vidada.media.MediaService;
 import com.elderbyte.vidada.web.rest.dto.AsyncResourceDTO;
 import com.elderbyte.vidada.web.rest.dto.MediaDTO;
 import org.slf4j.Logger;

@@ -1,10 +1,10 @@
 package com.elderbyte.vidada.web.rest.dto;
 
-import com.elderbyte.vidada.domain.media.MediaItem;
-import com.elderbyte.vidada.domain.media.MediaType;
-import com.elderbyte.vidada.domain.media.MovieMediaItem;
-import com.elderbyte.vidada.domain.media.Resolution;
-import com.elderbyte.vidada.domain.tags.Tag;
+import com.elderbyte.vidada.media.MediaItem;
+import com.elderbyte.vidada.media.MediaType;
+import com.elderbyte.vidada.media.MovieMediaItem;
+import com.elderbyte.vidada.media.Resolution;
+import com.elderbyte.vidada.tags.Tag;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
 import java.time.ZonedDateTime;

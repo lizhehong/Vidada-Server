@@ -1,9 +1,9 @@
 package com.elderbyte.vidada.web.servlets.streaming;
 
 import archimedes.core.io.locations.ResourceLocation;
-import com.elderbyte.vidada.domain.media.MediaItem;
-import com.elderbyte.vidada.domain.media.source.MediaSource;
-import com.elderbyte.vidada.service.media.MediaService;
+import com.elderbyte.vidada.media.MediaItem;
+import com.elderbyte.vidada.media.source.MediaSource;
+import com.elderbyte.vidada.media.MediaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

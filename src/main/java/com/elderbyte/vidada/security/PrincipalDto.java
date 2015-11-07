@@ -1,8 +1,5 @@
 package com.elderbyte.vidada.security;
 
-import com.elderbyte.vidada.domain.User;
-import com.elderbyte.vidada.domain.security.Authority;
-
 import java.util.ArrayList;
 import java.util.List;
 

@@ -1,13 +1,12 @@
 package com.elderbyte.ffmpeg;
 
 
-import archimedes.core.geometry.Size;
 import archimedes.core.shell.ShellExec;
 import archimedes.core.util.Lists;
 import archimedes.core.util.OSValidator;
 import com.elderbyte.common.ArgumentNullException;
 import com.elderbyte.common.Version;
-import com.elderbyte.vidada.domain.media.Resolution;
+import com.elderbyte.vidada.media.Resolution;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

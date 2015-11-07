@@ -1,7 +1,5 @@
 package com.elderbyte.vidada.security;
 
-import com.elderbyte.vidada.domain.User;
-import com.elderbyte.vidada.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
