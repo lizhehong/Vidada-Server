@@ -30,6 +30,22 @@ angular.module('vidadaApp')
             }
         };
 
+        $scope.isFavorite = function(){
+            return $scope.media.rating >= 5;
+        };
+
+        $scope.toggleFavorite = function(){
+            if($scope.isFavorite()){
+                $scope.media.rating = 0;
+            }else{
+                $scope.media.rating = 5;
+            }
+
+            Media.update($scope.media, function () {
+                // Updated!
+            });
+        };
+
 
         $scope.$watch('thumbnailPositionEdit', function (tmpStr)
         {
@@ -42,6 +58,7 @@ angular.module('vidadaApp')
                 if (tmpStr === $scope.thumbnailPositionEdit)
                 {
                     $scope.media.thumbnailPosition = $scope.thumbnailPositionEdit;
+                    $scope.media.thumbnailResource = null;
                     // Submit the new thumb position to the server
                     Media.update($scope.media, function () {
                         $scope.awaitNewThumbnail();

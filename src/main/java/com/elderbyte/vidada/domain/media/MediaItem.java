@@ -23,13 +23,6 @@ import java.util.Set;
  * @author IsNull
  *
  */
-@JsonTypeInfo(
-		use = JsonTypeInfo.Id.NAME,
-		include = JsonTypeInfo.As.PROPERTY,
-		property = "classinfo")
-@JsonSubTypes({
-	@Type(value = MovieMediaItem.class, name = "movie"),
-	@Type(value = ImageMediaItem.class, name = "image") })
 @Entity
 public abstract class MediaItem extends BaseEntity {
 
@@ -212,11 +205,8 @@ public abstract class MediaItem extends BaseEntity {
 	 *
 	 * @return
 	 */
-	public IObservableCollection<Tag> getTags() {
-		if(_tags == null){
-			_tags = new ObservableCollection<>(tags);
-		}
-		return _tags;
+	public Set<Tag> getTags() {
+		return tags;
 	}
 
 	/**

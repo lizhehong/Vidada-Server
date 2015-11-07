@@ -117,6 +117,10 @@ span.name {
     background-color: orange;
 }
 
+.milk-glass {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
 
 .nav-button {
     text-align:left;
@@ -303,6 +307,21 @@ ul#strength {
 
 .media-item:hover .media-toolbar {
     display: block;
+}
+
+.thumbnail-box {
+    position: relative;
+}
+
+.floating-box {
+    margin: auto;
+    position: absolute;
+    left: 0; top: 0; right: 0; bottom: 0;
+    z-index: 5;
+}
+
+.center {
+    margin: auto;
 }
 
 /* end media item style */

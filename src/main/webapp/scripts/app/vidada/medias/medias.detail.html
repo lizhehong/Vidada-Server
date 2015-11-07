@@ -12,49 +12,60 @@
                 <!-- Main Thumbnail -->
                 <div layout="column" flex>
 
+                    <div class="thumbnail-box" layout layout-align="space-around">
 
-                    <div ng-show="false" flex layout="row" layout-sm="column" layout-align="space-around">
-                        <md-progress-circular md-mode="indeterminate"></md-progress-circular>
-                    </div>
-
-
-                    <div layout="row" ng-show="true">
                         <img class="media-thumb-aspect" ng-src="{{media.thumbnailResource.resourceUrl}}">
+
+                        <div ng-hide="media.thumbnailResource.resourceUrl" class="floating-box milk-glassi" >
+                            <md-progress-circular class="center" md-mode="indeterminate"></md-progress-circular>
+                        </div>
                     </div>
 
                     <md-slider flex min="0" step="0.001" max="1" ng-model="thumbnailPositionEdit" aria-label="thumbnailPosition"
                                id="thumbnail-slider" class>
                     </md-slider>
 
-                    <p>{{media.thumbnailPosition}}</p>
+                    <span flex></span>
 
                 </div>
 
                 <div flex>
                     <md-content>
                         <!-- media details -->
+                        <h3 class="md-title">Media Details</h3>
+
                         <p>Resolution {{media.resolution}}</p>
                         <p>Size {{media.fileSize | bytes}}</p>
-                        <p>Rating {{media.rating}}</p>
-
                         <p>Added Date: {{media.addedDate | fullDateTime}}</p>
                         <p>Last Accessed: {{media.lastAccessedDate | fullDateTime}}</p>
 
                         <p>Opened: {{media.timesOpened}} times</p>
 
-                        <h3 class="md-title">Tags</h3>
-
-                        <md-chips ng-model="tagsEdit" flex></md-chips>
-
                     </md-content>
                 </div>
+
+                <div>
+                    <!-- Favorite button -->
+                    <md-button class="md-icon-button" ng-click="toggleFavorite()">
+                        <md-icon>
+                            <i ng-show="isFavorite()" class="material-icons">favorite</i>
+                            <i ng-hide="isFavorite()" class="material-icons">favorite_border</i>
+                        </md-icon>
+                    </md-button>
+                </div>
+
             </div>
 
-
+            <div flex>
+                <h3 class="md-title">Tags</h3>
+                <md-chips ng-model="tagsEdit" flex></md-chips>
+            </div>
 
 
         </md-card-content>
     </md-card>
 
+    <!--
     <pre>{{mediaDump}}</pre>
+    -->
 </div>

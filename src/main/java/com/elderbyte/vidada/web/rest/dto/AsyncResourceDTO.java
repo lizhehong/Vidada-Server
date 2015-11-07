@@ -5,7 +5,11 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 /**
  * Represents an resource which is (probably) not yet ready
  */
-// We use fields for JSON (de)serialisation
+@JsonAutoDetect(
+    fieldVisibility = JsonAutoDetect.Visibility.ANY,
+    isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+    getterVisibility = JsonAutoDetect.Visibility.NONE,
+    setterVisibility = JsonAutoDetect.Visibility.NONE)
 public class AsyncResourceDTO {
 
     /** Link to the resource if available **/

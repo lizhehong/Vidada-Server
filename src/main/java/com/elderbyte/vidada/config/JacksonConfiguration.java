@@ -24,20 +24,8 @@ public class JacksonConfiguration {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'");
         df.setTimeZone(tz);
 
-        Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder(){
-            @Override
-            public void configure(ObjectMapper objectMapper) {
-                super.configure(objectMapper);
-                objectMapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
-                objectMapper.setVisibility(PropertyAccessor.GETTER, JsonAutoDetect.Visibility.NONE);
-                objectMapper.setVisibility(PropertyAccessor.IS_GETTER, JsonAutoDetect.Visibility.NONE);
-                objectMapper.setVisibility(PropertyAccessor.SETTER, JsonAutoDetect.Visibility.NONE);
-            }
-        };
-
-        return builder
+        return new Jackson2ObjectMapperBuilder()
             .featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
-            .findModulesViaServiceLoader(true)
             .dateFormat(df);
 
 

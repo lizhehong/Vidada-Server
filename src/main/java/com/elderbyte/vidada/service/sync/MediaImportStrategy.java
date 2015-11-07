@@ -111,7 +111,7 @@ class MediaImportStrategy {
      */
 	private Map<String, MediaItem> fetchAllMediasInDatabase(){
 
-		Map<String, MediaItem> existingMediaData = new HashMap<String, MediaItem>();
+		Map<String, MediaItem> existingMediaData = new HashMap<>();
 
 		List<MediaItem> knownMedias = mediaService.findAllMedias();
 

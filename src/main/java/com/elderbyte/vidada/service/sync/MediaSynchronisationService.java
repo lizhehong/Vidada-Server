@@ -20,8 +20,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.concurrent.CompletableFuture;
 
+/**
+ * Synchronizes a media folder with the vidada database.
+ */
 @Service
-public class MediaImportService {
+public class MediaSynchronisationService {
 
     /***************************************************************************
      *                                                                         *
@@ -48,7 +51,7 @@ public class MediaImportService {
      **************************************************************************/
 
     @Autowired
-    public MediaImportService(
+    public MediaSynchronisationService(
             JobService jobService,
             TagService tagService,
             MediaService mediaService,

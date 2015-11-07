@@ -14,7 +14,11 @@ import java.util.List;
 /**
  * Holds the data of a media
  */
-// We use fields for JSON (de)serialisation
+@JsonAutoDetect(
+    fieldVisibility = JsonAutoDetect.Visibility.ANY,
+    isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+    getterVisibility = JsonAutoDetect.Visibility.NONE,
+    setterVisibility = JsonAutoDetect.Visibility.NONE)
 public class MediaDTO {
 
     private int duration;
