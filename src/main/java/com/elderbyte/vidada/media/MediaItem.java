@@ -35,7 +35,7 @@ public abstract class MediaItem extends BaseEntity {
 
 	@Id
 	private String filehash = null;
-	private String filename = null;
+	private String title = null;
 	private ZonedDateTime addedDate = ZonedDateTime.now();
     private long fileSize = -1;
 	private Resolution resolution = Resolution.Empty;
@@ -77,7 +77,7 @@ public abstract class MediaItem extends BaseEntity {
 	 */
 	protected MediaItem(MediaSource mediaSource) {
         getSources().add(mediaSource);
-		setFilename(NameUtil.prettifyName(mediaSource.getName()));
+		setTitle(NameUtil.fromFileNameToTitle(mediaSource.getName()));
 	}
 
 	/***************************************************************************
@@ -101,7 +101,7 @@ public abstract class MediaItem extends BaseEntity {
 
 
         setFilehash(prototype.getFilehash());
-        setFilename(prototype.getFilename());
+        setTitle(prototype.getTitle());
         setAddedDate(prototype.getAddedDate());
         setFileSize(prototype.getFileSize());
         setResolution(prototype.getResolution());
@@ -245,13 +245,13 @@ public abstract class MediaItem extends BaseEntity {
 	}
 
 
-	public String getFilename() {
-		return filename;
+	public String getTitle() {
+		return title;
 	}
 
-	public void setFilename(String filename) {
-		this.filename = filename;
-		firePropertyChange("filename");
+	public void setTitle(String title) {
+		this.title = title;
+		firePropertyChange("title");
 	}
 
 
@@ -325,7 +325,7 @@ public abstract class MediaItem extends BaseEntity {
 
 	@Override
 	public String toString() {
-		return this.getFilename() + "hash: " + this.getFilehash() + " src: " + getSource();
+		return this.getTitle() + "hash: " + this.getFilehash() + " src: " + getSource();
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package com.elderbyte.vidada.agents.local;
 
 import archimedes.core.io.locations.ResourceLocation;
+import com.elderbyte.common.ArgumentNullException;
 import com.elderbyte.ffmpeg.VideoInfo;
 import com.elderbyte.vidada.agents.MediaAgent;
 import com.elderbyte.vidada.agents.MediaMetadataDto;
@@ -23,6 +24,7 @@ public class LocalVideoMediaAgent  implements MediaAgent {
     private final IVideoAccessService videoAccessService;
 
     public LocalVideoMediaAgent(IVideoAccessService videoAccessService){
+        if(videoAccessService == null) throw new ArgumentNullException("videoAccessService");
         this.videoAccessService = videoAccessService;
     }
 

@@ -26,8 +26,8 @@ public class MediaComparator implements Comparator<MediaItem>{
 		int cmp = 0;
 
 		switch (order) {
-		case FILENAME:
-			cmp = o1.getFilename().compareTo(o2.getFilename());
+            case TITLE:
+			cmp = o1.getTitle().compareTo(o2.getTitle());
 			break;
 
 		case OPENED:
@@ -46,8 +46,8 @@ public class MediaComparator implements Comparator<MediaItem>{
 			throw new NotSupportedException("Unknown order property: " + order);
 		}
 
-		if(cmp == 0 &&  !order.equals(OrderProperty.FILENAME)){
-			cmp = o1.getFilename().compareTo(o2.getFilename());
+		if(cmp == 0 &&  !order.equals(OrderProperty.TITLE)){
+			cmp = o1.getTitle().compareTo(o2.getTitle());
 		}
 
 		return reverse ? cmp * -1 : cmp;

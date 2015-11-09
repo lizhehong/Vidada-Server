@@ -91,15 +91,15 @@ public class MediasResource {
         @RequestParam(value = "query", defaultValue = "") String queryStr,
         @RequestParam(value = "tagExpression", defaultValue = "") String tagExpression,
         @RequestParam(value = "type", defaultValue = "ANY") MediaFilterType type,
-        @RequestParam(value = "orderBy", defaultValue = "FILENAME") OrderProperty order,
-        @RequestParam(value = "reverse", defaultValue = "false") Boolean reverse,
+        @RequestParam(value = "orderBy", required = false) OrderProperty order,
+        @RequestParam(value = "reverse", required = false) boolean reverse,
         @RequestParam(value = "onlyAvailable", defaultValue = "true") Boolean onlyAvailable) {
 
         MediaQuery query = new MediaQuery();
         query.setKeywords(queryStr);
         query.setTagExpression(tagExpression);
         query.setSelectedtype((type != null) ? type : MediaFilterType.ANY);
-        query.setOrder((order != null) ? order : OrderProperty.FILENAME);
+        query.setOrder((order != null) ? order : OrderProperty.TITLE);
         query.setReverseOrder(reverse);
         query.setOnlyAvailable(onlyAvailable);
 

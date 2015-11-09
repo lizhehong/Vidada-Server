@@ -45,7 +45,7 @@ public class JwtFilter extends GenericFilterBean {
 
         String stringToken = findAuthToken(req);
 
-        logger.debug("HTTP Request with token: " + stringToken);
+        logger.trace("HTTP Request with token: " + stringToken);
 
         // Check if we have an Authorization header
 

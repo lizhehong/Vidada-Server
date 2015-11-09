@@ -114,7 +114,8 @@ public class MediaRepositoryImpl implements MediaRepositoryCustom {
         String orderBy = "";
 
         OrderProperty order = qry.getOrder();
-        if(!order.equals(OrderProperty.NONE)){
+
+        if(order != OrderProperty.NONE){
 
             String direction = "DESC";
             String reversedirection = "ASC";
@@ -129,14 +130,14 @@ public class MediaRepositoryImpl implements MediaRepositoryCustom {
             orderBy += "ORDER BY ";
 
             switch (order) {
-                case FILENAME:
+                case TITLE:
                     // Ignore
                     break;
                 default:
                     orderBy += "m." + order.getProperty() + " " + direction + ","; // By default desc order
             }
 
-            orderBy += " m.filename " + reversedirection;  // file name is asc order by default
+            orderBy += " m.title " + reversedirection;  // file name is asc order by default
         }
 
         return orderBy;
@@ -147,7 +148,7 @@ public class MediaRepositoryImpl implements MediaRepositoryCustom {
         String where = "";
 
         if (qry.hasKeyword()) {
-            String keywordPredicate = "(LOWER(m.filename) LIKE LOWER(:keywords)) OR "
+            String keywordPredicate = "(LOWER(m.title) LIKE LOWER(:keywords)) OR "
 
                 // Search in the (relative) file path for a matching keyword
                 + "EXISTS (SELECT s from MediaSource s WHERE s MEMBER OF m.sources AND LOWER(s.relativePathUri) LIKE LOWER(:keywords)) OR "

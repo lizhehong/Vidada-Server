@@ -15,7 +15,7 @@ public enum OrderProperty
 	/**
 	 * Order by file-name
 	 */
-	FILENAME("File Name", "filename"),
+	TITLE("Title", "title"),
 
 	/**
 	 * Order by opened-count

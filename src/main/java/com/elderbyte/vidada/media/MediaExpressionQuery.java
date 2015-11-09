@@ -1,6 +1,7 @@
 package com.elderbyte.vidada.media;
 
 import com.elderbyte.code.dom.expressions.ExpressionNode;
+import com.elderbyte.code.generators.SimpleCodeGenerator;
 import com.elderbyte.vidada.media.libraries.MediaLibrary;
 
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ public class MediaExpressionQuery {
 	private ExpressionNode tagsExpression;
     private MediaFilterType mediaType = MediaFilterType.ANY;
 	private String keywords = null;
-	private OrderProperty order = OrderProperty.FILENAME;
+	private OrderProperty order = OrderProperty.TITLE;
 	private final List<MediaLibrary> allowedLibraries = new ArrayList<>();
 	private boolean reverseOrder = false;
 
@@ -77,5 +78,22 @@ public class MediaExpressionQuery {
 
     public boolean hasAllowedLibraries() {
         return !getAllowedLibraries().isEmpty();
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+            "tags=" + toExpressionString(tagsExpression) +
+            ", mediaType=" + mediaType +
+            ", keywords='" + keywords + '\'' +
+            ", orderBy=" + order +
+            ", allowedLibraries=" + allowedLibraries +
+            ", reverseOrder=" + reverseOrder +
+            '}';
+    }
+
+    private String toExpressionString(ExpressionNode tagsExpression){
+        if(tagsExpression == null) return "";
+        return new SimpleCodeGenerator().generate(tagsExpression);
     }
 }

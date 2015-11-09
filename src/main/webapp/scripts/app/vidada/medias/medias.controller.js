@@ -12,14 +12,14 @@ angular.module('vidadaApp')
         $scope.mediaQuery = {
             query: "",
             tagExpression: "",
-            orderBy: {name: "Choose some"},
+            orderBy: { id: "TITLE" },
             reversed: false
         };
 
         $scope.mediaService = new MediaInfinite($scope.mediaQuery);
         $scope.tagExpressionCaret = 0; // Current Position of the caret in the tagExpression input
         $scope.availableOrderBy = [
-            {id: "FILENAME", name: "Name"},
+            {id: "TITLE", name: "Title"},
             {id: "OPENED", name: "Times opened"},
             {id: "ADDEDDATE", name: "Date added"},
             {id: "LASTACCESS", name: "Access Date"},
@@ -70,6 +70,9 @@ angular.module('vidadaApp')
 
 
         $scope.updateMedias= function(){
+
+            console.log("Query: " + JSON.stringify($scope.mediaQuery));
+
             $scope.mediaService = new MediaInfinite($scope.mediaQuery);
             $scope.mediaService.nextPage();
         };

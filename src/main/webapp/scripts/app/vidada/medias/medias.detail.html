@@ -4,7 +4,7 @@
         <md-card-content layout="column" flex>
 
             <div>
-                <h1 class="md-title">{{media.name}}</h1>
+                <h1 class="md-title">{{media.title}}</h1>
             </div>
 
             <div layout="row" layout-margin flex>
@@ -39,8 +39,10 @@
                         <p>Added Date: {{media.addedDate | fullDateTime}}</p>
                         <p>Last Accessed: {{media.lastAccessedDate | fullDateTime}}</p>
 
-                        <p>Opened: {{media.timesOpened}} times</p>
+                        <p>Duration: {{media.duration}}</p>
+                        <p>Bitrate: {{media.bitrate}}</p>
 
+                        <p>Opened: {{media.timesOpened}} times</p>
                     </md-content>
                 </div>
 
@@ -65,7 +67,7 @@
         </md-card-content>
     </md-card>
 
-    <!--
+    <!-- -->
     <pre>{{mediaDump}}</pre>
-    -->
+
 </div>

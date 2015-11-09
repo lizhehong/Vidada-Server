@@ -50,8 +50,8 @@
 
                     <md-input-container flex>
                         <label>Order By</label>
-                        <md-select ng-model="mediaQuery.orderBy.name" ng-change="updateMedias()">
-                            <md-option ng-repeat="option in availableOrderBy" value="{{option}}">
+                        <md-select ng-model="mediaQuery.orderBy.id" ng-change="updateMedias()">
+                            <md-option ng-repeat="option in availableOrderBy" value="{{option.id}}">
                                 {{option.name}}
                             </md-option>
                         </md-select>
@@ -122,7 +122,7 @@
 
                 </div>
 
-                <md-grid-tile-footer><h3>{{item.name}}</h3></md-grid-tile-footer>
+                <md-grid-tile-footer><h3>{{item.title}}</h3></md-grid-tile-footer>
 
 
             </md-grid-tile>

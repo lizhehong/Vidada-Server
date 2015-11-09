@@ -25,7 +25,7 @@ public class MediaDTO {
     private int bitrate;
     private float thumbnailPosition;
     private String id;
-    private String name;
+    private String title;
     private MediaType mediaType;
     private List<String> tags = new ArrayList<>();
     private int rating;
@@ -55,7 +55,7 @@ public class MediaDTO {
     public MediaDTO(MediaItem media, AsyncResourceDTO thumbnailResource, String streamUrl) {
 
         this.id = media.getFilehash();
-        this.name = media.getFilename();
+        this.title = media.getTitle();
         this.mediaType = media.getType();
 
         for(Tag tag : media.getTags()){
@@ -113,12 +113,12 @@ public class MediaDTO {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String name) {
+        this.title = name;
     }
 
     public MediaType getMediaType() {
@@ -202,7 +202,7 @@ public class MediaDTO {
     }
 
     public static void updateFromDto(MediaItem existing, MediaDTO mediaDto) {
-        existing.setFilename(mediaDto.getName());
+        existing.setTitle(mediaDto.getTitle());
         existing.setRating(mediaDto.getRating());
         if(existing instanceof MovieMediaItem){
             ((MovieMediaItem) existing).setThumbnailPosition(mediaDto.getThumbnailPosition());

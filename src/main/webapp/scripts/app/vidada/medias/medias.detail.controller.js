@@ -31,7 +31,7 @@ angular.module('vidadaApp')
         };
 
         $scope.isFavorite = function(){
-            return $scope.media.rating >= 5;
+            return  $scope.media && $scope.media.rating >= 5;
         };
 
         $scope.toggleFavorite = function(){

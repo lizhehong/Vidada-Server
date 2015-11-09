@@ -2,6 +2,7 @@ package com.elderbyte.vidada.video;
 
 import archimedes.core.images.IMemoryImage;
 import archimedes.core.io.locations.ResourceLocation;
+import com.elderbyte.common.ArgumentNullException;
 import com.elderbyte.ffmpeg.VideoInfo;
 import com.elderbyte.vidada.media.Resolution;
 import org.slf4j.Logger;
@@ -25,9 +26,8 @@ public class Video {
 
 	public Video(ResourceLocation videoResource, IVideoAccessService videoAccessService){
 
-        if(videoResource == null) throw new IllegalArgumentException("videoResource must not be NULL!");
-        if(videoAccessService == null) throw new IllegalArgumentException("videoAccessService must not be NULL!");
-
+        if(videoResource == null) throw new ArgumentNullException("videoResource");
+        if(videoAccessService == null) throw new IllegalArgumentException("videoAccessService");
 
         this.videoAccessService = videoAccessService;
         this.videoResource = videoResource;

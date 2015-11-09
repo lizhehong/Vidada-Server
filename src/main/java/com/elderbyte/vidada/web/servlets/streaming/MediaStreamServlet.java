@@ -45,7 +45,7 @@ public class MediaStreamServlet extends AbstractStreamServlet {
                     if (localSource != null) {
                         resource = localSource.getResourceLocation();
                         return new StreamResource(
-                            media.getFilename(),
+                            localSource.getName(),
                             resource.length(),
                             Integer.MAX_VALUE,
                             resource,

@@ -70,7 +70,7 @@ public class MediaSource extends IdEntity {
 
 	public String getName() {
 		ResourceLocation location = getResourceLocation();
-		return location != null ? location.getName() : "AbsoluteFilePath == NULL";
+		return location != null ? location.getName() : "<no name>";
 	}
 
 

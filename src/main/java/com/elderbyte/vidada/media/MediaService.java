@@ -133,6 +133,8 @@ public class MediaService {
             exprQuery.getAllowedLibraries().addAll(mediaLibraryService.getAvailableLibraries());
         }
 
+        logger.info("Searching all medias which match query: " + exprQuery);
+
         return repository.query(exprQuery, pageIndex, maxPageSize);
     }
 

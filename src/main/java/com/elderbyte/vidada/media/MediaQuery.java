@@ -18,7 +18,7 @@ public class MediaQuery extends AbstractQuery<MediaItem> {
 
 	private MediaFilterType selectedtype = MediaFilterType.ANY;
 	private String keywords = null;
-	private OrderProperty order = OrderProperty.FILENAME;
+	private OrderProperty order = OrderProperty.TITLE;
 	private boolean onlyAvailable = false;
 	private boolean reverseOrder = false;
     private String tagExpression = "";

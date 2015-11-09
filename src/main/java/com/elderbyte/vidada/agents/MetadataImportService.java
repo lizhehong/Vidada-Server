@@ -39,7 +39,10 @@ public class MetadataImportService {
     public synchronized void updateAllMediaMetadataAsync() {
         List<MediaItem> medias = mediaService.findAllMedias();
         for (MediaItem m : medias) {
-            updateMetaDataAsync(m, false);
+            updateMetaDataAsync(m, false).exceptionally(e -> {
+                logger.error("While updating meta-data an unexpected exception occured!", e);
+                return null;
+            });
         }
     }
 
@@ -62,9 +65,9 @@ public class MetadataImportService {
     public void updateMetaDataAndSave(MediaItem media, boolean force){
         MediaItem myMedia = mediaService.findById(media.getFilehash()).orElse(null);
         if(myMedia != null) {
-            logger.info("Updating metadata of media " + media + "...");
-
             if (updateMetaData(myMedia, force)) {
+
+                logger.info("Updated metadata of media " + media + "...");
                 mediaService.save(myMedia);
                 media.prototype(myMedia);
             }
@@ -90,9 +93,13 @@ public class MetadataImportService {
         Iterable<MediaAgent> agents = mediaAgentService.findAllAgents();
 
         for (MediaAgent agent : agents) {
-            if(agent.canHandle(media)){
-                MediaMetadataDto metaData = agent.fetchMetadata(media);
-                updated = updateWith(media, metaData);
+            try {
+                if(agent.canHandle(media)){
+                    MediaMetadataDto metaData = agent.fetchMetadata(media);
+                    updated = updated | updateWith(media, metaData);
+                }
+            }catch (Exception e){
+                logger.error(String.format("Media-Agent %s failed!", agent), e);
             }
         }
         return updated;
