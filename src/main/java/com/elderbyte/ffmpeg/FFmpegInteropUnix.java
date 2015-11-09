@@ -24,7 +24,7 @@ class FFmpegInteropUnix extends FFmpegInterop
                 ffmpegCommand = shieldPathArgument(ffmpeg);
             }
         } catch (IOException e) {
-            logger.error("Failed to extract ffmeg!", e);
+            logger.error("Failed to extract ffmeg! " + e.getMessage());
         }
     }
 

@@ -46,6 +46,7 @@ public abstract class FFmpegInterop {
     private static final Pattern regex_BitRate = Pattern.compile("bitrate: (\\d*) kb/s");
     private static final Pattern regex_Resolution = Pattern.compile("Video: .* (\\d{2,})x(\\d{2,})");
     private static final Pattern regex_Version = Pattern.compile("ffmpeg version ([\\d|\\.]+)");
+    private static final Pattern regex_VersionLazy = Pattern.compile("ffmpeg version (.+)\\s");
 
 
     /***************************************************************************
@@ -205,6 +206,31 @@ public abstract class FFmpegInterop {
      *  @exception FFmpegException Thrown when there was a problem executing the command.
      */
     public final Version ffmpegVersion() throws FFmpegException {
+
+        String output = ffmpegExec("-version");
+
+        if (output != null && !output.isEmpty()) {
+
+            // extract the version string from the ffmpeg output
+            // ffmpeg version 2.8.1 .... or git hash
+            Matcher matcher = regex_VersionLazy.matcher(output);
+            if (matcher.find()) {
+                String versionStr = matcher.group(1);
+                return new Version(0,0,0, versionStr);
+            } else {
+                throw new FFmpegException("Could not parse ffmpeg version, regex does not match output!");
+            }
+        }
+        throw new FFmpegException("Failed to retrieve ffmpeg version!");
+    }
+
+    /**
+     * Returns the version of ffmpeg currently used.
+     *
+     *  @exception FFmpegException Thrown when there was a problem executing the command.
+    */
+    @Deprecated
+    public final Version ffmpegVersionExact() throws FFmpegException {
 
         String output = ffmpegExec("-version");
 

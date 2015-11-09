@@ -45,7 +45,7 @@ public class FFMpegVideoAccessService implements IVideoAccessService {
         try {
             logger.info("Initialized ffmpeg wrapper @ version " + ffmpeg.ffmpegVersion());
         } catch (FFmpegException e) {
-            logger.warn("Failed to initialize ffmpeg!");
+            logger.warn("Failed to initialize ffmpeg!", e);
         }
     }
 
