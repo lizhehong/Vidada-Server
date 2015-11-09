@@ -3,29 +3,45 @@
     <md-card flex>
         <md-card-content layout="column" flex>
 
-            <div>
+            <!-- Title row -->
+            <div layout="row">
                 <h1 class="md-title">{{media.title}}</h1>
             </div>
 
-            <div layout="row" layout-margin flex>
+            <!-- Main Content row -->
+            <div layout="row" layout-align="center center" layout-margin>
 
                 <!-- Main Thumbnail -->
                 <div layout="column" flex>
 
-                    <div class="thumbnail-box" layout layout-align="space-around">
 
-                        <img class="media-thumb-aspect" ng-src="{{media.thumbnailResource.resourceUrl}}">
+                    <md-grid-list
+                        md-cols="1"
+                        md-row-height="500:350"
+                        md-gutter="8px" >
 
-                        <div ng-hide="media.thumbnailResource.resourceUrl" class="floating-box milk-glassi" >
-                            <md-progress-circular class="center" md-mode="indeterminate"></md-progress-circular>
-                        </div>
-                    </div>
+                        <md-grid-tile class="media-item" md-colspan="1" >
 
-                    <md-slider flex min="0" step="0.001" max="1" ng-model="thumbnailPositionEdit" aria-label="thumbnailPosition"
+                            <!-- main content of tile -->
+                            <div class="media-item-content">
+
+                                <img ng-show="media.thumbnailResource.resourceUrl" class="media-thumb" ng-src="{{media.thumbnailResource.resourceUrl}}">
+
+                                <!-- Placeholder incase no thubnail -->
+                                <div class="gray" ng-hide="media.thumbnailResource.resourceUrl" layout-fill>
+                                    <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+                                </div>
+
+                            </div>
+
+
+                        </md-grid-tile>
+
+                    </md-grid-list>
+
+                    <md-slider min="0" step="0.001" max="1" ng-model="thumbnailPositionEdit" aria-label="thumbnailPosition"
                                id="thumbnail-slider" class>
                     </md-slider>
-
-                    <span flex></span>
 
                 </div>
 
@@ -58,7 +74,7 @@
 
             </div>
 
-            <div flex>
+            <div layout="row">
                 <h3 class="md-title">Tags</h3>
                 <md-chips ng-model="tagsEdit" flex></md-chips>
             </div>

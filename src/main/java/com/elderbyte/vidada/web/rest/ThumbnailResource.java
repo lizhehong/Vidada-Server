@@ -42,7 +42,7 @@ public class ThumbnailResource {
      *                                                                         *
      **************************************************************************/
 
-    
+
     /**
      * Returns a thumbnail image for the given media
      * @param hash The media id (hash)
@@ -57,17 +57,21 @@ public class ThumbnailResource {
     public ResponseEntity<byte[]> getPNG(
                             @PathVariable("hash") String hash,
                             @RequestParam(value = "position", defaultValue = "0") Float position,
-                            @RequestParam(value = "width", defaultValue = "250") Integer width,
-                            @RequestParam(value = "height", defaultValue = "180") Integer height) {
+                            @RequestParam(value = "width", required = false) Integer width,
+                            @RequestParam(value = "height", required = false) Integer height) {
 
         MediaItem media = mediaService.findById(hash).orElse(null);
 
 
         if(media == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
-        Resolution thumbSize = new Resolution(width, height);
+        Resolution desiredThumbSize = null;
 
-        final CompletableFuture<IMemoryImage> imageTask = thumbnailService.getThumbnailAsync(media, thumbSize, position);
+        if(width != null && height != null){
+            desiredThumbSize = new Resolution(width, height);
+        }
+
+        final CompletableFuture<IMemoryImage> imageTask = thumbnailService.getThumbnailAsync(media, desiredThumbSize, position);
 
         if(imageTask.isDone()){
             // If the requested thumbnail is available, send it to the client
