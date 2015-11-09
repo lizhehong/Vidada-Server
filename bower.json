@@ -1,7 +1,7 @@
 {
   "name": "vidada",
   "version": "0.0.0",
-  "appPath": "src/main/webapp",
+  "appPath": "src/main/resources/static",
   "testPath": "src/test/javascript/spec",
   "dependencies": {
     "angular": "~1.4.7",

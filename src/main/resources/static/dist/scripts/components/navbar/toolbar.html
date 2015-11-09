@@ -1,0 +1,100 @@
+<!-- Navigation -->
+
+<md-toolbar layout="row" layout-align="start center">
+    <div class="md-toolbar-tools">
+        <md-button ng-show="isAuthenticated()" class="md-icon-button" aria-label="Menu" ng-click="toggleLeftSideNav()">
+            <md-icon>
+                <i class="material-icons">menu</i>
+            </md-icon>
+        </md-button>
+        <h2>
+            <span>Vidada</span>
+            <small class="navbar-version">v{{VERSION}}</small>
+        </h2>
+        <span flex></span>
+
+
+
+
+        <md-button ng-show="isAuthenticated()" class="md-icon-button" ng-click="syncAll()">
+            <md-icon>
+                <i class="material-icons">sync</i>
+            </md-icon>
+        </md-button>
+
+
+
+        <md-menu ng-show="isAuthenticated()">
+            <md-button class="md-icon-button" ng-click="openMenu($mdOpenMenu, $event)">
+                <md-icon>
+                    <i class="material-icons">face</i>
+                </md-icon>
+            </md-button>
+
+            <md-menu-content width="4">
+                <md-menu-item>
+                    <md-button ui-sref="settings">
+                        <md-icon md-font-icon="fa fa-fw fa-user" md-menu-align-target></md-icon>
+                        Profile
+                    </md-button>
+                </md-menu-item>
+                <md-menu-item>
+                    <md-button ui-sref="password">
+                        <md-icon md-font-icon="fa fa-fw fa-lock"></md-icon>
+                        Password
+                    </md-button>
+                </md-menu-item>
+                <md-menu-divider></md-menu-divider>
+                <md-menu-item>
+                    <md-button ng-click="logout()">
+                        <md-icon md-font-icon="fa fa-fw fa-power-off"></md-icon>
+                        Log Off
+                    </md-button>
+                </md-menu-item>
+            </md-menu-content>
+        </md-menu>
+
+    </div>
+</md-toolbar>
+
+
+
+    <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+        <ul class="nav navbar-nav side-nav">
+            <li ui-sref-active="active">
+                <a ui-sref="medias"><i class="fa fa-fw fa-film"></i> Media</a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="libraries"><i class="fa fa-fw fa-database"></i> Media Libraries</a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="tags"><i class="fa fa-fw fa-tag"></i> Tags</a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="settings"><i class="fa fa-fw fa-wrench"></i> Settings</a>
+            </li>
+            <li>
+                <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-life-ring"></i> Administration <i class="fa fa-fw fa-caret-down"></i></a>
+                <ul id="demo" class="collapse">
+                    <li ui-sref-active="active"><a ui-sref="tracker"><span class="glyphicon glyphicon-eye-open"></span>
+                        &nbsp;<span translate="global.menu.admin.tracker">User tracking</span></a></li>
+                    <li ui-sref-active="active"><a ui-sref="metrics"><span class="glyphicon glyphicon-dashboard"></span>
+                        &#xA0;<span translate="global.menu.admin.metrics">Metrics</span></a></li>
+                    <li ui-sref-active="active"><a ui-sref="health"><span class="glyphicon glyphicon-heart"></span>
+                        &#xA0;<span translate="global.menu.admin.health">Health</span></a></li>
+                    <li ui-sref-active="active"><a ui-sref="configuration"><span class="glyphicon glyphicon-list-alt"></span>
+                        &#xA0;<span translate="global.menu.admin.configuration">Configuration</span></a></li>
+                    <li ui-sref-active="active"><a ui-sref="audits"><span class="glyphicon glyphicon-bell"></span>
+                        &#xA0;<span translate="global.menu.admin.audits">Audits</span></a></li>
+                    <li ui-sref-active="active"><a ui-sref="logs"><span class="glyphicon glyphicon-tasks"></span>
+                        &#xA0;<span translate="global.menu.admin.logs">Logs</span></a></li>
+                    <li ui-sref-active="active"><a ui-sref="docs"><span class="glyphicon glyphicon-book"></span>
+                        &#xA0;<span translate="global.menu.admin.apidocs">API Docs</span></a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+     -->
+
+

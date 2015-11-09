@@ -39,7 +39,7 @@ module.exports = function (grunt) {
         yeoman: {
             // configurable paths
             app: require('./bower.json').appPath || 'app',
-            dist: 'src/main/webapp/dist'
+            dist: 'src/main/resources/static/dist'
         },
         watch: {
             bower: {
@@ -51,11 +51,11 @@ module.exports = function (grunt) {
                 tasks: ['ngconstant:dev']
             },
             styles: {
-                files: ['src/main/webapp/assets/styles/**/*.css']
+                files: ['src/main/resources/static/assets/styles/**/*.css']
             },
             includeSource: {
                 // Watch for added and deleted scripts to update index.html
-                files: 'src/main/webapp/scripts/**/*.js',
+                files: 'src/main/resources/static/scripts/**/*.js',
                 tasks: ['includeSource'],
                 options: {
                     event: ['added', 'deleted']
@@ -65,13 +65,13 @@ module.exports = function (grunt) {
         includeSource: {
             // Task to include files into index.html
             options: {
-                basePath: 'src/main/webapp',
+                basePath: 'src/main/resources/static',
                 baseUrl: '',
                 ordering: 'top-down'
             },
             app: {
                 files: {
-                    'src/main/webapp/index.html': 'src/main/webapp/index.html'
+                    'src/main/resources/static/index.html': 'src/main/resources/static/index.html'
                     // you can add karma config as well here if want inject to karma as well
                 }
             }
@@ -90,7 +90,7 @@ module.exports = function (grunt) {
         },
         wiredep: {
             app: {
-                src: ['src/main/webapp/index.html'],
+                src: ['src/main/resources/static/index.html'],
                 exclude: [
                     /angular-i18n/,  // localizations are loaded dynamically
                     /swagger-ui/
@@ -118,11 +118,11 @@ module.exports = function (grunt) {
             dev: {
                 bsFiles: {
                     src : [
-                        'src/main/webapp/**/*.html',
-                        'src/main/webapp/**/*.json',
-                        '{.tmp/,}src/main/webapp/assets/styles/**/*.css',
-                        '{.tmp/,}src/main/webapp/scripts/**/*.js',
-                        'src/main/webapp/assets/images/**/*.{png,jpg,jpeg,gif,webp,svg}'
+                        'src/main/resources/static/**/*.html',
+                        'src/main/resources/static/**/*.json',
+                        '{.tmp/,}src/main/resources/static/assets/styles/**/*.css',
+                        '{.tmp/,}src/main/resources/static/scripts/**/*.js',
+                        'src/main/resources/static/assets/images/**/*.{png,jpg,jpeg,gif,webp,svg}'
                     ]
                 }
             },
@@ -150,9 +150,9 @@ module.exports = function (grunt) {
             },
             all: [
                 'Gruntfile.js',
-                'src/main/webapp/scripts/app.js',
-                'src/main/webapp/scripts/app/**/*.js',
-                'src/main/webapp/scripts/components/**/*.js'
+                'src/main/resources/static/scripts/app.js',
+                'src/main/resources/static/scripts/app/**/*.js',
+                'src/main/resources/static/scripts/components/**/*.js'
             ]
         },
         coffee: {
@@ -163,7 +163,7 @@ module.exports = function (grunt) {
             dist: {
                 files: [{
                     expand: true,
-                    cwd: 'src/main/webapp/scripts',
+                    cwd: 'src/main/resources/static/scripts',
                     src: ['scripts/app/**/*.coffee', 'scripts/components/**/*.coffee'],
                     dest: '.tmp/scripts',
                     ext: '.js'
@@ -197,7 +197,7 @@ module.exports = function (grunt) {
             }
         },
         useminPrepare: {
-            html: 'src/main/webapp/**/*.html',
+            html: 'src/main/resources/static/**/*.html',
             options: {
                 dest: '<%= yeoman.dist %>',
                 flow: {
@@ -229,7 +229,7 @@ module.exports = function (grunt) {
             dist: {
                 files: [{
                     expand: true,
-                    cwd: 'src/main/webapp/assets/images',
+                    cwd: 'src/main/resources/static/assets/images',
                 src: '**/*.{jpg,jpeg}', // we don't optimize PNG files as it doesn't work on Linux. If you are not on Linux, feel free to use '**/*.{png,jpg,jpeg}'
                     dest: '<%= yeoman.dist %>/assets/images'
                 }]
@@ -239,7 +239,7 @@ module.exports = function (grunt) {
             dist: {
                 files: [{
                     expand: true,
-                    cwd: 'src/main/webapp/assets/images',
+                    cwd: 'src/main/resources/static/assets/images',
                     src: '**/*.svg',
                     dest: '<%= yeoman.dist %>/assets/images'
                 }]
@@ -258,12 +258,12 @@ module.exports = function (grunt) {
             //     }
             // }
             options: {
-                root: 'src/main/webapp' // Replace relative paths for static resources with absolute path
+                root: 'src/main/resources/static' // Replace relative paths for static resources with absolute path
             }
         },
         ngtemplates:    {
             dist: {
-                cwd: 'src/main/webapp',
+                cwd: 'src/main/resources/static',
                 src: ['scripts/app/**/*.html', 'scripts/components/**/*.html',],
                 dest: '.tmp/templates/templates.js',
                 options: {
@@ -311,7 +311,7 @@ module.exports = function (grunt) {
                 files: [{
                     expand: true,
                     dot: true,
-                    cwd: 'src/main/webapp',
+                    cwd: 'src/main/resources/static',
                     dest: '<%= yeoman.dist %>',
                     src: [
                         '*.html',
@@ -406,7 +406,7 @@ module.exports = function (grunt) {
             },
             dev: {
                 options: {
-                    dest: 'src/main/webapp/scripts/app/app.constants.js'
+                    dest: 'src/main/resources/static/scripts/app/app.constants.js'
                 },
                 constants: {
                     ENV: 'dev',
