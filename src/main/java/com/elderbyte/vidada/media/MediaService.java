@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -177,6 +178,15 @@ public class MediaService {
         return (int)repository.count();
     }
 
+    @Transactional
+    public void mediaAccessed(MediaItem mediaItem) {
+       findById(mediaItem.getFilehash()).ifPresent(m -> {
+           m.setOpened(m.getOpened()+1);
+           m.setLastAccessed(ZonedDateTime.now());
+           save(m);
+       });
+    }
+
 
     /***************************************************************************
      *                                                                         *
@@ -193,6 +203,7 @@ public class MediaService {
 	private String retrieveMediaHash(ResourceLocation file){
 		return mediaHashService.retrieveFileHash(file);
 	}
+
 
 
 }

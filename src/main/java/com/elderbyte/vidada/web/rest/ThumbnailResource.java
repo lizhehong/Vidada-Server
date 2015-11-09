@@ -42,28 +42,7 @@ public class ThumbnailResource {
      *                                                                         *
      **************************************************************************/
 
-    /*
-    @RequestMapping(value = "{hash}",
-        method = RequestMethod.POST)
-    public ResponseEntity updateThumb(
-        @PathVariable("hash") String hash,
-        @RequestBody float pos){
-
-        MediaItem media = mediaService.findById(hash);
-        if(media != null){
-            if(media instanceof MovieMediaItem){
-                thumbnailService.renewThumbImage((MovieMediaItem)media, pos);
-                return ResponseEntity.accepted().build();
-            }else{
-                log.error("Can only recreate video thumbs, but this media is not a video: " + media.getType());
-                ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).build();
-            }
-        }
-        return ResponseEntity.notFound().build();
-    }
-    */
-
-
+    
     /**
      * Returns a thumbnail image for the given media
      * @param hash The media id (hash)

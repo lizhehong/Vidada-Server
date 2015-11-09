@@ -82,5 +82,28 @@ angular.module('vidadaApp')
         return function(theDate) {
             return angularDateFilter(theDate, 'dd.MM.yyyy HH:mm');
         }
-    });
+    })
+
+    .filter('secondsToDuration', [function () {
+        return function(secondsAll, precision) {
+            if (typeof secondsAll !== 'number') {
+                secondsAll = parseFloat(secondsAll);
+            }
+
+            if (secondsAll === 0) {
+                return 'No Duration';
+            } else if (isNaN(secondsAll) || !isFinite(secondsAll)) {
+                return '-';
+            }
+
+            var hours   = Math.floor(secondsAll / 3600);
+            var minutes = Math.floor((secondsAll - (hours * 3600)) / 60);
+            var seconds = secondsAll - (hours * 3600) - (minutes * 60);
+
+            var duration = hours+'h '+minutes+'min';
+            return duration;
+        };
+    }])
+
+;
 

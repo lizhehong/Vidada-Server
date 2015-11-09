@@ -158,14 +158,16 @@ public class MetadataImportService {
     private boolean updateWith(MovieMediaItem media, MediaMetadataDto metaData){
         boolean updated = false;
 
-        if(metaData.getBitRate() != null) {
+        if(metaData.getBitRate() > 0) {
             media.setBitrate(metaData.getBitRate());
             updated = true;
         }
-        if(metaData.getDuration() != null) {
-            media.setBitrate(metaData.getDuration());
+
+        if(metaData.getDuration() > 0) {
+            media.setDuration(metaData.getDuration());
             updated = true;
         }
+
         return updated;
     }
 

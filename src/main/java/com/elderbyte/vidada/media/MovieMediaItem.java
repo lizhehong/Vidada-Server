@@ -178,27 +178,9 @@ public class MovieMediaItem extends MediaItem implements Cloneable {
      * @param prototype
      */
     private void prototype(MovieMediaItem prototype) {
-        setThumbnailPosition(0);
+        setThumbnailPosition(prototype.getThumbnailPosition());
         setBitrate(prototype.getBitrate());
         setDuration(prototype.getDuration());
     }
-
-    /**
-     * Returns a random relative position for a movie
-     * This method ensures that the position is not too near
-     * of the start or end of the movie.
-     *
-     * (Lots of movies have a boring screener at the start
-     * and even more boring credits listing at the end.)
-     *
-     * @return
-     */
-    public static float randomRelativePos(){
-        float pos = (float)Math.random();
-        pos = Math.max(pos, 0.08f);
-        pos = Math.min(pos, 0.90f);
-        return pos;
-    }
-
 
 }

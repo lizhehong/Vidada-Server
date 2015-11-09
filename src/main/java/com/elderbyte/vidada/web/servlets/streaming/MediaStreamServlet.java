@@ -43,6 +43,9 @@ public class MediaStreamServlet extends AbstractStreamServlet {
                 if (media != null) {
                     MediaSource localSource = media.getSource();
                     if (localSource != null) {
+
+                        onMediaStreamRequested(media);
+
                         resource = localSource.getResourceLocation();
                         return new StreamResource(
                             localSource.getName(),
@@ -64,6 +67,13 @@ public class MediaStreamServlet extends AbstractStreamServlet {
         return null;
     }
 
+    /**
+     * Occurs when the given media is requested for stream / access
+     * @param mediaItem
+     */
+    private void onMediaStreamRequested(MediaItem mediaItem){
+        mediaService.mediaAccessed(mediaItem);
+    }
 
     /**
      * Get the relative URI of this request

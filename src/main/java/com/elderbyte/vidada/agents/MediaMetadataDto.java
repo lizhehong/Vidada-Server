@@ -27,12 +27,12 @@ public class MediaMetadataDto {
     private Float rating;
     private String posterUrl;
     private Resolution resolution;
-    private Integer bitRate;
-    private Integer duration;
+    private int bitRate;
+    private int duration;
 
     public MediaMetadataDto(){ }
 
-    public Integer getBitRate() {
+    public int getBitRate() {
         return bitRate;
     }
 
@@ -40,7 +40,7 @@ public class MediaMetadataDto {
         this.bitRate = bitRate;
     }
 
-    public Integer getDuration() {
+    public int getDuration() {
         return duration;
     }
 
