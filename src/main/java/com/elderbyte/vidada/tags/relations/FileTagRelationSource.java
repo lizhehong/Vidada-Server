@@ -1,7 +1,5 @@
-package com.elderbyte.vidada.tags;
+package com.elderbyte.vidada.tags.relations;
 
-import com.elderbyte.vidada.tags.relations.TagRelationDefinition;
-import com.elderbyte.vidada.tags.relations.TagRelationDefinitionParser;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 

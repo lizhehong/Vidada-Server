@@ -1,10 +1,12 @@
-package com.elderbyte.vidada.media;
+package com.elderbyte.vidada.xattr;
 
 import archimedes.core.exceptions.NotSupportedException;
 import archimedes.core.io.locations.ResourceLocation;
-import com.elderbyte.vidada.metadata.MediaMetaAttribute;
+import com.elderbyte.vidada.media.ImageMediaItem;
+import com.elderbyte.vidada.media.MediaItem;
+import com.elderbyte.vidada.media.MovieMediaItem;
+import com.elderbyte.vidada.media.Resolution;
 import com.elderbyte.vidada.tags.Tag;
-import com.elderbyte.vidada.tags.TagUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,16 +19,17 @@ import java.util.Set;
  * Synchronizes the media metadata values of a media object with the extended attributes of the file.
  *
  */
+@Deprecated // TODO import of xattr is handled by an agent, writing them down should probably be handled in media-service.save()...
 @Service
 public class MetadataSynchronizer {
 
     private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 
-    private final MediaMetaDataService metaDataService;
+    private final XAttrMetadataService xattrMetadataService;
 
     @Autowired
-    public MetadataSynchronizer(MediaMetaDataService metaDataService){
-        this.metaDataService = metaDataService;
+    public MetadataSynchronizer(XAttrMetadataService xattrMetadataService){
+        this.xattrMetadataService = xattrMetadataService;
     }
 
     /***************************************************************************
@@ -42,7 +45,7 @@ public class MetadataSynchronizer {
      */
     public boolean updateFromMetaData(MediaItem media, ResourceLocation physicalFile){
 
-        if(metaDataService.isMetaDataSupported(physicalFile)){
+        if(xattrMetadataService.isMetaDataSupported(physicalFile)){
 
             switch (media.getType()){
                 case IMAGE:
@@ -67,7 +70,7 @@ public class MetadataSynchronizer {
      */
     public void writeMetaData(MediaItem media, ResourceLocation physicalFile){
 
-        if(metaDataService.isMetaDataSupported(physicalFile)){
+        if(xattrMetadataService.isMetaDataSupported(physicalFile)){
 
             switch (media.getType()){
                 case IMAGE:
@@ -92,16 +95,16 @@ public class MetadataSynchronizer {
     private void writeMetaDataBasic(MediaItem media, ResourceLocation physicalFile){
 
         if(media.getFilehash() != null){
-            metaDataService.writeMetaData(physicalFile, MediaMetaAttribute.FileHash, media.getFilehash());
+            xattrMetadataService.writeMetaData(physicalFile, KnownXAttr.FileHash, media.getFilehash());
         }
 
         if(media.getRating() != 0){
-            metaDataService.writeMetaData(physicalFile, MediaMetaAttribute.Rating, media.getRating()+"");
+            xattrMetadataService.writeMetaData(physicalFile, KnownXAttr.Rating, media.getRating()+"");
         }
 
         String tags = tagsToString(media.getTags());
         if(tags != null && !tags.isEmpty()) {
-            metaDataService.writeMetaData(physicalFile, MediaMetaAttribute.Tags, tags);
+            xattrMetadataService.writeMetaData(physicalFile, KnownXAttr.Tags, tags);
         }
 
     }
@@ -110,15 +113,15 @@ public class MetadataSynchronizer {
         writeMetaDataBasic(media, physicalFile);
 
         if(media.getBitrate() != 0) {
-            metaDataService.writeMetaData(physicalFile, MediaMetaAttribute.Bitrate, media.getBitrate()+"");
+            xattrMetadataService.writeMetaData(physicalFile, KnownXAttr.Bitrate, media.getBitrate()+"");
         }
 
         if(media.getDuration() != 0) {
-            metaDataService.writeMetaData(physicalFile, MediaMetaAttribute.Duration, media.getDuration()+"");
+            xattrMetadataService.writeMetaData(physicalFile, KnownXAttr.Duration, media.getDuration()+"");
         }
 
         if(media.hasResolution()) {
-            metaDataService.writeMetaData(physicalFile, MediaMetaAttribute.Resolution, media.getResolution().toString());
+            xattrMetadataService.writeMetaData(physicalFile, KnownXAttr.Resolution, media.getResolution().toString());
         }
     }
 
@@ -132,13 +135,13 @@ public class MetadataSynchronizer {
         boolean updated = false;
 
         if(media.getFilehash() == null){
-            String hashStr = metaDataService.readMetaData(physicalFile, MediaMetaAttribute.FileHash);
+            String hashStr = xattrMetadataService.readMetaData(physicalFile, KnownXAttr.FileHash);
             media.setFilehash(hashStr);
             updated = true;
         }
 
         if(media.getRating() == 0){
-            String ratingStr = metaDataService.readMetaData(physicalFile, MediaMetaAttribute.Rating);
+            String ratingStr = xattrMetadataService.readMetaData(physicalFile, KnownXAttr.Rating);
             if(ratingStr != null){
                 try {
                     int rating = Integer.parseInt(ratingStr);
@@ -150,7 +153,7 @@ public class MetadataSynchronizer {
             }
         }
 
-        String tagsStr = metaDataService.readMetaData(physicalFile, MediaMetaAttribute.Tags);
+        String tagsStr = xattrMetadataService.readMetaData(physicalFile, KnownXAttr.Tags);
         Set<Tag> tags = parseTagString(tagsStr);
         media.getTags().addAll(tags);
 
@@ -161,7 +164,7 @@ public class MetadataSynchronizer {
         boolean updated = updateFromMetaDataBasic(media, physicalFile);
 
         if(media.getBitrate() == 0) {
-            String bitrateStr = metaDataService.readMetaData(physicalFile, MediaMetaAttribute.Bitrate);
+            String bitrateStr = xattrMetadataService.readMetaData(physicalFile, KnownXAttr.Bitrate);
             if(bitrateStr != null){
                 try {
                     int bitrate = Integer.parseInt(bitrateStr);
@@ -175,7 +178,7 @@ public class MetadataSynchronizer {
 
 
         if(media.getDuration() == 0) {
-            String durationStr = metaDataService.readMetaData(physicalFile, MediaMetaAttribute.Duration);
+            String durationStr = xattrMetadataService.readMetaData(physicalFile, KnownXAttr.Duration);
             if(durationStr != null){
                 try {
                     int duration = Integer.parseInt(durationStr);
@@ -188,7 +191,7 @@ public class MetadataSynchronizer {
         }
 
         if(!media.hasResolution()) {
-            String resolutionStr = metaDataService.readMetaData(physicalFile, MediaMetaAttribute.Resolution);
+            String resolutionStr = xattrMetadataService.readMetaData(physicalFile, KnownXAttr.Resolution);
             if(resolutionStr != null){
                 Resolution resolution = Resolution.ofString(resolutionStr);
                 if(resolution != null) {
@@ -204,7 +207,7 @@ public class MetadataSynchronizer {
         boolean updated = updateFromMetaDataBasic(media, physicalFile);
 
         if(!media.hasResolution()) {
-            String resolutionStr = metaDataService.readMetaData(physicalFile, MediaMetaAttribute.Resolution);
+            String resolutionStr = xattrMetadataService.readMetaData(physicalFile, KnownXAttr.Resolution);
             if(resolutionStr != null){
                 Resolution resolution = Resolution.ofString(resolutionStr);
                 if(resolution != null) {
@@ -230,7 +233,7 @@ public class MetadataSynchronizer {
 
     private Set<Tag> parseTagString(String tagsStr){
         String[] tokens = tagsStr.split(",");
-        return TagUtil.createTags(tokens);
+        return Tag.buildTags(tokens);
     }
 
 }

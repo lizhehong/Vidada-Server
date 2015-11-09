@@ -1,11 +1,11 @@
-package com.elderbyte.vidada.media;
+package com.elderbyte.vidada.xattr;
 
 import archimedes.core.io.locations.ResourceLocation;
 import ch.securityvision.metadata.FileMetaDataSupportFactory;
 import ch.securityvision.metadata.IFileMetaDataSupport;
 import ch.securityvision.metadata.MetaDataNotSupportedException;
 import ch.securityvision.metadata.MetadataIOException;
-import com.elderbyte.vidada.metadata.MediaMetaAttribute;
+import com.elderbyte.vidada.xattr.KnownXAttr;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -17,24 +17,24 @@ import java.util.List;
  * Provides read / write functionality of metadata stored in extended attributes.
  */
 @Service
-public class MediaMetaDataService {
+public class XAttrMetadataService {
 
     private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 
 
-    private final IFileMetaDataSupport fileMetaDataSupport;
+    private final IFileMetaDataSupport xattrUtil;
 
     /**
      * Creates a new MediaMetaDataService
      */
-    public MediaMetaDataService() {
-        IFileMetaDataSupport metaDataSupport = null;
+    public XAttrMetadataService() {
+        IFileMetaDataSupport xattrUtil = null;
         try {
-            metaDataSupport = FileMetaDataSupportFactory.buildFileMetaSupport();
+            xattrUtil = FileMetaDataSupportFactory.buildFileMetaSupport();
         } catch (MetaDataNotSupportedException e) {
             LOG.error("Metadata is not supported on this operating system.", e);
         }
-        fileMetaDataSupport = metaDataSupport;
+        this.xattrUtil = xattrUtil;
     }
 
 
@@ -47,7 +47,7 @@ public class MediaMetaDataService {
     public boolean isMetaDataSupported(ResourceLocation location){
         if(isFileUri(location)){
             File file = new File(location.getUri());
-            return fileMetaDataSupport != null && fileMetaDataSupport.isMetaDataSupported(file);
+            return xattrUtil != null && xattrUtil.isMetaDataSupported(file);
         }
         return false;
     }
@@ -60,12 +60,12 @@ public class MediaMetaDataService {
      * @param attribute
      * @param value
      */
-    public boolean writeMetaData(ResourceLocation location, MediaMetaAttribute attribute, String value){
+    public boolean writeMetaData(ResourceLocation location, KnownXAttr attribute, String value){
         boolean success = false;
         File file = new File(location.getUri());
         try {
-            if(fileMetaDataSupport != null) {
-                fileMetaDataSupport.writeAttribute(file, attribute.getAttributeName(), value);
+            if(xattrUtil != null) {
+                xattrUtil.writeAttribute(file, attribute.getAttributeName(), value);
                 success = true;
             }
         } catch (MetadataIOException e) {
@@ -88,10 +88,10 @@ public class MediaMetaDataService {
      * @param attribute
      * @return
      */
-    public String readMetaData(ResourceLocation file, MediaMetaAttribute attribute){
+    public String readMetaData(ResourceLocation file, KnownXAttr attribute){
         try {
-            if(fileMetaDataSupport != null) {
-                return fileMetaDataSupport.readAttribute(new File(file.getUri()), attribute.getAttributeName());
+            if(xattrUtil != null) {
+                return xattrUtil.readAttribute(new File(file.getUri()), attribute.getAttributeName());
             }
         } catch (MetadataIOException e) {
             LOG.error("Could not read metadata!", e);
@@ -106,8 +106,8 @@ public class MediaMetaDataService {
      */
     public List<String> listAllAttributes(ResourceLocation file){
         try {
-            if(fileMetaDataSupport != null) {
-                return fileMetaDataSupport.listAttributes(new File(file.getUri()));
+            if(xattrUtil != null) {
+                return xattrUtil.listAttributes(new File(file.getUri()));
             }
         } catch (MetadataIOException e) {
             LOG.error("Can not list all meta-data attributes!", e);

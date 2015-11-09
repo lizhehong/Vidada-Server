@@ -83,7 +83,7 @@ public class KeywordBasedTagGuesser  implements ITagGuessingStrategy {
      * @return
      */
     private static Set<String> getPossibleTagStrings(MediaItem media) {
-        Set<String> words = new HashSet<String>();
+        Set<String> words = new HashSet<>();
         Set<MediaSource> sources = media.getSources();
 
         for(MediaSource source : sources){
@@ -109,7 +109,7 @@ public class KeywordBasedTagGuesser  implements ITagGuessingStrategy {
      */
 	private static Set<String> getPossibleTagStrings(String path){
 
-        Set<String> possibleTags = new HashSet<String>();
+        Set<String> possibleTags = new HashSet<>();
 
         path = path.toLowerCase();
 

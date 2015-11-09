@@ -1,5 +1,6 @@
 package com.elderbyte.vidada.tags;
 
+import com.elderbyte.vidada.tags.relations.ITagRelationSource;
 import com.elderbyte.vidada.tags.relations.TagRelationDefinition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,13 +47,6 @@ public class TagService {
         this.repository = repository;
     }
 
-    /***************************************************************************
-     *                                                                         *
-     * Properties                                                              *
-     *                                                                         *
-     **************************************************************************/
-
-
 
     /***************************************************************************
      *                                                                         *
@@ -61,26 +55,48 @@ public class TagService {
      **************************************************************************/
 
 
-
+    /**
+     * Returns all tags which are equal or include the given tag in a logical matter.
+     * As an example:
+     *
+     * related tags of 'car' could be:
+     * - automobile
+     * - convertible
+     * - sports.car
+     * - bmw
+     * - audi
+     *
+     * All these tags _are_ a 'car'.
+     *
+     * @param tag
+     * @return
+     */
     public Set<Tag> getAllRelatedTags(Tag tag){
         return getRelationDefinition().getAllRelatedTags(tag);
     }
 
 
-
+    /**
+     * Deletes a tag
+     * @param tag
+     */
     @Transactional
     public void removeTag(final Tag tag) {
         repository.delete(tag);
     }
 
 
+    /**
+     * Returns all main tags.
+     * @return
+     */
     @Transactional
-    public Collection<Tag> getUsedTags() {
+    public Collection<Tag> findAllUsedTags() {
 
-        Collection<Tag> allTags = getAllTags();
+        Collection<Tag> allTags = findAllTags();
 
         // Remove all synonyms from our tag list
-        Iterator<Tag> allTagsIt = getAllTags().iterator();
+        Iterator<Tag> allTagsIt = findAllTags().iterator();
         while (allTagsIt.hasNext()) {
             Tag tag = allTagsIt.next();
             if (getRelationDefinition().isSlaveTag(tag)) {
@@ -91,8 +107,12 @@ public class TagService {
         return allTags;
     }
 
+    /**
+     * Returns all known tags
+     * @return
+     */
     @Transactional
-    public Collection<Tag> getAllTags() {
+    public Collection<Tag> findAllTags() {
 
         // Ensure all tags from the relations are loaded and known
         getRelationDefinition();
@@ -100,32 +120,41 @@ public class TagService {
         return repository.findAll();
     }
 
+    /**
+     * Finds or creates a tag with the given name.
+     * The name is turned into a valid tag-name if necessary.
+     * @param tagName
+     * @return
+     */
     @Cacheable("tags")
-    public Tag getTag(String tagName) {
-        tagName = TagUtil.toTagString(tagName);
+    public Tag findOrCreateTag(String tagName) {
 
-        Tag tag = repository.findOne(tagName);
+        Tag tag = Tag.buildTag(tagName).orElse(null);
 
-        if(tag == null){
-            Optional<Tag> tagOpt = TagUtil.createTag(tagName);
-            if(tagOpt.isPresent()){
-                tag = tagOpt.get();
+        if(tag != null){
+            Tag existing = repository.findOne(tag.getName());
+            if(existing == null){
                 repository.save(tag);
-            }else{
-                logger.warn("Could not create new tag from name '" + tagName + "'!");
             }
+        }else{
+            logger.warn("Could not create new tag from name '" + tagName + "'!");
         }
-
         return tag;
     }
 
+
     /**
-     * Update relation definition
+     * Invalidates relation definitions and internal indexes.
+     * Next time the relations are required, they are rebuilt from the sources.
      */
     public void invalidateTagRelations() {
         relationDefinition = null;
     }
 
+    /**
+     * Registers a source for tag-relations.
+     * @param relationSource
+     */
     public synchronized void registerTagRelationSource(ITagRelationSource relationSource){
         tagRelationSources.add(relationSource);
         logger.info("TagRelationSource has been added!");
@@ -133,11 +162,36 @@ public class TagService {
     }
 
 
+    public Set<Tag> parseTags(String tagString) {
+        Set<Tag> parsedTags = new HashSet<>();
+        String[] tags = tagString.split("[,|\\|]");
+
+        String tagName;
+        for (String t : tags) {
+            tagName = t.trim();
+            if (!tagName.isEmpty()) {
+                Optional<Tag> newTag = Tag.buildTag(tagName);
+                if (newTag.isPresent())
+                    parsedTags.add(newTag.get());
+            }
+        }
+        return parsedTags;
+    }
+
+
+
+
+
+
+
     /***************************************************************************
      *                                                                         *
      * Private methods                                                         *
      *                                                                         *
      **************************************************************************/
+
+
+
 
     private synchronized TagRelationDefinition getRelationDefinition(){
 
@@ -168,7 +222,7 @@ public class TagService {
     @Transactional
     void ensureTagsExist(final Collection<Tag> tags){
         for (Tag tag : tags) {
-            getTag(tag.getName());
+            findOrCreateTag(tag.getName());
         }
     }
 

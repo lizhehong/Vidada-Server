@@ -30,14 +30,14 @@ public class TagResource {
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     public Collection<Tag> getAll() {
-        return tagService.getAllTags();
+        return tagService.findAllTags();
     }
 
     @RequestMapping(value = "used",
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     public Collection<Tag> getAllUsed() {
-        return tagService.getUsedTags();
+        return tagService.findAllUsedTags();
     }
 
 }

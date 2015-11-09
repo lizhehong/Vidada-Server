@@ -57,7 +57,7 @@ public class ImageFileCache implements IImageCache {
      **************************************************************************/
 
 	/**
-	 * Creates a new image cache which uses the file system to store images.
+	 * Creates a new image cache which uses the file system to save images.
 	 *
 	 * This is a basic implementation of the image file cache,
 	 * using the current OS file system to persist and manage the images.

@@ -1,4 +1,4 @@
-package com.elderbyte.vidada.jobs;
+package com.elderbyte.vidada.tasks;
 
 import java.util.ArrayList;
 import java.util.List;

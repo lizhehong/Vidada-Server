@@ -80,13 +80,13 @@ public class MediaService {
      **************************************************************************/
 
     @Transactional
-	public void store(final MediaItem media) {
+	public void save(final MediaItem media) {
         repository.save(media);
         fireMediasChanged();
 	}
 
     @Transactional
-	public void store(final Collection<MediaItem> medias) {
+	public void save(final Collection<MediaItem> medias) {
         repository.save(medias);
         fireMediasChanged();
 	}

@@ -7,8 +7,6 @@ import archimedes.core.util.Lists;
 import com.elderbyte.vidada.media.MediaItem;
 import com.elderbyte.vidada.media.libraries.MediaLibrary;
 import com.elderbyte.vidada.media.source.MediaSource;
-import com.elderbyte.vidada.tags.autoTag.AutoTagSupport;
-import com.elderbyte.vidada.tags.autoTag.ITagGuessingStrategy;
 import com.elderbyte.vidada.media.MediaHashService;
 import com.elderbyte.vidada.media.MediaItemFactory;
 import com.elderbyte.vidada.media.MediaService;
@@ -27,14 +25,12 @@ class MediaLibrarySyncStrategy {
 
     private final MediaService mediaService;
     private final MediaHashService mediaHashService;
-    private final ITagGuessingStrategy tagGuessingStrategy;
 
     private final Map<String, MediaItem> mediasInDatabase;
 
-    public MediaLibrarySyncStrategy(MediaService mediaService, MediaHashService mediaHashService, ITagGuessingStrategy tagGuessingStrategy, Map<String, MediaItem> mediasInDatabase) {
+    public MediaLibrarySyncStrategy(MediaService mediaService, MediaHashService mediaHashService, Map<String, MediaItem> mediasInDatabase) {
         this.mediaService = mediaService;
         this.mediaHashService = mediaHashService;
-        this.tagGuessingStrategy = tagGuessingStrategy;
         this.mediasInDatabase = mediasInDatabase;
     }
 
@@ -211,12 +207,7 @@ class MediaLibrarySyncStrategy {
 
         boolean hasChanges = updateExistingMediaSources(parentLibrary, existingMedia, resource);
 
-        // Update Tags from file path
-        if(tagGuessingStrategy != null && AutoTagSupport.updateTags(tagGuessingStrategy, existingMedia)){
-            hasChanges = true;
-        }
-
-        if(updateMediaProperties(existingMedia, parentLibrary)){
+        if(updateBasicMediaMetadata(existingMedia, parentLibrary)){
             hasChanges = true;
         }
 
@@ -296,19 +287,14 @@ class MediaLibrarySyncStrategy {
 
             if(newMedia != null)
             {
-                // Add tags guessed from the file structure
-                if(tagGuessingStrategy != null) {
-                    AutoTagSupport.updateTags(tagGuessingStrategy, newMedia);
-                }
-
-                updateMediaProperties(newMedia, parentlibrary);
+                updateBasicMediaMetadata(newMedia, parentlibrary);
                 newMedias.add(newMedia);
             }
             i++;
         }
 
         progressListener.currentProgress(new ProgressEventArgs(true, "Adding " + newMedias.size() + " new medias to the Library..."));
-        mediaService.store(newMedias);
+        mediaService.save(newMedias);
     }
 
     /**
@@ -316,19 +302,11 @@ class MediaLibrarySyncStrategy {
      * (file size, added date, resolution, duration etc)
      * if they are not yet present.
      *
-     *
      * @param media
      * @return
      */
-    private boolean updateMediaProperties(MediaItem media, MediaLibrary parentLibrary){
-
-        boolean hasChanges = false;
-        hasChanges = MediaItemFactory.instance().updateBasicAttributes(media);
-
-
-        // TODO use Media-Metadata service
-
-        return hasChanges;
+    private boolean updateBasicMediaMetadata(MediaItem media, MediaLibrary parentLibrary){
+        return MediaItemFactory.instance().updateBasicAttributes(media);
     }
 
 

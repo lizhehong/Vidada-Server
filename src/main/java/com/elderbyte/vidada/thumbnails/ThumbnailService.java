@@ -7,13 +7,14 @@ import com.elderbyte.vidada.media.MovieMediaItem;
 import com.elderbyte.vidada.VidadaSettings;
 import com.elderbyte.vidada.media.Resolution;
 import com.elderbyte.vidada.media.MediaService;
-import com.elderbyte.vidada.tasks.BackgroundTaskService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ForkJoinPool;
+import java.util.function.Supplier;
 
 
 /**
@@ -37,8 +38,8 @@ public class ThumbnailService {
 	private ThumbImageExtractorService thumbImageCreator;
     @Autowired
     private MediaThumbCacheService mediaThumbCacheService;
-    @Autowired
-    private BackgroundTaskService backgroundTaskService;
+
+    private final ForkJoinPool mainPool = new ForkJoinPool(3);
 
     private final Resolution maxThumbSize;
 
@@ -105,7 +106,7 @@ public class ThumbnailService {
 
             logger.info("No cached thumb available for media " + media.getFilehash() + " enqueuing async thumb creation...");
             // We need to fetch the thumb directly from the source.
-            return backgroundTaskService.submitTask(() -> fetchThumbSync(media, actualResolution, position));
+            return submitTask(() -> fetchThumbSync(media, actualResolution, position));
         }
     }
 
@@ -138,12 +139,20 @@ public class ThumbnailService {
         }
     }
 
+    public int getQueuedTaskCount(){
+        return mainPool.getQueuedSubmissionCount();
+    }
+
 
     /***************************************************************************
      *                                                                         *
      * Private methods                                                         *
      *                                                                         *
      **************************************************************************/
+
+    private <T> CompletableFuture<T> submitTask(Supplier<T> task){
+        return CompletableFuture.supplyAsync(task, mainPool);
+    }
 
     /**
      * Enforces the size limit.

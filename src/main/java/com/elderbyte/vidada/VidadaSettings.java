@@ -52,7 +52,7 @@ public class VidadaSettings {
 
 	/**
 	 * Determites if meta data is used to help identify files
-	 * and store additional informations
+	 * and save additional informations
 	 * @return
 	 */
 	public boolean isUsingMetaData() {

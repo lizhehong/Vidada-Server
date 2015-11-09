@@ -3,11 +3,13 @@ package com.elderbyte.vidada.tags;
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 
 
 /**
- * Represents a simple tag.
+ * Represents a simple tag, where the the tag name is the id.
  *
  * @author IsNull
  *
@@ -16,6 +18,51 @@ import javax.xml.bind.annotation.XmlAccessorType;
 @Access(AccessType.FIELD)
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Tag  implements Comparable<Tag> {
+
+    /***************************************************************************
+     *                                                                         *
+     * Static builder                                                          *
+     *                                                                         *
+     **************************************************************************/
+
+    /**
+     * Creates a new Tag from the given string.
+     * @param tagName
+     * @return
+     */
+    public static Optional<Tag> buildTag(String tagName){
+        Tag tag = null;
+        tagName = toTagIdName(tagName);
+        tag = new Tag(tagName);
+
+        if(tag.isValid()) {
+            return Optional.ofNullable(tag);
+        }else{
+            return Optional.empty();
+        }
+    }
+
+    /**
+     * Creates a new Tag from the given string.
+     * @param tags
+     * @return
+     */
+    public static Set<Tag> buildTags(String... tags){
+        Set<Tag> createdTags = new HashSet<>();
+        for(String tagStr : tags){
+            Optional<Tag> t = Tag.buildTag(tagStr);
+            if(t.isPresent()){
+                createdTags.add(t.get());
+            }
+        }
+        return createdTags;
+    }
+
+    private static String toTagIdName(String text){
+        String tagIdName = text.trim().toLowerCase();
+        tagIdName = tagIdName.replaceAll("\\s+", ".");  // Replace whitespaces by .
+        return tagIdName;
+    }
 
 
 	/***************************************************************************
@@ -56,6 +103,10 @@ public class Tag  implements Comparable<Tag> {
 	 *                                                                         *
 	 **************************************************************************/
 
+    /**
+     * Gets the tag name
+     * @return
+     */
 	public String getName() {
 		return name;
 	}
@@ -64,6 +115,13 @@ public class Tag  implements Comparable<Tag> {
 		this.name = name;
 	}
 
+    /**
+     * Is this tag valid
+     * @return
+     */
+    public boolean isValid() {
+        return(this.name != null && !this.name.isEmpty());
+    }
 
 	/***************************************************************************
 	 *                                                                         *

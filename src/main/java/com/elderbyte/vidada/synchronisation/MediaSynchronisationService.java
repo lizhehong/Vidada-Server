@@ -2,9 +2,10 @@ package com.elderbyte.vidada.synchronisation;
 
 import archimedes.core.concurrent.IProgressListener;
 import archimedes.core.concurrent.ProgressEventArgs;
-import com.elderbyte.vidada.jobs.JobId;
+import com.elderbyte.vidada.agents.MetadataImportService;
+import com.elderbyte.vidada.tasks.JobId;
 import com.elderbyte.vidada.tasks.JobServiceProgressListener;
-import com.elderbyte.vidada.jobs.JobState;
+import com.elderbyte.vidada.tasks.JobState;
 import com.elderbyte.vidada.tags.autoTag.ITagGuessingStrategy;
 import com.elderbyte.vidada.tags.autoTag.KeywordBasedTagGuesser;
 import com.elderbyte.vidada.tasks.JobService;
@@ -34,11 +35,18 @@ public class MediaSynchronisationService {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    private final JobService jobService;
-    private final TagService tagService;
-    private final MediaService mediaService;
-    private final MediaHashService mediaHashService;
-    private final MediaLibraryService mediaLibraryService;
+    @Autowired
+    private JobService jobService;
+    @Autowired
+    private TagService tagService;
+    @Autowired
+    private MediaService mediaService;
+    @Autowired
+    private MediaHashService mediaHashService;
+    @Autowired
+    private MediaLibraryService mediaLibraryService;
+    @Autowired
+    private MetadataImportService metadataImportService;
 
 
 	private final Object importLock = new Object();
@@ -50,18 +58,8 @@ public class MediaSynchronisationService {
      *                                                                         *
      **************************************************************************/
 
-    @Autowired
-    public MediaSynchronisationService(
-            JobService jobService,
-            TagService tagService,
-            MediaService mediaService,
-            MediaHashService mediaHashService,
-            MediaLibraryService mediaLibraryService) {
-        this.jobService = jobService;
-        this.tagService = tagService;
-        this.mediaService = mediaService;
-        this.mediaHashService = mediaHashService;
-        this.mediaLibraryService = mediaLibraryService;
+    public MediaSynchronisationService(){
+
 	}
 
     /***************************************************************************
@@ -144,17 +142,17 @@ public class MediaSynchronisationService {
 
         final MediaImportStrategy importStrategy = createImportStrategy();
 
-        return importStrategy.synchronizeAsync(progressListener);
+        return importStrategy.synchronizeAsync(progressListener)
+            .thenRun(() -> {
+                metadataImportService.updateAllMediaMetadataAsync();
+        });
     }
 
 
     private MediaImportStrategy createImportStrategy(){
-        ITagGuessingStrategy strategy = new KeywordBasedTagGuesser(tagService.getAllTags());
-
         return new MediaImportStrategy(
                 mediaService,
                 mediaHashService,
-                strategy,
                 mediaLibraryService.getAllLibraries());
     }
 

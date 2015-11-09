@@ -1,4 +1,4 @@
-package com.elderbyte.vidada.tags;
+package com.elderbyte.vidada.tags.relations;
 
 import com.elderbyte.vidada.tags.relations.TagRelationDefinition;
 

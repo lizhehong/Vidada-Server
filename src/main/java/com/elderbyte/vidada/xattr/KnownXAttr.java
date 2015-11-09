@@ -1,11 +1,11 @@
-package com.elderbyte.vidada.metadata;
+package com.elderbyte.vidada.xattr;
 
 /**
- * Known Vidada MetaData Attributes.
+ * Known extended file attributes.
  * @author IsNull
  *
  */
-public enum MediaMetaAttribute {
+public enum KnownXAttr {
 
 	/**
 	 * Default vidada hash id
@@ -46,7 +46,7 @@ public enum MediaMetaAttribute {
      * Enum Constructor
      * @param attributeName
      */
-	private MediaMetaAttribute(String attributeName){
+	private KnownXAttr(String attributeName){
         this.attributeName = attributeName;
 	}
 

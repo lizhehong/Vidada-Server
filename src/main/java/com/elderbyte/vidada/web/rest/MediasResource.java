@@ -4,8 +4,8 @@ import archimedes.core.data.pagination.ListPage;
 import archimedes.core.images.IMemoryImage;
 import com.elderbyte.vidada.media.*;
 import com.elderbyte.vidada.tags.Tag;
-import com.elderbyte.vidada.tags.TagUtil;
 import com.elderbyte.vidada.security.jwt.JwtFilter;
+import com.elderbyte.vidada.tags.TagService;
 import com.elderbyte.vidada.thumbnails.ThumbnailService;
 import com.elderbyte.vidada.media.MediaService;
 import com.elderbyte.vidada.web.rest.dto.AsyncResourceDTO;
@@ -48,6 +48,9 @@ public class MediasResource {
 
     @Autowired
     private ThumbnailService thumbnailService;
+
+    @Autowired
+    private TagService tagService;
 
     /***************************************************************************
      *                                                                         *
@@ -156,7 +159,7 @@ public class MediasResource {
 
         if(tagsParam != null) {
             String[] tagTokens = parseMultiValueParam(tagsParam);
-            tags = TagUtil.createTags(tagTokens);
+            tags = Tag.buildTags(tagTokens);
         }
 
         return tags;

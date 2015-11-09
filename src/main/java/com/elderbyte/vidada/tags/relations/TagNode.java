@@ -15,8 +15,8 @@ import java.util.Set;
  */
 class TagNode {
     private final Tag tag;
-    private final Set<TagNode> children = new HashSet<TagNode>();
-    private final Set<Tag> synonyms = new HashSet<Tag>();
+    private final Set<TagNode> children = new HashSet<>();
+    private final Set<Tag> synonyms = new HashSet<>();
 
     public TagNode(Tag tag){
         this.tag = tag;

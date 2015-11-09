@@ -62,7 +62,7 @@ public interface ICredentialManager {
     Credentials requestNewCredentials(String description, CredentialType type);
 
 	/**
-	 * Requests credentials without checking them and without using a key-store
+	 * Requests credentials without checking them and without using a key-save
 	 * @param description
 	 * @param type
 	 * @return

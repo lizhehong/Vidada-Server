@@ -27,9 +27,9 @@ public class ImageUtil {
             ImageReader reader = iter.next();
             InputStream stream = null;
             try {
-                //ImageInputStream stream = new FileImageInputStream(new File(path));
                 stream = resource.openInputStream();
-                reader.setInput(stream);
+                ImageInputStream iis = ImageIO.createImageInputStream(stream);
+                reader.setInput(iis);
                 int width = reader.getWidth(reader.getMinIndex());
                 int height = reader.getHeight(reader.getMinIndex());
                 result = new Resolution(width, height);

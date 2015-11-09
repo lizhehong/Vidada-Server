@@ -39,7 +39,6 @@ class MediaImportStrategy {
 
     private final MediaService mediaService;
     private final MediaHashService mediaHashService;
-	private final ITagGuessingStrategy tagGuessingStrategy;
     private final List<MediaLibrary> libraries = new ArrayList<>();
 
     /***************************************************************************
@@ -52,13 +51,11 @@ class MediaImportStrategy {
      * Creates a new MediaImportStrategy to synchronize the specified libraries.
      *
      * @param mediaService
-     * @param tagGuessingStrategy
      * @param libraries
      */
-	public MediaImportStrategy(MediaService mediaService, MediaHashService mediaHashService, ITagGuessingStrategy tagGuessingStrategy, List<MediaLibrary> libraries){
+	public MediaImportStrategy(MediaService mediaService, MediaHashService mediaHashService, List<MediaLibrary> libraries){
 		this.mediaService = mediaService;
         this.mediaHashService = mediaHashService;
-        this.tagGuessingStrategy = tagGuessingStrategy;
 
 		this.libraries.addAll(libraries);
 	}
@@ -101,7 +98,7 @@ class MediaImportStrategy {
      **************************************************************************/
 
 	private void synchronizeLibrary(IProgressListener progressListener, MediaLibrary lib, Map<String, MediaItem> allMediasInDatabase) {
-        MediaLibrarySyncStrategy librarySyncStrategy = new MediaLibrarySyncStrategy(mediaService, mediaHashService, tagGuessingStrategy, allMediasInDatabase);
+        MediaLibrarySyncStrategy librarySyncStrategy = new MediaLibrarySyncStrategy(mediaService, mediaHashService, allMediasInDatabase);
         librarySyncStrategy.synchronize(progressListener, lib);
 	}
 

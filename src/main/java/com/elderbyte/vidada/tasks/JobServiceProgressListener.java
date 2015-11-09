@@ -3,8 +3,6 @@ package com.elderbyte.vidada.tasks;
 import archimedes.core.exceptions.NotSupportedException;
 import archimedes.core.concurrent.IProgressListener;
 import archimedes.core.concurrent.ProgressEventArgs;
-import com.elderbyte.vidada.jobs.JobId;
-import com.elderbyte.vidada.jobs.JobState;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 

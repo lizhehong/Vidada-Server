@@ -1,8 +1,5 @@
 package com.elderbyte.vidada.tasks;
 
-import com.elderbyte.vidada.jobs.JobId;
-import com.elderbyte.vidada.jobs.JobInfo;
-import com.elderbyte.vidada.jobs.JobState;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;

@@ -1,4 +1,4 @@
-package com.elderbyte.vidada.jobs;
+package com.elderbyte.vidada.tasks;
 
 /**
  * Represents the state of a job.

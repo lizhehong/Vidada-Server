@@ -3,8 +3,9 @@ package com.elderbyte.vidada.media;
 import archimedes.core.data.hashing.FileHashAlgorythms;
 import archimedes.core.data.hashing.IFileHashAlgorythm;
 import archimedes.core.io.locations.ResourceLocation;
-import com.elderbyte.vidada.metadata.MediaMetaAttribute;
+import com.elderbyte.vidada.xattr.KnownXAttr;
 import com.elderbyte.vidada.VidadaSettings;
+import com.elderbyte.vidada.xattr.XAttrMetadataService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,7 @@ public class MediaHashService {
     private final IFileHashAlgorythm fileHashAlgorithm;
     private static final boolean forceUpdateMetaData = false;
     private final boolean useExtendedAttributes;
-    private MediaMetaDataService metaDataService;
+    private XAttrMetadataService metaDataService;
 
     /***************************************************************************
      *                                                                         *
@@ -44,7 +45,7 @@ public class MediaHashService {
      * Default Instance Constructor
      */
     @Autowired
-	public MediaHashService(MediaMetaDataService metaDataService, VidadaSettings settings){
+	public MediaHashService(XAttrMetadataService metaDataService, VidadaSettings settings){
         this.metaDataService = metaDataService;
         this.fileHashAlgorithm = FileHashAlgorythms.instance().getButtikscheHashAlgorythm();
         this.useExtendedAttributes = settings.isUsingMetaData();
@@ -91,7 +92,7 @@ public class MediaHashService {
 		String hash = null;
 
         if(!forceUpdateMetaData){
-            hash = metaDataService.readMetaData(mediaPath, MediaMetaAttribute.FileHash);
+            hash = metaDataService.readMetaData(mediaPath, KnownXAttr.FileHash);
         }
 
         if(hash == null)
@@ -100,7 +101,7 @@ public class MediaHashService {
 
 			hash = calculateHash(mediaPath);
             if(hash != null){
-                if(metaDataService.writeMetaData(mediaPath, MediaMetaAttribute.FileHash, hash)){
+                if(metaDataService.writeMetaData(mediaPath, KnownXAttr.FileHash, hash)){
                     LOG.info("Hash recalculated and written to meta-data: " + hash);
                 }else{
                     LOG.warn("Could not write hash to meta-data attribute!");

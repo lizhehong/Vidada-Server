@@ -1,7 +1,6 @@
 package com.elderbyte.vidada.tags.relations;
 
 import com.elderbyte.vidada.tags.Tag;
-import com.elderbyte.vidada.tags.TagUtil;
 import org.apache.commons.io.FileUtils;
 
 
@@ -11,6 +10,12 @@ import java.util.*;
 import java.util.regex.Pattern;
 
 public class TagRelationDefinitionParser {
+
+
+
+    public TagRelationDefinitionParser(){
+
+    }
 
 
 	/***************************************************************************
@@ -60,7 +65,7 @@ public class TagRelationDefinitionParser {
 
 			if(indeclList){
 				if(token.type == TokenType.LITERAL_STRING){
-					Optional<Tag> rightTag = TagUtil.createTag(token.value);
+					Optional<Tag> rightTag = Tag.buildTag(token.value);
 					if(rightTag.isPresent()){
 						if(leftTag != null){
 							// Create relation
