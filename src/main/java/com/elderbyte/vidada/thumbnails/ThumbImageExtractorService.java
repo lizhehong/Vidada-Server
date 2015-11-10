@@ -147,15 +147,7 @@ public class ThumbImageExtractorService {
 	private IMemoryImage extractMovieThumb(MovieMediaItem media, Resolution size, float position) {
 
 		Video video = getVideo(media);
-
 		IMemoryImage frame = video.getFrame(position, size);
-		if (frame != null) {
-			media.onThumbCreationSuccess();
-		} else {
-			// the thumb could not be generated
-			media.onThumbCreationFailed();
-		}
-
 		return frame;
 	}
 

@@ -3,7 +3,6 @@ package com.elderbyte.vidada.thumbnails;
 import archimedes.core.images.IMemoryImage;
 import com.elderbyte.common.ArgumentNullException;
 import com.elderbyte.vidada.media.MediaItem;
-import com.elderbyte.vidada.media.MovieMediaItem;
 import com.elderbyte.vidada.VidadaSettings;
 import com.elderbyte.vidada.media.Resolution;
 import com.elderbyte.vidada.media.MediaService;
@@ -39,6 +38,7 @@ public class ThumbnailService {
     @Autowired
     private MediaThumbCacheService mediaThumbCacheService;
 
+    private ThumbnailFailCounter failCounter = new ThumbnailFailCounter(3);
     private final ForkJoinPool mainPool = new ForkJoinPool(3);
 
     private final Resolution maxThumbSize;
@@ -110,35 +110,6 @@ public class ThumbnailService {
         }
     }
 
-
-    /**
-     * Creates a new thumbnail for the given media at the given position.
-     * @param media
-     * @param position A relative position in the movie range [0.0-1.0]
-     */
-    @Deprecated
-    public void renewThumbImage(MovieMediaItem media, float position) {
-
-        if(media == null) throw new ArgumentNullException("media");
-
-        String subId = position + "";
-
-
-        logger.info("Renewing thumbnail at position " + position);
-
-        try {
-            // Remove old thumb from cache
-            mediaThumbCacheService.removeImage(media, subId);
-
-            // Set the persisted thumb position to invalid
-            // This will cause the creation of a new random thumb
-            media.setThumbnailPosition(position);
-            mediaService.update(media);
-        } catch (Exception e) {
-            logger.error("Could not renew thumb image", e);
-        }
-    }
-
     public int getQueuedTaskCount(){
         return mainPool.getQueuedSubmissionCount();
     }
@@ -192,7 +163,7 @@ public class ThumbnailService {
 
         if(thumb == null) {
             // Only fetch thumb from source if not already in cache
-            if (thumbImageCreator.canExtractThumb(media)) {
+            if (thumbImageCreator.canExtractThumb(media) && !failCounter.hasFailedTooOften(media)) {
 
                 // Since fetching directly from source takes a very long time,
                 // we fetch the largest possible thumb and derive  smaller sizes
@@ -201,6 +172,10 @@ public class ThumbnailService {
                 IMemoryImage maxThumb = thumbImageCreator.extractThumb(media, maxThumbSize, position);
 
                 if (maxThumb != null) {
+                    failCounter.onThumbCreationSuccess(media);
+                    mediaService.save(media);
+
+
                     mediaThumbCacheService.storeImage(media, subId, maxThumb);
 
                     if (size.equals(maxThumbSize)) {
@@ -209,6 +184,8 @@ public class ThumbnailService {
                         thumb = maxThumb.rescale(size.getWidth(), size.getHeight());
                         mediaThumbCacheService.storeImage(media, subId, thumb);
                     }
+                }else{
+                    failCounter.onThumbCreationFailed(media);
                 }
             } else {
                 logger.warn("Thumbnail extraction is not possible!");
@@ -216,6 +193,11 @@ public class ThumbnailService {
         }
         return thumb;
     }
+
+
+
+
+
 
 
 
