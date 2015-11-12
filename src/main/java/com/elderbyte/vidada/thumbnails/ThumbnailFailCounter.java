@@ -36,8 +36,8 @@ public class ThumbnailFailCounter {
     }
 
     public boolean hasFailedTooOften(MediaItem media){
-        Integer fails = failCounter.get(media.getFilehash()).get();
-        return  (fails != null && fails > maxFailsAllowed);
+        AtomicInteger fails = failCounter.get(media.getFilehash());
+        return  (fails != null && fails.get() > maxFailsAllowed);
     }
 
 }
