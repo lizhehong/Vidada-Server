@@ -104,9 +104,14 @@ public class ThumbnailService {
             return CompletableFuture.completedFuture(loadedImage);
         }else{
 
-            logger.info("No cached thumb available for media " + media.getFilehash() + " enqueuing async thumb creation...");
-            // We need to fetch the thumb directly from the source.
-            return submitTask(() -> fetchThumbSync(media, actualResolution, position));
+            if(!failCounter.hasFailedTooOften(media)){
+                logger.info("No cached thumb available for media " + media.getTitle() + " - enqueuing async thumb creation...");
+                // We need to fetch the thumb directly from the source.
+                return submitTask(() -> fetchThumbSync(media, actualResolution, position));
+            }else{
+                logger.warn("Thumbnail creation failed too often for media " + media.getTitle());
+                return CompletableFuture.completedFuture(null);
+            }
         }
     }
 
@@ -163,7 +168,7 @@ public class ThumbnailService {
 
         if(thumb == null) {
             // Only fetch thumb from source if not already in cache
-            if (thumbImageCreator.canExtractThumb(media) && !failCounter.hasFailedTooOften(media)) {
+            if (thumbImageCreator.canExtractThumb(media)) {
 
                 // Since fetching directly from source takes a very long time,
                 // we fetch the largest possible thumb and derive  smaller sizes

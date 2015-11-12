@@ -126,9 +126,10 @@ public class MediaLibrariesResource {
     private static MediaLibrary createLibraryFromDTO(MediaLibraryDTO dto) throws URISyntaxException{
         String rootPathUri = dto.getRootPath();
         DirectoryLocation libraryRoot = DirectoryLocation.Factory.create(new URI(rootPathUri));
-        return new MediaLibrary(
-            dto.getName(),
-            libraryRoot);
+        MediaLibrary library = new MediaLibrary(dto.getName(), libraryRoot);
+        library.setIgnoreImages(dto.isIgnoreImages());
+        library.setIgnoreMovies(dto.isIgnoreMovies());
+        return library;
     }
 
     private static MediaLibraryDTO createDto(MediaLibrary library){

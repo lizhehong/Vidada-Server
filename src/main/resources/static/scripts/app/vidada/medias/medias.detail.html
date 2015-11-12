@@ -6,6 +6,22 @@
             <!-- Title row -->
             <div layout="row">
                 <h1 class="md-title">{{media.title}}</h1>
+
+                <!-- Favorite button -->
+                <md-button class="md-icon-button" ng-click="toggleFavorite()">
+                    <md-icon>
+                        <i ng-show="isFavorite()" class="material-icons">favorite</i>
+                        <i ng-hide="isFavorite()" class="material-icons">favorite_border</i>
+                    </md-icon>
+                </md-button>
+
+                <!-- Favorite button -->
+                <md-button class="md-icon-button" ng-click="toggleFavorite()">
+                    <md-icon>
+                        <i ng-show="isFavorite()" class="material-icons">favorite</i>
+                        <i ng-hide="isFavorite()" class="material-icons">favorite_border</i>
+                    </md-icon>
+                </md-button>
             </div>
 
             <!-- Main Content row -->
@@ -61,20 +77,9 @@
                         <p>Opened: {{media.timesOpened}} times</p>
                     </md-content>
                 </div>
-
-                <div>
-                    <!-- Favorite button -->
-                    <md-button class="md-icon-button" ng-click="toggleFavorite()">
-                        <md-icon>
-                            <i ng-show="isFavorite()" class="material-icons">favorite</i>
-                            <i ng-hide="isFavorite()" class="material-icons">favorite_border</i>
-                        </md-icon>
-                    </md-button>
-                </div>
-
             </div>
 
-            <div layout="row">
+            <div layout="column">
                 <h3 class="md-title">Tags</h3>
                 <md-chips ng-model="tagsEdit" flex></md-chips>
             </div>
