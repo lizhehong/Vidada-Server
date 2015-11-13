@@ -1,16 +1,16 @@
 <md-sidenav ng-show="isAuthenticated()" class="md-sidenav-left md-whiteframe-z2"
+
             md-component-id="left"
             md-is-locked-open="isLockedOpen()">
 
+<!-- style="background-color: #3F51B5" -->
 
-    <md-list>
+    <md-list class="accent-color">
         <md-list-item ng-repeat="menu in mainMenuItems"
-
                       ng-click="$state.go(menu.state)"
-                      ui-sref-active="md-primary"
+                      ui-sref-active="md-accent"
                       md-ink-ripple class="md-clickable"
                       layout="row" layout-align="start center">
-
             <div class="inset">
                 <md-icon> <i class="material-icons">{{menu.icon}}</i> </md-icon>
             </div>
