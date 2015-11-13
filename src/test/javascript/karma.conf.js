@@ -32,7 +32,6 @@ module.exports = function (config) {
             'main/resources/static/bower_components/sockjs-client/dist/sockjs.js',
             'main/resources/static/bower_components/stomp-websocket/lib/stomp.min.js',
             'main/resources/static/bower_components/arrive/src/arrive.js',
-            'main/resources/static/bower_components/angular-mass-autocomplete/massautocomplete.min.js',
             'main/resources/static/bower_components/angular-animate/angular-animate.js',
             'main/resources/static/bower_components/angular-aria/angular-aria.js',
             'main/resources/static/bower_components/angular-material/angular-material.js',
