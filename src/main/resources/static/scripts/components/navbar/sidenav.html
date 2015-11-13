@@ -2,39 +2,29 @@
             md-component-id="left"
             md-is-locked-open="isLockedOpen()">
 
-    <md-content flex role="navigation">
 
-        <div layout="column" layout-align="center">
+    <md-list>
+        <md-list-item ng-repeat="menu in mainMenuItems"
 
-            <md-button ui-sref-active="md-primary" class="nav-button" ui-sref="medias" flex>
-                <md-icon>
-                    <i class="material-icons">ondemand_video</i>
-                </md-icon>
-                <span>Media</span>
-            </md-button>
+                      ng-click="$state.go(menu.state)"
+                      ui-sref-active="md-primary"
+                      md-ink-ripple class="md-clickable"
+                      layout="row" layout-align="start center">
 
-            <md-button ui-sref-active="md-primary" class="nav-button" ui-sref="libraries" flex>
-                <md-icon>
-                    <i class="material-icons">video_library</i>
-                </md-icon>
-                <span>Media Libraries</span>
-            </md-button>
+            <div class="inset">
+                <md-icon> <i class="material-icons">{{menu.icon}}</i> </md-icon>
+            </div>
+            <div class="inset">{{menu.name}}</div>
 
-            <md-button ui-sref-active="md-primary" class="nav-button" ui-sref="tags" flex>
-                <md-icon>
-                    <i class="material-icons">bookmark_border</i>
-                </md-icon>
-                <span>Tags</span>
-            </md-button>
+        </md-list-item>
 
-            <md-button ui-sref-active="md-primary" class="nav-button" ui-sref="settings" has-role="ROLE_ADMIN" flex>
-                <md-icon>
-                    <i class="material-icons">settings</i>
-                </md-icon>
-                <span>Settings</span>
-            </md-button>
+    </md-list>
 
-            <!--
+
+</md-sidenav>
+
+
+<!--
             <md-button ui-sref-active="md-primary" class="nav-button" href="#" data-toggle="collapse" data-target="#demo">
                 <md-icon>
                     <i class="material-icons">settings_applications</i>
@@ -59,9 +49,3 @@
             </ul>
 
             -->
-
-        </div>
-
-
-    </md-content>
-</md-sidenav>

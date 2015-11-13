@@ -4,6 +4,29 @@ angular.module('vidadaApp')
     .controller('NavbarController', function ($rootScope, $scope, $location, $state, $mdSidenav, $mdMedia, Auth, Principal, $mdToast, MediaSynchronisation, ErrorHandler) {
 
         $scope.$state = $state;
+        $scope.mainMenuItems = [
+            {
+                name: "Media",
+                state: "medias",
+                icon: "ondemand_video"
+
+            },
+            {
+                name: "Media Libraries",
+                state: "libraries",
+                icon: "video_library"
+            },
+            {
+                name: "Tags",
+                state: "tags",
+                icon: "bookmark_border"
+            },
+            {
+                name: "Settings",
+                state: "settings",
+                icon: "settings"
+            }
+        ];
 
         $rootScope.desktopOpen = true;
 
