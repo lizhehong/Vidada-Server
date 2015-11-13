@@ -90,7 +90,10 @@ angular.module('vidadaApp', ['LocalStorageModule', 'tmh.dynamicLocale',
             }
         };
     })
-    .config(function ($stateProvider, $compileProvider, $urlRouterProvider, $httpProvider, $locationProvider, $translateProvider, tmhDynamicLocaleProvider, httpRequestInterceptorCacheBusterProvider) {
+    .config(function ($stateProvider, $compileProvider, $mdThemingProvider, $urlRouterProvider, $httpProvider, $locationProvider, $translateProvider, tmhDynamicLocaleProvider, httpRequestInterceptorCacheBusterProvider) {
+
+
+        //$mdThemingProvider.theme('default').dark();
 
         // Whitelist uri protocols
         $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|mpv|vlc|chrome-extension):/);

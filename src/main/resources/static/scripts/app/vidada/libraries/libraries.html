@@ -70,8 +70,6 @@
                 </div>
             </md-toolbar>
             <md-dialog-content style="max-width:800px;max-height:810px;">
-                <div class="md-dialog-content">
-
                     <form layout="column">
 
                         <p>Create a new media library based on a root folder.</p>
@@ -91,11 +89,9 @@
                         <md-checkbox ng-model="myLibrary.ignoreImages">Ignore Images</md-checkbox>
 
                     </form>
-
-                </div>
             </md-dialog-content>
 
-            <div class="md-actions" layout="row">
+            <div class="md-dialog-actions" layout="row">
                 <md-button ng-click="ok()" style="margin-right:20px;" >
                     Save
                 </md-button>
