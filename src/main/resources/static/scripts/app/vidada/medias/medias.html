@@ -88,23 +88,28 @@
             <md-grid-tile class="media-item" id="{{item.id}}" ng-repeat="item in mediaService.items" md-colspan="1" >
 
 
-                <md-grid-tile-header class="media-toolbar">
-                    <div>
+                <md-grid-tile-header class="media-toolbar" layout="row">
+
                         <!-- Media Actions -->
 
-                        <md-button class="md-icon-button" ng-click="play(item)">
-                            <md-icon>
-                                <i class="material-icons">play_circle_outline</i>
-                            </md-icon>
-                        </md-button>
+                    <md-button class="md-icon-button" href="{{item.streamUrl}}">
+                        <md-icon>
+                            <i class="material-icons">play_circle_outline</i>
+                        </md-icon>
+                    </md-button>
 
-                        <md-button class="md-icon-button" ng-click="showDetail($event, item)">
-                            <md-icon>
-                                <i class="material-icons">details</i>
-                            </md-icon>
-                        </md-button>
+                    <md-button class="md-icon-button" ng-click="play(item)">
+                        <md-icon>
+                            <i class="material-icons">airplay</i>
+                        </md-icon>
+                    </md-button>
 
-                    </div>
+                    <md-button class="md-icon-button" ng-click="showDetail($event, item)">
+                        <md-icon>
+                            <i class="material-icons">details</i>
+                        </md-icon>
+                    </md-button>
+
                 </md-grid-tile-header>
 
                 <!-- main content of tile -->
