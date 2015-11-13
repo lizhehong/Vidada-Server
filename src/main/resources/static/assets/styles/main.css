@@ -272,12 +272,13 @@ ul#strength {
     background-color: whitesmoke;
 }
 
+/*
 .media-thumb {
     display: block;
     max-width: 100%;
     height: auto;
     width: auto;
-}
+}*/
 
 .media-thumb-aspect{
     max-width:800px;
@@ -299,7 +300,6 @@ ul#strength {
 }
 
 .media-toolbar i {
-    font-size: 22pt;
     color: white;
 }
 

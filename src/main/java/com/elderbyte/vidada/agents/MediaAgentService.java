@@ -48,7 +48,6 @@ public class MediaAgentService {
         registerAgent(new LocalXattrMediaAgent());
         registerAgent(new LocalTagGuessMediaAgent(() -> new KeywordBasedTagGuesser(tagService.findAllTags())));
         // TODO Local xattr agent
-        // TODO Local tag guessing agent
     }
 
 

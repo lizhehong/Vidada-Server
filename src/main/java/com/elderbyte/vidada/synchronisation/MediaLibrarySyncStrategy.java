@@ -28,12 +28,35 @@ class MediaLibrarySyncStrategy {
 
     private final Map<String, MediaItem> mediasInDatabase;
 
+    /***************************************************************************
+     *                                                                         *
+     * Constructor                                                             *
+     *                                                                         *
+     **************************************************************************/
+
+    /**
+     * Creates a sync stratecy which can synchronize media libraries
+     * @param mediaService
+     * @param mediaHashService
+     * @param mediasInDatabase
+     */
     public MediaLibrarySyncStrategy(MediaService mediaService, MediaHashService mediaHashService, Map<String, MediaItem> mediasInDatabase) {
         this.mediaService = mediaService;
         this.mediaHashService = mediaHashService;
         this.mediasInDatabase = mediasInDatabase;
     }
 
+    /***************************************************************************
+     *                                                                         *
+     * Public API                                                              *
+     *                                                                         *
+     **************************************************************************/
+
+    /**
+     * Synchronizes the given media library
+     * @param progressListener
+     * @param library
+     */
     public void synchronize(IProgressListener progressListener, MediaLibrary library){
         progressListener.currentProgress(new ProgressEventArgs(true, "Scanning for media files in " + library + " ..."));
 
@@ -57,7 +80,11 @@ class MediaLibrarySyncStrategy {
         }
     }
 
-
+    /***************************************************************************
+     *                                                                         *
+     * Private methods                                                         *
+     *                                                                         *
+     **************************************************************************/
 
 
     /**

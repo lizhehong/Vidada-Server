@@ -33,6 +33,13 @@ public class MetadataImportService {
     @Autowired
     private TagService tagService;
 
+
+    /***************************************************************************
+     *                                                                         *
+     * Public API                                                              *
+     *                                                                         *
+     **************************************************************************/
+
     /**
      * Updates all media metadata
      */
