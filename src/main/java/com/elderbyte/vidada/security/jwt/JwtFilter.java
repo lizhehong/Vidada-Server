@@ -74,7 +74,7 @@ public class JwtFilter extends GenericFilterBean {
 
     /**
      * Extract the auth token from the request.
-     * Support Authorization headers and ?token parameter
+     * Support Authorization headers and ?jwt parameter
      * @param request
      * @return
      */

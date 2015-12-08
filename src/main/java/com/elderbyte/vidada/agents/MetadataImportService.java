@@ -47,7 +47,7 @@ public class MetadataImportService {
         List<MediaItem> medias = mediaService.findAllMedias();
         for (MediaItem m : medias) {
             updateMetaDataAsync(m, false).exceptionally(e -> {
-                logger.error("While updating meta-data an unexpected exception occured!", e);
+                logger.error("While updating meta-data an unexpected exception occurred!", e);
                 return null;
             });
         }
@@ -57,7 +57,7 @@ public class MetadataImportService {
     /**
      * Updates the metadata of the given media async
      * @param media
-     * @return
+     * @return Returns the meta-data update task
      */
     public CompletableFuture updateMetaDataAsync(MediaItem media, boolean force){
         return submitTask(() -> updateMetaDataAndSave(media, force));
