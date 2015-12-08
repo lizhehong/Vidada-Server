@@ -69,8 +69,8 @@
                     </md-button>
                 </div>
             </md-toolbar>
-            <md-dialog-content style="max-width:800px;max-height:810px;">
-                    <form layout="column">
+            <div class="md-dialog-content" style="max-width:800px;max-height:810px;">
+                    <div layout="column">
 
                         <p>Create a new media library based on a root folder.</p>
 
@@ -88,14 +88,15 @@
                         <md-checkbox ng-model="myLibrary.ignoreVideos">Ignore Videos</md-checkbox>
                         <md-checkbox ng-model="myLibrary.ignoreImages">Ignore Images</md-checkbox>
 
-                    </form>
-            </md-dialog-content>
+                    </div>
+            </div>
 
-            <div class="md-dialog-actions" layout="row">
+            <div class="md-actions" layout="row">
                 <md-button ng-click="ok()" style="margin-right:20px;" >
                     Save
                 </md-button>
             </div>
+
         </form>
     </md-dialog>
 </script>
@@ -105,40 +106,39 @@
 <script type="text/ng-template" id="EditLibrary.html">
 <md-dialog ng-cloak>
     <form>
-    <md-toolbar>
-    <div class="md-toolbar-tools">
-        <h2>Library {{myLibrary.name}}</h2>
-        <span flex></span>
-        <md-button class="md-icon-button" ng-click="cancel()">
-            <md-icon class="fa" md-font-icon="fa-times" aria-label="Close dialog"></md-icon>
-        </md-button>
-        </div>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Library {{myLibrary.name}}</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon class="fa" md-font-icon="fa-times" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
         </md-toolbar>
-        <md-dialog-content style="max-width:800px;max-height:810px;">
-        <div class="md-dialog-content">
 
-        <form layout="column">
+        <div class="md-dialog-content" style="max-width:800px;max-height:810px;">
 
-            <p>You can modify your existing media library here.</p>
+            <div layout="column">
 
-            <md-input-container flex>
-                <label>Name</label>
-                <input type="text" ng-model="myLibrary.name" placeholder="My Videos">
-            </md-input-container>
+                <p>You can modify your existing media library here.</p>
 
-            <md-input-container flex>
-                <label>Path</label>
-                <input type="text" ng-model="myLibrary.rootPath" placeholder="file:/Users/Max/Movies">
-            </md-input-container>
+                <md-input-container flex>
+                    <label>Name</label>
+                    <input type="text" ng-model="myLibrary.name" placeholder="My Videos">
+                </md-input-container>
 
-            <md-checkbox ng-model="myLibrary.ignoreMusic">Ignore Music</md-checkbox>
-            <md-checkbox ng-model="myLibrary.ignoreVideos">Ignore Videos</md-checkbox>
-            <md-checkbox ng-model="myLibrary.ignoreImages">Ignore Images</md-checkbox>
+                <md-input-container flex>
+                    <label>Path</label>
+                    <input type="text" ng-model="myLibrary.rootPath" placeholder="file:/Users/Max/Movies">
+                </md-input-container>
 
-        </form>
+                <md-checkbox ng-model="myLibrary.ignoreMusic">Ignore Music</md-checkbox>
+                <md-checkbox ng-model="myLibrary.ignoreVideos">Ignore Videos</md-checkbox>
+                <md-checkbox ng-model="myLibrary.ignoreImages">Ignore Images</md-checkbox>
+
+            </div>
 
         </div>
-        </md-dialog-content>
 
         <div class="md-actions" layout="row">
             <md-button ng-click="ok()" style="margin-right:20px;" >
