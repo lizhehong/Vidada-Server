@@ -1,6 +1,6 @@
 package com.elderbyte.server.config;
 
-import com.elderbyte.vidada.web.servlets.MediaStreamServlet;
+import com.elderbyte.server.vidada.web.servlets.MediaStreamServlet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.embedded.*;

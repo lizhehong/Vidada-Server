@@ -6,7 +6,7 @@ import archimedes.core.util.Lists;
 import archimedes.core.util.OSValidator;
 import com.elderbyte.common.ArgumentNullException;
 import com.elderbyte.common.Version;
-import com.elderbyte.vidada.media.Resolution;
+import com.elderbyte.server.vidada.media.Resolution;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
