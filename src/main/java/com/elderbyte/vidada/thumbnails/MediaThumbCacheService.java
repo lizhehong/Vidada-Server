@@ -7,7 +7,6 @@ import com.elderbyte.vidada.media.MediaItem;
 import com.elderbyte.vidada.media.libraries.MediaLibrary;
 import com.elderbyte.vidada.media.Resolution;
 import com.elderbyte.vidada.media.source.MediaSource;
-import com.elderbyte.vidada.security.ICredentialManager;
 import com.elderbyte.vidada.VidadaSettings;
 import com.elderbyte.vidada.images.ImageCacheFactory;
 import org.slf4j.Logger;
@@ -55,7 +54,7 @@ public class MediaThumbCacheService  {
      * Instead, a central memory cache is used during the session.
      */
     @Autowired
-    public MediaThumbCacheService(ICredentialManager credentialManager, ImageCacheFactory imageCacheFactory, VidadaSettings settings){
+    public MediaThumbCacheService(ImageCacheFactory imageCacheFactory, VidadaSettings settings){
 
         this.imageCacheFactory = imageCacheFactory;
 
