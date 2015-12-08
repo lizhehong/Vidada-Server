@@ -1,4 +1,4 @@
-package com.elderbyte.vidada.config;
+package com.elderbyte.server.config;
 
 import com.elderbyte.server.security.jwt.JwtAuthenticationProvider;
 import com.elderbyte.server.security.jwt.JwtFilter;

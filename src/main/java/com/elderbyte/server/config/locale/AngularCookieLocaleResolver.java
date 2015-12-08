@@ -1,4 +1,4 @@
-package com.elderbyte.vidada.config.locale;
+package com.elderbyte.server.config.locale;
 
 import org.springframework.context.i18n.LocaleContext;
 import org.springframework.context.i18n.TimeZoneAwareLocaleContext;

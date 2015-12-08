@@ -1,4 +1,4 @@
-package com.elderbyte.vidada.config;
+package com.elderbyte.server.config;
 
 
 import com.fasterxml.jackson.databind.SerializationFeature;

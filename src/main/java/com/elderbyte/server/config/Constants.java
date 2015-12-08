@@ -1,4 +1,4 @@
-package com.elderbyte.vidada.config;
+package com.elderbyte.server.config;
 
 /**
  * Application constants.

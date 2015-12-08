@@ -1,6 +1,6 @@
-package com.elderbyte.vidada.config;
+package com.elderbyte.server.config;
 
-import com.elderbyte.vidada.config.locale.AngularCookieLocaleResolver;
+import com.elderbyte.server.config.locale.AngularCookieLocaleResolver;
 import org.springframework.boot.bind.RelaxedPropertyResolver;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.MessageSource;

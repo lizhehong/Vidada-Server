@@ -1,4 +1,4 @@
-package com.elderbyte.vidada.config;
+package com.elderbyte.server.config;
 
 
 import com.zaxxer.hikari.HikariConfig;
@@ -35,7 +35,7 @@ public class DatabaseConfiguration implements EnvironmentAware {
     }
 
     @Bean(destroyMethod = "shutdown")
-    @ConditionalOnMissingClass(name = "com.elderbyte.vidada.config.HerokuDatabaseConfiguration")
+    @ConditionalOnMissingClass(name = "com.elderbyte.server.config.HerokuDatabaseConfiguration")
     @Profile("!" + Constants.SPRING_PROFILE_CLOUD)
     public DataSource dataSource() {
         log.debug("Configuring Datasource");

@@ -1,4 +1,4 @@
-package com.elderbyte.vidada.config;
+package com.elderbyte.server.config;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +17,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.util.concurrent.Executor;
 
-import com.elderbyte.vidada.config.async.ExceptionHandlingAsyncTaskExecutor;
+import com.elderbyte.server.config.async.ExceptionHandlingAsyncTaskExecutor;
 
 @Configuration
 @EnableAsync

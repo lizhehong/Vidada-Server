@@ -1,4 +1,4 @@
-package com.elderbyte.vidada.config.async;
+package com.elderbyte.server.config.async;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
