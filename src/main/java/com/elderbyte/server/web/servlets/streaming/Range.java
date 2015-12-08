@@ -1,4 +1,4 @@
-package com.elderbyte.vidada.web.servlets.streaming;
+package com.elderbyte.server.web.servlets.streaming;
 
 /**
  * This class represents a byte range.

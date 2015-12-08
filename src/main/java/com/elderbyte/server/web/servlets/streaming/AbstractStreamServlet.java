@@ -1,9 +1,9 @@
-package com.elderbyte.vidada.web.servlets.streaming;
+package com.elderbyte.server.web.servlets.streaming;
 
 import archimedes.core.io.streaming.ISeekableInputStream;
 import com.elderbyte.common.ArgumentNullException;
-import com.elderbyte.vidada.web.servlets.AutowiredHttpServlet;
-import com.elderbyte.vidada.web.servlets.IllegalHttpRequestException;
+import com.elderbyte.server.web.servlets.AutowiredHttpServlet;
+import com.elderbyte.server.web.IllegalHttpRequestException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,7 +19,8 @@ import java.util.List;
 import java.util.zip.GZIPOutputStream;
 
 /**
- * A servlet which supports streaming data.
+ * A servlet which supports streaming data to the client.
+ * Support seeking (byte-ranges) to support large datasets.
  */
 public abstract class AbstractStreamServlet extends AutowiredHttpServlet {
 
@@ -187,7 +188,7 @@ public abstract class AbstractStreamServlet extends AutowiredHttpServlet {
 
         try {
             // Open streams.
-            input = resource.getResource().openInputStream();
+            input = resource.openInputStream();
             output = response.getOutputStream();
 
             if (ranges.get(0).isFull()) {

@@ -1,4 +1,4 @@
-package com.elderbyte.vidada.web.servlets;
+package com.elderbyte.server.web.servlets;
 
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.context.ApplicationContext;

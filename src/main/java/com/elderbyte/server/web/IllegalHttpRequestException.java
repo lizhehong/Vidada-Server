@@ -1,4 +1,4 @@
-package com.elderbyte.vidada.web.servlets;
+package com.elderbyte.server.web;
 
 import javax.servlet.http.HttpServletResponse;
 

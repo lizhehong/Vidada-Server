@@ -1,6 +1,8 @@
-package com.elderbyte.vidada.web.servlets.streaming;
+package com.elderbyte.vidada.web.servlets;
 
 import archimedes.core.io.locations.ResourceLocation;
+import com.elderbyte.server.web.servlets.streaming.AbstractStreamServlet;
+import com.elderbyte.server.web.servlets.streaming.StreamResource;
 import com.elderbyte.vidada.media.MediaItem;
 import com.elderbyte.vidada.media.source.MediaSource;
 import com.elderbyte.vidada.media.MediaService;
@@ -14,7 +16,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Streams media data
+ * Streams media-data such as videos and images to the client.
+ *
  */
 public class MediaStreamServlet extends AbstractStreamServlet {
 
@@ -31,7 +34,6 @@ public class MediaStreamServlet extends AbstractStreamServlet {
 
         String relativeUri = getRelativeURI(request);
 
-        ResourceLocation resource = null;
         if(relativeUri != null) {
 
             Matcher matcher = streamPattern.matcher(relativeUri);
@@ -46,12 +48,12 @@ public class MediaStreamServlet extends AbstractStreamServlet {
 
                         onMediaStreamRequested(media);
 
-                        resource = localSource.getResourceLocation();
+                        ResourceLocation resource = localSource.getResourceLocation();
                         return new StreamResource(
                             localSource.getName(),
                             resource.length(),
                             Integer.MAX_VALUE,
-                            resource,
+                            () -> resource.openInputStream(),
                             localSource.getMimeType());
                     } else {
                         logger.error("Server: Stream - Media has no source! relative uri was: " + relativeUri);
