@@ -1,6 +1,6 @@
 package com.elderbyte.server.security;
 
-import com.elderbyte.vidada.util.RandomUtil;
+import com.elderbyte.common.util.RandomUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

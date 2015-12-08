@@ -1,4 +1,4 @@
-package com.elderbyte.vidada.util;
+package com.elderbyte.common.util;
 
 import org.apache.commons.lang.RandomStringUtils;
 

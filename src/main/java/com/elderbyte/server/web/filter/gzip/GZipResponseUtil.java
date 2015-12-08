@@ -1,4 +1,4 @@
-package com.elderbyte.vidada.web.filter.gzip;
+package com.elderbyte.server.web.filter.gzip;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

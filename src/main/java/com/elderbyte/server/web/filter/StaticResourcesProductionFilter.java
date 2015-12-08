@@ -1,4 +1,4 @@
-package com.elderbyte.vidada.web.filter;
+package com.elderbyte.server.web.filter;
 
 
 import org.apache.commons.lang.StringUtils;

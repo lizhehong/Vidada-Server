@@ -1,4 +1,4 @@
-package com.elderbyte.vidada.web.filter;
+package com.elderbyte.server.web.filter;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletResponse;

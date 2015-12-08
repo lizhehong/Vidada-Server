@@ -1,4 +1,4 @@
-package com.elderbyte.vidada.web.filter.gzip;
+package com.elderbyte.server.web.filter.gzip;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.WriteListener;
