@@ -1,4 +1,4 @@
-package com.elderbyte.vidada.security;
+package com.elderbyte.server.security;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;

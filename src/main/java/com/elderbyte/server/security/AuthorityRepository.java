@@ -1,6 +1,5 @@
-package com.elderbyte.vidada.security;
+package com.elderbyte.server.security;
 
-import com.elderbyte.vidada.security.Authority;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

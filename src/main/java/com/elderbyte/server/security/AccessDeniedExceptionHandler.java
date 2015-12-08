@@ -1,4 +1,4 @@
-package com.elderbyte.vidada.security;
+package com.elderbyte.server.security;
 
 import javax.servlet.http.HttpServletResponse;
 

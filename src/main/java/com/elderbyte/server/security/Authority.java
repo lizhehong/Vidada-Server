@@ -1,4 +1,4 @@
-package com.elderbyte.vidada.security;
+package com.elderbyte.server.security;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;

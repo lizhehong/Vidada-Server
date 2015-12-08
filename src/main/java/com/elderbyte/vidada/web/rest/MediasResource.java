@@ -4,7 +4,7 @@ import archimedes.core.data.pagination.ListPage;
 import archimedes.core.images.IMemoryImage;
 import com.elderbyte.vidada.media.*;
 import com.elderbyte.vidada.tags.Tag;
-import com.elderbyte.vidada.security.jwt.JwtFilter;
+import com.elderbyte.server.security.jwt.JwtFilter;
 import com.elderbyte.vidada.tags.TagService;
 import com.elderbyte.vidada.thumbnails.ThumbnailService;
 import com.elderbyte.vidada.media.MediaService;

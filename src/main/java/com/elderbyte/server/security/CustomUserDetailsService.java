@@ -1,4 +1,4 @@
-package com.elderbyte.vidada.security;
+package com.elderbyte.server.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;

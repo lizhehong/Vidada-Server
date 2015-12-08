@@ -1,7 +1,7 @@
 package com.elderbyte.vidada.config;
 
-import com.elderbyte.vidada.security.jwt.JwtAuthenticationProvider;
-import com.elderbyte.vidada.security.jwt.JwtFilter;
+import com.elderbyte.server.security.jwt.JwtAuthenticationProvider;
+import com.elderbyte.server.security.jwt.JwtFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

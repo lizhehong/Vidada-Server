@@ -1,8 +1,5 @@
-package com.elderbyte.vidada.security;
+package com.elderbyte.server.security;
 
-import com.elderbyte.vidada.security.Authority;
-import com.elderbyte.vidada.security.KnownAuthority;
-import com.elderbyte.vidada.security.AuthorityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

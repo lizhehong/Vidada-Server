@@ -1,4 +1,4 @@
-package com.elderbyte.vidada.security.jwt;
+package com.elderbyte.server.security.jwt;
 
 import org.springframework.security.core.AuthenticationException;
 

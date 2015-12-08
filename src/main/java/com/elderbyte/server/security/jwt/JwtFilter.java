@@ -1,4 +1,4 @@
-package com.elderbyte.vidada.security.jwt;
+package com.elderbyte.server.security.jwt;
 import java.io.IOException;
 import java.text.ParseException;
 

@@ -1,10 +1,10 @@
 package com.elderbyte.vidada.web.rest;
 
-import com.elderbyte.vidada.security.User;
-import com.elderbyte.vidada.security.UserRepository;
-import com.elderbyte.vidada.security.PrincipalDto;
-import com.elderbyte.vidada.security.SecurityUtils;
-import com.elderbyte.vidada.security.UserService;
+import com.elderbyte.server.security.User;
+import com.elderbyte.server.security.UserRepository;
+import com.elderbyte.server.security.PrincipalDto;
+import com.elderbyte.server.security.SecurityUtils;
+import com.elderbyte.server.security.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

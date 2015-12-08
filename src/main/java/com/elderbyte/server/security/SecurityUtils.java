@@ -1,4 +1,4 @@
-package com.elderbyte.vidada.security;
+package com.elderbyte.server.security;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;

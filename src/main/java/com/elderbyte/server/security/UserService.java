@@ -1,4 +1,4 @@
-package com.elderbyte.vidada.security;
+package com.elderbyte.server.security;
 
 import com.elderbyte.vidada.util.RandomUtil;
 import org.slf4j.Logger;
