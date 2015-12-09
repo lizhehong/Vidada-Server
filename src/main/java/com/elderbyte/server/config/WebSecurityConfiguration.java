@@ -28,9 +28,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 
-    @Autowired
-    private UserDetailsService userDetailsService;
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -41,18 +38,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         logger.info("configure @AuthenticationManagerBuilder");
         auth.authenticationProvider(new JwtAuthenticationProvider());
-    }
-
-
-
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-
-        logger.info("configureGlobal @AuthenticationManagerBuilder");
-
-        auth
-            .userDetailsService(userDetailsService)
-            .passwordEncoder(passwordEncoder());
     }
 
     @Override
