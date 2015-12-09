@@ -1,87 +1,77 @@
-<div>
-    <md-content class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <h2 translate="settings.title" translate-values="{username: '{{settingsAccount.login}}'}">User settings for [<b>{{settingsAccount.login}}</b>]</h2>
 
-            <div class="alert alert-success" ng-show="success" translate="settings.messages.success">
-                <strong>Settings saved!</strong>
-            </div>
 
-            <div class="alert alert-danger" ng-show="errorEmailExists" translate="settings.messages.error.emailexists">
-                <strong>E-mail is already in use!</strong> Please choose another one.
-            </div>
+<md-card flex-gt-sm="90" flex-gt-md="80">
+    <md-card-content>
 
-            <div class="alert alert-danger" ng-show="error" translate="settings.messages.error.fail">
-                <strong>An error has occurred!</strong> Settings could not be saved.
-            </div>
+        <h2 class="md-title" translate="settings.title"
+            translate-values="{username: '{{settingsAccount.login}}'}">User settings for [<b>{{settingsAccount.login}}</b>]
+        </h2>
 
-            <form name="form" role="form" novalidate ng-submit="save()" show-validation>
+        <!-- errors -->
 
-                <div class="form-group">
-                    <label translate="settings.form.firstname">First Name</label>
-                    <input type="text" class="form-control" name="firstName" placeholder="{{'settings.form.firstname.placeholder' | translate}}"
-                           ng-model="settingsAccount.firstName" ng-minlength=1 ng-maxlength=50 required maxlength="50">
-                    <div ng-show="form.firstName.$dirty && form.firstName.$invalid">
-                        <p class="help-block"
-                               ng-show="form.firstName.$error.required" translate="settings.messages.validate.firstname.required">
-                            Your first name is required.
-                        </p>
-                        <p class="help-block"
-                               ng-show="form.firstName.$error.minlength" translate="settings.messages.validate.firstname.minlength">
-                            Your first name is required to be at least 1 character
-                        </p>
-                        <p class="help-block"
-                               ng-show="form.firstName.$error.maxlength" translate="settings.messages.validate.firstname.maxlength">
-                            Your first name cannot be longer than 50 characters
-                        </p>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label translate="settings.form.lastname">Last Name</label>
-                    <input type="text" class="form-control" name="lastName" placeholder="{{'settings.form.lastname.placeholder' | translate}}"
-                           ng-model="settingsAccount.lastName" ng-minlength=1 ng-maxlength=50 required maxlength="50">
-                    <div ng-show="form.lastName.$dirty && form.lastName.$invalid">
-                        <p class="help-block"
-                               ng-show="form.lastName.$error.required" translate="settings.messages.validate.lastname.required">
-                            Your last name is required.
-                        </p>
-                        <p class="help-block"
-                               ng-show="form.lastName.$error.minlength" translate="settings.messages.validate.lastname.minlength">
-                            Your last name is required to be at least 1 character
-                        </p>
-                        <p class="help-block"
-                               ng-show="form.lastName.$error.maxlength" translate="settings.messages.validate.lastname.maxlength">
-                            Your last name cannot be longer than 50 characters
-                        </p>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label translate="global.form.email">E-mail</label>
-                    <input type="email" class="form-control" name="email" placeholder="{{'global.form.email.placeholder' | translate}}"
-                           ng-model="settingsAccount.email" ng-minlength=5 ng-maxlength=100 required maxlength="100">
-                    <div ng-show="form.email.$dirty && form.email.$invalid">
-                        <p class="help-block"
-                               ng-show="form.email.$error.required" translate="global.messages.validate.email.required">
-                            Your e-mail is required.
-                        </p>
-                        <p class="help-block"
-                               ng-show="form.email.$error.email" translate="global.messages.validate.email.invalid">
-                            Your e-mail is invalid.
-                        </p>
-                        <p class="help-block"
-                               ng-show="form.email.$error.minlength" translate="global.messages.validate.email.minlength">
-                            Your e-mail is required to be at least 5 characters
-                        </p>
-                        <p class="help-block"
-                               ng-show="form.email.$error.maxlength" translate="global.messages.validate.email.maxlength">
-                            Your e-mail cannot be longer than 100 characters
-                        </p>
-                    </div>
-                </div>
+        <p>{{debug}}</p>
 
-                <button type="submit" ng-disabled="form.$invalid" class="btn btn-primary" translate="settings.form.button">Save</button>
-            </form>
+        <div class="alert alert-success" ng-show="success" translate="settings.messages.success">
+            <strong>Settings saved!</strong>
         </div>
-    </md-content>
 
-</div>
+        <div class="alert alert-danger" ng-show="errorEmailExists" translate="settings.messages.error.emailexists">
+            <strong>E-mail is already in use!</strong> Please choose another one.
+        </div>
+
+        <div class="alert alert-danger" ng-show="error" translate="settings.messages.error.fail">
+            <strong>An error has occurred!</strong> Settings could not be saved.
+        </div>
+
+        <!-- input form -->
+        <md-content flex layout-padding>
+
+            <form name="settingsForm">
+
+                <div layout="column">
+
+                    <md-input-container flex>
+                        <label>First Name</label>
+                        <input md-maxlength="50" required name="firstName" ng-model="settingsAccount.firstName">
+
+
+                        <div ng-messages="settingsForm.firstName.$error">
+                            <div ng-message="required">This is required.</div>
+                            <div ng-message="md-maxlength">The name has to be less than 30 characters long.</div>
+
+                        </div>
+
+                    </md-input-container>
+
+                    <md-input-container flex>
+                        <label>Last Name</label>
+                        <input required name="lastName" ng-model="settingsAccount.lastName">
+
+                        <div ng-messages="settingsForm.lastName.$error">
+                            <div ng-message="required">This is required.</div>
+                        </div>
+                    </md-input-container>
+
+                    <md-input-container flex>
+                        <label>E-mail</label>
+                        <input required type="email" name="clientEmail" ng-model="settingsAccount.email"
+                               minlength="6" maxlength="100" ng-pattern="/^.+@.+\..+$/" />
+
+
+                        <div ng-messages="settingsForm.clientEmail.$error" role="alert">
+                            <div ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']">
+                                Your email must be between 6 and 100 characters long and look like an e-mail address.
+                            </div>
+                        </div>
+
+                    </md-input-container>
+
+                </div>
+
+
+                <md-button type="submit" ng-disabled="settingsForm.$invalid" class="md-raised md-primary">Save</md-button>
+            </form>
+        </md-content>
+
+    </md-card-content>
+</md-card>

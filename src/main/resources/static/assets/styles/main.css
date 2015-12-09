@@ -266,26 +266,24 @@ ul#strength {
 /* end Password strength bar style */
 
 
+
+
+.cover {
+    object-fit: cover;
+}
+
+.responsive-img {
+    max-width: 100%;
+    height: auto;
+    display:block;
+}
+
 /* start media item style */
 
 .media-item {
     background-color: whitesmoke;
+    overflow:hidden;
 }
-
-/*
-.media-thumb {
-    display: block;
-    max-width: 100%;
-    height: auto;
-    width: auto;
-}*/
-
-.media-thumb-aspect{
-    max-width:800px;
-    width:100%;
-    height:auto;
-}
-
 
 .media-item-content {
     display:inline-block;

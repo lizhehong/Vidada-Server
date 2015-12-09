@@ -6,7 +6,11 @@ angular.module('vidadaApp')
         $scope.error = null;
         Principal.identity().then(function(account) {
             $scope.settingsAccount = account;
+            $scope.debug = JSON.stringify($scope.settingsAccount);
         });
+
+
+
 
         $scope.save = function () {
             Auth.updateAccount($scope.settingsAccount).then(function() {
