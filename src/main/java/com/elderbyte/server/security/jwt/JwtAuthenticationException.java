@@ -2,6 +2,9 @@ package com.elderbyte.server.security.jwt;
 
 import org.springframework.security.core.AuthenticationException;
 
+/**
+ * Thrown when a JWT Token was not valid or authentication was denied.
+ */
 @SuppressWarnings("serial")
 public class JwtAuthenticationException extends AuthenticationException {
 

@@ -1,6 +1,8 @@
-package com.elderbyte.server.security;
+package com.elderbyte.oauth.server.web.rest.dtos;
 
-
+/**
+ * Represents a JWT Token response
+ */
 public class TokenDto {
     public String token;
 

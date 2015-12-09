@@ -1,4 +1,4 @@
-package com.elderbyte.server.security;
+package com.elderbyte.oauth.server.authorities;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

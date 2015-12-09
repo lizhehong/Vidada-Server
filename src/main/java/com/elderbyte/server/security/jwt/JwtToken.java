@@ -15,6 +15,9 @@ import java.util.List;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
 
+/**
+ * A wrapper for a signed JWT Token to a spring security Authentication
+ */
 @SuppressWarnings("serial")
 public class JwtToken implements Authentication {
 
@@ -25,6 +28,10 @@ public class JwtToken implements Authentication {
     private JWTClaimsSet claims;
     private boolean authenticated;
 
+    /**
+     * Creates a JWT Token Authentication wrapper
+     * @param sjwt
+     */
     public JwtToken(SignedJWT sjwt) {
         this.sjwt = sjwt;
         this.authenticated = false;

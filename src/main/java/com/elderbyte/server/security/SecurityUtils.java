@@ -1,5 +1,6 @@
 package com.elderbyte.server.security;
 
+import com.elderbyte.oauth.server.authorities.KnownAuthority;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -10,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 
 /**
+ * Provides easy access to spring security.
  * Utility class for Spring Security.
  */
 public final class SecurityUtils {

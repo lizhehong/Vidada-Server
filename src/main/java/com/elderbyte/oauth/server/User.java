@@ -1,5 +1,6 @@
-package com.elderbyte.server.security;
+package com.elderbyte.oauth.server;
 
+import com.elderbyte.oauth.server.authorities.Authority;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;

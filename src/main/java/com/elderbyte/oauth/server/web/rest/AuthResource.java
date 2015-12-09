@@ -1,9 +1,14 @@
-package com.elderbyte.server.security;
+package com.elderbyte.oauth.server.web.rest;
 
 import java.util.Date;
 
 import javax.validation.Valid;
 
+import com.elderbyte.oauth.server.LoginDto;
+import com.elderbyte.oauth.server.web.rest.dtos.TokenDto;
+import com.elderbyte.oauth.server.User;
+import com.elderbyte.oauth.server.UserService;
+import com.elderbyte.oauth.server.authorities.Authority;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +28,7 @@ import com.nimbusds.jwt.SignedJWT;
 @SuppressWarnings("unused")
 @RestController
 @RequestMapping("/api/auth/login")
-public class AccountController {
+public class AuthResource {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -32,7 +37,12 @@ public class AccountController {
 
     private String SecretKey = "494847a9c8a147bf82f4ca6da59efe61"; // TODO
 
-
+    /**
+     * Checks the given user name and password.
+     * If valid, a signed JWT Token is returned which can be used to access the protected API.
+     * @param userLogin
+     * @return
+     */
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<TokenDto> login(@Valid @RequestBody LoginDto userLogin) {
 

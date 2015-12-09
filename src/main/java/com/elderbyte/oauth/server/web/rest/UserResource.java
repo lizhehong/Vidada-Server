@@ -1,10 +1,10 @@
-package com.elderbyte.server.vidada.web.rest;
+package com.elderbyte.oauth.server.web.rest;
 
-import com.elderbyte.server.security.User;
-import com.elderbyte.server.security.UserRepository;
-import com.elderbyte.server.security.PrincipalDto;
+import com.elderbyte.oauth.server.User;
+import com.elderbyte.oauth.server.UserRepository;
+import com.elderbyte.oauth.server.web.rest.dtos.UserDto;
 import com.elderbyte.server.security.SecurityUtils;
-import com.elderbyte.server.security.UserService;
+import com.elderbyte.oauth.server.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,7 +64,7 @@ public class UserResource {
         value = "current", // /api/users/current
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<PrincipalDto> getCurrentPrincipal() {
+    public ResponseEntity<UserDto> getCurrentPrincipal() {
 
         String login = SecurityUtils.getCurrentLogin();
 
@@ -74,7 +74,7 @@ public class UserResource {
 
         if(user != null){
             log.info("REST request to get current User details: '" + login + "'");
-            return new ResponseEntity<>(new PrincipalDto(user), HttpStatus.OK);
+            return new ResponseEntity<>(new UserDto(user), HttpStatus.OK);
         }else{
             log.info("REST request to get current User, but could not find a user with this name: '" + login + "'");
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);

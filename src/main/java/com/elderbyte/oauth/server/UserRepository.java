@@ -1,4 +1,4 @@
-package com.elderbyte.server.security;
+package com.elderbyte.oauth.server;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

@@ -1,5 +1,7 @@
 package com.elderbyte.server.security;
 
+import com.elderbyte.oauth.server.User;
+import com.elderbyte.oauth.server.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,7 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.Collection;
 
 /**
- *
+ * Adapter which integrates the user / user-service into spring security.
  */
 @Service
 public class CustomUserDetailsService implements UserDetailsService {

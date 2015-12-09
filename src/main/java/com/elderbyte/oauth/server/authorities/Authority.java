@@ -1,4 +1,4 @@
-package com.elderbyte.server.security;
+package com.elderbyte.oauth.server.authorities;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;

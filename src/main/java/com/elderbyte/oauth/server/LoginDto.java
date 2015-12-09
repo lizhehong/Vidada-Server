@@ -1,4 +1,4 @@
-package com.elderbyte.server.security;
+package com.elderbyte.oauth.server;
 
 /**
  * User credentials

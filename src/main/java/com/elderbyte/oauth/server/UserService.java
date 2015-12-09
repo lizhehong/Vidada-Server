@@ -1,6 +1,10 @@
-package com.elderbyte.server.security;
+package com.elderbyte.oauth.server;
 
 import com.elderbyte.common.util.RandomUtil;
+import com.elderbyte.server.security.SecurityUtils;
+import com.elderbyte.oauth.server.authorities.Authority;
+import com.elderbyte.oauth.server.authorities.AuthorityService;
+import com.elderbyte.oauth.server.authorities.KnownAuthority;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
