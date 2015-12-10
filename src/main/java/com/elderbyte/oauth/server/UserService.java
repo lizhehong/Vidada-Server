@@ -8,10 +8,12 @@ import com.elderbyte.oauth.server.authorities.KnownAuthority;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.PostConstruct;
 import java.util.Optional;
 
 /**
@@ -27,12 +29,18 @@ public class UserService {
     private final UserRepository userRepository;
     private final AuthorityService authorityService;
 
+    @Value("${security.oauth2.jwt.key}")
+    private String secretKey;
+
     @Autowired
     public UserService(PasswordEncoder passwordEncoder, UserRepository userRepository, AuthorityService authorityService){
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.authorityService = authorityService;
+    }
 
+    @PostConstruct
+    public void init(){
         ensureKnownUsers();
     }
 
@@ -55,7 +63,7 @@ public class UserService {
     public User createUserInformation(String login, String password, String firstName, String lastName, String email,
                                       String langKey) {
         User newUser = new User();
-        Authority authority = authorityService.get(KnownAuthority.USER);
+
         String encryptedPassword = passwordEncoder.encode(password);
         newUser.setLogin(login);
         // new user gets initially a generated password
@@ -68,7 +76,7 @@ public class UserService {
         newUser.setActivated(false);
         // new user gets registration key
         newUser.setActivationKey(RandomUtil.generateActivationKey());
-        newUser.getAuthorities().add(authority);
+        addKnownAuthorities(newUser, KnownAuthority.USER);
         userRepository.save(newUser);
         log.debug("Created Information for User: {}", newUser);
         return newUser;
@@ -93,21 +101,21 @@ public class UserService {
         });
     }
 
-    /**
-     * Returns the current user
-     * @return
-     */
-    @Transactional(readOnly = true)
-    public User getUserWithAuthorities() {
-        User currentUser = userRepository.findOneByLogin(SecurityUtils.getCurrentLogin()).get();
-        currentUser.getAuthorities().size(); // eagerly load the association
-        return currentUser;
-    }
-
     @Transactional(readOnly = true)
     public User getUser(String login){
         Optional<User> user = userRepository.findOneByLogin(login);
         return user.orElse(null);
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<User> getUserWithCredentials(String login, String password){
+        return userRepository.findOneByLogin(login).flatMap(user -> {
+            if(passwordEncoder.matches(password, user.getPassword())){
+                return Optional.of(user);
+            }
+            log.warn("The provided password did not match for this user!");
+            return Optional.empty();
+        });
     }
 
 
@@ -120,14 +128,15 @@ public class UserService {
 
         if(admin == null){
             User u = createUserInformation("admin", "1337", "Administrator", "Administrator", "admin@vidada", "en");
-            u.getAuthorities().add(authorityService.get(KnownAuthority.ADMIN));
+            addKnownAuthorities(u, KnownAuthority.ADMIN);
             u.setActivated(true);
             userRepository.save(u);
         }
 
         if(system == null){
             User u = createUserInformation("system", "1337", "System", "", "system@vidada", "en");
-            u.getAuthorities().add(authorityService.get(KnownAuthority.ADMIN));
+            u.getAuthorities().add(authorityService.findByName(KnownAuthority.ADMIN));
+            addKnownAuthorities(u, KnownAuthority.ADMIN);
             u.setActivated(true);
             userRepository.save(u);
         }
@@ -135,9 +144,18 @@ public class UserService {
         if(anonymousUser == null){
             User u =  createUserInformation("anonymous", "", "Anonymous", "", "anon@vidada", "en");
             u.getAuthorities().clear();
-            u.getAuthorities().add(authorityService.get(KnownAuthority.ANONYMOUS));
+            addKnownAuthorities(u, KnownAuthority.ANONYMOUS);
             u.setActivated(true);
             userRepository.save(u);
+        }
+    }
+
+    private void addKnownAuthorities(User user, String... authorities){
+        for (String authority : authorities) {
+            Authority auth = authorityService.findByName(authority);
+            if(auth != null){
+                user.getAuthorities().add(auth);
+            }
         }
     }
 }

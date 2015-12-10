@@ -1,7 +1,7 @@
 package com.elderbyte.server.vidada.web.rest;
 
 import com.elderbyte.oauth.server.web.rest.UserResource;
-import com.elderbyte.server.vidada.Application;
+import com.elderbyte.Application;
 import com.elderbyte.oauth.server.UserRepository;
 import org.junit.Before;
 import org.junit.Test;

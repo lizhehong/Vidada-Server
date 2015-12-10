@@ -27,6 +27,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    @Autowired
+    private JwtAuthenticationProvider jwtAuthProvider;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -37,7 +39,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         logger.info("configure @AuthenticationManagerBuilder");
-        auth.authenticationProvider(new JwtAuthenticationProvider());
+        auth.authenticationProvider(jwtAuthProvider);
     }
 
     @Override

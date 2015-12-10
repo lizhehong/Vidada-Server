@@ -1,4 +1,4 @@
-package com.elderbyte.server.vidada;
+package com.elderbyte;
 
 import com.elderbyte.server.config.Constants;
 import org.slf4j.Logger;

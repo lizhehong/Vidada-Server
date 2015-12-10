@@ -1,6 +1,7 @@
 package com.elderbyte.server.security.jwt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -21,14 +22,18 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 
-    private String SecretKey = "494847a9c8a147bf82f4ca6da59efe61"; // TODO Use key strategy
+    @Value("${security.oauth2.jwt.key}")
+    private String secretKey; // TODO Use key strategy
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
+        if(secretKey == null) throw new IllegalStateException("The JWT signing key is not set (=null). Ensure you set the property security.oauth2.jwt.key!");
+
+
         JwtToken jwtToken = (JwtToken) authentication;
         try {
-            JWSVerifier verifier = new MACVerifier(SecretKey);
+            JWSVerifier verifier = new MACVerifier(secretKey);
             boolean isVerified = jwtToken.getSignedToken().verify(verifier);
             if (isVerified) {
 

@@ -1,28 +1,20 @@
 package com.elderbyte.oauth.server.web.rest;
 
-import java.util.Date;
-
 import javax.validation.Valid;
 
+import com.elderbyte.oauth.server.AuthService;
 import com.elderbyte.oauth.server.LoginDto;
 import com.elderbyte.oauth.server.web.rest.dtos.TokenDto;
-import com.elderbyte.oauth.server.User;
-import com.elderbyte.oauth.server.UserService;
-import com.elderbyte.oauth.server.authorities.Authority;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.support.MethodArgumentNotValidException;
+import org.springframework.security.authentication.AuthenticationServiceException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
 
-import com.nimbusds.jose.JOSEException;
-import com.nimbusds.jose.JWSAlgorithm;
-import com.nimbusds.jose.JWSHeader;
-import com.nimbusds.jose.JWSSigner;
-import com.nimbusds.jose.crypto.MACSigner;
-import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
 
 @SuppressWarnings("unused")
@@ -33,9 +25,7 @@ public class AuthResource {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    private UserService userService;
-
-    private String SecretKey = "494847a9c8a147bf82f4ca6da59efe61"; // TODO
+    private AuthService authService;
 
     /**
      * Checks the given user name and password.
@@ -46,43 +36,28 @@ public class AuthResource {
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<TokenDto> login(@Valid @RequestBody LoginDto userLogin) {
 
-        logger.info("User attempts to login: " + userLogin);
-
-        try {
-            // Check if the user exists and fetch his authorities / roles
-
-            User user = userService.getUser(userLogin.username);
-
-            if(user != null){
-
-                JWSSigner signer = new MACSigner(SecretKey);
-                JWTClaimsSet.Builder builder = new JWTClaimsSet.Builder();
-
-                builder.subject(user.getLogin());
-                builder.issuer("myself");
-                builder.claim("roles", Authority.toFlatString(user.getAuthorities()));
-                builder.expirationTime(new Date(new Date().getTime() + 24 * 60 * 60  * 1000));
-                SignedJWT signedJWT = new SignedJWT(new JWSHeader(JWSAlgorithm.HS256), builder.build());
-                signedJWT.sign(signer);
-
-                logger.info("User logged in successfully!");
-
-                return ResponseEntity.ok(new TokenDto(signedJWT.serialize()));
-            }else{
-                logger.warn("No active user found with name '" + userLogin.username + "'");
-            }
-        } catch (JOSEException e) {
-            logger.error("Login failed!", e);
+        SignedJWT token = authService.login(userLogin.username, userLogin.password);
+        if(token != null){
+            return ResponseEntity.ok(new TokenDto(token.serialize()));
+        }else{
+            throw new AuthenticationServiceException("Internal Server error, token was not provided!");
         }
-        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
-
 
 
     @ExceptionHandler
     @ResponseBody
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public String handleException(MethodArgumentNotValidException exception) {
+        logger.warn("Bad Request error", exception);
+        return exception.getMessage();
+    }
+
+    @ExceptionHandler
+    @ResponseBody
+    @ResponseStatus(value = HttpStatus.UNAUTHORIZED)
+    public String handleException(AuthenticationException exception) {
+        logger.warn("Authentication failed!", exception);
         return exception.getMessage();
     }
 

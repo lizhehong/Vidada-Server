@@ -21,7 +21,7 @@ public class AuthorityService {
     }
 
 
-    public Authority get(String name){
+    public Authority findByName(String name){
         return authorityRepository.findOne(name);
     }
 
@@ -39,7 +39,7 @@ public class AuthorityService {
     @Transactional
     private void ensureDefaultAuthorities(){
         for(String role : KnownAuthority.values()) {
-            Authority auth = get(role);
+            Authority auth = findByName(role);
             if (auth == null) {
                 create(role);
             }

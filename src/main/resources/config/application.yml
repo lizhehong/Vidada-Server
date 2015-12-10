@@ -2,6 +2,10 @@
 management.security.enabled: true
 security.basic.enabled: false
 
+
+security.oauth2.jwt.key: 494847a9c8a147bf82f4ca6da59efe61
+
+
 # Disable Jolokia - An http/json bridge for remote JMX access
 endpoints.jolokia.enabled: false
 
@@ -37,3 +41,4 @@ swagger:
     contact:
     license: Apache 2.0
     licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.html
+
