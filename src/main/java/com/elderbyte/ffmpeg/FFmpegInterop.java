@@ -357,7 +357,7 @@ public abstract class FFmpegInterop {
             String[] command = Lists.toArray(fullArgs, String.class);
             int exitVal = ShellExec.executeAndWait(command, output, timeout);
 
-            /* TODO Since we use ffmpeg -i for extracting information, and this actually returns -1 we cant handle it this way...
+            /* TODO Since we use ffmpeg -i for extracting information, and this actually returns -1 (since no output is generated) we cant handle errors it this way...
 
             if(exitVal != 0) {
                 // No success!
