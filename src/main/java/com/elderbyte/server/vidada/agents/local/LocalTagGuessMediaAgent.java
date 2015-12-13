@@ -30,12 +30,12 @@ public class LocalTagGuessMediaAgent implements MediaAgent {
 
         MediaMetadataDto metadataDto = new MediaMetadataDto();
 
-        Set<Tag> foundTags = strategy.guessTags(media);
+        Set<String> foundTags = strategy.guessTags(media);
 
         foundTags.addAll(findTags(media));
 
-        for (Tag t : foundTags) {
-            metadataDto.getGenres().add(t.getName());
+        for (String t : foundTags) {
+            metadataDto.getGenres().add(t);
         }
 
         return metadataDto;
@@ -47,16 +47,16 @@ public class LocalTagGuessMediaAgent implements MediaAgent {
     }
 
 
-    private Set<Tag> findTags(MediaItem media){
+    private Set<String> findTags(MediaItem media){
 
-        Set<Tag> tags = new HashSet<>();
+        Set<String> tags = new HashSet<>();
 
         if(media.getType() == MediaType.IMAGE){
-            tags.add(Tag.buildTag("image").get());
+            tags.add("image");
         }
 
         if(media.getType() == MediaType.MOVIE){
-            tags.add(Tag.buildTag("video").get());
+            tags.add("video");
         }
 
         return tags;

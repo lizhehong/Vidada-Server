@@ -19,6 +19,6 @@ public interface ITagGuessingStrategy {
 	 * @param media
 	 * @return Returns a set of tags which apply to this media
 	 */
-	Set<Tag> guessTags(MediaItem media);
+	Set<String> guessTags(MediaItem media);
 
 }

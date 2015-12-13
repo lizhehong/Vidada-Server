@@ -112,12 +112,12 @@ public class TagService {
      * @return
      */
     @Transactional
-    public Collection<Tag> findAllTags() {
+    public Set<Tag> findAllTags() {
 
         // Ensure all tags from the relations are loaded and known
         getRelationDefinition();
 
-        return repository.findAll();
+        return new HashSet<>(repository.findAll());
     }
 
     /**

@@ -31,7 +31,7 @@ public class KeywordBasedTagGuesser  implements ITagGuessingStrategy {
 	private static final String splitPathRegex = "/|\\\\";
     private static final int MAX_RECOMBINATION_DEPTH = 4;
 
-	private Collection<Tag> tags;
+	private Set<String> knownTags = new HashSet<>();
 
     /***************************************************************************
      *                                                                         *
@@ -41,12 +41,14 @@ public class KeywordBasedTagGuesser  implements ITagGuessingStrategy {
 
 	/**
 	 * Creates a new KeywordBasedTagGuesser
-	 * @param tags
+	 * @param knownTags
 	 */
-	public KeywordBasedTagGuesser(Collection<Tag> tags){
-		this.tags = tags;
+	public KeywordBasedTagGuesser(Collection<Tag> knownTags){
+        for (Tag knownTag : knownTags) {
+            this.knownTags.add(knownTag.getName());
+        }
 
-        logger.info(String.format("Creating Tag guesser with %s known tags!", tags.size()));
+        logger.info(String.format("Creating Tag guesser with %s known tags!", knownTags.size()));
 	}
 
     /***************************************************************************
@@ -56,16 +58,16 @@ public class KeywordBasedTagGuesser  implements ITagGuessingStrategy {
      **************************************************************************/
 
 	@Override
-	public Set<Tag> guessTags(MediaItem media) {
-		Set<Tag> matchingTags = new HashSet<>();
+	public Set<String> guessTags(MediaItem media) {
+		Set<String> matchingTags = new HashSet<>();
 
 		final Set<String> possibleTags = getPossibleTagStrings(media);
 
-		for (Tag tag : tags) {
-			if(possibleTags.contains(tag.getName())){
-				matchingTags.add(tag);
-			}
-		}
+        for (String possibleTag : possibleTags) {
+            if(knownTags.contains(possibleTag)){
+                matchingTags.add(possibleTag);
+            }
+        }
 
 		return matchingTags;
 	}
