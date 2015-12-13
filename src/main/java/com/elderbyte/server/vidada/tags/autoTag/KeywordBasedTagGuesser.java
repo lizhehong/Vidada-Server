@@ -1,5 +1,6 @@
 package com.elderbyte.server.vidada.tags.autoTag;
 
+import com.elderbyte.server.vidada.agents.MediaAgent;
 import com.elderbyte.server.vidada.media.MediaItem;
 import com.elderbyte.server.vidada.media.source.MediaSource;
 import com.elderbyte.server.vidada.tags.Tag;
@@ -10,6 +11,8 @@ import org.apache.log4j.Logger;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * This Tag-Guessing strategy finds matching tags based on keywords.
@@ -29,6 +32,8 @@ public class KeywordBasedTagGuesser  implements ITagGuessingStrategy {
 
     private static final String splitRegEx = "\\W|_";
 	private static final String splitPathRegex = "/|\\\\";
+    private static final Pattern bracketMatchRegex = Pattern.compile("\\[(.*)\\]");
+
     private static final int MAX_RECOMBINATION_DEPTH = 4;
 
 	private Set<String> knownTags = new HashSet<>();
@@ -69,6 +74,10 @@ public class KeywordBasedTagGuesser  implements ITagGuessingStrategy {
             }
         }
 
+        Set<String> tags = extractTagBrackets(media);
+
+        matchingTags.addAll(tags);
+
 		return matchingTags;
 	}
 
@@ -77,6 +86,34 @@ public class KeywordBasedTagGuesser  implements ITagGuessingStrategy {
      * Private methods                                                         *
      *                                                                         *
      **************************************************************************/
+
+
+    /**
+     * Supports file names with tag brackets such as: 'Im a Video [1080p star.wars ep1]'
+     * In contrast to the other guessed tags, tags in the brackets are always added, no matter if the tag is new.
+     * @return
+     */
+    private Set<String> extractTagBrackets(MediaItem media){
+        Set<String> tags = new HashSet<>();
+
+        for(MediaSource source : media.getSources()){
+            String path = mediaSourceToString(source);
+
+            // Now find contents of all brackets [...]
+            Matcher m = bracketMatchRegex.matcher(path);
+            while (m.find()) {
+                String tagsString = m.group(1);
+                String[] rawTags = tagsString.split(splitRegEx);
+                for (String rawTag : rawTags ) {
+                    if(!rawTag.isEmpty()) {
+                        tags.add(rawTag);
+                    }
+                }
+            }
+        }
+        return tags;
+    }
+
 
     /**
      * Returns a set of possible tag-words (tokens) derived from this media item.
@@ -88,21 +125,28 @@ public class KeywordBasedTagGuesser  implements ITagGuessingStrategy {
         Set<String> words = new HashSet<>();
         Set<MediaSource> sources = media.getSources();
 
-        for(MediaSource source : sources){
-            if(source != null && source.getResourceLocation() != null) {
-                String path = source.getResourceLocation().toString();
-                try {
-                    path = URLDecoder.decode(path, "utf-8");
-                } catch (UnsupportedEncodingException e) {
-                    logger.error("Decoding " + path + " failed.",e);
-                } catch (IllegalArgumentException e){
-                    logger.error("Decoding " + path + " failed.",e);
-                }
-                words.addAll(getPossibleTagStrings(path));
-            }
+        for (MediaSource source : sources) {
+            String path = mediaSourceToString(source);
+            words.addAll(getPossibleTagStrings(path));
         }
 
         return words;
+    }
+
+
+    private static String mediaSourceToString(MediaSource source){
+        if (source != null && source.getResourceLocation() != null) {
+            String path = source.getResourceLocation().toString();
+            try {
+                path = URLDecoder.decode(path, "utf-8");
+            } catch (UnsupportedEncodingException e) {
+                logger.error("Decoding " + path + " failed.", e);
+            } catch (IllegalArgumentException e) {
+                logger.error("Decoding " + path + " failed.", e);
+            }
+           return path;
+        }
+        return "";
     }
 
     /**
