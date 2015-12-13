@@ -5,8 +5,10 @@ import com.elderbyte.server.vidada.agents.local.LocalTagGuessMediaAgent;
 import com.elderbyte.server.vidada.agents.local.LocalVideoMediaAgent;
 import com.elderbyte.server.vidada.agents.local.LocalXattrMediaAgent;
 import com.elderbyte.server.vidada.tags.TagService;
+import com.elderbyte.server.vidada.tags.autoTag.CachedTagGuessingBuildService;
 import com.elderbyte.server.vidada.tags.autoTag.KeywordBasedTagGuesser;
 import com.elderbyte.server.vidada.video.IVideoAccessService;
+import com.sun.media.jfxmedia.Media;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +28,7 @@ public class MediaAgentService {
     private IVideoAccessService videoAccessService;
 
     @Autowired
-    private TagService tagService;
+    private CachedTagGuessingBuildService cachedTagGuessingBuildService;
 
 
     public MediaAgentService(){
@@ -46,7 +48,7 @@ public class MediaAgentService {
         registerAgent(new LocalImageMediaAgent());
         registerAgent(new LocalVideoMediaAgent(videoAccessService));
         registerAgent(new LocalXattrMediaAgent());
-        registerAgent(new LocalTagGuessMediaAgent(() -> new KeywordBasedTagGuesser(tagService.findAllTags())));
+        registerAgent(new LocalTagGuessMediaAgent(cachedTagGuessingBuildService));
         // TODO Local xattr agent
     }
 
@@ -67,4 +69,10 @@ public class MediaAgentService {
         agents.add(agent);
     }
 
+
+    public void refreshAgents() {
+        for(MediaAgent agent : findAllAgents()){
+            agent.refresh();
+        }
+    }
 }

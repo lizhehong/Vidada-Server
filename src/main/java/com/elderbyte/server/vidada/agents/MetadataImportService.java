@@ -44,6 +44,9 @@ public class MetadataImportService {
      * Updates all media metadata
      */
     public synchronized void updateAllMediaMetadataAsync() {
+
+        mediaAgentService.refreshAgents();
+
         List<MediaItem> medias = mediaService.findAllMedias();
         for (MediaItem m : medias) {
             updateMetaDataAsync(m, false).exceptionally(e -> {

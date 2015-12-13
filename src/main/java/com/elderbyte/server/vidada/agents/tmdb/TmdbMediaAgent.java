@@ -18,4 +18,9 @@ public class TmdbMediaAgent implements MediaAgent {
     public boolean canHandle(MediaItem media) {
         return false;
     }
+
+    @Override
+    public void refresh() {
+
+    }
 }

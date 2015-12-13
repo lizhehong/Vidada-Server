@@ -5,6 +5,7 @@ import com.elderbyte.server.vidada.agents.MediaMetadataDto;
 import com.elderbyte.server.vidada.media.MediaItem;
 import com.elderbyte.server.vidada.media.MediaType;
 import com.elderbyte.server.vidada.tags.Tag;
+import com.elderbyte.server.vidada.tags.autoTag.CachedTagGuessingBuildService;
 import com.elderbyte.server.vidada.tags.autoTag.ITagGuessingStrategy;
 
 import java.util.HashSet;
@@ -17,9 +18,9 @@ import java.util.function.Supplier;
  */
 public class LocalTagGuessMediaAgent implements MediaAgent {
 
-    private Supplier<ITagGuessingStrategy> tagGuessingStrategy;
+    private CachedTagGuessingBuildService tagGuessingStrategy;
 
-    public LocalTagGuessMediaAgent(Supplier<ITagGuessingStrategy> tagGuessingStrategy){
+    public LocalTagGuessMediaAgent(CachedTagGuessingBuildService tagGuessingStrategy){
         this.tagGuessingStrategy = tagGuessingStrategy;
     }
 
@@ -44,6 +45,11 @@ public class LocalTagGuessMediaAgent implements MediaAgent {
     @Override
     public boolean canHandle(MediaItem media) {
         return true;
+    }
+
+    @Override
+    public void refresh() {
+        tagGuessingStrategy.refresh();
     }
 
 

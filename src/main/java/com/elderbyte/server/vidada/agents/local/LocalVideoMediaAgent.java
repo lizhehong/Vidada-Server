@@ -52,6 +52,10 @@ public class LocalVideoMediaAgent  implements MediaAgent {
         return media.getType() == MediaType.MOVIE;
     }
 
+    @Override
+    public void refresh() {
+
+    }
 
 
     private Video getVideo(MediaSource source){

@@ -36,6 +36,11 @@ public class LocalImageMediaAgent implements MediaAgent {
         return media.getType() == MediaType.IMAGE;
     }
 
+    @Override
+    public void refresh() {
+
+    }
+
 
     private Resolution getResolution(MediaSource source){
 

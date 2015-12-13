@@ -18,4 +18,9 @@ public class LocalXattrMediaAgent implements MediaAgent {   // TODO
     public boolean canHandle(MediaItem media) {
         return false;
     }
+
+    @Override
+    public void refresh() {
+
+    }
 }

@@ -24,4 +24,7 @@ public interface MediaAgent {
      */
     boolean canHandle(MediaItem media);
 
+
+    void refresh();
+
 }
