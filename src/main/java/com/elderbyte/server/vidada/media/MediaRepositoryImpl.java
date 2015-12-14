@@ -4,6 +4,7 @@ import archimedes.core.data.pagination.ListPage;
 import archimedes.core.exceptions.NotImplementedException;
 import archimedes.core.io.locations.ResourceLocation;
 import com.elderbyte.server.vidada.media.libraries.MediaLibrary;
+import com.elderbyte.server.vidada.media.MediaItem;
 import com.elderbyte.server.vidada.tags.Tag;
 import com.elderbyte.server.vidada.queries.JPQLExpressionCodeGenerator;
 import org.slf4j.Logger;
@@ -129,15 +130,18 @@ public class MediaRepositoryImpl implements MediaRepositoryCustom {
 
             orderBy += "ORDER BY ";
 
-            switch (order) {
-                case TITLE:
-                    // Ignore
-                    break;
-                default:
-                    orderBy += "m." + order.getProperty() + " " + direction + ","; // By default desc order
+            if(order != OrderProperty.TITLE){
+                orderBy += "m." + order.getProperty() + " " + direction + ","; // By default desc order
+
+                // If elements are equal, use rating and title for sub ordering
+                orderBy += "m." + OrderProperty.RATING.getProperty() + " " + direction + ",";
+                orderBy += "m." + OrderProperty.TITLE.getProperty() + " " + reversedirection;  // file name is asc order by default
+
+            }else{
+                orderBy += "m." + order.getProperty() + " " + reversedirection + ",";
+                orderBy += "m." + OrderProperty.RATING.getProperty() + " " + direction;
             }
 
-            orderBy += " m.title " + reversedirection;  // file name is asc order by default
         }
 
         return orderBy;
