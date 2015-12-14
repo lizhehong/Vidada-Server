@@ -30,7 +30,8 @@ public class KeywordBasedTagGuesser  implements ITagGuessingStrategy {
 
     private static final Logger logger = LogManager.getLogger(KeywordBasedTagGuesser.class.getName());
 
-    private static final String splitRegEx = "\\W|_";
+    private static final String splitRegEx = "[^a-zA-Z\\d]";
+    private static final String splitRegExWithoutDot = "[^a-zA-Z\\d\\.]";
 	private static final String splitPathRegex = "/|\\\\";
     private static final Pattern bracketMatchRegex = Pattern.compile("\\[(.*)\\]");
 
@@ -103,7 +104,7 @@ public class KeywordBasedTagGuesser  implements ITagGuessingStrategy {
             Matcher m = bracketMatchRegex.matcher(path);
             while (m.find()) {
                 String tagsString = m.group(1);
-                String[] rawTags = tagsString.split(splitRegEx);
+                String[] rawTags = tagsString.split(splitRegExWithoutDot);
                 for (String rawTag : rawTags ) {
                     if(!rawTag.isEmpty()) {
                         tags.add(rawTag);
@@ -129,7 +130,6 @@ public class KeywordBasedTagGuesser  implements ITagGuessingStrategy {
             String path = mediaSourceToString(source);
             words.addAll(getPossibleTagStrings(path));
         }
-
         return words;
     }
 
