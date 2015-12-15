@@ -106,7 +106,7 @@ public class KeywordBasedTagGuesser  implements ITagGuessingStrategy {
                 String tagsString = m.group(1);
                 String[] rawTags = tagsString.split(splitRegExWithoutDot);
                 for (String rawTag : rawTags ) {
-                    if(!rawTag.isEmpty()) {
+                    if(!rawTag.isEmpty() && rawTag.length() > 2) {
                         tags.add(rawTag);
                     }
                 }
