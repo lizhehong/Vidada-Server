@@ -4,6 +4,8 @@ import com.elderbyte.code.dom.expressions.ExpressionNode;
 import com.elderbyte.code.parser.*;
 import com.elderbyte.common.ArgumentNullException;
 
+import java.util.regex.Pattern;
+
 
 /**
  * A generic parser for (Math, C, or Java) Style expressions.
@@ -26,6 +28,7 @@ public class ExpressionParser implements IExpressionParser {
     private final RPNTransformer rpnTransformer;
     private final ASTGenerator astGenerator;
 
+
     /***************************************************************************
      *                                                                         *
      * Constructors                                                            *
@@ -38,11 +41,35 @@ public class ExpressionParser implements IExpressionParser {
      */
     public ExpressionParser(OperatorSet operatorSet){
 
-        if(operatorSet == null) throw new ArgumentNullException("operatorSet");
+        this(
+            new ExpressionScanner(operatorSet),
+            new RPNTransformer(operatorSet),
+            new ASTGenerator(operatorSet));
+    }
 
-        tokenizer = new ExpressionScanner(operatorSet);
-        rpnTransformer = new RPNTransformer(operatorSet);
-        astGenerator = new ASTGenerator(operatorSet);
+    /**
+     * Creates a new ExpressionParser with the given operators
+     * @param operatorSet
+     */
+    public ExpressionParser(OperatorSet operatorSet, Pattern wordMatcher){
+        this(
+            new ExpressionScanner(operatorSet, wordMatcher),
+            new RPNTransformer(operatorSet),
+            new ASTGenerator(operatorSet));
+    }
+
+    /**
+     * Creates a new ExpressionParser
+     */
+    public ExpressionParser(ExpressionScanner tokenizer, RPNTransformer rpnTransformer, ASTGenerator astGenerator){
+
+        if(tokenizer == null) throw new ArgumentNullException("tokenizer");
+        if(rpnTransformer == null) throw new ArgumentNullException("rpnTransformer");
+        if(astGenerator == null) throw new ArgumentNullException("astGenerator");
+
+        this.tokenizer = tokenizer;
+        this.rpnTransformer = rpnTransformer;
+        this.astGenerator = astGenerator;
     }
 
     /***************************************************************************

@@ -24,6 +24,7 @@ public class ExpressionScanner {
     private final Predicate<String> isWordPredicate;
 
     private static final Pattern DefaultWordPattern = Pattern.compile("^\\w+$");
+
     /***************************************************************************
      *                                                                         *
      * Constructor                                                             *
@@ -31,13 +32,22 @@ public class ExpressionScanner {
      **************************************************************************/
 
     /**
-     * Creates a new expression scanner
+     * Creates a new expression scanner using the given operator-set.
+     * Uses the default word-pattern matcher, which matches alpha-characters as words.
      * @param operatorSet
      */
     public ExpressionScanner(OperatorSet operatorSet){
+        this(operatorSet, DefaultWordPattern);
+    }
+
+    /**
+     * Creates a new expression scanner using the given operator-set and word regex.
+     * @param operatorSet
+     */
+    public ExpressionScanner(OperatorSet operatorSet, Pattern isWordRegex){
         this(
             defaultTerminals(operatorSet),
-            x -> DefaultWordPattern.matcher(x).matches());
+            x -> isWordRegex.matcher(x).matches());
     }
 
 

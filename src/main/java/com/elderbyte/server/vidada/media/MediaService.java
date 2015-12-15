@@ -116,10 +116,10 @@ public class MediaService {
                         // This is what vidada makes intelligent
                     .build(qry.getTagExpression());
             }catch (CodeDomException e){
-                logger.debug("Could not create Tag-Expression query!", e.getMessage());
+                logger.debug("Could not create Tag-Expression query!" + e.getMessage());
                 logger.trace("Could not create Tag-Expression query!", e);
 
-                return new ListPage<>(null, 0, maxPageSize, 0); // No results since wrong expression query
+                return ListPage.empty(); // No results since wrong expression query
             }
         }
 

@@ -2,6 +2,7 @@ package com.elderbyte.server.vidada.web.rest;
 
 import archimedes.core.data.pagination.ListPage;
 import archimedes.core.images.IMemoryImage;
+import com.elderbyte.common.ArgumentNullException;
 import com.elderbyte.server.vidada.media.*;
 import com.elderbyte.server.vidada.tags.Tag;
 import com.elderbyte.server.security.jwt.JwtFilter;
@@ -103,7 +104,7 @@ public class MediasResource {
         query.setReverseOrder(reverse);
         query.setOnlyAvailable(onlyAvailable);
 
-        logger.debug("Delivering medias page: " + page + " pageSize: " + pageSize);
+        logger.debug("Query medias page: " + page + " pageSize: " + pageSize);
 
         ListPage<MediaItem> lp = mediaService.query(query, page, pageSize);
 
@@ -171,6 +172,9 @@ public class MediasResource {
 
 
     private ListPage<MediaDTO> build(ListPage<MediaItem> page){
+
+        if(page == null) throw new ArgumentNullException("page");
+
         List<MediaDTO> dtos = new ArrayList<>();
 
         for(MediaItem media : page.getPageItems()){
@@ -180,6 +184,9 @@ public class MediasResource {
     }
 
     private MediaDTO build(MediaItem media){
+
+        if(media == null) throw new ArgumentNullException("media");
+
 
         //UriComponentsBuilder self = baseUri().path("/api/medias/").pathSegment(media.getFilehash());
 
