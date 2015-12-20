@@ -2,6 +2,12 @@ server:
     port: 10344
     address: localhost
 
+management.security.enabled: true
+security.basic.enabled: false
+
+
+security.oauth2.jwt.key: 494847a9c8a147bf82f4ca6da59efe61
+
 
 # security configuration (this key should be unique for your application, and kept secret)
 jhipster.security.rememberme.key: feeabc1808cdea42c9122e171bc5edfbf5c80821

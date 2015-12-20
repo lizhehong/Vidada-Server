@@ -34,6 +34,7 @@
         <nimbus-jose-jwt.version>4.3</nimbus-jose-jwt.version>
         <rest-assured.version>2.5.0</rest-assured.version>
         <hikariCP.version>2.4.1</hikariCP.version>
+        <awaitility.version>1.4.0</awaitility.version>
 
     </properties>
 
@@ -154,6 +155,7 @@
         <!-- Testing -->
 
         <!-- Framework to test REST Services in Java. MUST be before JUnit dependency. -->
+
         <dependency>
             <groupId>com.jayway.restassured</groupId>
             <artifactId>rest-assured</artifactId>
@@ -165,6 +167,13 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.jayway.jsonpath</groupId>
+            <artifactId>json-path</artifactId>
+            <scope>test</scope>
+            <!-- parent POM declares this dependency in default (compile) scope -->
         </dependency>
 
 
