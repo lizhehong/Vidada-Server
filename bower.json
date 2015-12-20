@@ -28,7 +28,7 @@
     "stomp-websocket": "2.3.4",
     "swagger-ui": "2.0.24",
     "arrive": "~2.3.0",
-    "angular-material": "~1.0.0-rc7",
+    "angular-material": "~1.0.1",
     "animate.css": "~3.4.0"
   },
   "devDependencies": {
