@@ -39,7 +39,7 @@
 
                 <div layout="row" ui-view="sidenav"></div>
 
-                <div class="view-port infcontent" layout-margin flex>
+                <div class="view-port infcontent" layout-margin flex> <!-- infcontent is needed for the infinite scroll -->
                     <div ui-view="content" autoscroll=""></div>
                 </div>
 
@@ -78,6 +78,7 @@
         <script src="bower_components/arrive/src/arrive.js"></script>
         <script src="bower_components/angular-animate/angular-animate.js"></script>
         <script src="bower_components/angular-aria/angular-aria.js"></script>
+        <script src="bower_components/angular-messages/angular-messages.js"></script>
         <script src="bower_components/angular-material/angular-material.js"></script>
         <!-- endbower -->
         <!-- endbuild -->

@@ -88,15 +88,19 @@ span.name {
     display: block;
     position: relative;
     overflow: auto;
-    -webkit-overflow-scrolling: touch; }
+    -webkit-overflow-scrolling: touch;
+}
 .view-port[md-scroll-y] {
     overflow-y: auto;
-    overflow-x: hidden; }
+    overflow-x: hidden;
+}
 .view-port[md-scroll-x] {
     overflow-x: auto;
-    overflow-y: hidden; }
+    overflow-y: hidden;
+}
 .view-port.autoScroll {
-    -webkit-overflow-scrolling: auto; }
+    -webkit-overflow-scrolling: auto;
+}
 
 
 /* Global Styles */
