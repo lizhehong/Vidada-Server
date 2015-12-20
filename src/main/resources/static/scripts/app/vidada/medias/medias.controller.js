@@ -7,6 +7,8 @@ angular.module('vidadaApp')
         $scope.selectedSuggestion = null;
         $scope.$state = $state;
         $scope.currentMedia = null;
+        $scope.externalPlayers = ['vlc', 'mpv'];
+        $scope.externalPlayer = "vlc";
 
 
         $scope.mediaQuery = {
@@ -44,7 +46,7 @@ angular.module('vidadaApp')
 
             if(media.mediaType.toLowerCase() == 'movie'){
                 var mediaUrlArg = escape(media.streamUrl);
-                window.open('mpv://' + mediaUrlArg, '_self');
+                window.open($scope.externalPlayer + '://' + mediaUrlArg, '_self');
             }else{
                 window.open(media.streamUrl);
             }
