@@ -154,7 +154,7 @@ public class MediaSource extends IdEntity {
     public String getMimeType() {
 
         String mimeType;
-        String extensionWithoutDot = getResourceLocation().getExtension().substring(1);
+        String extensionWithoutDot = getResourceLocation().getExtension().substring(1).toLowerCase();
 
         switch (findMediaType()){
             case MOVIE:

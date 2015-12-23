@@ -48,6 +48,10 @@ angular.module('vidadaApp')
             }
         };
 
+        /**
+         * Play media in external player
+         * @param media
+         */
         $scope.play = function(media){
 
             $scope.currentMedia = media;
@@ -57,7 +61,7 @@ angular.module('vidadaApp')
                 if($scope.externalPlayer.encode){
                     mediaUrlArg = escape(media.streamUrl);
                 }
-                window.open($scope.externalPlayer + '://' + mediaUrlArg, '_self');
+                window.open($scope.externalPlayer.app + '://' + mediaUrlArg, '_self');
             }else{
                 window.open(media.streamUrl);
             }
