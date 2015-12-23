@@ -9,8 +9,11 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -33,8 +36,12 @@ public class MediaSource extends IdEntity {
 	transient private static final Logger logger = LogManager.getLogger(MediaSource.class.getName());
 
 	@ManyToOne
-	private MediaLibrary parentLibrary = null;
-	private String relativePathUri = null;
+	private MediaLibrary parentLibrary;
+
+    @NotNull
+    @Size(max = 1000)
+    @Column(length = 1000)
+    private String relativePathUri;
 
 	/***************************************************************************
 	 *                                                                         *
@@ -107,6 +114,8 @@ public class MediaSource extends IdEntity {
 	}
 
 	public void setRelativePath(URI relativePath) {
+        if(relativePath == null) throw new IllegalArgumentException("relativePath");
+
 		this.relativePathUri = relativePath.toString();
 	}
 

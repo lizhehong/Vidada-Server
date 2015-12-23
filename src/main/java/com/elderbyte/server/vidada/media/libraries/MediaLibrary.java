@@ -2,6 +2,7 @@ package com.elderbyte.server.vidada.media.libraries;
 
 import archimedes.core.exceptions.NotSupportedException;
 import archimedes.core.io.locations.DirectoryLocation;
+import com.elderbyte.common.ArgumentNullException;
 import com.elderbyte.server.vidada.entities.IdEntity;
 import com.elderbyte.server.vidada.media.MediaDirectory;
 import org.apache.log4j.LogManager;
@@ -10,8 +11,10 @@ import org.apache.log4j.Logger;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.beans.Transient;
 import java.io.File;
 import java.net.URI;
@@ -50,8 +53,12 @@ public class MediaLibrary extends IdEntity {
 
     @NotNull
     private String name;
+
     @NotNull
+    @Size(max = 1000)
+    @Column(length = 1000)
     private String rootPathUri;
+
     private boolean ignoreMovies;
     private boolean ignoreImages;
 
@@ -87,7 +94,10 @@ public class MediaLibrary extends IdEntity {
      * @param location The root folder of this media library
      */
     public MediaLibrary(String name, DirectoryLocation location){
-        if(location == null) throw new IllegalArgumentException("location must not be null!");
+
+        if(name == null) throw new ArgumentNullException("name");
+        if(location == null) throw new ArgumentNullException("location");
+
         this.name = name;
         setLibraryRoot(location);
     }
