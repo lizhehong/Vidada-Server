@@ -7,6 +7,7 @@ import com.elderbyte.server.vidada.agents.MediaAgent;
 import com.elderbyte.server.vidada.agents.MediaMetadataDto;
 import com.elderbyte.server.vidada.media.MediaItem;
 import com.elderbyte.server.vidada.media.MediaType;
+import com.elderbyte.server.vidada.media.MovieMediaItem;
 import com.elderbyte.server.vidada.media.source.MediaSource;
 import com.elderbyte.server.vidada.video.IVideoAccessService;
 import com.elderbyte.server.vidada.video.Video;
@@ -49,7 +50,14 @@ public class LocalVideoMediaAgent  implements MediaAgent {
 
     @Override
     public boolean canHandle(MediaItem media) {
-        return media.getType() == MediaType.MOVIE;
+        if(media.getType() == MediaType.MOVIE){
+            MovieMediaItem movie = (MovieMediaItem)media;
+            if(movie.hasResolution() && movie.getBitrate() > 0 && movie.getDuration() > 0){
+                return false; // All meta-data are already filled in.
+            }
+            return true; // We might have more meta-data
+        }
+        return false;
     }
 
     @Override
