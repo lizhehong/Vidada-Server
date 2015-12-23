@@ -7,8 +7,16 @@ angular.module('vidadaApp')
         $scope.selectedSuggestion = null;
         $scope.$state = $state;
         $scope.currentMedia = null;
-        $scope.externalPlayers = ['vlc', 'mpv'];
-        $scope.externalPlayer = "vlc";
+        $scope.externalPlayers = [
+            {
+                app: 'vlc',
+                encode: false
+            }, {
+                app: 'mpv',
+                encode: true
+            }
+        ];
+        $scope.externalPlayer =  $scope.externalPlayers[1];
 
 
         $scope.mediaQuery = {
@@ -45,7 +53,10 @@ angular.module('vidadaApp')
             $scope.currentMedia = media;
 
             if(media.mediaType.toLowerCase() == 'movie'){
-                var mediaUrlArg = escape(media.streamUrl);
+                var mediaUrlArg = media.streamUrl;
+                if($scope.externalPlayer.encode){
+                    mediaUrlArg = escape(media.streamUrl);
+                }
                 window.open($scope.externalPlayer + '://' + mediaUrlArg, '_self');
             }else{
                 window.open(media.streamUrl);
