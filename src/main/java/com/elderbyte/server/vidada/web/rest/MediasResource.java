@@ -187,10 +187,11 @@ public class MediasResource {
 
         if(media == null) throw new ArgumentNullException("media");
 
+        UriComponentsBuilder streamUrl = baseUri()
+            // TODO: HACK - We force http scheme (in case https) and port 8080 to avoid certificate issues with web players
+                                            .scheme("http").port(8080)
+                                            .path("/stream").pathSegment(media.getFilehash());
 
-        //UriComponentsBuilder self = baseUri().path("/api/medias/").pathSegment(media.getFilehash());
-
-        UriComponentsBuilder streamUrl = baseUri().path("/stream").pathSegment(media.getFilehash());
         MediaDTO mediaDTO = new MediaDTO(media, buildThumbnailAsync(media), streamUrl.toUriString());
         return mediaDTO;
     }
