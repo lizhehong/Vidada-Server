@@ -87,8 +87,9 @@ span.name {
 .view-port {
     display: block;
     position: relative;
-    overflow: auto;
-    -webkit-overflow-scrolling: touch;
+
+    overflow: scroll; /** 'scroll' is required for ios devices **/
+    -webkit-overflow-scrolling: touch; /** 'touch' enables ios scroll, requires overflow-scroll **/
 }
 .view-port[md-scroll-y] {
     overflow-y: auto;
