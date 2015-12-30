@@ -91,6 +91,8 @@ span.name {
     overflow: scroll; /** 'scroll' is required for ios devices **/
     -webkit-overflow-scrolling: touch; /** 'touch' enables ios scroll, requires overflow-scroll **/
 }
+
+/**
 .view-port[md-scroll-y] {
     overflow-y: auto;
     overflow-x: hidden;
@@ -102,6 +104,7 @@ span.name {
 .view-port.autoScroll {
     -webkit-overflow-scrolling: auto;
 }
+**/
 
 
 /* Global Styles */
@@ -281,6 +284,13 @@ ul#strength {
     max-width: 100%;
     height: auto;
     display:block;
+}
+
+.full-img {
+    min-width: 50%;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
 
 /* start media item style */

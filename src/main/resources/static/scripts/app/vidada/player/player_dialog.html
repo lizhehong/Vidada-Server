@@ -1,9 +1,11 @@
 <md-dialog ng-cloak flex="90">
     <md-dialog-content layout="column" >
 
-        <video autoplay controls width="100%">
+        <video ng-if="media.isVideo" autoplay controls width="100%">
             <source src="{{media.streamUrl | trusted}}" type="video/mp4">
         </video>
+
+        <img class="full-img" ng-if="media.isImage" ng-src="{{media.streamUrl}}"/>
 
     </md-dialog-content>
 </md-dialog>
