@@ -3,10 +3,12 @@
 angular.module('vidadaApp')
     .controller('MediasDetailController', function ($scope, $stateParams, Media, $mdDialog, myMedia) {
 
+        $scope.enableWatch = false;
         $scope.media = null;
         $scope.thumbnailPositionEdit = 0;
         $scope.tagsEdit = [];
         $scope.mediaDump = {};
+        $scope.thumbnailResource = null;
 
 
         $scope.loadMedia = function () {
@@ -24,8 +26,14 @@ angular.module('vidadaApp')
             $scope.enableWatch = false;
             $scope.media = media;
 
+            var type =  media.mediaType.toLowerCase();
+            $scope.media.isVideo = (type == 'movie');
+            $scope.media.isImage = (type == 'image');
+            $scope.media.isSound = (type == 'sound');
+
             $scope.thumbnailPositionEdit = media.thumbnailPosition;
             $scope.tagsEdit = media.tags;
+            $scope.thumbnailResource = media.thumbnailResource;
 
             $scope.mediaDump = JSON.stringify(media, null, 2);
             $scope.enableWatch = true;
@@ -56,34 +64,52 @@ angular.module('vidadaApp')
                 // if thumbnailPosition is still the same..
                 // go ahead and update thumbnailPosition
                 if (tmpStr === $scope.thumbnailPositionEdit) {
+
+                    console.log("Updating thumb position to " + $scope.thumbnailPositionEdit);
+
                     $scope.media.thumbnailPosition = $scope.thumbnailPositionEdit;
-                    $scope.media.thumbnailResource = null;
+                    $scope.thumbnailResource = null;
                     // Submit the new thumb position to the server
                     Media.update($scope.media, function () {
                         $scope.awaitNewThumbnail();
+                    },function(error){
+                        // Failed to update position
+                        console.log("Failed to update thumb position! " + JSON.stringify(error));
                     });
                 }
             }, 200);
         });
 
 
-        $scope.awaitNewThumbnail = function () {
+        /**
+         * Waits until a thumbnail is available.
+         */
+        $scope.awaitNewThumbnail = function (timeoutAfterFail) {
+
+
+            if(!$scope.mediaId) {
+                console.log("Cant await thumbnails since id of this media is unknown!")
+                return;
+            }
+
+            if (timeoutAfterFail === undefined) timeoutAfterFail = 100;
 
             Media.get({id: $scope.mediaId}).$promise.then(function (media) {
-                if (media.thumbnailResource.state == 'Ready') {
+
+                if (media.thumbnailResource && media.thumbnailResource.state == 'Ready') {
                     // New thumb ready
                     $scope.media.thumbnailResource = media.thumbnailResource;
-                    //$scope.loadMedia();
+                    $scope.thumbnailResource = media.thumbnailResource;
                 } else {
-
+                    // The thumbnail is not yet ready
+                    console.log("The thumbnail is not yet ready. " + JSON.stringify(media));
                     setTimeout(function () {
-
-                        // Wait a sec and then try again
-                        $scope.awaitNewThumbnail();
-                    }, 100);
+                        // Wait a moment and then try again
+                        $scope.awaitNewThumbnail(timeoutAfterFail + 50);
+                    }, timeoutAfterFail);
                 }
-            }, function () {
-                console.log("Failed to fetch media for thumb update!");
+            }, function (error) {
+                console.log("Failed to fetch media for thumb update! " + JSON.stringify(error));
             });
         };
 
@@ -93,7 +119,7 @@ angular.module('vidadaApp')
 
 
         if (myMedia) {
-            $scope.mediaId = myMedia.Id;
+            $scope.mediaId = myMedia.id;
             $scope.onMediaLoaded(myMedia);
         }else{
             $scope.mediaId = $stateParams.mediaId;

@@ -21,10 +21,10 @@ import java.util.List;
     setterVisibility = JsonAutoDetect.Visibility.NONE)
 public class MediaDTO {
 
+    private String id;
     private int duration;
     private int bitrate;
     private float thumbnailPosition;
-    private String id;
     private String title;
     private MediaType mediaType;
     private List<String> tags = new ArrayList<>();
