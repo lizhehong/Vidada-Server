@@ -90,20 +90,18 @@ angular.module('vidadaApp')
             }
         };
 
-        $scope.showDetail = function(ev, media){
+        $scope.showDetail = function(ev, currentMedia){
 
-            $scope.currentMedia = media;
-
-            $state.go('medias_detail', {mediaId: media.id});
+            $scope.currentMedia = currentMedia;
 
             $mdDialog.show({
-                controller: MediaDetailDialogCtrl,
-                templateUrl: 'MediaDetailDialog.html',
+                controller: 'MediasDetailController',
+                templateUrl: '/scripts/app/vidada/medias/medias.detail_dialog.html',
                 parent: angular.element(document.body),
                 targetEvent: ev,
                 clickOutsideToClose:true,
                 locals : {
-                    media : media
+                    myMedia : currentMedia
                 }
             });
         };
@@ -204,21 +202,6 @@ angular.module('vidadaApp')
             return suggestions;
         };
 
-
-        function MediaDetailDialogCtrl($scope, $mdDialog, media){
-            $scope.myMedia = media;
-
-            $scope.ok = function () {
-                $mdDialog.hide();
-            };
-
-            $scope.hide = function() {
-                $mdDialog.hide();
-            };
-            $scope.cancel = function() {
-                $mdDialog.cancel();
-            };
-        }
 
         $scope.updateTags();
     });

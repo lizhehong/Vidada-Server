@@ -1,0 +1,95 @@
+
+<md-dialog flex="90" ng-cloak>
+
+
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2 class="md-title">{{media.title}}</h2>
+            <span flex></span>
+
+
+            <!-- Favorite button -->
+            <md-button class="md-icon-button" ng-click="toggleFavorite()">
+                <md-icon>
+                    <i ng-show="isFavorite()" class="material-icons">favorite</i>
+                    <i ng-hide="isFavorite()" class="material-icons">favorite_border</i>
+                </md-icon>
+            </md-button>
+
+            <!-- Close button -->
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <md-icon>
+                    <i class="material-icons">close</i>
+                </md-icon>
+            </md-button>
+
+        </div>
+    </md-toolbar>
+
+
+    <md-dialog-content layout="column" >
+
+        <!-- Main Content -->
+        <div layout="row" layout-align="center center" layout-margin>
+
+            <!-- Main Thumbnail -->
+            <div layout="column" flex>
+
+
+                <md-grid-list
+                    md-cols="1"
+                    md-row-height="500:350"
+                    md-gutter="8px" >
+
+                    <md-grid-tile class="media-item" md-colspan="1" >
+
+                        <!-- main content of tile -->
+                        <div class="media-item-content">
+
+                            <img ng-show="media.thumbnailResource.resourceUrl" class="cover responsive-img" ng-src="{{media.thumbnailResource.resourceUrl}}">
+
+                            <!-- Placeholder incase no thubnail -->
+                            <div class="gray" ng-hide="media.thumbnailResource.resourceUrl" layout-fill>
+                                <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+                            </div>
+
+                        </div>
+
+
+                    </md-grid-tile>
+
+                </md-grid-list>
+
+                <md-slider min="0" step="0.001" max="1" ng-model="thumbnailPositionEdit" aria-label="thumbnailPosition"
+                           id="thumbnail-slider" class>
+                </md-slider>
+
+            </div>
+
+            <div flex>
+                <md-content>
+                    <!-- media details -->
+                    <h3 class="md-title">Media Details</h3>
+
+                    <p>Resolution {{media.resolution}}</p>
+                    <p>Size {{media.fileSize | bytes}}</p>
+                    <p>Added Date: {{media.addedDate | fullDateTime}}</p>
+                    <p>Last Accessed: {{media.lastAccessedDate | fullDateTime}}</p>
+
+                    <p>Duration: {{media.duration | secondsToDuration}}</p>
+                    <p>Bitrate: {{media.bitrate}} kb/s</p>
+
+                    <p>Opened: {{media.timesOpened}} times</p>
+                </md-content>
+            </div>
+        </div>
+
+        <div layout="column">
+            <h3 class="md-title">Tags</h3>
+            <md-chips ng-model="tagsEdit" flex></md-chips>
+        </div>
+
+
+
+    </md-dialog-content>
+</md-dialog>

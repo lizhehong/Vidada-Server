@@ -58,18 +58,21 @@
 <script type="text/ng-template" id="AddNewLibrary.html">
 
 
-    <md-dialog ng-cloak>
+    <md-dialog flex="80" ng-cloak>
         <form>
             <md-toolbar>
                 <div class="md-toolbar-tools">
                     <h2>New Media Library</h2>
                     <span flex></span>
+                    <!-- Close button -->
                     <md-button class="md-icon-button" ng-click="cancel()">
-                        <md-icon class="fa" md-font-icon="fa-times" aria-label="Close dialog"></md-icon>
+                        <md-icon>
+                            <i class="material-icons">close</i>
+                        </md-icon>
                     </md-button>
                 </div>
             </md-toolbar>
-            <div class="md-dialog-content" style="max-width:800px;max-height:810px;">
+            <div class="md-dialog-content">
                     <div layout="column">
 
                         <p>Create a new media library based on a root folder.</p>
@@ -104,19 +107,22 @@
 
 
 <script type="text/ng-template" id="EditLibrary.html">
-<md-dialog ng-cloak>
+<md-dialog ng-cloak flex="80">
     <form>
         <md-toolbar>
             <div class="md-toolbar-tools">
                 <h2>Library {{myLibrary.name}}</h2>
                 <span flex></span>
+                <!-- Close button -->
                 <md-button class="md-icon-button" ng-click="cancel()">
-                    <md-icon class="fa" md-font-icon="fa-times" aria-label="Close dialog"></md-icon>
+                    <md-icon>
+                        <i class="material-icons">close</i>
+                    </md-icon>
                 </md-button>
             </div>
         </md-toolbar>
 
-        <div class="md-dialog-content" style="max-width:800px;max-height:810px;">
+        <div class="md-dialog-content">
 
             <div layout="column">
 
