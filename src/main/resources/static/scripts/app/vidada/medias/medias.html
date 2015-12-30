@@ -97,13 +97,13 @@
 
                     <!-- Media Actions -->
 
-                    <md-button class="md-icon-button" href="{{item.streamUrl}}">
+                    <md-button class="md-icon-button" ng-click="play($event, item)">
                         <md-icon>
                             <i class="material-icons">play_circle_outline</i>
                         </md-icon>
                     </md-button>
 
-                    <md-button class="md-icon-button" ng-click="play(item)">
+                    <md-button class="md-icon-button" ng-click="playExternal(item)">
                         <md-icon>
                             <i class="material-icons">airplay</i>
                         </md-icon>

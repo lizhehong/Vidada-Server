@@ -48,11 +48,34 @@ angular.module('vidadaApp')
             }
         };
 
+
+        /**
+         * Play media in embedded html5 player
+         * @param ev Event
+         * @param currentMedia MediaItem
+         */
+        $scope.play = function(ev, currentMedia){
+
+            $scope.currentMedia = currentMedia;
+
+            $mdDialog.show({
+                controller: 'MediaPlayerController',
+                templateUrl: '/scripts/app/vidada/player/player_dialog.html',
+                parent: angular.element(document.body),
+                targetEvent: ev,
+                clickOutsideToClose: true,
+                locals : {
+                    media : currentMedia
+                }
+            });
+
+        };
+
         /**
          * Play media in external player
          * @param media
          */
-        $scope.play = function(media){
+        $scope.playExternal = function(media){
 
             $scope.currentMedia = media;
 
