@@ -4,6 +4,12 @@ angular.module('vidadaApp')
     .controller('NavbarController', function ($rootScope, $scope, $location, $state, $mdSidenav, $mdMedia, Auth, Principal, $mdToast, MediaSynchronisation, ErrorHandler) {
 
         $scope.$state = $state;
+
+        /** Setting: If true, on desktops the side nav is displayed next to content  **/
+        $rootScope.nextToContentOnDesktop = false;
+
+        $rootScope.desktopOpen = true;
+
         $scope.mainMenuItems = [
             {
                 name: "Media",
@@ -28,7 +34,6 @@ angular.module('vidadaApp')
             }
         ];
 
-        $rootScope.desktopOpen = true;
 
 
         Principal.identity().then(function(account) {
@@ -46,13 +51,18 @@ angular.module('vidadaApp')
         };
 
         $scope.isLockedOpen = function(){
-            return $mdMedia('gt-md') && $rootScope.desktopOpen;
+            return $rootScope.nextToContentOnDesktop && $mdMedia('gt-md') && $rootScope.desktopOpen;
         };
 
+        /**
+         * Occurs when the user clicks the hamburger menu
+         * This should toggle the side navigation.
+         */
         $scope.toggleLeftSideNav = function() {
 
-            if($mdMedia('gt-md')){
-                // We are on a desktop
+            if($rootScope.nextToContentOnDesktop && $mdMedia('gt-md')){
+                // We are on a desktop with a always visible nav
+                // (so we have to toggle isLockedOpen)
                 $rootScope.desktopOpen = !$rootScope.desktopOpen;
             }else{
                 $mdSidenav('left').toggle();
