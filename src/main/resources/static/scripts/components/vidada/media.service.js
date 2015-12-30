@@ -45,7 +45,7 @@ angular.module('vidadaApp')
         }
     })
 
-    .factory('MediaInfinite', function (MediaPage) {
+    .factory('MediaInfinite', function (MediaPage, $mdToast) {
 
         var MediaInfinite = function(mediaQuery) {
             this.items = [];
@@ -84,6 +84,17 @@ angular.module('vidadaApp')
                         this.addMedia(newItems[i]);
                     }
                     this.busy = false;
+                }.bind(this), function(response) {
+                    // Something went wrong
+                    this.busy = false;
+                    console.log("Failed to load media page!" + JSON.stringify(response));
+
+                    $mdToast.show(
+                        $mdToast.simple()
+                            .content('Failed to load media page '+pageToLoad+'!')
+                            .hideDelay(2000)
+                    );
+
                 }.bind(this));
             }else{
                 console.log("Already all pages loaded, skipping nextPage() request!");
