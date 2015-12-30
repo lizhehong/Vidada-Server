@@ -287,10 +287,10 @@ ul#strength {
 }
 
 .full-img {
-    min-width: 50%;
+    display: block;
+    height: auto;
     width: 100%;
-    height: 100%;
-    object-fit: contain;
+    object-fit: contain; !important;
 }
 
 /* start media item style */
