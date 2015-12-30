@@ -27,14 +27,13 @@
     </md-toolbar>
 
 
-    <md-dialog-content layout="column" >
+    <md-dialog-content layout="column" layout-margin="20">
 
         <!-- Main Content -->
-        <div layout="row" layout-align="center center" layout-margin>
+        <div layout="row" layout-align="center center" layout-margin="20">
 
             <!-- Main Thumbnail -->
             <div layout="column" flex>
-
 
                 <md-grid-list
                     md-cols="1"
@@ -54,8 +53,6 @@
                             </div>
 
                         </div>
-
-
                     </md-grid-tile>
 
                 </md-grid-list>
@@ -66,8 +63,7 @@
 
             </div>
 
-            <div flex>
-                <md-content>
+            <div layout="column" flex>
                     <!-- media details -->
                     <h3 class="md-title">Media Details</h3>
 
@@ -80,7 +76,6 @@
                     <p>Bitrate: {{media.bitrate}} kb/s</p>
 
                     <p>Opened: {{media.timesOpened}} times</p>
-                </md-content>
             </div>
         </div>
 
