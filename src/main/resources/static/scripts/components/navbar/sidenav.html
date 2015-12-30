@@ -3,8 +3,6 @@
             md-component-id="left"
             md-is-locked-open="isLockedOpen()">
 
-<!-- style="background-color: #3F51B5" -->
-
     <md-list class="accent-color">
         <md-list-item ng-repeat="menu in mainMenuItems"
                       ng-click="$state.go(menu.state)"
@@ -24,28 +22,3 @@
 </md-sidenav>
 
 
-<!--
-            <md-button ui-sref-active="md-primary" class="nav-button" href="#" data-toggle="collapse" data-target="#demo">
-                <md-icon>
-                    <i class="material-icons">settings_applications</i>
-                </md-icon>
-                <span>Administration <i class="fa fa-fw fa-caret-down"></i></span>
-            </md-button>
-            <ul id="demo" class="collapse">
-                <li ui-sref-active="active"><a ui-sref="tracker"><span class="glyphicon glyphicon-eye-open"></span>
-                    &nbsp;<span translate="global.menu.admin.tracker">User tracking</span></a></li>
-                <li ui-sref-active="active"><a ui-sref="metrics"><span class="glyphicon glyphicon-dashboard"></span>
-                    &#xA0;<span translate="global.menu.admin.metrics">Metrics</span></a></li>
-                <li ui-sref-active="active"><a ui-sref="health"><span class="glyphicon glyphicon-heart"></span>
-                    &#xA0;<span translate="global.menu.admin.health">Health</span></a></li>
-                <li ui-sref-active="active"><a ui-sref="configuration"><span class="glyphicon glyphicon-list-alt"></span>
-                    &#xA0;<span translate="global.menu.admin.configuration">Configuration</span></a></li>
-                <li ui-sref-active="active"><a ui-sref="audits"><span class="glyphicon glyphicon-bell"></span>
-                    &#xA0;<span translate="global.menu.admin.audits">Audits</span></a></li>
-                <li ui-sref-active="active"><a ui-sref="logs"><span class="glyphicon glyphicon-tasks"></span>
-                    &#xA0;<span translate="global.menu.admin.logs">Logs</span></a></li>
-                <li ui-sref-active="active"><a ui-sref="docs"><span class="glyphicon glyphicon-book"></span>
-                    &#xA0;<span translate="global.menu.admin.apidocs">API Docs</span></a></li>
-            </ul>
-
-            -->
