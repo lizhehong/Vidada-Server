@@ -4,9 +4,23 @@
 angular.module('vidadaApp')
     .controller('MediasController', function ($rootScope, $scope, $state, $anchorScroll, $timeout, $mdDialog, Media, MediaInfinite, ParseText, Tag) {
 
+        $scope.knownTags = [];
         $scope.selectedSuggestion = null;
         $scope.$state = $state;
         $scope.currentMedia = null;
+        $scope.tagExpressionCaret = 0; // Current Position of the caret in the tagExpression input
+
+        $scope.availableOrderBy = [
+            {id: "TITLE", name: "Title"},
+            {id: "OPENED", name: "Times opened"},
+            {id: "ADDEDDATE", name: "Date added"},
+            {id: "LASTACCESS", name: "Access Date"},
+            {id: "RATING", name: "Rating"},
+            {id: "SIZE", name: "File size"},
+            {id: "DURATION", name: "Duration"},
+            {id: "BITRATE", name: "Bitrate"},
+        ];
+
         $scope.externalPlayers = [
             {
                 app: 'vlc',
@@ -22,24 +36,9 @@ angular.module('vidadaApp')
         $scope.mediaQuery = {
             query: "",
             tagExpression: "",
-            orderBy: { id: "TITLE" },
+            orderBy: $scope.availableOrderBy[2],
             reversed: false
         };
-
-        $scope.mediaService = new MediaInfinite($scope.mediaQuery);
-        $scope.tagExpressionCaret = 0; // Current Position of the caret in the tagExpression input
-        $scope.availableOrderBy = [
-            {id: "TITLE", name: "Title"},
-            {id: "OPENED", name: "Times opened"},
-            {id: "ADDEDDATE", name: "Date added"},
-            {id: "LASTACCESS", name: "Access Date"},
-            {id: "RATING", name: "Rating"},
-            {id: "SIZE", name: "File size"},
-            {id: "DURATION", name: "Duration"},
-            {id: "BITRATE", name: "Bitrate"},
-        ];
-
-
 
         $scope.scrollToCurrent = function(){
             if($scope.currentMedia != null){
@@ -163,7 +162,7 @@ angular.module('vidadaApp')
             $scope.tagExpressionCaret = getCaretPosition(myEl);
         };
 
-        $scope.knownTags = [];
+
 
         $scope.updateTags = function() {
             Tag.query().$promise.then(function (tags) {
@@ -204,4 +203,5 @@ angular.module('vidadaApp')
 
 
         $scope.updateTags();
+        $scope.updateMedias();
     });
