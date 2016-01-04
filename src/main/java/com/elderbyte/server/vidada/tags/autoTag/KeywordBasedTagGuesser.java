@@ -15,7 +15,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * This Tag-Guessing strategy finds matching tags based on keywords.
+ * This Tag-Guessing strategy finds matching tags based on path tokens and keywords.
+ *
+ * This is done by generating possible tags, and then checking if these tags exist in the current system.
+ *
  *
  * @author IsNull
  *

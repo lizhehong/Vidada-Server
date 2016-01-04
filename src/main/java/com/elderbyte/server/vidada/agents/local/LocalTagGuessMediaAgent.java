@@ -53,18 +53,21 @@ public class LocalTagGuessMediaAgent implements MediaAgent {
     }
 
 
-    private Set<String> findTags(MediaItem media){
+    private Set<String> findTags(MediaItem media) {
 
         Set<String> tags = new HashSet<>();
 
-        if(media.getType() == MediaType.IMAGE){
+        if (media.getType() == MediaType.IMAGE) {
             tags.add("image");
         }
 
-        if(media.getType() == MediaType.MOVIE){
+        if (media.getType() == MediaType.MOVIE) {
             tags.add("video");
         }
 
         return tags;
+
     }
+
+
 }
