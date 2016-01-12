@@ -134,7 +134,6 @@ public abstract class MediaItem extends BaseEntity {
 	 */
 	public void setAddedDate(ZonedDateTime addedDate) {
 		this.addedDate = addedDate;
-		firePropertyChange("addedDate");
 	}
 
     /**
@@ -151,7 +150,6 @@ public abstract class MediaItem extends BaseEntity {
      */
     public void setFileSize(long fileSize) {
         this.fileSize = fileSize;
-        firePropertyChange("fileSize");
     }
 
 	/**
@@ -222,7 +220,6 @@ public abstract class MediaItem extends BaseEntity {
 	public void setType(MediaType mediaType) {
 		if(mediaType.equals(MediaType.UNKNOWN)) throw new IllegalArgumentException("mediaType must not be UNKNOWN!");
 		this.type = mediaType;
-		firePropertyChange("mediaType");
 	}
 
 	/**
@@ -241,7 +238,6 @@ public abstract class MediaItem extends BaseEntity {
 	 */
 	public void setOpened(int opened) {
 		this.opened = opened;
-		firePropertyChange("opened");
 	}
 
 
@@ -251,7 +247,6 @@ public abstract class MediaItem extends BaseEntity {
 
 	public void setTitle(String title) {
 		this.title = title;
-		firePropertyChange("title");
 	}
 
 
@@ -285,7 +280,6 @@ public abstract class MediaItem extends BaseEntity {
 	 */
 	public void setResolution(Resolution resolution) {
 		this.resolution = resolution;
-		firePropertyChange("resolution");
 	}
 
 	/**
@@ -310,7 +304,6 @@ public abstract class MediaItem extends BaseEntity {
 	 */
 	public void setRating(int rating) {
 		this.rating = rating;
-		firePropertyChange("rating");
 	}
 
     public ZonedDateTime getLastAccessed() {
@@ -319,7 +312,6 @@ public abstract class MediaItem extends BaseEntity {
 
     public void setLastAccessed(ZonedDateTime lastAccessed) {
 		this.lastAccessed = lastAccessed;
-		firePropertyChange("lastAccessed");
 	}
 
 
@@ -327,8 +319,5 @@ public abstract class MediaItem extends BaseEntity {
 	public String toString() {
 		return this.getTitle() + "hash: " + this.getFilehash() + " src: " + getSource();
 	}
-
-	@Override
-	public abstract MediaItem clone();
 
 }

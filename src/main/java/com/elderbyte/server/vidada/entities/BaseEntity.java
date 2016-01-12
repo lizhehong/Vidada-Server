@@ -1,7 +1,6 @@
 package com.elderbyte.server.vidada.entities;
 
 
-import archimedes.core.data.observable.ObservableBean;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
 import javax.persistence.Access;
@@ -17,6 +16,6 @@ import javax.persistence.AccessType;
     fieldVisibility = JsonAutoDetect.Visibility.ANY,
     isGetterVisibility = JsonAutoDetect.Visibility.NONE,
     getterVisibility = JsonAutoDetect.Visibility.NONE)
-public abstract class BaseEntity extends ObservableBean {
+public abstract class BaseEntity {
 
 }

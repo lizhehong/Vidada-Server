@@ -63,9 +63,4 @@ public class ImageMediaItem extends MediaItem {
         }
     }
 
-	@Override
-	public ImageMediaItem clone() {
-		return new ImageMediaItem(this);
-	}
-
 }

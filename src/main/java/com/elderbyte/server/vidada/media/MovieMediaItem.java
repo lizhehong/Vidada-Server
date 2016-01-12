@@ -79,15 +79,6 @@ public class MovieMediaItem extends MediaItem implements Cloneable {
         super.prototype(prototype);
     }
 
-    /**
-     * Returns a clone of this instance
-     * @return
-     */
-    @Override
-    public MovieMediaItem clone() {
-        return new MovieMediaItem(this);
-    }
-
     /***************************************************************************
      *                                                                         *
      * Public Properties                                                       *

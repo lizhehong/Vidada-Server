@@ -11,6 +11,7 @@ import com.elderbyte.server.vidada.thumbnails.ThumbnailService;
 import com.elderbyte.server.vidada.media.MediaService;
 import com.elderbyte.server.vidada.web.rest.dto.AsyncResourceDTO;
 import com.elderbyte.server.vidada.web.rest.dto.MediaDTO;
+import com.elderbyte.server.vidada.web.servlets.MediaStreamServlet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
+
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 @Secured({"ROLE_USER"})
 @RestController
@@ -187,12 +191,7 @@ public class MediasResource {
 
         if(media == null) throw new ArgumentNullException("media");
 
-        UriComponentsBuilder streamUrl = baseUri()
-            // TODO: HACK - We force http scheme (in case https) and port 8080 to avoid certificate issues with web players
-                                            .scheme("http").port(8080)
-                                            .path("/stream").pathSegment(media.getFilehash());
-
-        MediaDTO mediaDTO = new MediaDTO(media, buildThumbnailAsync(media), streamUrl.toUriString());
+        MediaDTO mediaDTO = new MediaDTO(media, buildThumbnailAsync(media), MediaStreamServlet.getAbsoluteStreamUrl(media));
         return mediaDTO;
     }
 
@@ -205,7 +204,10 @@ public class MediasResource {
         CompletableFuture<IMemoryImage> imageTask = thumbnailService.getThumbnailAsync(media, thumbPosition);
         if(imageTask.isDone()){
             // The thumbnail has been processed for this media, create matching url
-            UriComponentsBuilder thumbnailUrl = baseUri().path("/api/thumbs/").pathSegment(media.getFilehash())
+
+            UriComponentsBuilder thumbnailUrl = linkTo(
+                methodOn(ThumbnailResource.class).getPNG(media.getFilehash(), thumbPosition, null, null))
+                .toUriComponentsBuilder()
                 .queryParam("position", thumbPosition)
                 .queryParam("jwt", JwtFilter.findAuthToken(request));
 
@@ -219,9 +221,6 @@ public class MediasResource {
     }
 
 
-    private static UriComponentsBuilder baseUri(){
-        return  ServletUriComponentsBuilder.fromCurrentContextPath();
-    }
 
 
 

@@ -9,9 +9,11 @@ import com.elderbyte.server.vidada.media.MediaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.net.URI;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -27,6 +29,23 @@ public class MediaStreamServlet extends AbstractStreamServlet {
 
     @Autowired
     private MediaService mediaService;
+
+
+    /**
+     * Returns an absolute URL to this stream servlet which will stream the given media.
+     * @param media The media for which the uri should be created
+     * @return
+     */
+    public static String getAbsoluteStreamUrl(MediaItem media){
+
+        // TODO We force http for max compatibility. The video will not play if the ssh certificate is self signed.
+
+        return ServletUriComponentsBuilder.fromCurrentContextPath()
+            .scheme("http")
+            .port(8080)
+            .path("/stream")
+            .pathSegment(media.getFilehash()).toUriString();
+    }
 
 
     @Override
