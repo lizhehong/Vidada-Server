@@ -51,7 +51,7 @@ public class ThumbnailResource {
      * @param height
      * @return
      */
-    @RequestMapping(value = "{hash}",
+    @RequestMapping(value = "/{hash}",
         method = RequestMethod.GET,
         produces = MediaType.IMAGE_PNG_VALUE)
     public ResponseEntity<byte[]> getPNG(

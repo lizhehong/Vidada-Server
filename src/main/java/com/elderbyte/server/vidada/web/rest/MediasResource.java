@@ -208,7 +208,6 @@ public class MediasResource {
             UriComponentsBuilder thumbnailUrl = linkTo(
                 methodOn(ThumbnailResource.class).getPNG(media.getFilehash(), thumbPosition, null, null))
                 .toUriComponentsBuilder()
-                .queryParam("position", thumbPosition)
                 .queryParam("jwt", JwtFilter.findAuthToken(request));
 
             asyncResource = AsyncResourceDTO.ofResource(thumbnailUrl.toUriString());
