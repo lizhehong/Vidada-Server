@@ -301,7 +301,7 @@ class MediaLibrarySyncStrategy {
     private void importNewFiles(IProgressListener progressListener, MediaLibrary parentlibrary, Map<String, ResourceLocation> newfilesWithHash){
         progressListener.currentProgress(new ProgressEventArgs(true, "Importing " + newfilesWithHash.size() + " new files..."));
 
-        List<MediaItem> newMedias = new ArrayList<MediaItem>(newfilesWithHash.size());
+        List<MediaItem> newMedias = new ArrayList<>(newfilesWithHash.size());
 
         double fileMapSize = newfilesWithHash.size();
 
