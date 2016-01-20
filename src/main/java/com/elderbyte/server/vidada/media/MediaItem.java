@@ -7,6 +7,8 @@ import com.elderbyte.server.vidada.media.source.MediaSource;
 import com.elderbyte.server.vidada.tags.Tag;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.beans.Transient;
 import java.time.ZonedDateTime;
 import java.util.HashSet;
@@ -35,6 +37,9 @@ public abstract class MediaItem extends BaseEntity {
 
 	@Id
 	private String filehash = null;
+    @NotNull
+    @Size(max = 1000)
+    @Column(length = 1000)
 	private String title = null;
 	private ZonedDateTime addedDate = ZonedDateTime.now();
     private long fileSize = -1;
