@@ -27,21 +27,51 @@
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     </head>
 
-    <body ng-app="vidadaApp" layout='row'>
+    <body ng-app="vidadaApp" layout='row' ng-controller="VidadaController">
 
-        <div layout="column" layout-fill>
+        <md-sidenav ng-show="isAuthenticated()"
+                    layout="column"
+                    class="md-sidenav-left md-whiteframe-z2"
+                    md-component-id="left"
+                    md-is-locked-open="isLockedOpen()">
 
+            <md-toolbar class="md-tall md-primary">
+                <span flex></span>
+                <div layout="column" class="md-toolbar-tools-bottom inset">
+                    <h2>
+                        <span>Vidada</span>
+                        <small class="navbar-version">v{{VERSION}}</small>
+                    </h2>
+                    <span></span>
+                    <div>Firstname Lastname</div>
+                    <div>email@domainname.com</div>
+                </div>
+            </md-toolbar>
+
+            <md-list class="accent-color">
+                <md-list-item ng-repeat="menu in mainMenuItems"
+                              ng-click="$state.go(menu.state)"
+                              ui-sref-active="md-accent"
+                              md-ink-ripple class="md-clickable"
+                              layout="row" layout-align="start center">
+                    <div class="inset">
+                        <md-icon> <i class="material-icons">{{menu.icon}}</i> </md-icon>
+                    </div>
+                    <div class="inset">{{menu.name}}</div>
+
+                </md-list-item>
+
+            </md-list>
+        </md-sidenav>
+
+        <div layout="column" class="relative" layout-fill role="main">
+
+            <!-- Toolbar -->
             <div layout="column" ui-view="navbar"></div>
 
-            <!-- -->
-            <div ui-view="sidenav"></div>
-
-            <toast></toast>
-
-            <md-content class="infcontent" flex class='md-padding'>
-
+            <!-- Main Content -->
+            <md-content flex md-scroll-y class="infcontent">
                 <div ui-view="content" autoscroll=""></div>
-
             </md-content>
 
             <!--
@@ -49,9 +79,7 @@
                 <p>Vidada-Web by ElderByte 2015</p>
             </footer>
             -->
-
         </div>
-
 
 
         <!-- build:js scripts/vendor.js -->
@@ -143,6 +171,7 @@
         <script src="scripts/app/vidada/player/player.controller.js"></script>
         <script src="scripts/app/vidada/tags/tags.controller.js"></script>
         <script src="scripts/app/vidada/tags/tags.js"></script>
+        <script src="scripts/app/vidada/vidada.controller.js"></script>
         <script src="scripts/app/vidada/vidada.js"></script>
         <!-- /include -->
         <!-- endbuild -->

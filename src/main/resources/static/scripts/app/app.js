@@ -112,10 +112,6 @@ angular.module('vidadaApp', ['LocalStorageModule', 'tmh.dynamicLocale',
                 'navbar@': {
                     templateUrl: 'scripts/components/navbar/toolbar.html',
                     controller: 'NavbarController'
-                },
-                'sidenav': {
-                    templateUrl: 'scripts/components/navbar/sidenav.html',
-                    controller: 'NavbarController'
                 }
             },
             resolve: {

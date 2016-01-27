@@ -1,7 +1,8 @@
+
 'use strict';
 
 angular.module('vidadaApp')
-    .controller('NavbarController', function ($rootScope, $scope, $location, $state, $mdSidenav, $mdMedia,
+    .controller('VidadaController', function ($rootScope, $scope, $location, $state, $mdSidenav, $mdMedia,
                                               Auth, Principal, $mdToast, MediaSynchronisation, ErrorHandler) {
 
         $scope.$state = $state;
@@ -81,13 +82,13 @@ angular.module('vidadaApp')
                             .hideDelay(2000)
                     );
                 }).error(function(data, status) {
-                    ErrorHandler.showToast('Failed to start synchronisation', data + ' - ' + status);
-                });
+                ErrorHandler.showToast('Failed to start synchronisation', data + ' - ' + status);
+            });
         };
 
         $scope.openMenu = function($mdOpenMenu, ev) {
             $mdOpenMenu(ev);
         };
 
-
     });
+
