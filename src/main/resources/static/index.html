@@ -71,7 +71,7 @@
             <!-- Toolbar -->
             <md-toolbar layout="row" layout-align="start center">
                 <div class="md-toolbar-tools">
-                    <md-button ng-show="isAuthenticated()" class="md-icon-button" aria-label="Menu" ng-click="toggleLeftSideNav()">
+                    <md-button ng-show="isAuthenticated() && !isLockedOpen()" class="md-icon-button" aria-label="Menu" ng-click="toggleLeftSideNav()">
                         <md-icon>
                             <i class="material-icons">menu</i>
                         </md-icon>
