@@ -108,12 +108,6 @@ angular.module('vidadaApp', ['LocalStorageModule', 'tmh.dynamicLocale',
         $urlRouterProvider.otherwise('/');
         $stateProvider.state('site', {
             'abstract': true,
-            views: {
-                'navbar@': {
-                    templateUrl: 'scripts/components/navbar/toolbar.html',
-                    controller: 'NavbarController'
-                }
-            },
             resolve: {
                 authorize: ['Auth',
                     function (Auth) {

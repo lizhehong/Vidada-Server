@@ -29,6 +29,7 @@
 
     <body ng-app="vidadaApp" layout='row' ng-controller="VidadaController">
 
+        <!-- Left Sidenav -->
         <md-sidenav ng-show="isAuthenticated()"
                     layout="column"
                     class="md-sidenav-left md-whiteframe-z2"
@@ -38,13 +39,14 @@
             <md-toolbar class="md-tall md-primary">
                 <span flex></span>
                 <div layout="column" class="md-toolbar-tools-bottom inset">
+
+                    <md-icon> <i class="material-icons">opacity</i> </md-icon>
+
                     <h2>
                         <span>Vidada</span>
                         <small class="navbar-version">v{{VERSION}}</small>
                     </h2>
                     <span></span>
-                    <div>Firstname Lastname</div>
-                    <div>email@domainname.com</div>
                 </div>
             </md-toolbar>
 
@@ -67,12 +69,72 @@
         <div layout="column" class="relative" layout-fill role="main">
 
             <!-- Toolbar -->
-            <div layout="column" ui-view="navbar"></div>
+            <md-toolbar layout="row" layout-align="start center">
+                <div class="md-toolbar-tools">
+                    <md-button ng-show="isAuthenticated()" class="md-icon-button" aria-label="Menu" ng-click="toggleLeftSideNav()">
+                        <md-icon>
+                            <i class="material-icons">menu</i>
+                        </md-icon>
+                    </md-button>
+                    <h2 update-title> </h2>
+                    <span flex></span>
+
+
+
+                    <md-button ng-show="isAuthenticated()" class="md-icon-button" ng-click="syncAll()">
+                        <md-icon>
+                            <i class="material-icons">sync</i>
+                        </md-icon>
+                    </md-button>
+
+
+
+                    <md-menu ng-show="isAuthenticated()">
+                        <md-button class="md-icon-button" ng-click="openMenu($mdOpenMenu, $event)">
+                            <md-icon>
+                                <i class="material-icons">face</i>
+                            </md-icon>
+                        </md-button>
+
+                        <md-menu-content width="4">
+                            <md-menu-item>
+                                <md-button ui-sref="settings">
+                                    <md-icon md-font-icon="fa fa-fw fa-user" md-menu-align-target></md-icon>
+                                    Profile
+                                </md-button>
+                            </md-menu-item>
+                            <md-menu-item>
+                                <md-button ui-sref="password">
+                                    <md-icon md-font-icon="fa fa-fw fa-lock"></md-icon>
+                                    Password
+                                </md-button>
+                            </md-menu-item>
+                            <md-menu-divider></md-menu-divider>
+                            <md-menu-item>
+                                <md-button ng-click="logout()">
+                                    <md-icon md-font-icon="fa fa-fw fa-power-off"></md-icon>
+                                    Log Off
+                                </md-button>
+                            </md-menu-item>
+                        </md-menu-content>
+                    </md-menu>
+
+                </div>
+            </md-toolbar>
 
             <!-- Main Content -->
-            <md-content flex md-scroll-y class="infcontent">
-                <div ui-view="content" autoscroll=""></div>
+            <md-content class="infcontent" ui-view="content"></md-content>
+
+            <!-- Main Content
+            <md-content layout="row">
+
+                <md-content ui-view="content" autoscroll=""></md-content>
+
+                <md-content ui-view="content" autoscroll=""></md-content>
+
             </md-content>
+            -->
+
 
             <!--
             <footer>
@@ -129,8 +191,8 @@
         <script src="scripts/components/form/pagination.directive.js"></script>
         <script src="scripts/components/language/language.controller.js"></script>
         <script src="scripts/components/language/language.service.js"></script>
-        <script src="scripts/components/navbar/navbar.controller.js"></script>
         <script src="scripts/components/navbar/navbar.directive.js"></script>
+        <script src="scripts/components/navbar/title.directive.js"></script>
         <script src="scripts/components/user/user.service.js"></script>
         <script src="scripts/components/util/base64.service.js"></script>
         <script src="scripts/components/util/error.service.js"></script>

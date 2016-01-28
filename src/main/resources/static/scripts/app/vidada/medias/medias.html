@@ -1,7 +1,5 @@
 <!-- Media Grid -->
-<md-content flex md-scroll-y>
-
-<div ng-show="$state.current.name === 'medias'">
+<md-content flex md-scroll-y autoscroll="">
 
     <!-- Media Search -->
     <md-card flex>
@@ -9,12 +7,8 @@
 
             <h2 class="md-title">All Medias</h2>
 
-
             <div layout-margin>
                 <form>
-
-                    <!-- Media Search -->
-
                     <div layout="row" layout-xs="column">
 
                         <md-input-container flex>
@@ -47,9 +41,6 @@
 
                         </md-autocomplete>
                     </div>
-
-
-
 
                     <div layout="row" layout-xs="column">
 
@@ -150,6 +141,6 @@
 
         </md-grid-list>
     </div>
-</div>
+
 </md-content>
 
