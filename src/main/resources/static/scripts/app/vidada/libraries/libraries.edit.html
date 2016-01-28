@@ -1,0 +1,30 @@
+<form layout-padding>
+
+
+    <div layout="column">
+
+        <p>You can modify your existing media library here.</p>
+
+        <md-input-container flex>
+            <label>Name</label>
+            <input type="text" ng-model="myLibrary.name" placeholder="My Videos">
+        </md-input-container>
+
+        <md-input-container flex>
+            <label>Path</label>
+            <input type="text" ng-model="myLibrary.rootPath" placeholder="file:/Users/Max/Movies">
+        </md-input-container>
+
+        <md-checkbox ng-model="myLibrary.ignoreMusic">Ignore Music</md-checkbox>
+        <md-checkbox ng-model="myLibrary.ignoreVideos">Ignore Videos</md-checkbox>
+        <md-checkbox ng-model="myLibrary.ignoreImages">Ignore Images</md-checkbox>
+
+    </div>
+
+
+    <div class="md-actions" layout="row">
+        <md-button ng-click="saveLibrary()" style="margin-right:20px;" >
+            Save
+        </md-button>
+    </div>
+</form>

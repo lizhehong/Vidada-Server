@@ -123,7 +123,16 @@
             </md-toolbar>
 
             <!-- Main Content -->
-            <md-content class="infcontent" ui-view="content"></md-content>
+
+            <md-content layout="row" class="infcontent">
+
+                <md-content layout-fill ui-view="content" autoscroll="true"></md-content>
+
+                <md-divider></md-divider>
+
+                <md-content ng-show="$state.current.name.indexOf('detail') > -1" layout-fill ui-view="detail"></md-content>
+
+            </md-content>
 
             <!-- Main Content
             <md-content layout="row">
@@ -226,6 +235,7 @@
         <script src="scripts/app/main/main.controller.js"></script>
         <script src="scripts/app/main/main.js"></script>
         <script src="scripts/app/vidada/libraries/libraries.controller.js"></script>
+        <script src="scripts/app/vidada/libraries/libraries.edit.controller.js"></script>
         <script src="scripts/app/vidada/libraries/libraries.js"></script>
         <script src="scripts/app/vidada/medias/medias.controller.js"></script>
         <script src="scripts/app/vidada/medias/medias.detail.controller.js"></script>

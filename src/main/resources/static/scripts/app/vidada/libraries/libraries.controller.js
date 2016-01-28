@@ -44,36 +44,6 @@ angular.module('vidadaApp')
             });
         };
 
-
-        $scope.editLibrary = function(ev, currentLibrary){
-            $mdDialog.show({
-                controller: EditLibraryModelCtrl,
-                templateUrl: 'EditLibrary.html',
-                parent: angular.element(document.body),
-                targetEvent: ev,
-                clickOutsideToClose:true,
-                locals : {
-                    library : currentLibrary
-                }
-            })
-            .then(function(library) {
-                // User has accepted the dialog
-
-                MediaLibrary.update(library, function () {
-                    $scope.updateLibraries();
-                    $mdToast.show(
-                        $mdToast.simple()
-                            .content('Updated library: ' + library.name)
-                            .hideDelay(2000)
-                    );
-                }, function(err){
-                    ErrorHandler.showToast('Failed to update: ' + library.name + ' with rootPath ' + library.rootPath, err);
-                });
-            });
-        };
-
-
-
         $scope.newLibrary = function(ev) {
 
             $mdDialog.show({
@@ -99,23 +69,6 @@ angular.module('vidadaApp')
         };
 
         $scope.updateLibraries();
-
-
-
-        function EditLibraryModelCtrl($scope, $mdDialog, library){
-            $scope.myLibrary = library;
-
-            $scope.ok = function () {
-                $mdDialog.hide($scope.myLibrary);
-            };
-
-            $scope.hide = function() {
-                $mdDialog.hide();
-            };
-            $scope.cancel = function() {
-                $mdDialog.cancel();
-            };
-        }
 
 
         function NewLibraryModelCtrl($scope, $mdDialog){

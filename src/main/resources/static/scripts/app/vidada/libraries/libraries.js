@@ -22,6 +22,17 @@ angular.module('vidadaApp')
                         return $translate.refresh();
                     }]
                 }
+            })
+            .state('detail-edit', {
+                parent: 'libraries',
+                url: '/{libraryId}',
+
+                views: {
+                    'detail@': {
+                        templateUrl: 'scripts/app/vidada/libraries/libraries.edit.html',
+                        controller: 'EditLibraryController'
+                    }
+                }
             });
     });
 
