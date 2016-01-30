@@ -4,7 +4,7 @@
   "appPath": "src/main/resources/static",
   "testPath": "src/test/javascript/spec",
   "dependencies": {
-    "angular": "~1.4.9",
+    "angular": "~1.5",
     "angular-bootstrap": null,
     "angular-cache-buster": null,
     "angular-cookies": null,
