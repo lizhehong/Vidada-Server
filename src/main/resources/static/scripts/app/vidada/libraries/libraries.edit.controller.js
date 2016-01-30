@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('vidadaApp')
-    .controller('EditLibraryController', function ($scope, $stateParams, MediaLibrary, $window, $mdToast, ErrorHandler, $modal, $mdDialog) {
+    .controller('EditLibraryController', function ($scope, $stateParams, MediaLibrary, $window, $mdToast, ErrorHandler) {
 
         $scope.myLibraryId = $stateParams.libraryId;
         $scope.myLibrary = {};
