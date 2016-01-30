@@ -65,10 +65,10 @@
             </md-list>
         </md-sidenav>
 
-        <div layout="column" class="relative" layout-fill role="main">
+        <md-content flex layout="column" role="main">
 
             <!-- Toolbar -->
-            <md-toolbar layout="row" layout-align="start center">
+            <md-toolbar layout="row" layout-align="center start">
                 <div class="md-toolbar-tools">
                     <md-button ng-show="isAuthenticated() && !isLockedOpen()" class="md-icon-button" aria-label="Menu" ng-click="toggleLeftSideNav()">
                         <md-icon>
@@ -123,33 +123,15 @@
 
             <!-- Main Content -->
 
-            <md-content layout="row" class="infcontent">
+            <div layout="row" style="overflow: auto;">
 
-                <md-content layout-fill ui-view="content" autoscroll="true"></md-content>
+                <md-content autoscroll="true" class="infcontent" flex ui-view="content"></md-content>
 
                 <md-divider></md-divider>
 
-                <md-content ng-show="$state.current.name.indexOf('detail') > -1" layout-fill ui-view="detail"></md-content>
+                <md-content flex ng-show="$state.current.name.indexOf('detail') > -1" ui-view="detail"></md-content>
 
-            </md-content>
-
-            <!-- Main Content
-            <md-content layout="row">
-
-                <md-content ui-view="content" autoscroll=""></md-content>
-
-                <md-content ui-view="content" autoscroll=""></md-content>
-
-            </md-content>
-            -->
-
-
-            <!--
-            <footer>
-                <p>Vidada-Web by ElderByte 2015</p>
-            </footer>
-            -->
-        </div>
+            </div>
 
 
         <!-- build:js scripts/vendor.js -->
