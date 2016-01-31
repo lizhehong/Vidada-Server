@@ -7,6 +7,29 @@ html, body {
     background-color: white;
 }
 
+
+.md-primary-background {
+    background-color: #673AB7;
+}
+
+.md-accent-background {
+    background-color: #FF4081;
+}
+
+.md-primary-foreground {
+    color: #673AB7;
+}
+
+.md-accent-foreground {
+    color: #FF4081;
+}
+
+
+
+.large-text {
+    font-size: 2em;
+}
+
 /* Toolbar area */
 
 .menu {

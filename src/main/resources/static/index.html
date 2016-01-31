@@ -40,7 +40,7 @@
                 <span flex></span>
                 <div layout="column" layout-align="center center" class="md-toolbar-tools-bottom inset">
 
-                    <md-icon style="font-size: 2em" md-font-set="material-icons">movie</md-icon>
+                    <md-icon class="large-text" md-font-set="material-icons">movie</md-icon>
 
                     <h2 class="md-display-1">
                         <span>Vidada</span>
@@ -52,13 +52,15 @@
             <md-list class="accent-color">
                 <md-list-item ng-repeat="menu in mainMenuItems"
                               ng-click="$state.go(menu.state)"
-                              ui-sref-active="md-accent"
+                              ng-class="$state.includes(menu.state) ? 'md-primary-foreground' : ''"
                               md-ink-ripple class="md-clickable"
                               layout="row" layout-align="start center">
                     <div class="inset">
-                        <md-icon md-font-set="material-icons">{{menu.icon}}</md-icon>
+                        <md-icon
+                            ng-class="$state.includes(menu.state) ? 'md-primary-foreground' : ''"
+                            md-font-set="material-icons">{{menu.icon}}</md-icon>
                     </div>
-                    <div class="inset">{{menu.name}}</div>
+                    <p class="inset">{{menu.name}}</p>
 
                 </md-list-item>
 
