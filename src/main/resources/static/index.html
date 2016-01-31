@@ -24,6 +24,7 @@
         <!-- -->
         <link rel="stylesheet" href="assets/styles/nav.css">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
     </head>
 
     <body ng-app="vidadaApp" layout='row' ng-controller="VidadaController">
@@ -37,15 +38,14 @@
 
             <md-toolbar class="md-tall md-primary">
                 <span flex></span>
-                <div layout="column" class="md-toolbar-tools-bottom inset">
+                <div layout="column" layout-align="center center" class="md-toolbar-tools-bottom inset">
 
-                    <md-icon> <i class="material-icons">opacity</i> </md-icon>
+                    <md-icon style="font-size: 2em" md-font-set="material-icons">movie</md-icon>
 
-                    <h2>
+                    <h2 class="md-display-1">
                         <span>Vidada</span>
                         <small class="navbar-version">v{{VERSION}}</small>
                     </h2>
-                    <span></span>
                 </div>
             </md-toolbar>
 
@@ -56,7 +56,7 @@
                               md-ink-ripple class="md-clickable"
                               layout="row" layout-align="start center">
                     <div class="inset">
-                        <md-icon> <i class="material-icons">{{menu.icon}}</i> </md-icon>
+                        <md-icon md-font-set="material-icons">{{menu.icon}}</md-icon>
                     </div>
                     <div class="inset">{{menu.name}}</div>
 
@@ -71,9 +71,7 @@
             <md-toolbar layout="row" layout-align="center start">
                 <div class="md-toolbar-tools">
                     <md-button ng-show="isAuthenticated() && !isLockedOpen()" class="md-icon-button" aria-label="Menu" ng-click="toggleLeftSideNav()">
-                        <md-icon>
-                            <i class="material-icons">menu</i>
-                        </md-icon>
+                        <md-icon md-font-set="material-icons">menu</md-icon>
                     </md-button>
                     <h2 update-title> </h2>
                     <span flex></span>
@@ -81,37 +79,33 @@
 
 
                     <md-button ng-show="isAuthenticated()" class="md-icon-button" ng-click="syncAll()">
-                        <md-icon>
-                            <i class="material-icons">sync</i>
-                        </md-icon>
+                        <md-icon md-font-set="material-icons">sync</md-icon>
                     </md-button>
 
 
 
                     <md-menu ng-show="isAuthenticated()">
                         <md-button class="md-icon-button" ng-click="openMenu($mdOpenMenu, $event)">
-                            <md-icon>
-                                <i class="material-icons">face</i>
-                            </md-icon>
+                            <md-icon md-font-set="material-icons">face</md-icon>
                         </md-button>
 
                         <md-menu-content width="4">
                             <md-menu-item>
                                 <md-button ui-sref="settings">
-                                    <md-icon md-font-icon="fa fa-fw fa-user" md-menu-align-target></md-icon>
+                                    <md-icon md-font-set="material-icons">face</md-icon>
                                     Profile
                                 </md-button>
                             </md-menu-item>
                             <md-menu-item>
                                 <md-button ui-sref="password">
-                                    <md-icon md-font-icon="fa fa-fw fa-lock"></md-icon>
+                                    <md-icon md-font-set="material-icons">lock</md-icon>
                                     Password
                                 </md-button>
                             </md-menu-item>
                             <md-menu-divider></md-menu-divider>
                             <md-menu-item>
                                 <md-button ng-click="logout()">
-                                    <md-icon md-font-icon="fa fa-fw fa-power-off"></md-icon>
+                                    <md-icon md-font-set="material-icons">clear</md-icon>
                                     Log Off
                                 </md-button>
                             </md-menu-item>
