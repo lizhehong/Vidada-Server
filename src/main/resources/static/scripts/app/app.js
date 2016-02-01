@@ -4,7 +4,7 @@ angular.module('vidadaApp', ['LocalStorageModule', 'tmh.dynamicLocale',
     'ngResource', 'ui.router', 'ngCookies',
     'pascalprecht.translate', 'ngCacheBuster',
     'infinite-scroll', 'ui.bootstrap',
-    'ngSanitize', 'ngMaterial', 'ngAnimate', 'ngAria'])
+    'ngSanitize', 'ngMaterial', 'ngAnimate', 'ngAria', 'ngMessages'])
 
     .run(function ($rootScope, $location, $window, $http, $state, $translate,
                    Auth, Principal, Language, ENV, VERSION, tmhDynamicLocale) {
