@@ -5,7 +5,7 @@ angular.module('vidadaApp')
         return {
             login: function(credentials) {
 
-                return $http.post('/api/auth/login', credentials).then(function(response) {
+                return $http.post('/api/oauth/login', credentials).then(function(response) {
 
                     var jwt = response.data.token;
 
@@ -26,7 +26,7 @@ angular.module('vidadaApp')
 
                 console.log('Logging out, clearing local JWT!');
 
-                $http.post('api/logout').then(function() {
+                $http.post('/api/oauth/logout').then(function() {
                     localStorageService.clearAll();
                 }, function(){
                     localStorageService.clearAll();

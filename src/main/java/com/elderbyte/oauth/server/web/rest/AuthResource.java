@@ -19,7 +19,7 @@ import com.nimbusds.jwt.SignedJWT;
 
 @SuppressWarnings("unused")
 @RestController
-@RequestMapping("/api/auth/login")
+@RequestMapping("/api/oauth/login")
 public class AuthResource {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());

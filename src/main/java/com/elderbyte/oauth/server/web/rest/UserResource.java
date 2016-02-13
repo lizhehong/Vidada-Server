@@ -24,7 +24,7 @@ import java.util.List;
  */
 @Secured({"ROLE_USER"})
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/oauth/users")
 public class UserResource {
 
     private final Logger log = LoggerFactory.getLogger(UserResource.class);
@@ -38,6 +38,7 @@ public class UserResource {
     /**
      * GET  /users -> get all users.
      */
+    @Secured({"ROLE_ADMIN"})
     @RequestMapping(
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
@@ -61,7 +62,7 @@ public class UserResource {
 
 
     @RequestMapping(
-        value = "current", // /api/users/current
+        value = "current",
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserDto> getCurrentPrincipal() {
