@@ -143,7 +143,7 @@ class MediaLibrarySyncStrategy {
 
         // bulk update
         mediaService.delete( removedMedias );
-        mediaService.update( updateMedias );
+        mediaService.save( updateMedias );
 
         return newFiles;
     }

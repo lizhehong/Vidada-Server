@@ -4,9 +4,11 @@ import archimedes.core.data.pagination.ListPage;
 import archimedes.core.events.EventArgs;
 import archimedes.core.events.EventHandlerEx;
 import archimedes.core.events.IEvent;
+import archimedes.core.exceptions.NotSupportedException;
 import archimedes.core.io.locations.ResourceLocation;
 import com.elderbyte.code.CodeDomException;
 import com.elderbyte.code.dom.expressions.ExpressionNode;
+import com.elderbyte.server.vidada.media.source.MediaSource;
 import com.elderbyte.server.vidada.queries.TagExpressionBuilder;
 import com.elderbyte.server.vidada.media.libraries.MediaLibraryService;
 import com.elderbyte.server.vidada.tags.TagService;
@@ -38,16 +40,6 @@ public class MediaService {
     private final TagService tagService;
     private final MediaHashService mediaHashService;
 
-    /***************************************************************************
-     *                                                                         *
-     * Events                                                                  *
-     *                                                                         *
-     **************************************************************************/
-
-    private final EventHandlerEx<EventArgs> mediasChangedEvent = new EventHandlerEx<>();
-
-
-    public IEvent<EventArgs> getMediasChangedEvent() { return mediasChangedEvent;  }
 
     /***************************************************************************
      *                                                                         *
@@ -80,28 +72,32 @@ public class MediaService {
      *                                                                         *
      **************************************************************************/
 
+    /**
+     * Persists the given media
+     * @param media
+     */
     @Transactional
 	public void save(final MediaItem media) {
         repository.save(media);
-        fireMediasChanged();
 	}
 
+    /**
+     * Persists the given medias
+     * @param medias
+     */
     @Transactional
 	public void save(final Collection<MediaItem> medias) {
         repository.save(medias);
-        fireMediasChanged();
 	}
 
-    @Transactional
-	public void update(final MediaItem media) {
-        repository.save(media);
-	}
-
-    @Transactional
-	public void update(final Collection<MediaItem> medias) {
-        repository.save(medias);
-	}
-
+    /**
+     * Performs a media query and returns the matching medias.
+     * The result-set is paged.
+     * @param qry The media query which filters the medias
+     * @param pageIndex The page index to return
+     * @param maxPageSize The number of medias per page
+     * @return
+     */
     @Transactional
 	public ListPage<MediaItem> query(final MediaQuery qry, final int pageIndex, final int maxPageSize) {
 
@@ -139,7 +135,10 @@ public class MediaService {
         return repository.query(exprQuery, pageIndex, maxPageSize);
     }
 
-
+    /**
+     * Returns all persisted medias
+     * @return
+     */
     @Transactional
 	public List<MediaItem> findAllMedias(){
 		return repository.findAll();
@@ -156,28 +155,61 @@ public class MediaService {
     }
 
 
+    /**
+     * Deletes the given media from the persisted items.
+     *
+     * @param media
+     */
     @Transactional
 	public void delete(final MediaItem media) {
         repository.delete(media);
-        fireMediasChanged();
 	}
 
+    /**
+     * Deletes all given medias from the persisted items.
+     * @param media
+     */
     @Transactional
-	public void delete(final Collection<MediaItem> media) {
+    public void delete(final Collection<MediaItem> media) {
         repository.delete(media);
-        fireMediasChanged();
-	}
-
-    public void fireMediasChanged() {
-        mediasChangedEvent.fireEvent(this, EventArgs.Empty);
     }
 
+    /**
+     * Deletes the given medias local file permanently.
+     * Afterwards, the media is removed from the persisted items.
+     *
+     * @param mediaItem
+     * @throws
+     */
+    @Transactional
+    public void deleteLocalFile(MediaItem mediaItem) {
 
+        for (MediaSource source : mediaItem.getSources()) {
+            ResourceLocation resource = source.getResourceLocation();
+
+            if(!resource.delete()){
+                throw new NotSupportedException("Failed to delete media resource " + resource);
+            }
+        }
+
+        // Delete it from the database
+        delete(mediaItem);
+    }
+
+    /**
+     * Returns the number of medias currently persisted
+     * @return
+     */
     @Transactional
     public int count() {
         return (int)repository.count();
     }
 
+
+    /**
+     * Updates the last-accessed and opended-counter of the given media
+     * @param mediaItem
+     */
     @Transactional
     public void mediaAccessed(MediaItem mediaItem) {
        findById(mediaItem.getFilehash()).ifPresent(m -> {
@@ -203,7 +235,5 @@ public class MediaService {
 	private String retrieveMediaHash(ResourceLocation file){
 		return mediaHashService.retrieveFileHash(file);
 	}
-
-
 
 }

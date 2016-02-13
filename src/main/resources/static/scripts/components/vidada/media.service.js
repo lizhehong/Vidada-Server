@@ -3,7 +3,7 @@
 angular.module('vidadaApp')
 
     .factory('Media', function ($resource) {
-        return $resource('api/medias/:id', { id: '@id' }, {
+        return $resource('api/medias/:mediaId', { mediaId: '@id' }, {
             update: {
                 method: 'PUT'
             },
@@ -13,7 +13,7 @@ angular.module('vidadaApp')
                 isArray: false
             },
             getThumb: {
-                url: 'api/medias/:id/thumbnail',
+                url: 'api/medias/:mediaId/thumbnail',
                 method: 'GET',
                 transformResponse: function (data) {return angular.fromJson(data)},
                 isArray: false

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('vidadaApp')
-    .controller('MediasDetailController', function ($scope, $stateParams, Media, $mdDialog, myMedia) {
+    .controller('MediasDetailController', function ($scope, $stateParams, $mdToast, Media, $mdDialog, myMedia) {
 
         $scope.enableWatch = false;
         $scope.media = null;
@@ -37,6 +37,34 @@ angular.module('vidadaApp')
 
             $scope.mediaDump = JSON.stringify(media, null, 2);
             $scope.enableWatch = true;
+        };
+
+        /**
+         * Permanently delete media
+         */
+        $scope.delete = function(){
+
+            // instance is cleared on success
+            Media.delete({mediaId: $scope.media.id}, function() {
+
+                $mdToast.show(
+                    $mdToast.simple()
+                        .content('Successfully deleted media!')
+                        .hideDelay(2000)
+                );
+
+                $scope.cancel(); // Close detail dialog
+
+            }, function(err){
+                console.log("Failed to delete media! " + JSON.stringify(err))
+                // Failed to delete
+                $mdToast.show(
+                    $mdToast.simple()
+                        .content('Failed to delete media! ' + err.data.error)
+                        .hideDelay(2000)
+                );
+            });
+
         };
 
         $scope.isFavorite = function () {

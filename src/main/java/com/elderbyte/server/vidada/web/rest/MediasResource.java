@@ -4,6 +4,7 @@ import archimedes.core.data.pagination.ListPage;
 import archimedes.core.images.IMemoryImage;
 import com.elderbyte.common.ArgumentNullException;
 import com.elderbyte.server.vidada.media.*;
+import com.elderbyte.server.vidada.media.libraries.MediaLibrary;
 import com.elderbyte.server.vidada.tags.Tag;
 import com.elderbyte.server.security.jwt.JwtFilter;
 import com.elderbyte.server.vidada.tags.TagService;
@@ -75,7 +76,7 @@ public class MediasResource {
             MediaItem existing = mediaService.findById(mediaDto.getId()).orElse(null);
             if(existing != null){
                 MediaDTO.updateFromDto(existing, mediaDto);
-                mediaService.update(existing);
+                mediaService.save(existing);
                 return ResponseEntity.ok().build();
             }else{
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -145,6 +146,31 @@ public class MediasResource {
             .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
+    /**
+     * Deletes the given media local file permanently
+     * @param hash
+     * @return
+     */
+    @RequestMapping(value = "{hash}",
+        method = RequestMethod.DELETE)
+    public ResponseEntity deleteMedia(@PathVariable("hash") String hash) {
+       Optional<MediaItem> mediaItem = mediaService.findById(hash);
+
+        if(mediaItem.isPresent()){
+
+            try {
+
+                mediaService.deleteLocalFile(mediaItem.get());
+                return ResponseEntity.ok().build();
+
+            }catch (Exception e){
+                logger.error("Failed to delete media " + hash + "!", e);
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            }
+        }else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
 
 
     /***************************************************************************
