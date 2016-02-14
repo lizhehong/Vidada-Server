@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('vidadaApp')
-    .controller('MediasController', function ($rootScope, $scope, $state, $anchorScroll, $timeout, $mdDialog, Media, MediaInfinite, ParseText, Tag) {
+    .controller('MediasController', function ($rootScope, $scope, $state, $stateParams, $anchorScroll, $timeout, $mdDialog, Media, MediaInfinite, ParseText, Tag) {
 
         $scope.knownTags = [];
         $scope.selectedSuggestion = null;
@@ -34,10 +34,10 @@ angular.module('vidadaApp')
 
 
         $scope.mediaQuery = {
-            query: "",
-            tagExpression: "",
+            query: $stateParams.query,
+            tagExpression: $stateParams.tagExpression,
             orderBy: $scope.availableOrderBy[2],
-            reversed: false
+            reversed: ($stateParams.reversed === 'true')
         };
 
         $scope.scrollToCurrent = function(){

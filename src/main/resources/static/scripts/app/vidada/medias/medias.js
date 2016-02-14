@@ -6,7 +6,7 @@ angular.module('vidadaApp')
 
             .state('medias', {
                 parent: 'vidada',
-                url: '/medias',
+                url: '/medias?query&tagExpression&sort&reversed',
                 data: {
                     roles: ['ROLE_USER'],
                     pageTitle: 'medias.title'
@@ -15,6 +15,23 @@ angular.module('vidadaApp')
                     'content@': {
                         templateUrl: 'scripts/app/vidada/medias/medias.html',
                         controller: 'MediasController'
+                    }
+                },
+                params: {
+                    query: {
+                        value: '',
+                        squash: true
+                    },
+                    tagExpression: {
+                        value: '',
+                        squash: true
+                    },
+                    sort: {
+                        value: 'ADDEDDATE',
+                    },
+                    reversed: {
+                        value: 'false',
+                        squash: true
                     }
                 },
                 resolve: {
