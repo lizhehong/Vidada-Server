@@ -166,8 +166,12 @@ class MediaLibrarySyncStrategy {
             {
                 boolean isStillExisting = stillExisting.contains(mediaInDatabase);
                 if(!isStillExisting){
-                    // This media does no longer exist
-                    if(canMediaBeDeleted( library, mediaInDatabase )){
+                    // This media does no longer exist in the current library
+                    // Thus we can remove all sources from this library of this media
+                    removLibrarySources(mediaInDatabase, library);
+
+                    if(hasAnySource(mediaInDatabase)){
+                        // The media has no source anymore (should no longer show up)
                         removeMedias.add( mediaInDatabase );
                     }
                 }
@@ -179,21 +183,27 @@ class MediaLibrarySyncStrategy {
 
 
     /**
-     * Remove the no longer existing media source
+     * Check if the media has any media-source left
      * @param media
      */
-    private boolean canMediaBeDeleted(MediaLibrary library, MediaItem media) {
+    private boolean hasAnySource(MediaItem media) {
+        return (media.getSources().size() == 0);
+    }
+
+    /**
+     * Remove all media-sources which are from the given library.
+     * @param media
+     * @param library
+     */
+    private void removLibrarySources(MediaItem media, MediaLibrary library){
 
         // Remove non existing file sources
         Set<MediaSource> allSources = new HashSet<>(media.getSources());
         for (MediaSource source : allSources) {
-            if(source.getParentLibrary().equals(library))
-            {
-                media.getSources().remove(source); // TODO mark for UPDATE???
+            if (source.getParentLibrary().equals(library)) {
+                media.getSources().remove(source);
             }
         }
-        // If the media has no sources left, we mark it as to be deleted
-        return (media.getSources().size() == 0);
     }
 
     /**
