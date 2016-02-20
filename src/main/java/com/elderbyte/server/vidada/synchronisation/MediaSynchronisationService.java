@@ -142,6 +142,7 @@ public class MediaSynchronisationService {
 
         return importStrategy.synchronizeAsync(progressListener)
             .thenRun(() -> {
+                logger.info("Media synchronisation completed, starting media meta-data update...");
                 metadataImportService.updateAllMediaMetadataAsync();
         });
     }
