@@ -35,7 +35,7 @@ class MediaLibrarySyncStrategy {
      **************************************************************************/
 
     /**
-     * Creates a sync stratecy which can synchronize media libraries
+     * Creates a sync strategy which can synchronize media libraries
      * @param mediaService
      * @param mediaHashService
      * @param mediasInDatabase
@@ -184,10 +184,8 @@ class MediaLibrarySyncStrategy {
      */
     private boolean canMediaBeDeleted(MediaLibrary library, MediaItem media) {
 
-        LOG.trace("handleNonExistingMedia: " + media );
-
         // Remove non existing file sources
-        Set<MediaSource> allSources = media.getSources();
+        Set<MediaSource> allSources = new HashSet<>(media.getSources());
         for (MediaSource source : allSources) {
             if(source.getParentLibrary().equals(library))
             {
