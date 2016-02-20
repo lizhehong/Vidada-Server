@@ -31,9 +31,9 @@ public class TagRelationDefinition {
 
     private static final Logger logger = LogManager.getLogger(TagRelationDefinition.class.getName());
 
-	private Set<TagRelation> relations = new HashSet<TagRelation>();
-	private Map<TagRelationOperator, Set<TagRelation>> operatorCluster = new HashMap<TagRelationOperator, Set<TagRelation>>();
-	private Map<String, Set<Tag>> namedGroups = new HashMap<String, Set<Tag>>();
+	private Set<TagRelation> relations = new HashSet<>();
+	private Map<TagRelationOperator, Set<TagRelation>> operatorCluster = new HashMap<>();
+	private Map<String, Set<Tag>> namedGroups = new HashMap<>();
 
 
 	transient private TagRelationIndex relationIndex = null;

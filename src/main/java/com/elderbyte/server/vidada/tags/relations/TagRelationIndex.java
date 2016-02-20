@@ -71,7 +71,7 @@ class TagRelationIndex {
 	 * @return
 	 */
 	public Set<Tag> getAllRelatedTags(Tag tag){
-		Set<Tag> relatedTags = new HashSet<Tag>();
+		Set<Tag> relatedTags = new HashSet<>();
 
 		relatedTags.addAll(getAllEqualTags(tag));
 
@@ -89,7 +89,7 @@ class TagRelationIndex {
 	 */
 	Set<Tag> getAllEqualTags(Tag tag){
 		TagNode node = findNode(tag);
-		return node != null ? node.getSynonyms() : new HashSet<Tag>();
+		return node != null ? node.getSynonyms() : new HashSet<>();
 	}
 
 	/**
@@ -99,18 +99,18 @@ class TagRelationIndex {
 	 */
 	private Set<Tag> getSpecialisations(Tag tag){
 
-		Set<Tag> hierarchical = new HashSet<Tag>();
+		Set<Tag> specialisations = new HashSet<>();
 
 		TagNode node = findNode(tag);
 
 		if(node != null){
-			for (TagNode child : node.getChildren()) {
-				hierarchical.add(child.getTag());
-				hierarchical.addAll(getSpecialisations(child.getTag()));
+			for (TagNode child : node.getSpecialisations()) {
+				specialisations.add(child.getTag());
+				specialisations.addAll(getSpecialisations(child.getTag()));
 			}
 		}
 
-		return hierarchical;
+		return specialisations;
 	}
 
 
@@ -139,7 +139,7 @@ class TagRelationIndex {
 
 	public String toTreeString(){
 		StringBuilder sb = new StringBuilder();
-		Set<TagNode> addedNodes = new HashSet<TagNode>();
+		Set<TagNode> addedNodes = new HashSet<>();
 
 		for (Tag tag : rootNodes.keySet()) {
 			TagNode node = findNode(tag);
@@ -167,18 +167,15 @@ class TagRelationIndex {
 		TagNode masterNode = getNode(master);
 		TagNode slaveNode = findNode(slave);
 
-		if(slaveNode != null && !slaveNode.getChildren().isEmpty()){
+		if(slaveNode != null && !slaveNode.getSpecialisations().isEmpty()){
 			mergeInto(masterNode, slaveNode);
 		}
 		rootNodes.put(slave, masterNode);
-		masterNode.addSynonym(slave);
+		masterNode.getSynonyms().add(slave);
 
 		if(slaveNode != null){
 			// Update the master-node with the now obsolete slave-node equality references
-			Set<Tag> rightEquals = slaveNode.getSynonyms();
-			if(rightEquals != null){
-				masterNode.addSynonyms(rightEquals);
-			}
+            masterNode.getSynonyms().addAll(slaveNode.getSynonyms());
 		}
 	}
 
@@ -188,14 +185,14 @@ class TagRelationIndex {
 	 * @param slave
 	 */
 	private void mergeInto(TagNode master, TagNode slave){
-		Set<TagNode> masterChildren = master.getChildren();
-		masterChildren.addAll(slave.getChildren());
+		Set<TagNode> masterChildren = master.getSpecialisations();
+		masterChildren.addAll(slave.getSpecialisations());
 	}
 
 	private void setParentRelation(Tag parent, Tag child){
 		TagNode parentNode = getNode(parent);
 		TagNode childNode = getNode(child);
-		parentNode.getChildren().add(childNode);
+		parentNode.getSpecialisations().add(childNode);
 	}
 
 	/**
