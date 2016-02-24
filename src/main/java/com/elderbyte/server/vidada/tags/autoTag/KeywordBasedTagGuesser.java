@@ -138,18 +138,7 @@ public class KeywordBasedTagGuesser  implements ITagGuessingStrategy {
 
 
     private static String mediaSourceToString(MediaSource source){
-        if (source != null && source.getResourceLocation() != null) {
-            String path = source.getResourceLocation().toString();
-            try {
-                path = URLDecoder.decode(path, "utf-8");
-            } catch (UnsupportedEncodingException e) {
-                logger.error("Decoding " + path + " failed.", e);
-            } catch (IllegalArgumentException e) {
-                logger.error("Decoding " + path + " failed.", e);
-            }
-           return path;
-        }
-        return "";
+        return source.getResourceLocation().getUriString();
     }
 
     /**

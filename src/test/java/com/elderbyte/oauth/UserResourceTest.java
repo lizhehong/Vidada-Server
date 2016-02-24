@@ -1,4 +1,4 @@
-package com.elderbyte.server.vidada.web.rest;
+package com.elderbyte.oauth;
 
 import com.elderbyte.oauth.server.web.rest.UserResource;
 import com.elderbyte.Application;
