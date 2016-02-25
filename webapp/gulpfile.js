@@ -33,7 +33,9 @@ var bases = {
 
 
 var paths = {
-    index : bases.app + 'index.html'
+    index : bases.app + 'index.html',
+    localJs : bases.app + 'scripts/**/*.js',
+    localCss : bases.app + 'assets/styles/**/*.css'
 }
 
 // === TASKS ===
@@ -93,10 +95,10 @@ gulp.task('inject-bower', function () {
 gulp.task('inject-local', function() {
 
     // It's not necessary to read the files (will speed up things), we're only after their paths:
-    var sources = gulp.src([bases.app + '**/*.js', bases.app + '**/*.css'], {read: false});
+    var sources = gulp.src([paths.localJs, paths.localCss], {read: false});
 
     return gulp.src(paths.index)
-        .pipe(inject())
+        .pipe(inject(sources))
         .pipe(gulp.dest(bases.app)); // In place update
 });
 
