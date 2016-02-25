@@ -4,15 +4,20 @@
 // Used to automate Web Applicaiton building, minimisation & releasing
 
 var gulp = require('gulp');
+var watch = require('gulp-watch');
+var liveReload  = require('gulp-livereload');
 var clean = require('gulp-clean');
 var jshint = require('gulp-jshint');
 var concat = require('gulp-concat');
 var usemin = require('gulp-usemin');
 var uglify = require('gulp-uglify');
+var rename = require('gulp-rename');
+var moment = require('moment');
+var notify  = require('gulp-notify');
 var minifyHtml = require('gulp-minify-html');
 var minifyCss = require('gulp-minify-css');
 var rev = require('gulp-rev');
-var ngmin = require('gulp-ngmin');
+var ngAnnotate = require('gulp-ng-annotate');
 
 
 var bases = {
@@ -31,15 +36,15 @@ gulp.task('clean', function() {
         .pipe(clean());
 });
 
-
+// Relplace all js + css references in index.html with minified and compressed ones.
 gulp.task('usemin', function() {
     return gulp.src(bases.app + 'index.html')
         .pipe(usemin({
-            css: [ rev ],
+            mainCss: [ rev ],
+            vendorCss: [ rev ],
             html: [ function () {return minifyHtml({ empty: true });} ],
-            js: [ ngmin, uglify({ mangle: false }), rev ],
-            inlinejs: [ uglify ],
-            inlinecss: [ minifyCss, 'concat' ]
+            appJs: [ ngAnnotate, uglify, rev ], // ngAnnotate
+            vendorJs: [ ngAnnotate, uglify, rev ] // ngAnnotate
         }))
         .pipe(gulp.dest(bases.dist));
 });
@@ -66,7 +71,7 @@ gulp.task('copy', ['clean'], function() {
 });
 
 
-/**
+/*
  * Wire-up the bower dependencies
  * @return {Stream}
 
@@ -99,6 +104,7 @@ gulp.task('inject', ['wiredep', 'styles', 'templatecache'], function() {
 
 
 // A development task to run anytime a file changes
+
 gulp.task('watch', function() {
     gulp.watch('app/**/*', ['scripts', 'copy']);
 });
