@@ -177,12 +177,14 @@ public abstract class MediaItem extends BaseEntity {
 		if(source == null || !source.isAvailable())
 		{
 			Set<MediaSource> sources = getSources();
-			if(sources != null)
-				for (MediaSource s : sources) {
-					if(s.isAvailable())
-						source = s;
-				}
-			if(source != null && !sources.isEmpty())
+            for (MediaSource s : sources) {
+                if(s.isAvailable()) {
+                    source = s;
+                    break;
+                }
+            }
+
+			if(source == null && !sources.isEmpty())
 				source = Lists.getFirst(sources);
 		}
 		return source;
