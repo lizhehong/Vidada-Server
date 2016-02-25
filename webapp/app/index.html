@@ -17,11 +17,15 @@
         <link rel="stylesheet" href="bower_components/animate.css/animate.css" />
         <!-- endbower -->
         <!-- endbuild -->
+
+        <!-- inject:css -->
+        <!-- endinject -->
+
         <!-- build:mainCss assets/styles/main.css -->
         <link rel="stylesheet" href="assets/styles/main.css">
         <link rel="stylesheet" href="assets/styles/nav.css">
         <!-- endbuild -->
-        <!-- -->
+
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
     </head>
@@ -134,8 +138,6 @@
 
         <!-- build:vendorJs scripts/vendor.js -->
         <!-- bower:js -->
-        <script src="bower_components/modernizr/modernizr.js"></script>
-        <script src="bower_components/jquery/dist/jquery.js"></script>
         <script src="bower_components/angular/angular.js"></script>
         <script src="bower_components/angular-animate/angular-animate.js"></script>
         <script src="bower_components/angular-aria/angular-aria.js"></script>
@@ -153,16 +155,19 @@
         <script src="bower_components/angular-messages/angular-messages.js"></script>
         <script src="bower_components/angular-material/angular-material.js"></script>
         <script src="bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js"></script>
+        <script src="bower_components/jquery/dist/jquery.js"></script>
         <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
         <script src="bower_components/json3/lib/json3.js"></script>
+        <script src="bower_components/modernizr/modernizr.js"></script>
         <script src="bower_components/sockjs-client/dist/sockjs.js"></script>
         <script src="bower_components/stomp-websocket/lib/stomp.min.js"></script>
         <script src="bower_components/arrive/src/arrive.js"></script>
         <!-- endbower -->
         <!-- endbuild -->
 
+    
         <!-- build:appJs scripts/app.js -->
-        <!-- include: "type": "js", "files": "<%= app.scripts %>" -->
+        <!-- inject:js -->
         <script src="scripts/app/app.js"></script>
         <script src="scripts/app/app.constants.js"></script>
         <script src="scripts/components/auth/auth.service.js"></script>
@@ -223,7 +228,7 @@
         <script src="scripts/app/vidada/tags/tags.js"></script>
         <script src="scripts/app/vidada/vidada.controller.js"></script>
         <script src="scripts/app/vidada/vidada.js"></script>
-        <!-- /include -->
+        <!-- endinject -->
         <!-- endbuild -->
     </body>
 </html>

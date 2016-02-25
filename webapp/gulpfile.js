@@ -17,6 +17,7 @@ var minifyCss = require('gulp-minify-css');
 var rev = require('gulp-rev');
 var ngAnnotate = require('gulp-ng-annotate');
 var wiredep = require('wiredep').stream;
+var inject = require('gulp-inject');
 
 var jshint = require('gulp-jshint');
 var watch = require('gulp-watch');
@@ -85,14 +86,14 @@ gulp.task('inject', ['inject-bower', 'inject-local']);
 gulp.task('inject-bower', function () {
   gulp.src(paths.index)
     .pipe(wiredep())
-    .pipe(gulp.dest(bases.dist));
+    .pipe(gulp.dest(bases.app)); // In place update
 });
 
 // Wire-up local dependencies automatically (js + css)
 gulp.task('inject-local', function() {
-    return gulp.src(config.index)
+    return gulp.src(paths.index)
         .pipe(inject())
-        .pipe(gulp.dest(bases.dist));
+        .pipe(gulp.dest(bases.app)); // In place update
 });
 
 
