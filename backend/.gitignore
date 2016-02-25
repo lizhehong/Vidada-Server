@@ -1,4 +1,6 @@
 
+# Ignore the compiled web app
+/src/main/resources/static
 
 ######################
 # Eclipse

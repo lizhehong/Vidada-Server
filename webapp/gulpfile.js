@@ -4,10 +4,8 @@
 // Used to automate Web Applicaiton building, minimisation & releasing
 
 var gulp = require('gulp');
-var watch = require('gulp-watch');
-var liveReload  = require('gulp-livereload');
+
 var clean = require('gulp-clean');
-var jshint = require('gulp-jshint');
 var concat = require('gulp-concat');
 var usemin = require('gulp-usemin');
 var uglify = require('gulp-uglify');
@@ -18,7 +16,14 @@ var minifyHtml = require('gulp-minify-html');
 var minifyCss = require('gulp-minify-css');
 var rev = require('gulp-rev');
 var ngAnnotate = require('gulp-ng-annotate');
+var wiredep = require('wiredep').stream;
 
+var jshint = require('gulp-jshint');
+var watch = require('gulp-watch');
+var liveReload  = require('gulp-livereload');
+
+
+// Configuration
 
 var bases = {
     app: 'app/', // Source directory
@@ -26,7 +31,9 @@ var bases = {
 };
 
 
-
+var paths = {
+    index : bases.app + 'index.html'
+}
 
 // === TASKS ===
 
@@ -71,36 +78,23 @@ gulp.task('copy', ['clean'], function() {
 });
 
 
-/*
- * Wire-up the bower dependencies
- * @return {Stream}
+// Inject all dependeincies into index.html
+gulp.task('inject', ['inject-bower', 'inject-local']);
 
-gulp.task('wiredep', function() {
-    log('Wiring the bower dependencies into the html');
-
-    var wiredep = require('wiredep').stream;
-    var options = config.getWiredepDefaultOptions();
-
-    // Only include stubs if flag is enabled
-    var js = args.stubs ? [].concat(config.js, config.stubsjs) : config.js;
-
-    return gulp
-        .src(config.index)
-        .pipe(wiredep(options))
-        .pipe(inject(js, '', config.jsOrder))
-        .pipe(gulp.dest(config.client));
+// Wire-up bower dependencies automatically (js + css)
+gulp.task('inject-bower', function () {
+  gulp.src(paths.index)
+    .pipe(wiredep())
+    .pipe(gulp.dest(bases.dist));
 });
- */
-/*
-gulp.task('inject', ['wiredep', 'styles', 'templatecache'], function() {
-    log('Wire up css into the html, after files are ready');
 
-    return gulp
-        .src(config.index)
-        .pipe(inject(config.css))
-        .pipe(gulp.dest(config.client));
+// Wire-up local dependencies automatically (js + css)
+gulp.task('inject-local', function() {
+    return gulp.src(config.index)
+        .pipe(inject())
+        .pipe(gulp.dest(bases.dist));
 });
-*/
+
 
 
 // A development task to run anytime a file changes
