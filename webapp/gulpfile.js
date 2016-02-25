@@ -116,24 +116,19 @@ gulp.task('copy', ['clean'], function() {
 
 
 // Inject all dependeincies into index.html
-gulp.task('inject', ['inject-bower', 'inject-local']);
+gulp.task('inject', ['inject-bower', 'inject-local-css', 'inject-local-js']);
 
 /**
  * Wire-up bower dependencies automatically (js + css)
  */
 gulp.task('inject-bower', function () {
-  gulp.src(paths.index)
+  return gulp.src(paths.index)
     .pipe(wiredep())
     .pipe(gulp.dest(bases.app)); // In place update
 });
 
-/**
- * Wire-up local dependencies automatically (js + css)
- */
-gulp.task('inject-local', ['inject-local-css', 'inject-local-js']);
 
-
-gulp.task('inject-local-css', function() {
+gulp.task('inject-local-css', ['inject-bower'], function() {
     // // Inject CSS
     return gulp.src(paths.index)
         .pipe(inject(gulp.src(paths.localCss, {read: false})
@@ -147,9 +142,9 @@ gulp.task('inject-local-css', function() {
 });
 
 
-gulp.task('inject-local-js', function() {
+gulp.task('inject-local-js', ['inject-local-css'], function() {
     // // Inject JS
-        /**/
+      
     // It's not necessary to read the files (will speed up things), we're only after their paths:
     return gulp.src(paths.index)
         .pipe(inject(gulp.src(paths.localJs) // {read: false} - read required by angular file-sort
