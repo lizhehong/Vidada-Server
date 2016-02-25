@@ -7,8 +7,10 @@
 // Tasks
 // --------
 // build :   Builds the web app locally, compiles css, updates index.html dependencies
-// release:  Minifies all css/js dependencies, bundles the production ready with the backend
-//           (Copys the minified web-app into the backends '/src/main/resources/static')
+// release-prod:  Minifies all css/js dependencies, bundles the production ready with the backend
+//                (Copys the minified web-app into the backends '/src/main/resources/static')
+//
+// release-dev:  Copy all source files into backend bundle folder, dont uglyfi
 //-----------------------------------------------------------------------
 
 
@@ -29,6 +31,7 @@ var rev = require('gulp-rev');
 var ngAnnotate = require('gulp-ng-annotate');
 var wiredep = require('wiredep').stream;
 var inject = require('gulp-inject');
+var angularFilesort = require('gulp-angular-filesort');
 
 var jshint = require('gulp-jshint');
 var watch = require('gulp-watch');
@@ -44,7 +47,6 @@ var bases = {
 
 
 var paths = {
-    ignoreDelete: bases.dist + '.gitignore'
     index : bases.app + 'index.html',
     localJs : bases.app + 'scripts/**/*.js',
     localCss : bases.app + 'assets/styles/**/*.css'
@@ -54,22 +56,40 @@ var paths = {
 
 // Delete the dist directory
 gulp.task('clean', function() {
-    return gulp.src([bases.dist, '!' + paths.ignoreDelete], {read: false})
+    return gulp.src(bases.dist, {read: false})
         .pipe( clean( { force: true } ) );
 });
 
-// Relplace all js + css references in index.html with minified and compressed ones.
-gulp.task('usemin', function() {
+/**
+ * Relplace all js + css references in index.html with minified and compressed ones.
+ */
+gulp.task('usemin', ['clean'], function() {
     return gulp.src(bases.app + 'index.html')
         .pipe(usemin({
             mainCss: [ rev ],
             vendorCss: [ rev ],
             html: [ function () {return minifyHtml({ empty: true });} ],
-            appJs: [ ngAnnotate, uglify, rev ], // ngAnnotate
-            vendorJs: [ ngAnnotate, uglify, rev ] // ngAnnotate
+            appJs: [ ngAnnotate, uglify, rev ],
+            vendorJs: [ ngAnnotate, uglify, rev ]
         }))
         .pipe(gulp.dest(bases.dist));
 });
+
+/**
+ * Relplace all js + css references in index.html with minified and compressed ones.
+ */
+gulp.task('dev-dependencies', ['clean'], function() {
+    return gulp.src(bases.app + 'index.html')
+        .pipe(usemin({
+            mainCss: [ rev ],
+            vendorCss: [ rev ],
+            //html: [ function () {return minifyHtml({ empty: true });} ],
+            appJs: [ ngAnnotate, rev ],
+            vendorJs: [ ngAnnotate, rev ]
+        }))
+        .pipe(gulp.dest(bases.dist));
+});
+
 
 
 
@@ -111,7 +131,8 @@ gulp.task('inject-bower', function () {
 gulp.task('inject-local', function() {
     // It's not necessary to read the files (will speed up things), we're only after their paths:
     return gulp.src(paths.index)
-        .pipe(inject(gulp.src([paths.localJs, paths.localCss], {read: false}),
+        .pipe(inject(gulp.src([paths.localJs, paths.localCss], {read: false})
+            .pipe(angularFilesort()),
             // Inject Options
          { 
             relative: true
@@ -130,7 +151,8 @@ gulp.task('watch', function() {
 
 
 gulp.task('build', ['inject']);
-gulp.task('release', ['clean', 'build', 'usemin', 'copy']);
+gulp.task('release-prod', ['clean', 'usemin', 'copy']);
+gulp.task('release-dev', ['clean', 'dev-dependencies', 'copy']);
 
 /**
  * Default task, executed if no specific task is specified.
