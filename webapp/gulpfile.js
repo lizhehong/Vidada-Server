@@ -1,7 +1,18 @@
 'use strict';
 
+//-----------------------------------------------------------------------
 // Gulp File
 // Used to automate Web Applicaiton building, minimisation & releasing
+// 
+// Tasks
+// --------
+// build :   Builds the web app locally, compiles css, updates index.html dependencies
+// release:  Minifies all css/js dependencies, bundles the production ready with the backend
+//           (Copys the minified web-app into the backends '/src/main/resources/static')
+//-----------------------------------------------------------------------
+
+
+// Dependencies (require a previous 'npm install')
 
 var gulp = require('gulp');
 
@@ -28,7 +39,7 @@ var liveReload  = require('gulp-livereload');
 
 var bases = {
     app: 'app/', // Source directory
-    dist: 'dist/' // Compiled, minified target directory
+    dist: '../backend/src/main/resources/static/' // Compiled, minified target directory
 };
 
 
@@ -84,36 +95,43 @@ gulp.task('copy', ['clean'], function() {
 // Inject all dependeincies into index.html
 gulp.task('inject', ['inject-bower', 'inject-local']);
 
-// Wire-up bower dependencies automatically (js + css)
+/**
+ * Wire-up bower dependencies automatically (js + css)
+ */
 gulp.task('inject-bower', function () {
   gulp.src(paths.index)
     .pipe(wiredep())
     .pipe(gulp.dest(bases.app)); // In place update
 });
 
-// Wire-up local dependencies automatically (js + css)
+/**
+ * Wire-up local dependencies automatically (js + css)
+ */
 gulp.task('inject-local', function() {
-
     // It's not necessary to read the files (will speed up things), we're only after their paths:
-        
     return gulp.src(paths.index)
         .pipe(inject(gulp.src([paths.localJs, paths.localCss], {read: false}),
             // Inject Options
          { 
             relative: true
          }))
-        .pipe(gulp.dest('app/')); // In place update
+        .pipe(gulp.dest(bases.app)); // In place update
 });
 
 
-
-// A development task to run anytime a file changes
-
+/**
+ * A development task to run anytime a file changes
+ */
 gulp.task('watch', function() {
-    gulp.watch('app/**/*', ['scripts', 'copy']);
+    //gulp.watch(bases.app + '**/*', ['scripts', 'copy']);
 });
 
-// Define the default task as a sequence of the above tasks
-gulp.task('default', ['build']);
 
-gulp.task('build', ['clean', 'usemin', 'copy']);
+
+gulp.task('build', ['inject']);
+gulp.task('release', ['clean', 'build', 'usemin', 'copy']);
+
+/**
+ * Default task, executed if no specific task is specified.
+ */
+gulp.task('default', ['build']);
