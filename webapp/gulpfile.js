@@ -31,11 +31,13 @@ var rev = require('gulp-rev');
 var ngAnnotate = require('gulp-ng-annotate');
 var wiredep = require('wiredep').stream;
 var inject = require('gulp-inject');
+var naturalSort = require('gulp-natural-sort');
 var angularFilesort = require('gulp-angular-filesort');
 
 var jshint = require('gulp-jshint');
 var watch = require('gulp-watch');
 var liveReload  = require('gulp-livereload');
+
 
 
 // Configuration
@@ -128,17 +130,41 @@ gulp.task('inject-bower', function () {
 /**
  * Wire-up local dependencies automatically (js + css)
  */
-gulp.task('inject-local', function() {
-    // It's not necessary to read the files (will speed up things), we're only after their paths:
+gulp.task('inject-local', ['inject-local-css', 'inject-local-js']);
+
+
+gulp.task('inject-local-css', function() {
+    // // Inject CSS
     return gulp.src(paths.index)
-        .pipe(inject(gulp.src([paths.localJs, paths.localCss], {read: false})
-            .pipe(angularFilesort()),
+        .pipe(inject(gulp.src(paths.localCss, {read: false})
+            .pipe(naturalSort())
+            ,
             // Inject Options
          { 
             relative: true
          }))
         .pipe(gulp.dest(bases.app)); // In place update
 });
+
+
+gulp.task('inject-local-js', function() {
+    // // Inject JS
+        /**/
+    // It's not necessary to read the files (will speed up things), we're only after their paths:
+    return gulp.src(paths.index)
+        .pipe(inject(gulp.src(paths.localJs) // {read: false} - read required by angular file-sort
+            .pipe(naturalSort())
+            .pipe(angularFilesort())
+            ,
+            // Inject Options
+         { 
+            relative: true
+         }))
+        .pipe(gulp.dest(bases.app)); // In place update
+});
+
+
+
 
 
 /**
