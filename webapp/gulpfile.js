@@ -21,8 +21,8 @@ var ngAnnotate = require('gulp-ng-annotate');
 
 
 var bases = {
-    app: 'src/main/resources/static/',
-    dist: 'src/main/resources/static/dist/'
+    app: 'app/', // Source directory
+    dist: 'dist/' // Compiled, minified target directory
 };
 
 
