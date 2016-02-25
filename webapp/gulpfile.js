@@ -44,6 +44,7 @@ var bases = {
 
 
 var paths = {
+    ignoreDelete: bases.dist + '.gitignore'
     index : bases.app + 'index.html',
     localJs : bases.app + 'scripts/**/*.js',
     localCss : bases.app + 'assets/styles/**/*.css'
@@ -53,8 +54,8 @@ var paths = {
 
 // Delete the dist directory
 gulp.task('clean', function() {
-    return gulp.src(bases.dist)
-        .pipe(clean());
+    return gulp.src([bases.dist, '!' + paths.ignoreDelete], {read: false})
+        .pipe( clean( { force: true } ) );
 });
 
 // Relplace all js + css references in index.html with minified and compressed ones.
