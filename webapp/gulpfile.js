@@ -91,6 +91,10 @@ gulp.task('inject-bower', function () {
 
 // Wire-up local dependencies automatically (js + css)
 gulp.task('inject-local', function() {
+
+    // It's not necessary to read the files (will speed up things), we're only after their paths:
+    var sources = gulp.src([bases.app + '**/*.js', bases.app + '**/*.css'], {read: false});
+
     return gulp.src(paths.index)
         .pipe(inject())
         .pipe(gulp.dest(bases.app)); // In place update
