@@ -145,9 +145,11 @@ public class ThumbImageExtractorService {
 	 * @return
 	 */
 	private IMemoryImage extractMovieThumb(MovieMediaItem media, Resolution size, float position) {
-
+        IMemoryImage frame = null;
 		Video video = getVideo(media);
-		IMemoryImage frame = video.getFrame(position, size);
+        if(video != null){
+            frame = video.getFrame(position, size);
+        }
 		return frame;
 	}
 
@@ -161,8 +163,7 @@ public class ThumbImageExtractorService {
 		MediaSource source = media.getSource();
 		if(source != null && source.isAvailable())
 		{
-			ResourceLocation path = source.getResourceLocation();
-			video = new Video(path, videoAccessService);
+			video = new Video(source.getResourceLocation(), videoAccessService);
 		}
 		return video;
 	}

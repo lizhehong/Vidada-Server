@@ -169,15 +169,14 @@ public class FFMpegVideoAccessService implements IVideoAccessService {
 				frame = imageFactory.createImage(pathToImage);
 
 			} catch (FFmpegException e) {
-				logger.error("", e);
+				logger.error("Failed to extract video frame, ffmepeg exited with an error.", e);
 			}
 		} catch (IOException e1) {
-            logger.error("", e1);
+            logger.error("Failed to create temporary thumb file in temp!", e1);
 		}finally{
 			// remove the temporary image
 			FileUtils.deleteQuietly(pathToImage);
 		}
-
 		return frame;
 	}
 

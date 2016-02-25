@@ -20,10 +20,6 @@ public class MovieMediaItem extends MediaItem implements Cloneable {
      *                                                                         *
      **************************************************************************/
 
-	//transient private final static int MAX_THUMB_RETRY_COUNT = 2;
-    //private volatile int thumbCreationFails = 0;
-
-
     private float thumbnailPosition = 0.35f;
 	private int bitrate;
 	private int duration;

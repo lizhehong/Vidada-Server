@@ -177,10 +177,9 @@ public class ThumbnailService {
                 IMemoryImage maxThumb = thumbImageCreator.extractThumb(media, maxThumbSize, position);
 
                 if (maxThumb != null) {
+                    // Thumb was successful extracted
+
                     failCounter.onThumbCreationSuccess(media);
-                    mediaService.save(media);
-
-
                     mediaThumbCacheService.storeImage(media, subId, maxThumb);
 
                     if (size.equals(maxThumbSize)) {
