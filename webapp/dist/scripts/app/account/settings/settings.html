@@ -1,0 +1,77 @@
+
+
+<md-card flex-gt-sm="90" flex-gt-md="80">
+    <md-card-content>
+
+        <h2 class="md-title" translate="settings.title"
+            translate-values="{username: '{{settingsAccount.login}}'}">User settings for [<b>{{settingsAccount.login}}</b>]
+        </h2>
+
+        <!-- errors -->
+
+        <p>{{debug}}</p>
+
+        <div class="alert alert-success" ng-show="success" translate="settings.messages.success">
+            <strong>Settings saved!</strong>
+        </div>
+
+        <div class="alert alert-danger" ng-show="errorEmailExists" translate="settings.messages.error.emailexists">
+            <strong>E-mail is already in use!</strong> Please choose another one.
+        </div>
+
+        <div class="alert alert-danger" ng-show="error" translate="settings.messages.error.fail">
+            <strong>An error has occurred!</strong> Settings could not be saved.
+        </div>
+
+        <!-- input form -->
+        <md-content flex layout-padding>
+
+            <form name="settingsForm">
+
+                <div layout="column">
+
+                    <md-input-container flex>
+                        <label>First Name</label>
+                        <input md-maxlength="50" required name="firstName" ng-model="settingsAccount.firstName">
+
+
+                        <div ng-messages="settingsForm.firstName.$error">
+                            <div ng-message="required">This is required.</div>
+                            <div ng-message="md-maxlength">The name has to be less than 30 characters long.</div>
+
+                        </div>
+
+                    </md-input-container>
+
+                    <md-input-container flex>
+                        <label>Last Name</label>
+                        <input required name="lastName" ng-model="settingsAccount.lastName">
+
+                        <div ng-messages="settingsForm.lastName.$error">
+                            <div ng-message="required">This is required.</div>
+                        </div>
+                    </md-input-container>
+
+                    <md-input-container flex>
+                        <label>E-mail</label>
+                        <input required type="email" name="clientEmail" ng-model="settingsAccount.email"
+                               minlength="6" maxlength="100" ng-pattern="/^.+@.+\..+$/" />
+
+
+                        <div ng-messages="settingsForm.clientEmail.$error" role="alert">
+                            <div ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']">
+                                Your email must be between 6 and 100 characters long and look like an e-mail address.
+                            </div>
+                        </div>
+
+                    </md-input-container>
+
+                </div>
+
+
+                <md-button type="submit" ng-disabled="settingsForm.$invalid" class="md-raised md-primary">Save</md-button>
+            </form>
+        </md-content>
+
+    </md-card-content>
+</md-card>
