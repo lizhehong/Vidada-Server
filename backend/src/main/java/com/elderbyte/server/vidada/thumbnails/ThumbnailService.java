@@ -17,7 +17,7 @@ import java.util.function.Supplier;
 
 
 /**
- * Manages all Thumbnails
+ * Manages all Thumbnails and their creation
  *
  */
 @Service

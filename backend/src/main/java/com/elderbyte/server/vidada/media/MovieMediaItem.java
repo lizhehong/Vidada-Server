@@ -20,11 +20,11 @@ public class MovieMediaItem extends MediaItem implements Cloneable {
      *                                                                         *
      **************************************************************************/
 
-	transient private final static int MAX_THUMB_RETRY_COUNT = 2;
+	//transient private final static int MAX_THUMB_RETRY_COUNT = 2;
+    //private volatile int thumbCreationFails = 0;
 
-	private float thumbnailPosition = 0.35f;
 
-	private volatile int thumbCreationFails = 0;
+    private float thumbnailPosition = 0.35f;
 	private int bitrate;
 	private int duration;
 
@@ -85,23 +85,6 @@ public class MovieMediaItem extends MediaItem implements Cloneable {
      *                                                                         *
      **************************************************************************/
 
-	public int getThumbCreationFails() {
-		return thumbCreationFails;
-	}
-
-	protected void setThumbCreationFails(int thumbCreationFails) {
-		this.thumbCreationFails = thumbCreationFails;
-	}
-
-	public void onThumbCreationFailed(){
-		// increment failure counter
-		setThumbCreationFails(getThumbCreationFails()+1);
-	}
-
-	public void onThumbCreationSuccess(){
-		setThumbCreationFails(0);
-	}
-
     /**
      * Gets the relative thumbnail position [0.0 - 1.0]
      * @return
@@ -127,7 +110,7 @@ public class MovieMediaItem extends MediaItem implements Cloneable {
 	 */
 	public boolean canCreateThumbnail() {
 		// Ensure we do not try forever when we deal with defect videos
-		return thumbCreationFails <= MAX_THUMB_RETRY_COUNT  && isAvailable();
+		return isAvailable();
 	}
 
 
