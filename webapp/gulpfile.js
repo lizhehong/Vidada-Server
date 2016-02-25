@@ -95,11 +95,14 @@ gulp.task('inject-bower', function () {
 gulp.task('inject-local', function() {
 
     // It's not necessary to read the files (will speed up things), we're only after their paths:
-    var sources = gulp.src([paths.localJs, paths.localCss], {read: false});
-
+        
     return gulp.src(paths.index)
-        .pipe(inject(sources))
-        .pipe(gulp.dest(bases.app)); // In place update
+        .pipe(inject(gulp.src([paths.localJs, paths.localCss], {read: false}),
+            // Inject Options
+         { 
+            relative: true
+         }))
+        .pipe(gulp.dest('app/')); // In place update
 });
 
 
