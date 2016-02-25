@@ -65,7 +65,7 @@ gulp.task('clean', function() {
 /**
  * Relplace all js + css references in index.html with minified and compressed ones.
  */
-gulp.task('usemin', ['clean'], function() {
+gulp.task('usemin', ['clean', 'build'], function() {
     return gulp.src(bases.app + 'index.html')
         .pipe(usemin({
             mainCss: [ rev ],
@@ -78,16 +78,16 @@ gulp.task('usemin', ['clean'], function() {
 });
 
 /**
- * Relplace all js + css references in index.html with minified and compressed ones.
+ * Simply merge all dependencies in index.html into min-dependencies.
+ * FOR DEVELOPMENT ONLY - does not uglify / minimize or compress
  */
-gulp.task('dev-dependencies', ['clean'], function() {
+gulp.task('dev-dependencies', ['clean', 'build'], function() {
     return gulp.src(bases.app + 'index.html')
         .pipe(usemin({
             mainCss: [ rev ],
             vendorCss: [ rev ],
-            //html: [ function () {return minifyHtml({ empty: true });} ],
-            appJs: [ ngAnnotate, rev ],
-            vendorJs: [ ngAnnotate, rev ]
+            appJs: [ rev ],
+            vendorJs: [ rev ]
         }))
         .pipe(gulp.dest(bases.dist));
 });
@@ -172,8 +172,8 @@ gulp.task('watch', function() {
 
 
 gulp.task('build', ['inject']);
-gulp.task('release-prod', ['clean', 'usemin', 'copy']);
-gulp.task('release-dev', ['clean', 'dev-dependencies', 'copy']);
+gulp.task('release-prod', ['clean', 'build', 'usemin', 'copy']);
+gulp.task('release-dev', ['clean', 'build', 'dev-dependencies', 'copy']);
 
 /**
  * Default task, executed if no specific task is specified.
