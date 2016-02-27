@@ -21,7 +21,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 /**
- * Represents an local user MediaLibrary folder.
+ * Represents an local MediaLibrary folder.
  *
  * @author IsNull
  *
@@ -40,7 +40,7 @@ public class MediaLibrary extends IdEntity {
 
 
     /**
-     * Each vidada library has a hidden folder for cache
+     * Each vidada library has a hidden folder for cache and configuration
      */
     public static final String VidataCacheFolder = ".vidada-library";
     public static final String VidataTagRelations = VidataCacheFolder + "/tags.txt";

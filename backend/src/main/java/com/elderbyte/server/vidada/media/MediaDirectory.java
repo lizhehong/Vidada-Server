@@ -10,7 +10,6 @@ import archimedes.core.io.locations.filters.ILocationFilter;
 import archimedes.core.util.FileSupport;
 import archimedes.core.util.Lists;
 import com.elderbyte.common.ArgumentNullException;
-import com.elderbyte.server.vidada.media.libraries.MediaLibrary;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -223,8 +222,8 @@ public final class MediaDirectory {
 	 * A simple filter to ignore Vidada generated cache items in the media library
 	 *
 	 */
-	private transient static final IDirectoryFilter ignoreDirectoriesFilter = directoiry -> {
-        String name = directoiry.getName();
+	private transient static final IDirectoryFilter ignoreDirectoriesFilter = directory -> {
+        String name = directory.getName();
         return !name.startsWith(".");
     };
 
