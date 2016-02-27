@@ -11,6 +11,8 @@ import com.elderbyte.server.vidada.media.source.MediaSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+
 /**
  * Uses local data to fetch meta-data for images.
  */
@@ -43,14 +45,13 @@ public class LocalImageMediaAgent implements MediaAgent {
 
 
     private Resolution getResolution(MediaSource source){
-
-        ResourceLocation imageResource = source.getResourceLocation();
-        if(imageResource != null && imageResource.exists()){
-            try{
+        try{
+            ResourceLocation imageResource = source.getResourceLocation();
+            if(imageResource != null && imageResource.exists()){
                 return ImageUtil.getImageResolution(imageResource);
-            }catch(Exception e){
-                logger.error("Failed to fetch image resolution!",e);
             }
+        }catch(IOException e){
+            logger.error("Failed to fetch image resolution!", e);
         }
         return null;
     }

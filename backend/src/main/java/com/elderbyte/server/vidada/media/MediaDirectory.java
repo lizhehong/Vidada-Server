@@ -14,6 +14,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import java.beans.Transient;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -92,8 +93,13 @@ public final class MediaDirectory {
 	 * @return
 	 */
 	public boolean isAvailable(){
-		return directory != null && directory.exists();
-	}
+        try {
+            return directory != null && directory.exists();
+        } catch (IOException e) {
+            logger.warn("Media-Directory is not available - exception:", e);
+            return false;
+        }
+    }
 
 	/**
 	 * Constructs the relative path for the given file (must be in a sub directory of this directory!)
@@ -136,9 +142,14 @@ public final class MediaDirectory {
 	 * @return
 	 */
 	public List<ResourceLocation> getAllMediaFilesRecursive(){
-		if(directory != null)
-			return Lists.asTypedList(directory.listAll(buildFilter(), ignoreDirectoriesFilter));
-		return new ArrayList<>();
+		if(directory != null) {
+            try {
+                return Lists.asTypedList(directory.listAll(buildFilter(), ignoreDirectoriesFilter));
+            } catch (IOException e) {
+                logger.warn("Failed to list media files!", e);
+            }
+        }
+        return new ArrayList<>();
 	}
 
 	/**
@@ -152,8 +163,12 @@ public final class MediaDirectory {
                     LocationFilters.AcceptAllDirs,
                     buildFilter());
 
-			return Lists.asTypedList(directory.listAll(filter));
-		}
+            try {
+                return Lists.asTypedList(directory.listAll(filter));
+            } catch (IOException e) {
+                logger.warn("Failed to list media files!", e);
+            }
+        }
 		return new ArrayList<>();
 	}
 

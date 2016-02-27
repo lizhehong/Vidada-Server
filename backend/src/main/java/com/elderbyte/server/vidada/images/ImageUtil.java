@@ -19,31 +19,20 @@ public class ImageUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(ImageUtil.class);
 
-    public static Resolution getImageResolution(final ResourceLocation resource) {
+    public static Resolution getImageResolution(final ResourceLocation resource) throws IOException {
         Resolution result = null;
         String suffix = cleanExtension(resource.getExtension());
         Iterator<ImageReader> iter = ImageIO.getImageReadersBySuffix(suffix);
         if (iter.hasNext()) {
             ImageReader reader = iter.next();
-            InputStream stream = null;
-            try {
-                stream = resource.openInputStream();
-                ImageInputStream iis = ImageIO.createImageInputStream(stream);
-                reader.setInput(iis);
-                int width = reader.getWidth(reader.getMinIndex());
-                int height = reader.getHeight(reader.getMinIndex());
-                result = new Resolution(width, height);
-            } catch (IOException e) {
-                logger.error("", e);
-            } finally {
-                reader.dispose();
-                if(stream != null){
-                    try {
-                        stream.close();
-                    } catch (IOException e) {
-                    }
-                }
-            }
+            InputStream stream = resource.openInputStream();
+            ImageInputStream iis = ImageIO.createImageInputStream(stream);
+            reader.setInput(iis);
+            int width = reader.getWidth(reader.getMinIndex());
+            int height = reader.getHeight(reader.getMinIndex());
+            result = new Resolution(width, height);
+            reader.dispose();
+            stream.close();
         } else {
             logger.error("No reader found for given format: " + suffix);
         }
@@ -51,23 +40,18 @@ public class ImageUtil {
     }
 
 
-    public static Resolution getImageResolution(final String path) {
+    public static Resolution getImageResolution(final String path) throws IOException {
         Resolution result = null;
         String suffix = getFileSuffix(path);
         Iterator<ImageReader> iter = ImageIO.getImageReadersBySuffix(suffix);
         if (iter.hasNext()) {
             ImageReader reader = iter.next();
-            try {
-                ImageInputStream stream = new FileImageInputStream(new File(path));
-                reader.setInput(stream);
-                int width = reader.getWidth(reader.getMinIndex());
-                int height = reader.getHeight(reader.getMinIndex());
-                result = new Resolution(width, height);
-            } catch (IOException e) {
-                logger.error("", e);
-            } finally {
-                reader.dispose();
-            }
+            ImageInputStream stream = new FileImageInputStream(new File(path));
+            reader.setInput(stream);
+            int width = reader.getWidth(reader.getMinIndex());
+            int height = reader.getHeight(reader.getMinIndex());
+            result = new Resolution(width, height);
+            reader.dispose();
         } else {
             logger.error("No reader found for given format: " + suffix);
         }

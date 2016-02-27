@@ -91,13 +91,15 @@ public class ImageFileCache implements IImageCache {
 
 		Set<Resolution> avaiableForId = new HashSet<>();
 
-		for (Resolution knownDim : getKnownDimensions())
-		{
-			if(getFilePath( id, knownDim ).exists())
-			{
-				avaiableForId.add(knownDim);
-			}
-		}
+        try {
+            for (Resolution knownDim : getKnownDimensions()) {
+                if (getFilePath(id, knownDim).exists()) {
+                    avaiableForId.add(knownDim);
+                }
+            }
+        }catch (IOException e){
+            logger.error(e);
+        }
 
 		return avaiableForId;
 	}
@@ -106,17 +108,16 @@ public class ImageFileCache implements IImageCache {
 	public IMemoryImage getImageById(String id, Resolution size) {
 
 		IMemoryImage thumbnail = null;
+        ResourceLocation cachedPath = getFilePath(id, size);
+        try {
+            if(cachedPath.exists())
+            {
+                thumbnail = load(cachedPath);
+            }
+        }catch (IOException e){
+            logger.error("Can not read cached image" + cachedPath, e);
+        }
 
-
-		ResourceLocation cachedPath = getFilePath(id, size);
-		if(cachedPath.exists())
-		{
-			try {
-				thumbnail = load(cachedPath);
-			}catch(Exception e) {
-                logger.error("Can not read image" + cachedPath, e);
-			}
-		}
 		return thumbnail;
 	}
 
@@ -147,13 +148,18 @@ public class ImageFileCache implements IImageCache {
 
 	@Override
 	public boolean exists(String id, Resolution size) {
-		ResourceLocation cachedPath = getFilePath(id, size);
-		//
-		// The appropriate thing here would be Files.isReadable( cachedPath );
-		// However, isReadable seems to have a very big performance hit when called in frequent rounds.
+        try {
+            ResourceLocation cachedPath = getFilePath(id, size);
+            //
+            // The appropriate thing here would be Files.isReadable( cachedPath );
+            // However, isReadable seems to have a very big performance hit when called in frequent rounds.
 
-		return cachedPath.exists();
-	}
+            return cachedPath.exists();
+        } catch (IOException e) {
+            logger.warn("Error while checking existence!", e);
+            return false;
+        }
+    }
 
 
 
@@ -164,8 +170,12 @@ public class ImageFileCache implements IImageCache {
 		for (Resolution knownDim : getKnownDimensions())
 		{
 			path = getFilePath(id, knownDim);
-			path.delete();
-		}
+            try {
+                path.delete();
+            } catch (IOException e) {
+                logger.error(e);
+            }
+        }
 	}
 
     /**
@@ -198,18 +208,11 @@ public class ImageFileCache implements IImageCache {
 	 * @param path
 	 * @return
 	 */
-	protected final IMemoryImage load(ResourceLocation path){
-		InputStream is = openImageStream(path);
-		try{
-			return imageFactory.createImage(is);
-		}finally{
-			if(is != null)
-				try {
-					is.close();
-				} catch (IOException e) {
-                    logger.error(e);
-				}
-		}
+	protected final IMemoryImage load(ResourceLocation path) throws IOException{
+        InputStream is = openImageStream(path);
+        if(is != null)
+            is.close();
+        return imageFactory.createImage(is);
 	}
 
 	/**
@@ -217,7 +220,7 @@ public class ImageFileCache implements IImageCache {
 	 * @param path
 	 * @return
 	 */
-	protected InputStream openImageStream(ResourceLocation path){
+	protected InputStream openImageStream(ResourceLocation path) throws IOException {
 		return path.openInputStream();
 	}
 
@@ -236,34 +239,33 @@ public class ImageFileCache implements IImageCache {
 	 */
 	protected final void persist(IMemoryImage image, ResourceLocation path){
 
-        byte[] rawImageData = retrieveBytes(image);
+        try {
 
-        if(rawImageData != null && rawImageData.length > 0){
+            byte[] rawImageData = retrieveBytes(image);
 
-            path.mkdirs();
+            if(rawImageData != null && rawImageData.length > 0){
 
-            OutputStream fos = null;
-            try {
-                fos =  path.openOutputStream();
-                if(fos != null) {
-                    fos.write(rawImageData);
-                }else{
-                    logger.error(String.format("Failed to write image data %s bytes to file '%s'", rawImageData.length, path.getPath()));
-                }
-            } catch (FileNotFoundException e) {
-                logger.error(e);
-            } catch (IOException e) {
-                logger.error(e);
-            }finally {
-                if(fos != null)
-                    try {
-                        fos.close();
-                    } catch (IOException e) {
-                        logger.error(e);
+                path.mkdirs();
+                OutputStream fos = null;
+                try {
+                    fos =  path.openOutputStream();
+                    if(fos != null) {
+                        fos.write(rawImageData);
+                    }else{
+                        logger.error(String.format("Failed to write image data %s bytes to file '%s'", rawImageData.length, path.getPath()));
                     }
+                } catch (FileNotFoundException e) {
+                    logger.error(e);
+                }finally {
+                    if(fos != null)
+                        fos.close();
+                }
+            }else{
+                logger.warn("Failed to persist image because no image bytes could be extracted!");
             }
-        }else{
-            logger.warn("Failed to persist image because no image bytes could be extracted!");
+
+        }catch (IOException e){
+            logger.error("Failed to persist the image!");
         }
 
     }
@@ -309,21 +311,27 @@ public class ImageFileCache implements IImageCache {
     private Set<Resolution> readExistingScaleDimensions(DirectoryLocation scaledCacheDataBase) {
 
         Set<Resolution> existingDimensions = new HashSet<>();
-        List<DirectoryLocation> resolutionFolders = scaledCacheDataBase.listDirs();
-
-        if(resolutionFolders != null && !resolutionFolders.isEmpty())
-        {
-            for (DirectoryLocation folder : resolutionFolders) {
-                String[] parts  = folder.getName().split(RESOLUTION_DELEMITER);
-                if(parts.length == 2){
-                    try {
-                        existingDimensions.add(new Resolution(Integer.parseInt(parts[0]), Integer.parseInt(parts[1])));
-                    } catch (NumberFormatException e) {
-                        // Ignore wrong (NON resolution) folders
+        List<DirectoryLocation> resolutionFolders = null;
+        try {
+            resolutionFolders = scaledCacheDataBase.listDirs();
+            if(resolutionFolders != null && !resolutionFolders.isEmpty())
+            {
+                for (DirectoryLocation folder : resolutionFolders) {
+                    String[] parts  = folder.getName().split(RESOLUTION_DELEMITER);
+                    if(parts.length == 2){
+                        try {
+                            existingDimensions.add(new Resolution(Integer.parseInt(parts[0]), Integer.parseInt(parts[1])));
+                        } catch (NumberFormatException e) {
+                            // Ignore wrong (NON resolution) folders
+                        }
                     }
                 }
             }
+        } catch (IOException e) {
+            logger.error("Failed to retrive existing cache dimension folder!", e);
         }
+
+
         return existingDimensions;
     }
 
@@ -354,6 +362,8 @@ public class ImageFileCache implements IImageCache {
             return folder;
         } catch (URISyntaxException e1) {
             logger.error(e1);
+        } catch (IOException e) {
+            logger.error(e);
         }
         return null;
     }

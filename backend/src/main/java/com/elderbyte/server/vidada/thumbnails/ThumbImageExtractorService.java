@@ -107,25 +107,29 @@ public class ThumbImageExtractorService {
 
 		if(source != null){
 			ResourceLocation filePath = source.getResourceLocation();
-			if (filePath != null && filePath.exists()) {
-                logger.debug("Reading image...");
-				InputStream is = null;
-				try {
-					is = filePath.openInputStream();
-					bufferedImage = imageFactory.createImage(is);
-				} catch (Exception e) {
-                    logger.error("Can not read image" + filePath.toString());
-				}finally{
-					if(is != null){
-						try {
-							is.close();
-						} catch (IOException e) {
-                            logger.error("", e);
-						}
-					}
-				}
-			}
-		}
+            try {
+                if (filePath != null && filePath.exists()) {
+                    logger.debug("Reading image...");
+                    InputStream is = null;
+                    try {
+                        is = filePath.openInputStream();
+                        bufferedImage = imageFactory.createImage(is);
+                    } catch (Exception e) {
+                        logger.error("Can not read image" + filePath.toString());
+                    }finally{
+                        if(is != null){
+                            try {
+                                is.close();
+                            } catch (IOException e) {
+                                logger.error("", e);
+                            }
+                        }
+                    }
+                }
+            } catch (IOException e) {
+                logger.warn("Failed to read file!", e);
+            }
+        }
 		return bufferedImage;
 	}
 

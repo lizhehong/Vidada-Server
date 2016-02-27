@@ -91,7 +91,7 @@ public class CryptedImageFileCache extends ImageFileCache {
 
 
 	@Override
-	protected InputStream openImageStream(ResourceLocation path){
+	protected InputStream openImageStream(ResourceLocation path) throws IOException{
 
 		InputStream fis = super.openImageStream(path);
 		// The file was stored encrypted, so we have to decrypt the InputStream
@@ -99,27 +99,18 @@ public class CryptedImageFileCache extends ImageFileCache {
 		ByteArrayInputStream proxyStream = null;
 		byte[] buffer = null;
 
+        //read the file into a byte array
+        buffer = new byte[(int) path.length()];
+        fis.read(buffer);
 
-		try {
-			//read the file into a byte array
-			buffer = new byte[(int) path.length()];
-			fis.read(buffer);
+        // decrypt the byte array
+        buffer = bytestreamEncrypter.deCrypt(buffer, getEncryptionKeyPad());
 
-			// decrypt the byte array
-			buffer = bytestreamEncrypter.deCrypt(buffer, getEncryptionKeyPad());
+        // create a new InputStream, this time with the original image data
+        proxyStream = new ByteArrayInputStream(buffer);
 
-			// create a new InputStream, this time with the original image data
-			proxyStream = new ByteArrayInputStream(buffer);
+        fis.close();
 
-		}catch(IOException e){
-			e.printStackTrace();
-		} finally {
-			try {
-				if(fis != null) fis.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
 		return proxyStream;
 	}
 

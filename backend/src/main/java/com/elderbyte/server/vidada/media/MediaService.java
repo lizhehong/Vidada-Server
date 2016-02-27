@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.List;
@@ -187,8 +188,10 @@ public class MediaService {
         for (MediaSource source : mediaItem.getSources()) {
             ResourceLocation resource = source.getResourceLocation();
 
-            if(!resource.delete()){
-                throw new NotSupportedException("Failed to delete media resource " + resource);
+            try {
+                resource.delete();
+            } catch (IOException e) {
+                throw new NotSupportedException("Failed to delete media resource " + resource, e);
             }
         }
 

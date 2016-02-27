@@ -14,6 +14,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -108,14 +109,13 @@ public class MediaSource extends IdEntity {
 		try {
 			return new URI(relativePathUri);
 		} catch (URISyntaxException e) {
-			logger.error(e);
+			logger.error("relativepath URI was invalid!", e);
 			return null;
 		}
 	}
 
 	public void setRelativePath(URI relativePath) {
         if(relativePath == null) throw new IllegalArgumentException("relativePath");
-
 		this.relativePathUri = relativePath.toString();
 	}
 
@@ -143,8 +143,13 @@ public class MediaSource extends IdEntity {
 	 */
 	public boolean isAvailable(){
 		ResourceLocation absolutePath = getResourceLocation();
-		return absolutePath != null && absolutePath.exists();
-	}
+        try {
+            return absolutePath != null && absolutePath.exists();
+        } catch (IOException e) {
+            logger.warn("MediaSource is not available - exception:", e);
+            return false;
+        }
+    }
 
 
     /**

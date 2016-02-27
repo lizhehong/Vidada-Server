@@ -208,6 +208,23 @@ public class MediaLibrary extends IdEntity {
         return libraryDirectoryLocation;
     }
 
+    /**
+     * Returns the meta-data folder of this media-library.
+     * Usually a hidden folder which contains configuration and caches.
+     * @return
+     */
+    public DirectoryLocation getLibraryMetadataFolder(){
+        DirectoryLocation libraryRoot = getLibraryRoot();
+        if(libraryRoot != null){
+            try {
+                return DirectoryLocation.Factory.create(libraryRoot, VidataCacheFolder);
+            } catch (URISyntaxException e) {
+                logger.error("rootpath was not a valid URI", e);
+            }
+        }
+        return null;
+    }
+
     /***************************************************************************
      *                                                                         *
      * Private methods                                                         *
