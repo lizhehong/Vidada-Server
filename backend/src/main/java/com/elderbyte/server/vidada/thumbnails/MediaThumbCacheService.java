@@ -188,10 +188,16 @@ public class MediaThumbCacheService  {
      */
     private IImageCache buildLibraryLocalCache(MediaLibrary library){
 
-        DirectoryLocation metaDataFolder = library.getLibraryMetadataFolder();
-
         try {
-            if(metaDataFolder != null && metaDataFolder.exists()){
+
+            DirectoryLocation metaDataFolder = library.getLibraryMetadataFolder();
+
+            if(metaDataFolder != null){
+
+                if(!metaDataFolder.exists()){
+                    metaDataFolder.mkdirs();
+                }
+
                 try {
                     DirectoryLocation libCache = DirectoryLocation.Factory.create(metaDataFolder, VidataThumbsFolder);
                     logger.info("Opening new library thumb cache " + libCache + "...");
@@ -199,11 +205,12 @@ public class MediaThumbCacheService  {
                 } catch (URISyntaxException e1) {
                     logger.error("Failed to access library cache - path issue! " + metaDataFolder, e1);
                 }
+            }else{
+                logger.error("Failed to build image-cache, meta-data folder was null! ");
             }
         } catch (IOException e) {
             logger.warn("Metadata Folder access issue!", e);
         }
-        logger.warn("Could not build image cache for library folder " + metaDataFolder);
         return null;
     }
 

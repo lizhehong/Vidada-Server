@@ -157,7 +157,7 @@ public class TagService {
      */
     public synchronized void registerTagRelationSource(ITagRelationSource relationSource){
         tagRelationSources.add(relationSource);
-        logger.info("TagRelationSource has been added!");
+        logger.info("TagRelationSource has been added: " + relationSource);
         invalidateTagRelations();
     }
 

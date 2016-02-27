@@ -265,7 +265,7 @@ public class ImageFileCache implements IImageCache {
             }
 
         }catch (IOException e){
-            logger.error("Failed to persist the image!");
+            logger.error("Failed to persist the image!", e);
         }
 
     }

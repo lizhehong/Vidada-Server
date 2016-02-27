@@ -356,8 +356,6 @@ public abstract class FFmpegInterop {
             List<String> fullArgs = new ArrayList<>();
             String ffmpegCommand = ffmpegCmd();
 
-            logger.info("ffmpegCommand: '" + ffmpegCommand + "'");
-
             if(ffmpegCommand != null && !ffmpegCommand.isEmpty()){
                 fullArgs.add(ffmpegCommand);
             }else {
@@ -366,6 +364,9 @@ public abstract class FFmpegInterop {
             fullArgs.addAll(args);
 
             String[] command = Lists.toArray(fullArgs, String.class);
+
+            logger.info("Executing: $ " + toFlatString(fullArgs) + "");
+
             int exitVal = ShellExec.executeAndWait(command, output, timeout);
 
             /* TODO Since we use ffmpeg -i for extracting information, and this actually returns -1 (since no output is generated) we cant handle errors it this way...

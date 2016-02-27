@@ -42,7 +42,7 @@ public class MediaLibrary extends IdEntity {
     /**
      * Each vidada library has a hidden folder for cache and configuration
      */
-    public static final String VidataCacheFolder = ".vidada-library";
+    private static final String VidataCacheFolder = ".vidada-library";
     public static final String VidataTagRelations = VidataCacheFolder + "/tags.txt";
 
     /***************************************************************************
