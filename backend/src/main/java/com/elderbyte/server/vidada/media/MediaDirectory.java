@@ -138,8 +138,8 @@ public final class MediaDirectory {
 	 */
 	public List<ResourceLocation> getAllMediaFilesRecursive(){
 		if(directory != null)
-			return Lists.asTypedList(directory.listAll(buildFilter(), ignoreVidadaCache));
-		return new ArrayList<ResourceLocation>();
+			return Lists.asTypedList(directory.listAll(buildFilter(), ignoreDirectoriesFilter));
+		return new ArrayList<>();
 	}
 
 	/**
@@ -155,7 +155,7 @@ public final class MediaDirectory {
 
 			return Lists.asTypedList(directory.listAll(filter));
 		}
-		return new ArrayList<UniformLocation>();
+		return new ArrayList<>();
 	}
 
 
@@ -223,13 +223,10 @@ public final class MediaDirectory {
 	 * A simple filter to ignore Vidada generated cache items in the media library
 	 *
 	 */
-	private transient static final IDirectoryFilter ignoreVidadaCache = new IDirectoryFilter() {
-		@Override
-		public boolean accept(DirectoryLocation directoiry) {
-			String name = directoiry.getName();
-			return !name.equals(MediaLibrary.VidataCacheFolder);
-		}
-	};
+	private transient static final IDirectoryFilter ignoreDirectoriesFilter = directoiry -> {
+        String name = directoiry.getName();
+        return !name.startsWith(".");
+    };
 
 
 
