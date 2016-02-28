@@ -1,5 +1,7 @@
 package com.elderbyte.server.vidada.tags;
 
+import com.elderbyte.common.ArgumentNullException;
+
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -29,11 +31,14 @@ public class Tag  implements Comparable<Tag> {
      * Creates a new Tag from the given string.
      * @param tagName
      * @return
+     * @throws ArgumentNullException if tagName is null
      */
     public static Optional<Tag> buildTag(String tagName){
-        Tag tag = null;
+
+        if(tagName == null) throw new ArgumentNullException("tagName");
+
         tagName = toTagIdName(tagName);
-        tag = new Tag(tagName);
+        Tag tag = new Tag(tagName);
 
         if(tag.isValid()) {
             return Optional.ofNullable(tag);
@@ -60,7 +65,7 @@ public class Tag  implements Comparable<Tag> {
 
     private static String toTagIdName(String text){
         String tagIdName = text.trim().toLowerCase();
-        tagIdName = tagIdName.replaceAll("\\s+", ".");  // Replace whitespaces by .
+        tagIdName = tagIdName.replaceAll("\\W", ".");  // Replace all non-word chars by .
         return tagIdName;
     }
 

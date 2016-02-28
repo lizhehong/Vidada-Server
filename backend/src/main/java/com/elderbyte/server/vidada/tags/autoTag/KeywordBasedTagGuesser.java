@@ -34,11 +34,12 @@ public class KeywordBasedTagGuesser  implements ITagGuessingStrategy {
     private static final Logger logger = LogManager.getLogger(KeywordBasedTagGuesser.class.getName());
 
     private static final String splitRegEx = "[^a-zA-Z\\d]";
-    private static final String splitRegExWithoutDot = "[^a-zA-Z\\d\\.]";
+    private static final String splitBracketContent = "[\\s,]";
 	private static final String splitPathRegex = "/|\\\\";
     private static final Pattern bracketMatchRegex = Pattern.compile("\\[(.*?)\\]");
 
     private static final int MAX_RECOMBINATION_DEPTH = 4;
+    private static final int MIN_TAG_LENGTH = 3;
 
 	private Set<String> knownTags = new HashSet<>();
 
@@ -125,9 +126,9 @@ public class KeywordBasedTagGuesser  implements ITagGuessingStrategy {
         Matcher m = bracketMatchRegex.matcher(text);
         while (m.find()) {
             String tagsString = m.group(1);
-            String[] rawTags = tagsString.split(splitRegExWithoutDot);
+            String[] rawTags = tagsString.split(splitBracketContent);
             for (String rawTag : rawTags ) {
-                if(!rawTag.isEmpty()) {
+                if(!rawTag.isEmpty() && rawTag.length() >= MIN_TAG_LENGTH) {
                     tags.add(rawTag);
                 }
             }

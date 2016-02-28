@@ -81,7 +81,7 @@ public class TagGuessingStrategyTest {
     @Test
     public void testBracketComplex2Path() throws URISyntaxException {
 
-        MediaItem mediaItem = mediaWithPath("/max/huhu [action star.wars] max [pete]/1234/abc.avi");
+        MediaItem mediaItem = mediaWithPath("/max/huhu [action - star.wars] max [pete]/1234/abc.avi");
 
         Set<String> guessedTags = testee.guessTags(mediaItem);
 
@@ -89,13 +89,23 @@ public class TagGuessingStrategyTest {
         expectTag("star.wars", guessedTags);
         expectTag("pete", guessedTags);
 
+        expectNotTag("-", guessedTags);
         expectNotTag("max", guessedTags);
         expectNotTag("1234", guessedTags);
         expectNotTag("abc", guessedTags);
         expectNotTag("abc.avi", guessedTags);
     }
 
+    @Test
+    public void testBracketSpecailChars() throws URISyntaxException {
 
+        MediaItem mediaItem = mediaWithPath("/max/huhu [action star-wars]/abc.avi");
+
+        Set<String> guessedTags = testee.guessTags(mediaItem);
+
+        expectTag("action", guessedTags);
+        expectTag("star-wars", guessedTags);
+    }
 
     @Test
     public void testComplexGuessing() throws URISyntaxException {
