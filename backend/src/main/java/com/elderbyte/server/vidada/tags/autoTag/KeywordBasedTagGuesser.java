@@ -36,7 +36,7 @@ public class KeywordBasedTagGuesser  implements ITagGuessingStrategy {
     private static final String splitRegEx = "[^a-zA-Z\\d]";
     private static final String splitRegExWithoutDot = "[^a-zA-Z\\d\\.]";
 	private static final String splitPathRegex = "/|\\\\";
-    private static final Pattern bracketMatchRegex = Pattern.compile("\\[(.*)\\]");
+    private static final Pattern bracketMatchRegex = Pattern.compile("\\[(.*?)\\]");
 
     private static final int MAX_RECOMBINATION_DEPTH = 4;
 
@@ -103,15 +103,32 @@ public class KeywordBasedTagGuesser  implements ITagGuessingStrategy {
         for(MediaSource source : media.getSources()){
             String path = mediaSourceToString(source);
 
-            // Now find contents of all brackets [...]
-            Matcher m = bracketMatchRegex.matcher(path);
-            while (m.find()) {
-                String tagsString = m.group(1);
-                String[] rawTags = tagsString.split(splitRegExWithoutDot);
-                for (String rawTag : rawTags ) {
-                    if(!rawTag.isEmpty() && rawTag.length() > 2) {
-                        tags.add(rawTag);
-                    }
+            String[] pathParts = path.split(splitPathRegex);
+
+            for (String part : pathParts) {
+                tags.addAll(parseBrackets(part));
+            }
+        }
+        return tags;
+    }
+
+    /**
+     * Parses a string and looks for brakets [ ... ]
+     * @param text
+     * @return
+     */
+    private Set<String> parseBrackets(String text){
+
+        Set<String> tags = new HashSet<>();
+
+        // Now find contents of all brackets [...]
+        Matcher m = bracketMatchRegex.matcher(text);
+        while (m.find()) {
+            String tagsString = m.group(1);
+            String[] rawTags = tagsString.split(splitRegExWithoutDot);
+            for (String rawTag : rawTags ) {
+                if(!rawTag.isEmpty()) {
+                    tags.add(rawTag);
                 }
             }
         }
@@ -138,7 +155,7 @@ public class KeywordBasedTagGuesser  implements ITagGuessingStrategy {
 
 
     private static String mediaSourceToString(MediaSource source){
-        return source.getResourceLocation().getUriString();
+        return source.getResourceLocation().getUriString().toLowerCase();
     }
 
     /**
@@ -148,8 +165,6 @@ public class KeywordBasedTagGuesser  implements ITagGuessingStrategy {
 	private static Set<String> getPossibleTagStrings(String path){
 
         Set<String> possibleTags = new HashSet<>();
-
-        path = path.toLowerCase();
 
         //split the path in node tokens
         String[] pathParts = path.split(splitPathRegex);
