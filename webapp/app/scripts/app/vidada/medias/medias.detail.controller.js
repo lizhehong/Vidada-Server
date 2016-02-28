@@ -14,7 +14,7 @@ angular.module('vidadaApp')
         $scope.loadMedia = function () {
 
             if (/\S/.test($scope.mediaId)) {
-                Media.get({id: $scope.mediaId}).$promise.then(function (media) {
+                Media.get({mediaId: $scope.mediaId}).$promise.then(function (media) {
                     $scope.onMediaLoaded(media);
                 }, function (err) {
                     console.log("Failed to fetch media " + $scope.mediaId);
@@ -122,7 +122,7 @@ angular.module('vidadaApp')
 
             if (timeoutAfterFail === undefined) timeoutAfterFail = 100;
 
-            Media.get({id: $scope.mediaId}).$promise.then(function (media) {
+            Media.get({ mediaId: $scope.mediaId} ).$promise.then(function (media) {
 
                 if (media.thumbnailResource && media.thumbnailResource.state == 'Ready') {
                     // New thumb ready
