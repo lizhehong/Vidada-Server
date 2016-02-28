@@ -1,8 +1,8 @@
 
-'use strict';
+"use strict";
 
-angular.module('vidadaApp')
-    .controller('MediasController', function ($rootScope, $scope, $state, $stateParams, $anchorScroll, $timeout, $mdDialog, Media, MediaInfinite, ParseText, Tag) {
+angular.module("vidadaApp")
+    .controller("MediasController", function ($rootScope, $scope, $state, $stateParams, $anchorScroll, $timeout, $mdDialog, Media, MediaInfinite, ParseText, Tag) {
 
         $scope.knownTags = [];
         $scope.selectedSuggestion = null;
@@ -18,15 +18,15 @@ angular.module('vidadaApp')
             {id: "RATING", name: "Rating"},
             {id: "SIZE", name: "File size"},
             {id: "DURATION", name: "Duration"},
-            {id: "BITRATE", name: "Bitrate"},
+            {id: "BITRATE", name: "Bitrate"}
         ];
 
         $scope.externalPlayers = [
             {
-                app: 'vlc',
+                app: "vlc",
                 encode: false
             }, {
-                app: 'mpv',
+                app: "mpv",
                 encode: true
             }
         ];
@@ -37,7 +37,7 @@ angular.module('vidadaApp')
             query: $stateParams.query,
             tagExpression: $stateParams.tagExpression,
             orderBy: $scope.availableOrderBy[2],
-            reversed: ($stateParams.reversed === 'true')
+            reversed: ($stateParams.reversed === "true")
         };
 
         $scope.scrollToCurrent = function(){
@@ -58,8 +58,8 @@ angular.module('vidadaApp')
             $scope.currentMedia = currentMedia;
 
             $mdDialog.show({
-                controller: 'MediaPlayerController',
-                templateUrl: '/scripts/app/vidada/player/player_dialog.html',
+                controller: "MediaPlayerController",
+                templateUrl: "/scripts/app/vidada/player/player_dialog.html",
                 parent: angular.element(document.body),
                 targetEvent: ev,
                 clickOutsideToClose: true,
@@ -78,12 +78,12 @@ angular.module('vidadaApp')
 
             $scope.currentMedia = media;
 
-            if(media.mediaType.toLowerCase() == 'movie'){
+            if(media.mediaType.toLowerCase() == "movie"){
                 var mediaUrlArg = media.streamUrl;
                 if($scope.externalPlayer.encode){
                     mediaUrlArg = escape(media.streamUrl);
                 }
-                window.open($scope.externalPlayer.app + '://' + mediaUrlArg, '_self');
+                window.open($scope.externalPlayer.app + "://" + mediaUrlArg, "_self");
             }else{
                 window.open(media.streamUrl);
             }
@@ -143,7 +143,7 @@ angular.module('vidadaApp')
                 var oSel = document.selection.createRange ();
 
                 // Move selection start to 0 position
-                oSel.moveStart ('character', -oField.value.length);
+                oSel.moveStart ("character", -oField.value.length);
 
                 // The caret position is selection length
                 iCaretPos = oSel.text.length;
@@ -188,7 +188,7 @@ angular.module('vidadaApp')
 
             var word = ParseText.findWordAt(tagExpression, $scope.tagExpressionCaret);
 
-            console.log("Current tag: " + word);
+            console.log("Searching suggestions for word: '" + word + "' ...");
 
             var suggestions = findSuggestions(word.text);
 
@@ -196,7 +196,7 @@ angular.module('vidadaApp')
                 s.value = ParseText.replaceWord(tagExpression, word, s.value);
             });
 
-            console.log("Found " + suggestions.length + " suggestions for '" + word.text + "'!");
+            console.log("Found " + suggestions.length + " suggestions for  '" + word.text + "'!");
 
             return suggestions;
         };
