@@ -2,6 +2,7 @@ package com.elderbyte.server.vidada.images;
 
 import archimedes.core.images.IMemoryImage;
 import archimedes.core.images.ScalrEx;
+import com.elderbyte.common.ArgumentNullException;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -18,7 +19,7 @@ class MemoryImage implements IMemoryImage {
 	 */
 	public MemoryImage(BufferedImage original){
 		if(original == null)
-			throw new IllegalArgumentException("original");
+			throw new ArgumentNullException("original");
 
 		this.original = original;
 	}

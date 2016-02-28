@@ -2,6 +2,7 @@ package com.elderbyte.server.vidada.images;
 
 import archimedes.core.images.IMemoryImage;
 import archimedes.core.images.IRawImageFactory;
+import com.elderbyte.common.ArgumentNullException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -37,6 +38,9 @@ public class RawImageFactory implements IRawImageFactory {
 
     @Override
     public IMemoryImage createImage(URI uri) {
+
+        if(uri == null) throw new ArgumentNullException("uri");
+
         try {
             ImageIO.read(uri.toURL());
         } catch (IOException e) {
@@ -47,6 +51,9 @@ public class RawImageFactory implements IRawImageFactory {
 
     @Override
     public IMemoryImage createImage(InputStream inputStream) {
+
+        if(inputStream == null) throw new ArgumentNullException("inputStream");
+
         try {
             return new MemoryImage(ImageIO.read(inputStream));
         } catch (IOException e) {
@@ -57,6 +64,9 @@ public class RawImageFactory implements IRawImageFactory {
 
     @Override
     public boolean writeImage(IMemoryImage iMemoryImage, OutputStream outputStream) {
+
+        if(iMemoryImage == null) throw new ArgumentNullException("iMemoryImage");
+        if(outputStream == null) throw new ArgumentNullException("outputStream");
 
         RenderedImage img = (RenderedImage)iMemoryImage.getOriginal();
 

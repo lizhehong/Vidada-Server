@@ -210,9 +210,14 @@ public class ImageFileCache implements IImageCache {
 	 */
 	protected final IMemoryImage load(ResourceLocation path) throws IOException{
         InputStream is = openImageStream(path);
-        if(is != null)
-            is.close();
-        return imageFactory.createImage(is);
+        try {
+            IMemoryImage image = imageFactory.createImage(is);
+            return image;
+        }catch (Exception e){
+            throw e;
+        }finally {
+            if(is != null) is.close();
+        }
 	}
 
 	/**

@@ -32,8 +32,6 @@ public class ThumbnailService {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    private MediaService mediaService;
-    @Autowired
 	private ThumbImageExtractorService thumbImageCreator;
     @Autowired
     private MediaThumbCacheService mediaThumbCacheService;
@@ -107,7 +105,7 @@ public class ThumbnailService {
             if(!failCounter.hasFailedTooOften(media)){
                 logger.info("No cached thumb available for media " + media.getTitle() + " - enqueuing async thumb creation...");
                 // We need to fetch the thumb directly from the source.
-                return submitTask(() -> fetchThumbSync(media, actualResolution, position));
+                return CompletableFuture.supplyAsync(() -> fetchThumbSync(media, actualResolution, position), mainPool);
             }else{
                 logger.warn("Thumbnail creation failed too often for media " + media.getTitle());
                 return CompletableFuture.completedFuture(null);
@@ -125,10 +123,6 @@ public class ThumbnailService {
      * Private methods                                                         *
      *                                                                         *
      **************************************************************************/
-
-    private <T> CompletableFuture<T> submitTask(Supplier<T> task){
-        return CompletableFuture.supplyAsync(task, mainPool);
-    }
 
     /**
      * Enforces the size limit.
