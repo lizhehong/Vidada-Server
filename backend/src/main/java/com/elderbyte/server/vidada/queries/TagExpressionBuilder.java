@@ -6,11 +6,16 @@ import com.elderbyte.code.dom.expressions.*;
 import com.elderbyte.code.parser.ExpressionScanner;
 import com.elderbyte.code.parser.OperatorSet;
 import com.elderbyte.code.parser.Token;
+import com.elderbyte.code.parser.TokenType;
 import com.elderbyte.server.vidada.tags.Tag;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * Builds an Expression AST from a given tag expression
@@ -35,6 +40,10 @@ public class TagExpressionBuilder {
         return new TagExpressionBuilder();
     }
 
+    private TagExpressionBuilder(){
+
+    }
+
     /***************************************************************************
      *                                                                         *
      * Public API                                                              *
@@ -48,6 +57,39 @@ public class TagExpressionBuilder {
      */
     public TagExpressionBuilder expandTags(Function<Tag, Set<Tag>> expander){
         this.expander = expander;
+        return this;
+    }
+
+    /**
+     * Enables repairing of simple tag queries, such as injecting missing
+     * AND Operators.
+     *
+     * "foo bar" ---> "foo & bar"
+     *
+     * @return
+     */
+    public TagExpressionBuilder enableExpressionRepair(){
+        parser.setTokenTransformer(tokenStream -> {
+
+            final Token andOperator = new Token(TokenType.Operator, "&");
+            List<Token> enhancedList = new ArrayList<>();
+            Token previous = null;
+
+            for (Token token : tokenStream.collect(Collectors.toList())) {
+                if(previous != null && previous.getType() == TokenType.Identifier){
+                    // previous was variable - next must not be one:
+
+                    if(token.getType() == TokenType.Identifier){
+                        // Fix this by injecting AND (&) Operator:
+                        enhancedList.add(andOperator);
+                    }
+                }
+                enhancedList.add(token);
+                previous = token;
+            }
+
+            return enhancedList.stream();
+        });
         return this;
     }
 
@@ -75,14 +117,7 @@ public class TagExpressionBuilder {
      **************************************************************************/
 
 
-    private String repairExpression(String expression){
 
-
-
-        throw new NotImplementedException();
-
-
-    }
 
 
     /**

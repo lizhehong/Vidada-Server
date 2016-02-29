@@ -108,6 +108,7 @@ public class MediaService {
 
             try {
                 tagExpression = TagExpressionBuilder.create()
+                    .enableExpressionRepair()
                     .expandTags(tagService::getAllRelatedTags)
                         // Add additional related tags to the users request -
                         // This is what makes Vidada 'intelligent'

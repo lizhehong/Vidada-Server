@@ -2,6 +2,7 @@ package com.elderbyte.code.parser;
 
 /**
  * Represents a token emitted by the scanner.
+ * This class is immutable
  */
 public class Token {
 

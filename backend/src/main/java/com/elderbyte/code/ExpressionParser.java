@@ -4,6 +4,9 @@ import com.elderbyte.code.dom.expressions.ExpressionNode;
 import com.elderbyte.code.parser.*;
 import com.elderbyte.common.ArgumentNullException;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
@@ -29,6 +32,7 @@ public class ExpressionParser implements IExpressionParser {
     private final RPNTransformer rpnTransformer;
     private final ASTGenerator astGenerator;
 
+    private Function<Stream<Token>, Stream<Token>> tokenTransformer;
 
     /***************************************************************************
      *                                                                         *
@@ -87,6 +91,16 @@ public class ExpressionParser implements IExpressionParser {
         return scanner;
     }
 
+
+    /**
+     * Provides an entry point to modify the parsed token stream before it is being further
+     * processed.
+     * @param tokenTransformer
+     */
+    public void setTokenTransformer(Function<Stream<Token>, Stream<Token>> tokenTransformer){
+        this.tokenTransformer = tokenTransformer;
+    }
+
     /***************************************************************************
      *                                                                         *
      * Public API                                                              *
@@ -107,8 +121,12 @@ public class ExpressionParser implements IExpressionParser {
 
         try {
             Stream<Token> tokens = getScanner().tokenize(code);
-            Stream<Token> rpn = rpnTransformer.toReversePolishNotation(tokens);
 
+            if(tokenTransformer != null) {
+                tokens = tokenTransformer.apply(tokens);
+            }
+
+            Stream<Token> rpn = rpnTransformer.toReversePolishNotation(tokens);
             return astGenerator.parse(rpn);
         }catch (CodeDomException e){
             throw new CodeDomException(String.format("Failed to parse '%s'", code), e);
