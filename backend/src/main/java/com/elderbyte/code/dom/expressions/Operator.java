@@ -12,10 +12,10 @@ public final class Operator {
 
     /**
      * Creates a new Operator
-     * @param sign
+     * @param sign The operator symbol
      * @param precedence
      * @param isLeftAssociative
-     * @param isUnary
+     * @param isUnary Is this Operator unary?
      */
     public Operator(String sign, int precedence, boolean isLeftAssociative, boolean isUnary){
         this.isUnary = isUnary;

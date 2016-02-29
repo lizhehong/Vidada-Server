@@ -1,7 +1,11 @@
 package com.elderbyte.server.vidada.queries;
 
+import archimedes.core.exceptions.NotImplementedException;
 import com.elderbyte.code.CodeDomException;
 import com.elderbyte.code.dom.expressions.*;
+import com.elderbyte.code.parser.ExpressionScanner;
+import com.elderbyte.code.parser.OperatorSet;
+import com.elderbyte.code.parser.Token;
 import com.elderbyte.server.vidada.tags.Tag;
 
 import java.util.Set;
@@ -70,15 +74,29 @@ public class TagExpressionBuilder {
      *                                                                         *
      **************************************************************************/
 
+
+    private String repairExpression(String expression){
+
+
+
+        throw new NotImplementedException();
+
+
+    }
+
+
     /**
-     * Repairs the given Expression
+     * Converts the given Expression Tree into a real query.
+     *
+     * foo & bar ---> (foo MEMBER OF tags) & (bar MEMBER OF tags)
+     *
      * @param ast
      * @param tagsRef
      * @return
      */
     private ExpressionNode repairMemberOf(ExpressionNode ast, ExpressionNode tagsRef) {
 
-        Operator memberOf = new Operator("MEMBER OF", 5, true, false);
+        final Operator memberOf = new Operator("MEMBER OF", 5, true, false);
 
         // We replace all VariableReferences with MemberOfExpressions
 

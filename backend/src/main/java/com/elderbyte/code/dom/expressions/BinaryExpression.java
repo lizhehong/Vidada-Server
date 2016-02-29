@@ -1,9 +1,11 @@
 package com.elderbyte.code.dom.expressions;
 
 /**
- * Represents a binary expression
+ * Represents a binary expression, which splits the expression tree in two branches.
+ * Usually used by Operators,
+ * right [x] left
  *
- * right x left : where x is the operator a subclass has to define
+ * @see BinaryOperatorExpression
  */
 public abstract class BinaryExpression  extends ExpressionNode {
 

@@ -3,6 +3,7 @@ package com.elderbyte.code.parser;
 import com.elderbyte.code.dom.expressions.*;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 /**
  * Creates an Abstract Syntax tree from a stream of tokens in the RPN format.
@@ -22,11 +23,11 @@ public class ASTGenerator {
      * @return
      * @throws ASTGeneratorException
      */
-    public ExpressionNode parse(Iterable<Token> rpn){
+    public ExpressionNode parse(Stream<Token> rpn){
 
         Stack<ExpressionNode> expressionNodeStack = new Stack<>();
 
-        for(Token token : rpn){
+        rpn.forEach(token -> {
             if(isOperator(token)){
                 // token is Operator / Function
                 // Get count of required params for this op / func
@@ -51,14 +52,13 @@ public class ASTGenerator {
             }else {
                 throw new ASTGeneratorException("Unexpected token " + token + "!");
             }
-        }
+        });
 
         if(expressionNodeStack.size() == 1){
             return expressionNodeStack.pop();
         }else{
             throw new ASTGeneratorException("Too many values for the given operators!");
         }
-
     }
 
 

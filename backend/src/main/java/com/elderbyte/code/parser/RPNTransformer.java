@@ -5,6 +5,7 @@ import com.elderbyte.code.dom.expressions.Operator;
 import com.elderbyte.common.ArgumentNullException;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 /**
  * Transforms a stream of tokens into Reverse Polish Notation
@@ -52,12 +53,13 @@ public class RPNTransformer {
      *
      * @exception CodeDomException Thrown when the transformation failed.
      */
-    public List<Token> toReversePolishNotation(Iterable<Token> tokens){
+    public Stream<Token> toReversePolishNotation(Stream<Token> tokens){
 
         Stack<Token> operatorStack = new Stack<>();
         List<Token> rpn = new ArrayList<>();
 
-        for(Token token : tokens){
+
+        tokens.forEach(token -> {
             if(isLiteral(token)){
                 rpn.add(token);
             }else if(isOperator(token)){
@@ -69,10 +71,10 @@ public class RPNTransformer {
                     Token o2 = operatorStack.peek();
 
                     if(     isOperator(o2) &&
-                            // o1 is left-associative and its precedence is less than or equal to that of o2, or
-                            ((isLeftAssociative(o1) && precedence(o1) <= precedence(o2)) |
-                                    (!isLeftAssociative(o1) && precedence(o1) < precedence(o2))
-                            )){
+                        // o1 is left-associative and its precedence is less than or equal to that of o2, or
+                        ((isLeftAssociative(o1) && precedence(o1) <= precedence(o2)) |
+                            (!isLeftAssociative(o1) && precedence(o1) < precedence(o2))
+                        )){
                         // then pop o2 off the operator stack, onto the output queue;
                         rpn.add(operatorStack.pop());
                     }else{
@@ -99,7 +101,7 @@ public class RPNTransformer {
             }else{
                 throw new CodeDomException(String.format("Unexpected Token '%s' in RPN Expression!", token));
             }
-        }
+        });
 
         while (!operatorStack.isEmpty()){
             Token op = operatorStack.pop();
@@ -108,7 +110,7 @@ public class RPNTransformer {
             }
             rpn.add(op);
         }
-        return rpn;
+        return rpn.stream();
     }
 
 

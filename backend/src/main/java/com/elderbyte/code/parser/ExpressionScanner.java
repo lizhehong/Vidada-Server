@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 /**
  * Scans an input string and turns it into a stream of tokens.
@@ -27,7 +28,7 @@ public class ExpressionScanner {
 
     /***************************************************************************
      *                                                                         *
-     * Constructor                                                             *
+     * Constructors                                                            *
      *                                                                         *
      **************************************************************************/
 
@@ -75,11 +76,12 @@ public class ExpressionScanner {
      **************************************************************************/
 
     /**
-     * Turns the given string into a token stream
+     * Turns the given string into a token stream.
      * @param expression
      * @return
+     * @throws ArgumentNullException If expression is null.
      */
-    public Iterable<Token> tokenize(String expression){
+    public Stream<Token> tokenize(String expression){
 
         if(expression == null) throw new ArgumentNullException("expression");
 
@@ -95,7 +97,7 @@ public class ExpressionScanner {
             }
         }
 
-        return tokens;
+        return tokens.stream();
     }
 
     /***************************************************************************

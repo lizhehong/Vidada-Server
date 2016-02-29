@@ -1,7 +1,7 @@
 package com.elderbyte.code.parser;
 
 /**
- * Represents the type of a token
+ * Represents the high level type of a token.
  */
 public enum TokenType {
 
@@ -20,8 +20,14 @@ public enum TokenType {
      */
     Literal,
 
+    /**
+     * Specail language keywords
+     */
     Keyword,
 
+    /**
+     * An expression Operator
+     */
     Operator,
 
     /**

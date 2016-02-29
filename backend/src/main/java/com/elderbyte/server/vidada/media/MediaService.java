@@ -110,7 +110,7 @@ public class MediaService {
                 tagExpression = TagExpressionBuilder.create()
                     .expandTags(tagService::getAllRelatedTags)
                         // Add additional related tags to the users request -
-                        // This is what vidada makes intelligent
+                        // This is what makes Vidada 'intelligent'
                     .build(qry.getTagExpression());
             }catch (CodeDomException e){
                 logger.debug("Could not create Tag-Expression query!" + e.getMessage());

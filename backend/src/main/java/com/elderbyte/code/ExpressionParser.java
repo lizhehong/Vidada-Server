@@ -5,6 +5,7 @@ import com.elderbyte.code.parser.*;
 import com.elderbyte.common.ArgumentNullException;
 
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 
 /**
@@ -24,7 +25,7 @@ public class ExpressionParser implements IExpressionParser {
      *                                                                         *
      **************************************************************************/
 
-    private final ExpressionScanner tokenizer;
+    private final ExpressionScanner scanner;
     private final RPNTransformer rpnTransformer;
     private final ASTGenerator astGenerator;
 
@@ -61,15 +62,29 @@ public class ExpressionParser implements IExpressionParser {
     /**
      * Creates a new ExpressionParser
      */
-    public ExpressionParser(ExpressionScanner tokenizer, RPNTransformer rpnTransformer, ASTGenerator astGenerator){
+    public ExpressionParser(ExpressionScanner scanner, RPNTransformer rpnTransformer, ASTGenerator astGenerator){
 
-        if(tokenizer == null) throw new ArgumentNullException("tokenizer");
+        if(scanner == null) throw new ArgumentNullException("scanner");
         if(rpnTransformer == null) throw new ArgumentNullException("rpnTransformer");
         if(astGenerator == null) throw new ArgumentNullException("astGenerator");
 
-        this.tokenizer = tokenizer;
+        this.scanner = scanner;
         this.rpnTransformer = rpnTransformer;
         this.astGenerator = astGenerator;
+    }
+
+    /***************************************************************************
+     *                                                                         *
+     * Public Properties                                                       *
+     *                                                                         *
+     **************************************************************************/
+
+    /**
+     * Gets the scanner used to tokenize a input string.
+     * @return
+     */
+    public ExpressionScanner getScanner(){
+        return scanner;
     }
 
     /***************************************************************************
@@ -91,9 +106,8 @@ public class ExpressionParser implements IExpressionParser {
         if(code == null) throw new ArgumentNullException("code");
 
         try {
-            Iterable<Token> tokens = tokenizer.tokenize(code);
-
-            Iterable<Token> rpn = rpnTransformer.toReversePolishNotation(tokens);
+            Stream<Token> tokens = getScanner().tokenize(code);
+            Stream<Token> rpn = rpnTransformer.toReversePolishNotation(tokens);
 
             return astGenerator.parse(rpn);
         }catch (CodeDomException e){
