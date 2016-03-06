@@ -2,7 +2,8 @@
 "use strict";
 
 angular.module("vidadaApp")
-    .controller("MediasController", function ($rootScope, $scope, $state, $stateParams, $anchorScroll, $timeout, $mdDialog, Media, MediaInfinite, ParseText, Tag) {
+    .controller("MediasController", function ($rootScope, $scope, $state, $stateParams, $anchorScroll, $timeout, $mdDialog,
+                                              Media, MediaInfinite, ParseText, Tag, ExternalPlayer) {
 
         $scope.knownTags = [];
         $scope.selectedSuggestion = null;
@@ -20,17 +21,6 @@ angular.module("vidadaApp")
             {id: "DURATION", name: "Duration"},
             {id: "BITRATE", name: "Bitrate"}
         ];
-
-        $scope.externalPlayers = [
-            {
-                app: "vlc",
-                encode: false
-            }, {
-                app: "mpv",
-                encode: true
-            }
-        ];
-        $scope.externalPlayer =  $scope.externalPlayers[1];
 
 
         $scope.mediaQuery = {
@@ -79,13 +69,12 @@ angular.module("vidadaApp")
             $scope.currentMedia = media;
 
             if(media.mediaType.toLowerCase() == "movie"){
-                var mediaUrlArg = media.streamUrl;
-                if($scope.externalPlayer.encode){
-                    mediaUrlArg = escape(media.streamUrl);
-                }
-                window.open($scope.externalPlayer.app + "://" + mediaUrlArg, "_self");
+                // Open videos with the current external player using URL schemes
+                var externalPlayUrl = ExternalPlayer.externPlayUrl(media.streamUrl);
+                window.open(externalPlayUrl, "_self");
             }else{
-                window.open(media.streamUrl);
+                //window.open(media.streamUrl);
+                $scope.play(null, media); // Fallback to embedded Player
             }
         };
 

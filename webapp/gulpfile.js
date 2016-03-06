@@ -183,5 +183,5 @@ gulp.task('default', function() {
 
     gutil.log(gutil.colors.cyan('build:'),' Builds all SAAS etc. and injects all dependencies into index.html.');
     gutil.log(gutil.colors.cyan('release-dev:'),' Executes build and copies the webapp into the java resource folder.')
-    gutil.log(gutil.colors.cyan('release-dev:'),' Executes build and copies the minified/compressed webapp into the java resource folder.')
+    gutil.log(gutil.colors.cyan('release-prod:'),' Executes build and copies the minified/compressed webapp into the java resource folder.')
 });
