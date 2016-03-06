@@ -24,7 +24,7 @@ angular.module("vidadaApp")
         }
 
 
-        return ExternalPlayer;
+        return new ExternalPlayer();
 
     });
 
