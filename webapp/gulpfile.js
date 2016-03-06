@@ -10,7 +10,7 @@
 // release-prod:  Minifies all css/js dependencies, bundles the production ready with the backend
 //                (Copys the minified web-app into the backends '/src/main/resources/static')
 //
-// release-dev:  Copy all source files into backend bundle folder, dont uglyfi
+// release-dev:  Copy all source files into backend bundle folder, don't uglyfi
 //-----------------------------------------------------------------------
 
 
@@ -18,6 +18,7 @@
 
 var gulp = require('gulp');
 
+var gutil = require('gulp-util');
 var clean = require('gulp-clean');
 var concat = require('gulp-concat');
 var usemin = require('gulp-usemin');
@@ -170,7 +171,6 @@ gulp.task('watch', function() {
 });
 
 
-
 gulp.task('build', ['inject']);
 gulp.task('release-prod', ['clean', 'build', 'usemin', 'copy']);
 gulp.task('release-dev', ['clean', 'build', 'dev-dependencies', 'copy']);
@@ -178,4 +178,10 @@ gulp.task('release-dev', ['clean', 'build', 'dev-dependencies', 'copy']);
 /**
  * Default task, executed if no specific task is specified.
  */
-gulp.task('default', ['build']);
+gulp.task('default', function() {
+    gutil.log(gutil.colors.red('No task defined. Please choose one of the following tasks:'));
+
+    gutil.log(gutil.colors.cyan('build:'),' Builds all SAAS etc. and injects all dependencies into index.html.');
+    gutil.log(gutil.colors.cyan('release-dev:'),' Executes build and copies the webapp into the java resource folder.')
+    gutil.log(gutil.colors.cyan('release-dev:'),' Executes build and copies the minified/compressed webapp into the java resource folder.')
+});
