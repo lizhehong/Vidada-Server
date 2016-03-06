@@ -1,0 +1,5 @@
+group 'com.elderbyte.vidada'
+version '1.0-SNAPSHOT'
+
+apply plugin: "maven"
+
