@@ -1,5 +1,19 @@
 group 'com.elderbyte.vidada'
 version '1.0-SNAPSHOT'
 
-apply plugin: "maven"
+
+// This gradle build script just delegates tasks to gulp,
+// which does the actual building of the web-app.
+
+task compile(type: Exec){
+    workingDir "${projectDir}"
+    commandLine "gulp", "compile"
+}
+
+task build(type: Exec){
+    workingDir "${projectDir}"
+    commandLine "gulp", "release-prod"
+}
+
+
 

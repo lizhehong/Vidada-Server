@@ -6,7 +6,7 @@
 // 
 // Tasks
 // --------
-// build :   Builds the web app locally, compiles css, updates index.html dependencies
+// compile :   Builds the web app locally, compiles css, updates index.html dependencies
 // release-prod:  Minifies all css/js dependencies, bundles the production ready with the backend
 //                (Copys the minified web-app into the backends '/src/main/resources/static')
 //
@@ -45,7 +45,7 @@ var liveReload  = require('gulp-livereload');
 
 var bases = {
     app: 'app/', // Source directory
-    dist: '../backend/src/main/resources/static/' // Compiled, minified target directory
+    dist: '../vidada-server/src/main/resources/static/' // Compiled, minified target directory
 };
 
 
@@ -171,7 +171,7 @@ gulp.task('watch', function() {
 });
 
 
-gulp.task('build', ['inject']);
+gulp.task('compile', ['inject']);
 gulp.task('release-prod', ['clean', 'build', 'usemin', 'copy']);
 gulp.task('release-dev', ['clean', 'build', 'dev-dependencies', 'copy']);
 
@@ -181,7 +181,7 @@ gulp.task('release-dev', ['clean', 'build', 'dev-dependencies', 'copy']);
 gulp.task('default', function() {
     gutil.log(gutil.colors.red('No task defined. Please choose one of the following tasks:'));
 
-    gutil.log(gutil.colors.cyan('build:'),' Builds all SAAS etc. and injects all dependencies into index.html.');
+    gutil.log(gutil.colors.cyan('compile:'),' Builds all SAAS etc. and injects all dependencies into index.html.');
     gutil.log(gutil.colors.cyan('release-dev:'),' Executes build and copies the webapp into the java resource folder.')
     gutil.log(gutil.colors.cyan('release-prod:'),' Executes build and copies the minified/compressed webapp into the java resource folder.')
 });
