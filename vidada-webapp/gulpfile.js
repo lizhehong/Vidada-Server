@@ -66,7 +66,7 @@ gulp.task('clean', function() {
 /**
  * Relplace all js + css references in index.html with minified and compressed ones.
  */
-gulp.task('usemin', ['clean', 'build'], function() {
+gulp.task('usemin', ['clean', 'compile'], function() {
     return gulp.src(bases.app + 'index.html')
         .pipe(usemin({
             mainCss: [ rev ],
@@ -82,7 +82,7 @@ gulp.task('usemin', ['clean', 'build'], function() {
  * Simply merge all dependencies in index.html into min-dependencies.
  * FOR DEVELOPMENT ONLY - does not uglify / minimize or compress
  */
-gulp.task('dev-dependencies', ['clean', 'build'], function() {
+gulp.task('dev-dependencies', ['clean', 'compile'], function() {
     return gulp.src(bases.app + 'index.html')
         .pipe(usemin({
             mainCss: [ rev ],
@@ -172,8 +172,8 @@ gulp.task('watch', function() {
 
 
 gulp.task('compile', ['inject']);
-gulp.task('release-prod', ['clean', 'build', 'usemin', 'copy']);
-gulp.task('release-dev', ['clean', 'build', 'dev-dependencies', 'copy']);
+gulp.task('release-prod', ['clean', 'compile', 'usemin', 'copy']);
+gulp.task('release-dev', ['clean', 'compile', 'dev-dependencies', 'copy']);
 
 /**
  * Default task, executed if no specific task is specified.
