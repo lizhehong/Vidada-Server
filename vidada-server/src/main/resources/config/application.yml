@@ -9,8 +9,6 @@ security.oauth2.jwt.key: 494847a9c8a147bf82f4ca6da59efe61
 # Disable Jolokia - An http/json bridge for remote JMX access
 endpoints.jolokia.enabled: false
 
-# security configuration (this key should be unique for your application, and kept secret)
-jhipster.security.rememberme.key: feeabc1808cdea42c9122e171bc5edfbf5c80821
 
 vidada:
     debug.enabled: false

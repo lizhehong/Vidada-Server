@@ -30,7 +30,9 @@ targetCompatibility = 1.8
 
 dependencies {
 
-    // Local dependencies
+    // compile project(':other-library')
+
+    // Local maven dependencies
     compile("ch.securityvision:xattrj:1.3")
     compile("ch.securityvision.archimedes:archimedes.core:0.2.7-SNAPSHOT"){
 
