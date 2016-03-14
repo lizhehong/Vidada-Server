@@ -20,7 +20,7 @@
     "angular-translate-storage-cookie": null,
     "angular-ui-router": null,
     "angular-messages": "~1.5",
-    "angular-material": "~1.1.0-RC1",
+    "angular-material": "master",
     "ngInfiniteScroll": null,
     "bootstrap": null,
     "jquery": "2.1.3",
