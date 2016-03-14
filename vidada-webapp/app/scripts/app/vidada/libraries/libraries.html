@@ -9,9 +9,7 @@
         <!-- ng-click="editLibrary($event, library)" -->
         <md-list-item class="md-3-line" ng-repeat="library in libraries" ng-href="#/libraries/{{library.id}}"  >
 
-            <md-icon class="md-primary">
-                <i class="fa fa-hdd-o"></i>
-            </md-icon>
+            <md-icon md-font-set="material-icons">video_library</md-icon>
 
             <div class="md-list-item-text">
                 <h3>{{library.name}}  <small class="warn" ng-hide="library.isAvailabe">Not available!</small></h3>
