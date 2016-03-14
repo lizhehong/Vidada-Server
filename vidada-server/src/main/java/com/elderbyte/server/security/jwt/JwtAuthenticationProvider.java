@@ -1,4 +1,5 @@
 package com.elderbyte.server.security.jwt;
+import com.nimbusds.jwt.SignedJWT;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,11 +35,13 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
         JwtToken jwtToken = (JwtToken) authentication;
         try {
             JWSVerifier verifier = new MACVerifier(secretKey);
-            boolean isVerified = jwtToken.getSignedToken().verify(verifier);
-            if (isVerified) {
+            SignedJWT signedToken = jwtToken.getSignedToken();
+
+            if (signedToken.verify(verifier)) {
 
                 // The token is valid -  check if it is activated and not expired
-                Date expirationDate = jwtToken.getSignedToken().getJWTClaimsSet().getExpirationTime();
+
+                Date expirationDate = signedToken.getJWTClaimsSet().getExpirationTime();
                 if(expirationDate != null){
                     if(LocalDateTime.now().isAfter(toDateTime(expirationDate))){
                         // The token has expired!
@@ -46,7 +49,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
                     }
                 }
 
-                Date notValidBefore = jwtToken.getSignedToken().getJWTClaimsSet().getNotBeforeTime();
+                Date notValidBefore = signedToken.getJWTClaimsSet().getNotBeforeTime();
                 if(notValidBefore != null){
                     if(LocalDateTime.now().isBefore(toDateTime(notValidBefore))){
                         // The token is not yet valid!
@@ -60,9 +63,9 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
             }
             return jwtToken;
         } catch (JOSEException e) {
-            throw new JwtAuthenticationException("Authentication failed", e);
+            throw new JwtAuthenticationException("Authentication failed!", e);
         } catch (ParseException e) {
-            throw new JwtAuthenticationException("Authentication failed - Could not read expiration header!", e);
+            throw new JwtAuthenticationException("Authentication failed - Could not parse part of the JWT Token!", e);
         }
     }
 
