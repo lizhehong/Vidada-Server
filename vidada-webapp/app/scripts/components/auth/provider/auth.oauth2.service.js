@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('vidadaApp')
-    .factory('AuthServerProvider', function loginService($http, localStorageService, Base64) {
+    .factory('AuthServerProvider', function loginService($http, localStorageService) {
         return {
             login: function(credentials) {
 
@@ -18,8 +18,9 @@ angular.module('vidadaApp')
 
                     return jwt;
 
+                }, function(error) {
+                    console.log('Login Failed: ' + error);
                 });
-
             },
             logout: function() {
                 // logout from the server
