@@ -4,7 +4,6 @@ html, body {
     height:100%;
     margin: 0px;
     padding: 0px;
-    background-color: white;
 }
 
 
@@ -44,8 +43,8 @@ md-toolbar h1 {
     margin: auto;
 }
 
-/* Sidenav area */
 
+/*
 md-list .md-button {
     color: inherit;
     font-weight: 500;
@@ -54,11 +53,14 @@ md-list .md-button {
 }
 md-list .md-button.selected {
     color: #03a9f4;
-}
+}*/
+
+/* Sidenav area
 
 md-sidenav  md-list {
     padding: 0px 0px 8px 0px;
 }
+
 
 
 md-button.menuBtn > md-icon {
@@ -66,29 +68,12 @@ md-button.menuBtn > md-icon {
     width:24px;
     height:24px;
 }
+ */
 
-
-/* Typography support coming in 0.8.0 */
 
 md-toolbar h1 {
     font-size: 1.250em;
     font-weight: 400;
-}
-
-.avatar {
-    position: relative;
-    width: 128px;
-    height: 128px;
-    border: 1px solid #ddd;
-    border-radius: 50%;
-    display: inline-block;
-    overflow: hidden;
-    margin: 0px;
-    vertical-align: middle;
-    zoom:0.70;
-    transform: translateZ(0);
-    -webkit-transform: scale(0.70);
-    -moz-transform:scale(0.70);
 }
 
 
@@ -102,32 +87,9 @@ span.name {
     padding-left:5px;
 }
 
-.layout {
-    height: inherit;
+.overflow {
+    overflow: auto;
 }
-
-/** main content viewport, almost equal to md-content **/
-.view-port {
-    display: block;
-    position: relative;
-
-    overflow: scroll; /** 'scroll' is required for ios devices **/
-    -webkit-overflow-scrolling: touch; /** 'touch' enables ios scroll, requires overflow-scroll **/
-}
-
-/**
-.view-port[md-scroll-y] {
-    overflow-y: auto;
-    overflow-x: hidden;
-}
-.view-port[md-scroll-x] {
-    overflow-x: auto;
-    overflow-y: hidden;
-}
-.view-port.autoScroll {
-    -webkit-overflow-scrolling: auto;
-}
-**/
 
 
 /* Global Styles */
@@ -182,25 +144,6 @@ Version number in navbar
     color: #ccc
 }
 
-/* ==========================================================================
-Browser Upgrade Prompt
-========================================================================== */
-.browserupgrade {
-    margin: 0.2em 0;
-    background: #ccc;
-    color: #000;
-    padding: 0.2em 0;
-}
-
-
-
-md-content.md-default-theme {
-    background-color:  #eee;
-}
-md-card {
-    background-color: #fff;
-}
-
 md-card h2:first-of-type {
     margin-top: 0;
 }
@@ -226,34 +169,7 @@ only screen and (     -o-min-device-pixel-ratio: 2/1),
 only screen and (        min-device-pixel-ratio: 2),
 only screen and (                min-resolution: 192dpi),
 only screen and (                min-resolution: 2dppx) {
-    .hipster {
-        background: url("../images/hipster2x.png") no-repeat center top;
-        background-size: contain;
-    }
-}
 
-
-.hand {
-    cursor: pointer;
-}
-
-#threadDump .popover, #healthCheck .popover {
-    top: inherit;
-    display: block;
-    font-size: 10px;
-    max-width: 1024px;
-}
-
-#healthCheck .popover {
-    margin-left: -50px;
-}
-
-.health-details {
-    min-width: 400px;
-}
-
-.alert .popover pre {
-    font-size: 10px;
 }
 
 
