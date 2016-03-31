@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Vidada-Project/Vidada-Server.svg?branch=master)](https://travis-ci.org/Vidada-Project/Vidada-Server)
+
 Vidada Server
 =======
 
