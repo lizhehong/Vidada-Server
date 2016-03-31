@@ -11,3 +11,5 @@ Vidada acts as a media server and stream your media over the network (HTTP). The
 
 
 Source Code is freely available at https://github.com/Vidada-Project under the MIT license.
+
+2016
