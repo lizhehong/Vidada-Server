@@ -9,6 +9,10 @@ Also, Vidada does not dictate you any folder structure. Instead, the file conten
 
 Vidada acts as a media server and stream your media over the network (HTTP). The Vidada Server provides a REST API which is the primary interfaces for both internal applications and 3th parties.
 
+## Preview
+
+<img width="1293" alt="screen shot 2016-03-31 at 22 03 34" src="https://cloud.githubusercontent.com/assets/439313/14189264/a4839842-f78c-11e5-918a-34ef5188a711.png">
+
 
 Source Code is freely available at https://github.com/Vidada-Project under the MIT license.
 
