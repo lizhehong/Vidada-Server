@@ -1,6 +1,6 @@
 package com.elderbyte.server.vidada.cache;
 
-import archimedes.core.images.IMemoryImage;
+import com.elderbyte.server.vidada.images.IMemoryImage;
 import com.elderbyte.server.vidada.media.Resolution;
 
 import java.util.HashSet;

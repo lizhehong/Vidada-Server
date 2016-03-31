@@ -1,11 +1,10 @@
 package com.elderbyte.server.vidada.cache;
 
 
-import archimedes.core.data.BiTuple;
-import archimedes.core.images.IMemoryImage;
-import archimedes.core.images.IRawImageFactory;
 import archimedes.core.io.locations.DirectoryLocation;
 import archimedes.core.io.locations.ResourceLocation;
+import com.elderbyte.server.vidada.images.IMemoryImage;
+import com.elderbyte.server.vidada.images.IRawImageFactory;
 import com.elderbyte.server.vidada.media.Resolution;
 import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.apache.log4j.LogManager;
@@ -284,7 +283,7 @@ public class ImageFileCache implements IImageCache {
 	 */
 	protected ResourceLocation getFilePath(String id, Resolution size){
 
-		int combindedHash = BiTuple.hashCode(id, size);
+		int combindedHash = id.hashCode() * 31 ^ size.hashCode();
 
 		ResourceLocation cachedThumb = dimensionPathCache.get(combindedHash);
 

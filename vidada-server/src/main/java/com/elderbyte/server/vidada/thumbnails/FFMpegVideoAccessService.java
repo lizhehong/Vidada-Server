@@ -1,11 +1,10 @@
 package com.elderbyte.server.vidada.thumbnails;
 
-import archimedes.core.images.IMemoryImage;
-import archimedes.core.images.IRawImageFactory;
-
 import com.elderbyte.ffmpeg.FFmpegException;
 import com.elderbyte.ffmpeg.FFmpegInterop;
 import com.elderbyte.ffmpeg.VideoInfo;
+import com.elderbyte.server.vidada.images.IMemoryImage;
+import com.elderbyte.server.vidada.images.IRawImageFactory;
 import com.elderbyte.server.vidada.media.Resolution;
 import com.elderbyte.server.vidada.video.IVideoAccessService;
 import org.apache.commons.io.FileUtils;
@@ -13,7 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 
 import java.io.File;
 import java.io.IOException;

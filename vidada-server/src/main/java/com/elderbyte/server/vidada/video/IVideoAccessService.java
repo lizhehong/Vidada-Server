@@ -1,7 +1,7 @@
 package com.elderbyte.server.vidada.video;
 
-import archimedes.core.images.IMemoryImage;
 import com.elderbyte.ffmpeg.VideoInfo;
+import com.elderbyte.server.vidada.images.IMemoryImage;
 import com.elderbyte.server.vidada.media.Resolution;
 
 import java.net.URI;

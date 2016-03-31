@@ -1,6 +1,5 @@
 package com.elderbyte.server.vidada.images;
 
-import archimedes.core.images.IRawImageFactory;
 import archimedes.core.io.locations.DirectoryLocation;
 import com.elderbyte.server.vidada.cache.IImageCache;
 import com.elderbyte.server.vidada.cache.ImageFileCache;

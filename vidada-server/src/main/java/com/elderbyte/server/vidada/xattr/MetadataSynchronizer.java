@@ -1,7 +1,7 @@
 package com.elderbyte.server.vidada.xattr;
 
-import archimedes.core.exceptions.NotSupportedException;
 import archimedes.core.io.locations.ResourceLocation;
+import com.elderbyte.common.NotSupportedException;
 import com.elderbyte.server.vidada.media.ImageMediaItem;
 import com.elderbyte.server.vidada.media.MediaItem;
 import com.elderbyte.server.vidada.media.MovieMediaItem;
@@ -11,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 
 import java.util.Set;
 

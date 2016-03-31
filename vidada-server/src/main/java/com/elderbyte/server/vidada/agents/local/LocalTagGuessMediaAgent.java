@@ -4,13 +4,11 @@ import com.elderbyte.server.vidada.agents.MediaAgent;
 import com.elderbyte.server.vidada.agents.MediaMetadataDto;
 import com.elderbyte.server.vidada.media.MediaItem;
 import com.elderbyte.server.vidada.media.MediaType;
-import com.elderbyte.server.vidada.tags.Tag;
 import com.elderbyte.server.vidada.tags.autoTag.CachedTagGuessingBuildService;
 import com.elderbyte.server.vidada.tags.autoTag.ITagGuessingStrategy;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.function.Supplier;
 
 /**
  * Uses local data to guess tags for a media item.

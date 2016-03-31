@@ -1,7 +1,6 @@
 package com.elderbyte.server.vidada.synchronisation;
 
-import archimedes.core.concurrent.IProgressListener;
-import archimedes.core.concurrent.ProgressEventArgs;
+
 import archimedes.core.io.locations.ResourceLocation;
 import com.elderbyte.server.vidada.media.MediaHashService;
 

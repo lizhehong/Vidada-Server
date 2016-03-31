@@ -1,15 +1,14 @@
 package com.elderbyte.server.vidada.web.rest;
 
-import archimedes.core.data.pagination.ListPage;
-import archimedes.core.images.IMemoryImage;
+
 import com.elderbyte.common.ArgumentNullException;
-import com.elderbyte.server.vidada.media.*;
-import com.elderbyte.server.vidada.media.libraries.MediaLibrary;
-import com.elderbyte.server.vidada.tags.Tag;
+import com.elderbyte.common.ListPage;
 import com.elderbyte.server.security.jwt.JwtFilter;
+import com.elderbyte.server.vidada.images.IMemoryImage;
+import com.elderbyte.server.vidada.media.*;
+import com.elderbyte.server.vidada.tags.Tag;
 import com.elderbyte.server.vidada.tags.TagService;
 import com.elderbyte.server.vidada.thumbnails.ThumbnailService;
-import com.elderbyte.server.vidada.media.MediaService;
 import com.elderbyte.server.vidada.web.rest.dto.AsyncResourceDTO;
 import com.elderbyte.server.vidada.web.rest.dto.MediaDTO;
 import com.elderbyte.server.vidada.web.servlets.MediaStreamServlet;
@@ -22,7 +21,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;

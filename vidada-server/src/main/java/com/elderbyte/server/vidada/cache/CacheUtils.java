@@ -1,11 +1,12 @@
 package com.elderbyte.server.vidada.cache;
 
-import archimedes.core.images.IMemoryImage;
-import archimedes.core.util.Lists;
+import com.elderbyte.server.vidada.images.IMemoryImage;
 import com.elderbyte.server.vidada.media.Resolution;
+import com.google.common.collect.Lists;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -74,7 +75,7 @@ public class CacheUtils {
 
 		if(!dims.isEmpty()){
 
-			List<Resolution> dimensions = Lists.toList(dims);
+            List<Resolution> dimensions = new ArrayList<>(dims);
 			Collections.sort(dimensions, (o1, o2) -> Double.compare(o1.getWidth(), o2.getWidth()));
 
 			int index = -1;

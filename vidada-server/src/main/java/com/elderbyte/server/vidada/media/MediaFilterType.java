@@ -1,14 +1,10 @@
 package com.elderbyte.server.vidada.media;
 
 
-import archimedes.core.enums.EnumConverter;
-import archimedes.core.enums.ReverseEnumMap;
-
-
 /**
  * Filter for media types
  */
-public enum MediaFilterType implements EnumConverter<MediaFilterType> {
+public enum MediaFilterType {
 
     /**
      * Matches everything
@@ -27,7 +23,6 @@ public enum MediaFilterType implements EnumConverter<MediaFilterType> {
 
     private final byte id;
     private final String displayName;
-    transient private final static ReverseEnumMap<MediaFilterType> map = new ReverseEnumMap<>(MediaFilterType.class);
 
     MediaFilterType(int id, String displayName){
         this.id = (byte)id;
@@ -39,15 +34,5 @@ public enum MediaFilterType implements EnumConverter<MediaFilterType> {
         return displayName;
     }
 
-
-    @Override
-    public byte convert() {
-        return id;
-    }
-
-    @Override
-    public MediaFilterType convert(byte val) {
-        return map.get(val);
-    }
 }
 

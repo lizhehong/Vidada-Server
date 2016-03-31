@@ -1,11 +1,11 @@
 package com.elderbyte.server.vidada.web.servlets;
 
 import archimedes.core.io.locations.ResourceLocation;
+import com.elderbyte.server.vidada.media.MediaItem;
+import com.elderbyte.server.vidada.media.MediaService;
+import com.elderbyte.server.vidada.media.source.MediaSource;
 import com.elderbyte.server.web.servlets.streaming.AbstractStreamServlet;
 import com.elderbyte.server.web.servlets.streaming.StreamResource;
-import com.elderbyte.server.vidada.media.MediaItem;
-import com.elderbyte.server.vidada.media.source.MediaSource;
-import com.elderbyte.server.vidada.media.MediaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.net.URI;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

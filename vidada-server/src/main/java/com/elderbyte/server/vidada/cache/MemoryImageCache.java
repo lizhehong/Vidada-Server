@@ -1,13 +1,13 @@
 package com.elderbyte.server.vidada.cache;
 
-import archimedes.core.data.caching.LRUCache;
-import archimedes.core.images.IMemoryImage;
+import com.elderbyte.server.vidada.images.IMemoryImage;
 import com.elderbyte.server.vidada.media.Resolution;
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-
-import java.lang.ref.SoftReference;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Implements a basic memory image cache for super fast
@@ -32,7 +32,7 @@ public class MemoryImageCache extends ImageCacheProxyBase {
 
     private static final Logger logger = LogManager.getLogger(MemoryImageCache.class.getName());
 
-	private final Map<Resolution, Map<String, SoftReference<IMemoryImage>>> imageCache;
+	private final Map<Resolution, Cache<String, IMemoryImage>  > imageCache;
 
 	/**
 	 * Average scaled image size in MB
@@ -89,8 +89,7 @@ public class MemoryImageCache extends ImageCacheProxyBase {
 	public MemoryImageCache(IImageCache unbufferedImageCache){
         super(unbufferedImageCache);
 		// Setup image cache
-		this.imageCache = Collections.synchronizedMap(
-            new LRUCache<>(MAX_SCALED_CACHE_SIZEFOLDERS));
+		this.imageCache = Collections.synchronizedMap(new HashMap<>());
 	}
 
     /***************************************************************************
@@ -106,7 +105,7 @@ public class MemoryImageCache extends ImageCacheProxyBase {
 
 		if(existsInMemoryCache(id, size))
 		{
-			image = imageCache.get(size).get(id).get();
+			image = imageCache.get(size).getIfPresent(id);
 		} else {
 			image = super.getImageById(id, size);
             if(image != null) {
@@ -140,13 +139,10 @@ public class MemoryImageCache extends ImageCacheProxyBase {
         super.removeImage(id);
 
 		for (Resolution d : new ArrayList<>(imageCache.keySet())) {
-			Map<String, SoftReference<IMemoryImage>> idImageMap = imageCache.get(d);
-			if(idImageMap.containsKey(id))
-			{
-				idImageMap.remove(id);
-			}
+            Cache<String, IMemoryImage> idImageMap = imageCache.get(d);
 
-			if(idImageMap.isEmpty()) {
+            idImageMap.invalidate(id);
+			if(idImageMap.size() > 0) {
                 imageCache.remove(d);
             }
 		}
@@ -160,10 +156,9 @@ public class MemoryImageCache extends ImageCacheProxyBase {
 
 
 	protected boolean existsInMemoryCache(String id, Resolution size){
-		Map<String, SoftReference<IMemoryImage>> map = imageCache.get(size);
-		if(map != null){
-			SoftReference<IMemoryImage> imageRef = map.get(id);
-			return imageRef != null && imageRef.get() != null;
+        Cache<String, IMemoryImage> cache = imageCache.get(size);
+		if(cache != null){
+			return cache.getIfPresent(id) != null;
 		}
 		return false;
 	}
@@ -181,11 +176,20 @@ public class MemoryImageCache extends ImageCacheProxyBase {
 
         if (!imageCache.containsKey(imageSize)) {
             int maxScaledSize = (int) (MAX_MEMORY_SCALED_CACHE / AVERAGE_SCALED_IMAGE_SIZE);
-            imageCache.put(imageSize, new LRUCache<>(maxScaledSize));
+            imageCache.put(imageSize, buildImageCache(maxScaledSize));
 
             logger.info("Created scaled image cache. maxScaledSize: " + maxScaledSize);
         }
-        imageCache.get(imageSize).put(id, new SoftReference<>(image));
+        imageCache.get(imageSize).put(id, image);
+    }
+
+
+    private Cache<String, IMemoryImage> buildImageCache(int maxSize){
+        return CacheBuilder.newBuilder()
+            .maximumSize(maxSize)
+            .softValues()
+            .expireAfterWrite(10, TimeUnit.MINUTES)
+            .build();
     }
 
 

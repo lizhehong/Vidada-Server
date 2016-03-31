@@ -1,10 +1,10 @@
 package com.elderbyte.server.vidada.media;
 
-import archimedes.core.data.hashing.FileHashAlgorythms;
-import archimedes.core.data.hashing.IFileHashAlgorythm;
 import archimedes.core.io.locations.ResourceLocation;
-import com.elderbyte.server.vidada.xattr.KnownXAttr;
 import com.elderbyte.server.vidada.VidadaSettings;
+import com.elderbyte.server.vidada.media.hashing.FastIdentifierAlgorythm;
+import com.elderbyte.server.vidada.media.hashing.IFileHashAlgorythm;
+import com.elderbyte.server.vidada.xattr.KnownXAttr;
 import com.elderbyte.server.vidada.xattr.XAttrMetadataService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,7 +47,7 @@ public class MediaHashService {
     @Autowired
 	public MediaHashService(XAttrMetadataService metaDataService, VidadaSettings settings){
         this.metaDataService = metaDataService;
-        this.fileHashAlgorithm = FileHashAlgorythms.instance().getButtikscheHashAlgorythm();
+        this.fileHashAlgorithm = new FastIdentifierAlgorythm(4096);
         this.useExtendedAttributes = settings.isUsingMetaData();
     }
 

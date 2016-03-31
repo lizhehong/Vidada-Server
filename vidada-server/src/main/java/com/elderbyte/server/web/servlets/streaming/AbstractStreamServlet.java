@@ -2,8 +2,8 @@ package com.elderbyte.server.web.servlets.streaming;
 
 import archimedes.core.io.streaming.ISeekableInputStream;
 import com.elderbyte.common.ArgumentNullException;
-import com.elderbyte.server.web.servlets.AutowiredHttpServlet;
 import com.elderbyte.server.web.IllegalHttpRequestException;
+import com.elderbyte.server.web.servlets.AutowiredHttpServlet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,7 +12,10 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
+import java.io.Closeable;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

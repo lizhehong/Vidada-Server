@@ -1,9 +1,9 @@
 package com.elderbyte.server.vidada.thumbnails;
 
-import archimedes.core.exceptions.NotSupportedException;
-import archimedes.core.images.IMemoryImage;
-import archimedes.core.images.IRawImageFactory;
 import archimedes.core.io.locations.ResourceLocation;
+import com.elderbyte.common.NotSupportedException;
+import com.elderbyte.server.vidada.images.IMemoryImage;
+import com.elderbyte.server.vidada.images.IRawImageFactory;
 import com.elderbyte.server.vidada.media.*;
 import com.elderbyte.server.vidada.media.source.MediaSource;
 import com.elderbyte.server.vidada.video.IVideoAccessService;

@@ -34,11 +34,6 @@ dependencies {
 
     // Local maven dependencies
     compile("ch.securityvision:xattrj:1.3")
-    compile("ch.securityvision.archimedes:archimedes.core:0.2.7-SNAPSHOT"){
-
-        // Ignore the out-dated servlet api reference, otherwise we cant use the latest API
-        exclude group: 'javax.servlet', module: 'servlet-api'
-    }
 
 
     // Spring boot

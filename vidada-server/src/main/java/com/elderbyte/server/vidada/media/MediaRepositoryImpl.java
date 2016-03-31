@@ -1,12 +1,11 @@
 package com.elderbyte.server.vidada.media;
 
-import archimedes.core.data.pagination.ListPage;
-import archimedes.core.exceptions.NotImplementedException;
 import archimedes.core.io.locations.ResourceLocation;
+import com.elderbyte.common.ListPage;
 import com.elderbyte.server.vidada.media.libraries.MediaLibrary;
-import com.elderbyte.server.vidada.media.MediaItem;
-import com.elderbyte.server.vidada.tags.Tag;
 import com.elderbyte.server.vidada.queries.JPQLExpressionCodeGenerator;
+import com.elderbyte.server.vidada.tags.Tag;
+import org.apache.commons.lang.NotImplementedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.ObjectFactory;

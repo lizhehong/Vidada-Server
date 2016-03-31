@@ -1,7 +1,5 @@
 package com.elderbyte.server.vidada.images;
 
-import archimedes.core.images.IMemoryImage;
-import archimedes.core.images.ScalrEx;
 import com.elderbyte.common.ArgumentNullException;
 
 import javax.imageio.ImageIO;

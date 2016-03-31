@@ -1,9 +1,8 @@
 package com.elderbyte.server.vidada.tags.relations;
 
-import archimedes.core.util.Lists;
 import com.elderbyte.server.vidada.tags.Tag;
 
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -77,7 +76,7 @@ class TagNode {
                 .append(equalTagsString(tag, tagRelationIndex))
                 .append(System.lineSeparator());
 
-        List<TagNode> childrenList = Lists.toList(specialisations);
+        List<TagNode> childrenList = new ArrayList<>(specialisations);
 
         for (int i = 0; i < childrenList.size() - 1; i++) {
             TagNode child = childrenList.get(i);

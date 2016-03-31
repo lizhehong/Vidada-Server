@@ -1,9 +1,7 @@
 package com.elderbyte.server.vidada.tags.autoTag;
 
 
-
 import com.elderbyte.server.vidada.media.MediaItem;
-import com.elderbyte.server.vidada.tags.Tag;
 
 import java.util.Set;
 

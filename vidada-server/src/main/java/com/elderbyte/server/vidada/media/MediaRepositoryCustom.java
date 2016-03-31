@@ -1,7 +1,7 @@
 package com.elderbyte.server.vidada.media;
 
-import archimedes.core.data.pagination.ListPage;
 import archimedes.core.io.locations.ResourceLocation;
+import com.elderbyte.common.ListPage;
 import com.elderbyte.server.vidada.media.libraries.MediaLibrary;
 import com.elderbyte.server.vidada.tags.Tag;
 

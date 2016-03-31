@@ -17,15 +17,7 @@ class FFmpegInteropUnix extends FFmpegInterop
 
 
     public FFmpegInteropUnix(){
-        try {
-            File ffmpeg = ResourceUtil.extractResource("tools/ffmpeg");
-            if(ffmpeg != null && ffmpeg.exists()){
-                ffmpeg.setExecutable(true);
-                ffmpegCommand = shieldPathArgument(ffmpeg);
-            }
-        } catch (IOException e) {
-            logger.error("Failed to extract ffmeg! " + e.getMessage());
-        }
+
     }
 
 	@Override

@@ -1,19 +1,17 @@
 package com.elderbyte.ffmpeg;
 
 
-import archimedes.core.shell.ShellExec;
-import archimedes.core.util.Lists;
-import archimedes.core.util.OSValidator;
 import com.elderbyte.common.ArgumentNullException;
 import com.elderbyte.common.Version;
+import com.elderbyte.common.util.OSValidator;
 import com.elderbyte.server.vidada.media.Resolution;
+import com.google.common.collect.Lists;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
 import java.io.File;
-import java.io.InputStream;
 import java.net.URI;
 import java.time.Duration;
 import java.util.*;
@@ -363,7 +361,8 @@ public abstract class FFmpegInterop {
             }
             fullArgs.addAll(args);
 
-            String[] command = Lists.toArray(fullArgs, String.class);
+
+            String[] command = fullArgs.toArray(new String[fullArgs.size()]);
 
             logger.info("Executing: $ " + toFlatString(fullArgs) + "");
 

@@ -15,14 +15,7 @@ class FFmpegInteropWindows extends FFmpegInterop
 
 
     public FFmpegInteropWindows(){
-        try {
-            File ffmpeg = ResourceUtil.extractResource("tools/ffmpeg.exe");
-            if(ffmpeg != null && ffmpeg.exists()){
-                ffmpegCommand = shieldPathArgument(ffmpeg);
-            }
-        } catch (IOException e) {
-            logger.error("Failed to extract ffmeg! " + e.getMessage());
-        }
+
     }
 
 	@Override

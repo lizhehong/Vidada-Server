@@ -1,15 +1,13 @@
 package com.elderbyte.server.vidada.synchronisation;
 
-import archimedes.core.concurrent.IProgressListener;
-import archimedes.core.concurrent.ProgressEventArgs;
+
 import archimedes.core.io.locations.ResourceLocation;
-import archimedes.core.util.Lists;
-import com.elderbyte.server.vidada.media.MediaItem;
-import com.elderbyte.server.vidada.media.libraries.MediaLibrary;
-import com.elderbyte.server.vidada.media.source.MediaSource;
 import com.elderbyte.server.vidada.media.MediaHashService;
+import com.elderbyte.server.vidada.media.MediaItem;
 import com.elderbyte.server.vidada.media.MediaItemFactory;
 import com.elderbyte.server.vidada.media.MediaService;
+import com.elderbyte.server.vidada.media.libraries.MediaLibrary;
+import com.elderbyte.server.vidada.media.source.MediaSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -264,7 +262,7 @@ class MediaLibrarySyncStrategy {
 
         boolean currentPathExists = false;
 
-        for (MediaSource source : Lists.newList(existingMedia.getSources())) {
+        for (MediaSource source : new ArrayList<>(existingMedia.getSources())) {
 
             if(source.getParentLibrary() == null){
                 existingMedia.getSources().remove(source);

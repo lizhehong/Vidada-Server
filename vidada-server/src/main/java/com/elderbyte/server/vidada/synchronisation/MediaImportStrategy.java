@@ -1,11 +1,9 @@
 package com.elderbyte.server.vidada.synchronisation;
 
-import archimedes.core.concurrent.IProgressListener;
-import archimedes.core.concurrent.ProgressEventArgs;
-import com.elderbyte.server.vidada.media.MediaItem;
-import com.elderbyte.server.vidada.media.libraries.MediaLibrary;
 import com.elderbyte.server.vidada.media.MediaHashService;
+import com.elderbyte.server.vidada.media.MediaItem;
 import com.elderbyte.server.vidada.media.MediaService;
+import com.elderbyte.server.vidada.media.libraries.MediaLibrary;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

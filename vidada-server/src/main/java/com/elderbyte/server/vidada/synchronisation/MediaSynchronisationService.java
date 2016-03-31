@@ -1,16 +1,14 @@
 package com.elderbyte.server.vidada.synchronisation;
 
-import archimedes.core.concurrent.IProgressListener;
-import archimedes.core.concurrent.ProgressEventArgs;
 import com.elderbyte.server.vidada.agents.MetadataImportService;
-import com.elderbyte.server.vidada.tasks.JobId;
-import com.elderbyte.server.vidada.tasks.JobServiceProgressListener;
-import com.elderbyte.server.vidada.tasks.JobState;
-import com.elderbyte.server.vidada.tasks.JobService;
-import com.elderbyte.server.vidada.media.libraries.MediaLibraryService;
-import com.elderbyte.server.vidada.tags.TagService;
 import com.elderbyte.server.vidada.media.MediaHashService;
 import com.elderbyte.server.vidada.media.MediaService;
+import com.elderbyte.server.vidada.media.libraries.MediaLibraryService;
+import com.elderbyte.server.vidada.tags.TagService;
+import com.elderbyte.server.vidada.tasks.JobId;
+import com.elderbyte.server.vidada.tasks.JobService;
+import com.elderbyte.server.vidada.tasks.JobServiceProgressListener;
+import com.elderbyte.server.vidada.tasks.JobState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,14 +1,17 @@
 package com.elderbyte.server.vidada.thumbnails;
 
-import archimedes.core.images.IMemoryImage;
 import archimedes.core.io.locations.DirectoryLocation;
-import com.elderbyte.server.vidada.cache.*;
-import com.elderbyte.server.vidada.media.MediaItem;
-import com.elderbyte.server.vidada.media.libraries.MediaLibrary;
-import com.elderbyte.server.vidada.media.Resolution;
-import com.elderbyte.server.vidada.media.source.MediaSource;
 import com.elderbyte.server.vidada.VidadaSettings;
+import com.elderbyte.server.vidada.cache.CacheUtils;
+import com.elderbyte.server.vidada.cache.IImageCache;
+import com.elderbyte.server.vidada.cache.MemoryImageCache;
+import com.elderbyte.server.vidada.cache.SizeFilterCacheProxy;
+import com.elderbyte.server.vidada.images.IMemoryImage;
 import com.elderbyte.server.vidada.images.ImageCacheFactory;
+import com.elderbyte.server.vidada.media.MediaItem;
+import com.elderbyte.server.vidada.media.Resolution;
+import com.elderbyte.server.vidada.media.libraries.MediaLibrary;
+import com.elderbyte.server.vidada.media.source.MediaSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

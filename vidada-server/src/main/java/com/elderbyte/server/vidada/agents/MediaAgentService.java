@@ -4,11 +4,8 @@ import com.elderbyte.server.vidada.agents.local.LocalImageMediaAgent;
 import com.elderbyte.server.vidada.agents.local.LocalTagGuessMediaAgent;
 import com.elderbyte.server.vidada.agents.local.LocalVideoMediaAgent;
 import com.elderbyte.server.vidada.agents.local.LocalXattrMediaAgent;
-import com.elderbyte.server.vidada.tags.TagService;
 import com.elderbyte.server.vidada.tags.autoTag.CachedTagGuessingBuildService;
-import com.elderbyte.server.vidada.tags.autoTag.KeywordBasedTagGuesser;
 import com.elderbyte.server.vidada.video.IVideoAccessService;
-import com.sun.media.jfxmedia.Media;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

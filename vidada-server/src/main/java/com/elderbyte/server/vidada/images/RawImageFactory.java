@@ -1,7 +1,5 @@
 package com.elderbyte.server.vidada.images;
 
-import archimedes.core.images.IMemoryImage;
-import archimedes.core.images.IRawImageFactory;
 import com.elderbyte.common.ArgumentNullException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,16 +1,14 @@
 package com.elderbyte.server.vidada.tags.autoTag;
 
-import com.elderbyte.server.vidada.agents.MediaAgent;
 import com.elderbyte.server.vidada.media.MediaItem;
 import com.elderbyte.server.vidada.media.source.MediaSource;
 import com.elderbyte.server.vidada.tags.Tag;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

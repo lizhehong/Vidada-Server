@@ -1,6 +1,5 @@
 package com.elderbyte.common.util;
 
-import archimedes.core.util.OSValidator;
 
 /**
  *

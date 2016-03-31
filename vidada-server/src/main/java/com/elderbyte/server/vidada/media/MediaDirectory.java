@@ -7,13 +7,12 @@ import archimedes.core.io.locations.ResourceLocation;
 import archimedes.core.io.locations.UniformLocation;
 import archimedes.core.io.locations.filters.IDirectoryFilter;
 import archimedes.core.io.locations.filters.ILocationFilter;
-import archimedes.core.util.FileSupport;
-import archimedes.core.util.Lists;
 import com.elderbyte.common.ArgumentNullException;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import java.beans.Transient;
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -108,7 +107,7 @@ public final class MediaDirectory {
 	 */
 	public URI getRelativePath(ResourceLocation absoluteLibraryFile){
 
-		URI relativeFile = FileSupport.getRelativePath(
+		URI relativeFile = getRelativePath(
                 absoluteLibraryFile.getUri(),
                 directory.getUri());
 
@@ -144,7 +143,7 @@ public final class MediaDirectory {
 	public List<ResourceLocation> getAllMediaFilesRecursive(){
 		if(directory != null) {
             try {
-                return Lists.asTypedList(directory.listAll(buildFilter(), ignoreDirectoriesFilter));
+                return (List<ResourceLocation>)(Object)directory.listAll(buildFilter(), ignoreDirectoriesFilter);
             } catch (IOException e) {
                 logger.warn("Failed to list media files!", e);
             }
@@ -164,7 +163,7 @@ public final class MediaDirectory {
                     buildFilter());
 
             try {
-                return Lists.asTypedList(directory.listAll(filter));
+                return directory.listAll(filter);
             } catch (IOException e) {
                 logger.warn("Failed to list media files!", e);
             }
@@ -242,6 +241,18 @@ public final class MediaDirectory {
         return !name.startsWith(".");
     };
 
+
+
+    private static File getRelativePath(File absoluteFile, File relativeTo){
+        URI absoluteURI = absoluteFile.getAbsoluteFile().toURI();
+        URI base = relativeTo.getAbsoluteFile().toURI();
+
+        return new File(getRelativePath(absoluteURI, base));
+    }
+
+    private static URI getRelativePath(URI absoluteURI, URI relativeTo){
+        return relativeTo.relativize(absoluteURI);
+    }
 
 
 }

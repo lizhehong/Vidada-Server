@@ -1,14 +1,12 @@
 package com.elderbyte.server.vidada.media.libraries;
 
-import archimedes.core.events.EventArgsG;
-import archimedes.core.events.EventHandlerEx;
-import archimedes.core.events.IEvent;
+
 import com.elderbyte.server.vidada.media.MediaItem;
-import com.elderbyte.server.vidada.media.source.MediaSource;
 import com.elderbyte.server.vidada.media.MediaRepository;
+import com.elderbyte.server.vidada.media.source.MediaSource;
+import com.elderbyte.server.vidada.tags.TagService;
 import com.elderbyte.server.vidada.tags.relations.FileTagRelationSource;
 import com.elderbyte.server.vidada.tags.relations.ITagRelationSource;
-import com.elderbyte.server.vidada.tags.TagService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,20 +38,6 @@ public class MediaLibraryService  {
     private final TagService tagService;
 	private final MediaLibraryRepository repository;
     private final MediaRepository mediaRepository;
-
-	private final EventHandlerEx<EventArgsG<MediaLibrary>> libraryAddedEvent = new EventHandlerEx<>();
-    private final EventHandlerEx<EventArgsG<MediaLibrary>> libraryRemovedEvent = new EventHandlerEx<>();
-
-
-    /***************************************************************************
-     *                                                                         *
-     * Events                                                                  *
-     *                                                                         *
-     **************************************************************************/
-
-	public IEvent<EventArgsG<MediaLibrary>> getLibraryAddedEvent() {return libraryAddedEvent; }
-
-	public IEvent<EventArgsG<MediaLibrary>> getLibraryRemovedEvent() {return libraryRemovedEvent; }
 
     /***************************************************************************
      *                                                                         *
@@ -105,8 +89,7 @@ public class MediaLibraryService  {
 	public void addLibrary(final MediaLibrary lib){
         save(lib);
         onLibraryAdded(lib);
-        libraryAddedEvent.fireEvent(this, EventArgsG.build(lib));
-	}
+    }
 
     @Transactional
 	public void removeLibrary(final MediaLibrary library) {
@@ -132,7 +115,6 @@ public class MediaLibraryService  {
             }
 
             repository.delete(libToDelete);
-            libraryRemovedEvent.fireEvent(this, EventArgsG.build(library));
         }else{
             log.warn("Could not delete library " + library + " since it was not found in the database!");
         }

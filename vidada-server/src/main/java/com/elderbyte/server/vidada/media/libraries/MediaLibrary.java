@@ -1,13 +1,12 @@
 package com.elderbyte.server.vidada.media.libraries;
 
-import archimedes.core.exceptions.NotSupportedException;
 import archimedes.core.io.locations.DirectoryLocation;
 import com.elderbyte.common.ArgumentNullException;
+import com.elderbyte.common.NotSupportedException;
 import com.elderbyte.server.vidada.entities.IdEntity;
 import com.elderbyte.server.vidada.media.MediaDirectory;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;

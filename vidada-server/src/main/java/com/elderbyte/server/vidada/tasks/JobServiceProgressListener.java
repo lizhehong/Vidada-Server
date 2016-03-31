@@ -1,8 +1,9 @@
 package com.elderbyte.server.vidada.tasks;
 
-import archimedes.core.exceptions.NotSupportedException;
-import archimedes.core.concurrent.IProgressListener;
-import archimedes.core.concurrent.ProgressEventArgs;
+
+import com.elderbyte.common.NotSupportedException;
+import com.elderbyte.server.vidada.synchronisation.IProgressListener;
+import com.elderbyte.server.vidada.synchronisation.ProgressEventArgs;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 

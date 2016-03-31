@@ -1,6 +1,6 @@
 package com.elderbyte.server.vidada.tags.relations;
 
-import archimedes.core.exceptions.NotSupportedException;
+import com.elderbyte.common.NotSupportedException;
 import com.elderbyte.server.vidada.tags.Tag;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;

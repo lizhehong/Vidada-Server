@@ -1,7 +1,5 @@
 package com.elderbyte.server.vidada.media;
 
-import archimedes.core.data.observable.IObservableCollection;
-import archimedes.core.util.Lists;
 import com.elderbyte.server.vidada.entities.BaseEntity;
 import com.elderbyte.server.vidada.media.source.MediaSource;
 import com.elderbyte.server.vidada.tags.Tag;
@@ -60,7 +58,6 @@ public abstract class MediaItem extends BaseEntity {
 	 **************************************************************************/
 
 	transient private MediaSource source;
-	transient private IObservableCollection<Tag> _tags;
 
     /***************************************************************************
 	 *                                                                         *
@@ -185,7 +182,7 @@ public abstract class MediaItem extends BaseEntity {
             }
 
 			if(source == null && !sources.isEmpty())
-				source = Lists.getFirst(sources);
+				source = sources.iterator().next();
 		}
 		return source;
 	}

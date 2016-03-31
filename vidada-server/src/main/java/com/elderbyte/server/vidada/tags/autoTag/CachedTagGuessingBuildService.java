@@ -1,7 +1,6 @@
 package com.elderbyte.server.vidada.tags.autoTag;
 
 import com.elderbyte.server.vidada.tags.TagService;
-import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

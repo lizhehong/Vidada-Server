@@ -1,10 +1,10 @@
 package com.elderbyte.server.vidada.web.rest;
 
-import archimedes.core.images.IMemoryImage;
+import com.elderbyte.server.vidada.images.IMemoryImage;
 import com.elderbyte.server.vidada.media.MediaItem;
+import com.elderbyte.server.vidada.media.MediaService;
 import com.elderbyte.server.vidada.media.Resolution;
 import com.elderbyte.server.vidada.thumbnails.ThumbnailService;
-import com.elderbyte.server.vidada.media.MediaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
