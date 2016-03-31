@@ -1,4 +1,6 @@
 language: java
 
+install: ./gradlew assemble --stacktrace
+
 before_install:
  - chmod +x gradlew
