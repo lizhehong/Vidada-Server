@@ -1,10 +1,6 @@
 package com.elderbyte.server.vidada.xattr;
 
 import com.elderbyte.common.locations.ResourceLocation;
-import ch.securityvision.metadata.FileMetaDataSupportFactory;
-import ch.securityvision.metadata.IFileMetaDataSupport;
-import ch.securityvision.metadata.MetaDataNotSupportedException;
-import ch.securityvision.metadata.MetadataIOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
