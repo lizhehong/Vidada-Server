@@ -1,6 +1,6 @@
-package archimedes.core.io.locations.access;
+package com.elderbyte.common.locations.access;
 
-import archimedes.core.io.locations.ResourceAccessContext;
+import com.elderbyte.common.locations.ResourceAccessContext;
 
 import java.io.IOException;
 import java.net.URI;

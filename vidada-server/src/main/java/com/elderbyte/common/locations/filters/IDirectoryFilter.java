@@ -1,10 +1,10 @@
-package archimedes.core.io.locations.filters;
+package com.elderbyte.common.locations.filters;
 
-import archimedes.core.io.locations.DirectoryLocation;
+import com.elderbyte.common.locations.DirectoryLocation;
 
 public interface IDirectoryFilter {
 	/**
-	 * 
+	 *
 	 * @param location
 	 * @return
 	 */

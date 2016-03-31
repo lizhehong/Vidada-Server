@@ -1,7 +1,7 @@
 package com.elderbyte.server.vidada.media;
 
 
-import archimedes.core.io.locations.ResourceLocation;
+import com.elderbyte.common.locations.ResourceLocation;
 import com.elderbyte.code.CodeDomException;
 import com.elderbyte.code.dom.expressions.ExpressionNode;
 import com.elderbyte.common.ListPage;

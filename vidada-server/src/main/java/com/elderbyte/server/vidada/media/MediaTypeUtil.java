@@ -1,8 +1,8 @@
 package com.elderbyte.server.vidada.media;
 
-import archimedes.core.io.locations.LocationFilters;
-import archimedes.core.io.locations.ResourceLocation;
-import archimedes.core.io.locations.filters.ILocationFilter;
+import com.elderbyte.common.locations.LocationFilters;
+import com.elderbyte.common.locations.ResourceLocation;
+import com.elderbyte.common.locations.filters.ILocationFilter;
 
 import java.util.HashMap;
 import java.util.Map;

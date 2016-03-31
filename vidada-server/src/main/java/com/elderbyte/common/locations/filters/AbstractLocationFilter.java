@@ -1,7 +1,7 @@
-package archimedes.core.io.locations.filters;
+package com.elderbyte.common.locations.filters;
 
-import archimedes.core.io.locations.DirectoryLocation;
-import archimedes.core.io.locations.UniformLocation;
+import com.elderbyte.common.locations.DirectoryLocation;
+import com.elderbyte.common.locations.UniformLocation;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,8 +9,8 @@ import java.util.List;
 
 /**
  * An abstract file filter strategy.
- * 
- * 
+ *
+ *
  * @author IsNull
  *
  * @param <T>
@@ -60,7 +60,7 @@ public abstract class AbstractLocationFilter<T> {
 	/**
 	 * Filter the files for one directory level! (Non recursive)
 	 * This filter handles the recursive cases as well, where folders generally are accepted.
-	 * 
+	 *
 	 * @param filter
 	 * @param file
 	 * @param recursiveDirFilter
@@ -84,9 +84,9 @@ public abstract class AbstractLocationFilter<T> {
 	/**
 	 * List all files/folders in the given directory which are either accepted by the "return" filter
 	 * or folders which are accepted by the directory filter. (Non recursive!)
-	 * 
+	 *
 	 * Usually, you can delegate the native filter call to any check/accept to <code>preAccept</code>
-	 * 
+	 *
 	 * @param directory
 	 * @param filter
 	 * @param recursiveDirFilter Is the current list request in recursive mode, i.e. shall folders be returned?

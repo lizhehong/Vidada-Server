@@ -1,11 +1,11 @@
-package archimedes.core.io.locations.local;
+package com.elderbyte.common.locations.local;
 
-import archimedes.core.io.locations.Credentials;
-import archimedes.core.io.locations.DirectoryLocation;
-import archimedes.core.io.locations.IResourceAccessContext;
-import archimedes.core.io.locations.ResourceLocation;
-import archimedes.core.io.locations.access.FileResourceAccessContext;
-import archimedes.core.io.streaming.FileRandomAccessInputStream;
+import com.elderbyte.common.locations.Credentials;
+import com.elderbyte.common.locations.DirectoryLocation;
+import com.elderbyte.common.locations.IResourceAccessContext;
+import com.elderbyte.common.locations.ResourceLocation;
+import com.elderbyte.common.locations.access.FileResourceAccessContext;
+import com.elderbyte.common.streaming.FileRandomAccessInputStream;
 import com.elderbyte.common.util.UriUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

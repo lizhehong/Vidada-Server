@@ -1,10 +1,10 @@
-package archimedes.core.io.locations.factories;
+package com.elderbyte.common.locations.factories;
 
-import archimedes.core.io.locations.Credentials;
-import archimedes.core.io.locations.DirectoryLocation;
-import archimedes.core.io.locations.ResourceLocation;
-import archimedes.core.io.locations.http.HttpResourceLocation;
-import archimedes.core.io.locations.local.LocalResourceLocation;
+import com.elderbyte.common.locations.Credentials;
+import com.elderbyte.common.locations.DirectoryLocation;
+import com.elderbyte.common.locations.ResourceLocation;
+import com.elderbyte.common.locations.http.HttpResourceLocation;
+import com.elderbyte.common.locations.local.LocalResourceLocation;
 import com.elderbyte.common.NotSupportedException;
 import com.elderbyte.common.util.UriUtil;
 

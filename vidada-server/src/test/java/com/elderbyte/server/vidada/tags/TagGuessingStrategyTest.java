@@ -1,6 +1,7 @@
 package com.elderbyte.server.vidada.tags;
 
-import archimedes.core.util.UriUtil;
+
+import com.elderbyte.common.util.UriUtil;
 import com.elderbyte.server.vidada.media.MediaItem;
 import com.elderbyte.server.vidada.media.MovieMediaItem;
 import com.elderbyte.server.vidada.media.libraries.MediaLibrary;

@@ -1,10 +1,10 @@
-package archimedes.core.io.locations.http;
+package com.elderbyte.common.locations.http;
 
-import archimedes.core.io.locations.Credentials;
-import archimedes.core.io.locations.DirectoryLocation;
-import archimedes.core.io.locations.IResourceAccessContext;
-import archimedes.core.io.locations.ResourceLocation;
-import archimedes.core.io.locations.access.UriResourceAccessContext;
+import com.elderbyte.common.locations.Credentials;
+import com.elderbyte.common.locations.DirectoryLocation;
+import com.elderbyte.common.locations.IResourceAccessContext;
+import com.elderbyte.common.locations.ResourceLocation;
+import com.elderbyte.common.locations.access.UriResourceAccessContext;
 import com.elderbyte.common.NotSupportedException;
 
 import java.io.IOException;

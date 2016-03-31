@@ -1,6 +1,6 @@
 package com.elderbyte.server.vidada.agents.local;
 
-import archimedes.core.io.locations.ResourceLocation;
+import com.elderbyte.common.locations.ResourceLocation;
 import com.elderbyte.server.vidada.agents.MediaAgent;
 import com.elderbyte.server.vidada.agents.MediaMetadataDto;
 import com.elderbyte.server.vidada.images.ImageUtil;

@@ -1,6 +1,6 @@
-package archimedes.core.io.locations.filters;
+package com.elderbyte.common.locations.filters;
 
-import archimedes.core.io.locations.UniformLocation;
+import com.elderbyte.common.locations.UniformLocation;
 
 /**
  * Location filter for files and or folders

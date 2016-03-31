@@ -1,12 +1,12 @@
 package com.elderbyte.server.vidada.media;
 
 
-import archimedes.core.io.locations.DirectoryLocation;
-import archimedes.core.io.locations.LocationFilters;
-import archimedes.core.io.locations.ResourceLocation;
-import archimedes.core.io.locations.UniformLocation;
-import archimedes.core.io.locations.filters.IDirectoryFilter;
-import archimedes.core.io.locations.filters.ILocationFilter;
+import com.elderbyte.common.locations.DirectoryLocation;
+import com.elderbyte.common.locations.LocationFilters;
+import com.elderbyte.common.locations.ResourceLocation;
+import com.elderbyte.common.locations.UniformLocation;
+import com.elderbyte.common.locations.filters.IDirectoryFilter;
+import com.elderbyte.common.locations.filters.ILocationFilter;
 import com.elderbyte.common.ArgumentNullException;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;

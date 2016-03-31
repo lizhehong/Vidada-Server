@@ -1,6 +1,6 @@
 package com.elderbyte.server.vidada.web.servlets;
 
-import archimedes.core.io.locations.ResourceLocation;
+import com.elderbyte.common.locations.ResourceLocation;
 import com.elderbyte.server.vidada.media.MediaItem;
 import com.elderbyte.server.vidada.media.MediaService;
 import com.elderbyte.server.vidada.media.source.MediaSource;

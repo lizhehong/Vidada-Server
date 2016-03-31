@@ -1,4 +1,4 @@
-package archimedes.core.io.locations;
+package com.elderbyte.common.locations;
 
 
 /**

@@ -1,6 +1,6 @@
 package com.elderbyte.server.vidada.web.rest;
 
-import archimedes.core.io.locations.DirectoryLocation;
+import com.elderbyte.common.locations.DirectoryLocation;
 import com.elderbyte.server.vidada.media.libraries.MediaLibrary;
 import com.elderbyte.server.vidada.media.libraries.MediaLibraryService;
 import com.elderbyte.server.vidada.web.rest.dto.MediaLibraryDTO;

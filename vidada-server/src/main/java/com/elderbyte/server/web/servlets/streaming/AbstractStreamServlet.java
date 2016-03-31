@@ -1,6 +1,6 @@
 package com.elderbyte.server.web.servlets.streaming;
 
-import archimedes.core.io.streaming.ISeekableInputStream;
+import com.elderbyte.common.streaming.ISeekableInputStream;
 import com.elderbyte.common.ArgumentNullException;
 import com.elderbyte.server.web.IllegalHttpRequestException;
 import com.elderbyte.server.web.servlets.AutowiredHttpServlet;

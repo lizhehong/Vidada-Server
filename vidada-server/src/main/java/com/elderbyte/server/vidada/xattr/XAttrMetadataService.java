@@ -1,6 +1,6 @@
 package com.elderbyte.server.vidada.xattr;
 
-import archimedes.core.io.locations.ResourceLocation;
+import com.elderbyte.common.locations.ResourceLocation;
 import ch.securityvision.metadata.FileMetaDataSupportFactory;
 import ch.securityvision.metadata.IFileMetaDataSupport;
 import ch.securityvision.metadata.MetaDataNotSupportedException;

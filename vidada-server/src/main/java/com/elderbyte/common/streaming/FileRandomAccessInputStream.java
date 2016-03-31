@@ -1,4 +1,4 @@
-package archimedes.core.io.streaming;
+package com.elderbyte.common.streaming;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

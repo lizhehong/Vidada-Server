@@ -1,7 +1,7 @@
 package com.elderbyte.server.vidada.images;
 
 
-import archimedes.core.io.locations.ResourceLocation;
+import com.elderbyte.common.locations.ResourceLocation;
 import com.elderbyte.server.vidada.media.Resolution;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,6 +1,6 @@
 package com.elderbyte.server.vidada.xattr;
 
-import archimedes.core.io.locations.ResourceLocation;
+import com.elderbyte.common.locations.ResourceLocation;
 import com.elderbyte.common.NotSupportedException;
 import com.elderbyte.server.vidada.media.ImageMediaItem;
 import com.elderbyte.server.vidada.media.MediaItem;

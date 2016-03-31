@@ -1,6 +1,6 @@
 package com.elderbyte.server.vidada.thumbnails;
 
-import archimedes.core.io.locations.DirectoryLocation;
+import com.elderbyte.common.locations.DirectoryLocation;
 import com.elderbyte.server.vidada.VidadaSettings;
 import com.elderbyte.server.vidada.cache.CacheUtils;
 import com.elderbyte.server.vidada.cache.IImageCache;

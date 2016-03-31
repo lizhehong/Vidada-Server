@@ -1,4 +1,4 @@
-package archimedes.core.io.streaming;
+package com.elderbyte.common.streaming;
 
 import java.io.FilterInputStream;
 import java.io.IOException;

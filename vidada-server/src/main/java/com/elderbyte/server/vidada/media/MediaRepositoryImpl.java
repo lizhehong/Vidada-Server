@@ -1,6 +1,6 @@
 package com.elderbyte.server.vidada.media;
 
-import archimedes.core.io.locations.ResourceLocation;
+import com.elderbyte.common.locations.ResourceLocation;
 import com.elderbyte.common.ListPage;
 import com.elderbyte.server.vidada.media.libraries.MediaLibrary;
 import com.elderbyte.server.vidada.queries.JPQLExpressionCodeGenerator;

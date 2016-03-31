@@ -1,6 +1,6 @@
 package com.elderbyte.server.vidada.video;
 
-import archimedes.core.io.locations.ResourceLocation;
+import com.elderbyte.common.locations.ResourceLocation;
 import com.elderbyte.common.ArgumentNullException;
 import com.elderbyte.ffmpeg.VideoInfo;
 import com.elderbyte.server.vidada.images.IMemoryImage;

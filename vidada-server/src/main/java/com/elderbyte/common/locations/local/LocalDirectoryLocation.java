@@ -1,9 +1,11 @@
-package archimedes.core.io.locations.local;
+package com.elderbyte.common.locations.local;
 
-import archimedes.core.io.locations.*;
-import archimedes.core.io.locations.filters.AbstractLocationFilter;
-import archimedes.core.io.locations.filters.IDirectoryFilter;
-import archimedes.core.io.locations.filters.ILocationFilter;
+import com.elderbyte.common.locations.Credentials;
+import com.elderbyte.common.locations.DirectoryLocation;
+import com.elderbyte.common.locations.UniformLocation;
+import com.elderbyte.common.locations.filters.AbstractLocationFilter;
+import com.elderbyte.common.locations.filters.IDirectoryFilter;
+import com.elderbyte.common.locations.filters.ILocationFilter;
 import com.elderbyte.common.NotSupportedException;
 import com.elderbyte.common.util.UriUtil;
 import org.slf4j.Logger;
@@ -17,7 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Embeddable
-public class LocalDirectoryLocation extends DirectoryLocation{
+public class LocalDirectoryLocation extends DirectoryLocation {
 
 	private static final Logger logger = LoggerFactory.getLogger(LocalDirectoryLocation.class);
 

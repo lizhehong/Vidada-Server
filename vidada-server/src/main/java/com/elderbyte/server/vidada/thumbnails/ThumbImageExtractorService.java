@@ -1,6 +1,6 @@
 package com.elderbyte.server.vidada.thumbnails;
 
-import archimedes.core.io.locations.ResourceLocation;
+import com.elderbyte.common.locations.ResourceLocation;
 import com.elderbyte.common.NotSupportedException;
 import com.elderbyte.server.vidada.images.IMemoryImage;
 import com.elderbyte.server.vidada.images.IRawImageFactory;

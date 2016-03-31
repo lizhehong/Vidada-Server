@@ -1,6 +1,6 @@
 package com.elderbyte.server.vidada.media.source;
 
-import archimedes.core.io.locations.ResourceLocation;
+import com.elderbyte.common.locations.ResourceLocation;
 import com.elderbyte.server.vidada.entities.IdEntity;
 import com.elderbyte.server.vidada.media.MediaType;
 import com.elderbyte.server.vidada.media.MediaTypeUtil;

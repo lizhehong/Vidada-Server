@@ -1,8 +1,8 @@
-package archimedes.core.io.locations;
+package com.elderbyte.common.locations;
 
-import archimedes.core.io.locations.factories.DirectoryLocationFactory;
-import archimedes.core.io.locations.filters.IDirectoryFilter;
-import archimedes.core.io.locations.filters.ILocationFilter;
+import com.elderbyte.common.locations.factories.DirectoryLocationFactory;
+import com.elderbyte.common.locations.filters.IDirectoryFilter;
+import com.elderbyte.common.locations.filters.ILocationFilter;
 
 
 import javax.persistence.Embeddable;

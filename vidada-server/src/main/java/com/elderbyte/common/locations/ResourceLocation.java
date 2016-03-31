@@ -1,6 +1,6 @@
-package archimedes.core.io.locations;
+package com.elderbyte.common.locations;
 
-import archimedes.core.io.locations.factories.ResourceLocationFactory;
+import com.elderbyte.common.locations.factories.ResourceLocationFactory;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 

@@ -1,6 +1,6 @@
 package com.elderbyte.server.vidada.media.libraries;
 
-import archimedes.core.io.locations.DirectoryLocation;
+import com.elderbyte.common.locations.DirectoryLocation;
 import com.elderbyte.common.ArgumentNullException;
 import com.elderbyte.common.NotSupportedException;
 import com.elderbyte.server.vidada.entities.IdEntity;

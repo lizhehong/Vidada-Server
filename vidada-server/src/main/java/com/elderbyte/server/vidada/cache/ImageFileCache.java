@@ -1,8 +1,8 @@
 package com.elderbyte.server.vidada.cache;
 
 
-import archimedes.core.io.locations.DirectoryLocation;
-import archimedes.core.io.locations.ResourceLocation;
+import com.elderbyte.common.locations.DirectoryLocation;
+import com.elderbyte.common.locations.ResourceLocation;
 import com.elderbyte.server.vidada.images.IMemoryImage;
 import com.elderbyte.server.vidada.images.IRawImageFactory;
 import com.elderbyte.server.vidada.media.Resolution;
