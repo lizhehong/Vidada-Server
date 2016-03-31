@@ -51,7 +51,7 @@ public class KeywordBasedTagGuesser  implements ITagGuessingStrategy {
 
 	/**
 	 * Creates a new KeywordBasedTagGuesser
-	 * @param knownTags
+	 * @param knownTags Currently known tags used to auto tag
 	 */
 	public KeywordBasedTagGuesser(Collection<Tag> knownTags){
         for (Tag knownTag : knownTags) {

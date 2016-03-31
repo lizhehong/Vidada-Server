@@ -181,4 +181,7 @@ public class TagRelationDefinition {
 	}
 
 
+    public Collection<Tag> getAllMasterTags() {
+        return getIndex().getMasterTags();
+    }
 }

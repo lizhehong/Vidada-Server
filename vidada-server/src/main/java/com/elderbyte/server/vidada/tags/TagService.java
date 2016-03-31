@@ -87,24 +87,20 @@ public class TagService {
 
 
     /**
-     * Returns all main tags.
-     * @return
+     * Returns all used tags
      */
     @Transactional
     public Collection<Tag> findAllUsedTags() {
+        // TODO Not implemented correctly
+        return findAllMasterTags();
+    }
 
-        Collection<Tag> allTags = findAllTags();
-
-        // Remove all synonyms from our tag list
-        Iterator<Tag> allTagsIt = findAllTags().iterator();
-        while (allTagsIt.hasNext()) {
-            Tag tag = allTagsIt.next();
-            if (getRelationDefinition().isSlaveTag(tag)) {
-                allTagsIt.remove();
-            }
-        }
-
-        return allTags;
+    /**
+     * Returns all main tags.
+     */
+    @Transactional
+    public Collection<Tag> findAllMasterTags() {
+        return relationDefinition.getAllMasterTags();
     }
 
     /**

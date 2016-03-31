@@ -5,10 +5,7 @@ import com.elderbyte.server.vidada.tags.Tag;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Implementation of a Tag Relation Index.
@@ -61,6 +58,8 @@ class TagRelationIndex {
 			throw new NotSupportedException("Unknown relation: " + relation);
 		}
 	}
+
+
 
 	/**
 	 * Returns all tags which are mutually related to the given tag.
@@ -135,6 +134,23 @@ class TagRelationIndex {
 		Tag masterTag = getMasterTag(tag);
 		return masterTag != null && !masterTag.equals(tag);
 	}
+
+    /**
+     * Returns all master tags
+     */
+    public Collection<Tag> getMasterTags(){
+        // Remove all synonyms from our tag list
+
+        Set<Tag> masterTags = new HashSet<>(getAllTags());
+
+        Iterator<Tag> allTagsIt = masterTags.iterator();
+        while (allTagsIt.hasNext()) {
+            if (isSlaveTag(allTagsIt.next())) {
+                allTagsIt.remove();
+            }
+        }
+        return masterTags;
+    }
 
 
 	public String toTreeString(){
@@ -219,5 +235,9 @@ class TagRelationIndex {
 	private TagNode findNode(Tag tag){
 		return rootNodes.get(tag);
 	}
+
+    private Collection<Tag> getAllTags(){
+        return rootNodes.keySet();
+    }
 
 }
