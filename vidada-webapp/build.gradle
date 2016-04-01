@@ -14,4 +14,21 @@ task build(type: Exec){
 }
 
 
+task buildFull(type: Exec, dependsOn: ['bower']){
+    workingDir "${projectDir}"
+    commandLine "gulp", "build-prod"
+}
 
+
+// Install packages from package.json
+task npm(type: Exec) {
+    println "Grabbing NodeJS dependencies (from package.json) ..."
+    commandLine("npm", "install")
+}
+
+
+// Install the bower components for front-end library management
+task bower(dependsOn: 'npm', type: Exec){
+    println "Installing bower dependencies..."
+    commandLine "bower", 'install'
+}
