@@ -34,7 +34,7 @@ public class DatabaseConfiguration implements EnvironmentAware {
         this.propertyResolver = new RelaxedPropertyResolver(env, "spring.datasource.");
     }
 
-    @Bean(destroyMethod = "shutdown")
+    @Bean(destroyMethod = "close")
     @ConditionalOnMissingClass(name = "com.elderbyte.server.config.HerokuDatabaseConfiguration")
     @Profile("!" + Constants.SPRING_PROFILE_CLOUD)
     public DataSource dataSource() {
