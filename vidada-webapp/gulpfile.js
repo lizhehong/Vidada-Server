@@ -20,7 +20,6 @@ var gulp = require('gulp');
 
 require('es6-promise').polyfill();
 
-
 var gutil = require('gulp-util');
 var clean = require('gulp-clean');
 var concat = require('gulp-concat');
@@ -30,11 +29,10 @@ var rename = require('gulp-rename');
 var moment = require('moment');
 var notify  = require('gulp-notify');
 var minifyHtml = require('gulp-minify-html');
-var minifyCss = require('gulp-minify-css');
 var rev = require('gulp-rev');
 var ngAnnotate = require('gulp-ng-annotate');
-var wiredep = require('wiredep').stream;
 var inject = require('gulp-inject');
+var mainBowerFiles = require('main-bower-files');
 var naturalSort = require('gulp-natural-sort');
 var angularFilesort = require('gulp-angular-filesort');
 
@@ -120,47 +118,38 @@ gulp.task('copy', ['clean'], function() {
 
 
 // Inject all dependeincies into index.html
-gulp.task('inject', ['inject-bower', 'inject-local-css', 'inject-local-js']);
+gulp.task('inject', ['inject-js', 'inject-local-css']);
 
 /**
  * Wire-up bower dependencies automatically (js + css)
  */
-gulp.task('inject-bower', function () {
-  return gulp.src(paths.index)
-    .pipe(wiredep())
-    .pipe(gulp.dest(bases.app)); // In place update
+gulp.task('inject-js', function () {
+    return gulp.src(paths.index)
+
+        // Inject bower
+        .pipe(inject(gulp.src(mainBowerFiles(), {read: false}), {name: 'bower', relative: true}))
+
+        // Inject local js
+        .pipe(inject(gulp.src(paths.localJs).pipe(naturalSort()).pipe(angularFilesort()), {relative: true}))
+
+        // Overwrite index.html
+        .pipe(gulp.dest(bases.app)); // In place update
 });
 
 
-gulp.task('inject-local-css', ['inject-bower'], function() {
+gulp.task('inject-local-css', ['inject-js'], function() {
     // // Inject CSS
     return gulp.src(paths.index)
         .pipe(inject(gulp.src(paths.localCss, {read: false})
             .pipe(naturalSort())
             ,
             // Inject Options
-         { 
-            relative: true
-         }))
+            {
+                relative: true
+            }))
         .pipe(gulp.dest(bases.app)); // In place update
 });
 
-
-gulp.task('inject-local-js', ['inject-local-css'], function() {
-    // // Inject JS
-      
-    // It's not necessary to read the files (will speed up things), we're only after their paths:
-    return gulp.src(paths.index)
-        .pipe(inject(gulp.src(paths.localJs) // {read: false} - read required by angular file-sort
-            .pipe(naturalSort())
-            .pipe(angularFilesort())
-            ,
-            // Inject Options
-         { 
-            relative: true
-         }))
-        .pipe(gulp.dest(bases.app)); // In place update
-});
 
 
 gulp.task('compile', ['inject']);
