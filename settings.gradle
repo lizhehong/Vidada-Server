@@ -1,4 +1,4 @@
 
-include 'vidada-server'
-include 'vidada-webapp'
+include 'vidada-webapp', 'vidada-server'
+
 

@@ -160,20 +160,10 @@ gulp.task('inject-local-js', ['inject-local-css'], function() {
 });
 
 
-
-
-
-/**
- * A development task to run anytime a file changes
- */
-gulp.task('watch', function() {
-    //gulp.watch(bases.app + '**/*', ['scripts', 'copy']);
-});
-
-
 gulp.task('compile', ['inject']);
-gulp.task('release-prod', ['clean', 'compile', 'usemin', 'copy']);
-gulp.task('release-dev', ['clean', 'compile', 'dev-dependencies', 'copy']);
+gulp.task('build-prod', ['clean', 'compile', 'usemin', 'copy']);
+gulp.task('build-dev', ['clean', 'compile', 'dev-dependencies', 'copy']);
+gulp.task('build', ['build-prod']);
 
 /**
  * Default task, executed if no specific task is specified.
@@ -182,6 +172,6 @@ gulp.task('default', function() {
     gutil.log(gutil.colors.red('No task defined. Please choose one of the following tasks:'));
 
     gutil.log(gutil.colors.cyan('compile:'),' Builds all SAAS etc. and injects all dependencies into index.html.');
-    gutil.log(gutil.colors.cyan('release-dev:'),' Executes build and copies the webapp into the java resource folder.')
-    gutil.log(gutil.colors.cyan('release-prod:'),' Executes build and copies the minified/compressed webapp into the java resource folder.')
+    gutil.log(gutil.colors.cyan('build-dev:'),' Executes build and copies the webapp into the java resource folder.')
+    gutil.log(gutil.colors.cyan('build-prod:'),' Executes build and copies the minified/compressed webapp into the java resource folder.')
 });

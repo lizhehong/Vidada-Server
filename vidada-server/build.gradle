@@ -29,9 +29,12 @@ compileJava {
     sourceCompatibility = '1.8'
 }
 
+compileJava.dependsOn(':vidada-webapp:build')
+
+
 dependencies {
 
-    // compile project(':other-library')
+    //compile project(':vidada-webapp')
 
 
     // Spring boot
