@@ -4,6 +4,7 @@
   "description": "Description for vidada",
   "private": true,
   "devDependencies": {
+    "bower": "^1.7.7",
     "event-stream": "^3.3.2",
     "gulp": "^3.9.1",
     "gulp-angular-filesort": "^1.1.1",
@@ -23,8 +24,8 @@
     "gulp-rev": "^7.0.0",
     "gulp-uglify": "^1.5.3",
     "gulp-usemin": "^0.3.21",
-    "gulp-watch": "^4.3.5",
     "gulp-util": "^3.0.7",
+    "gulp-watch": "^4.3.5",
     "jshint": "^2.9.1",
     "jshint-stylish": "^2.1.0",
     "karma": "^0.13.21",
