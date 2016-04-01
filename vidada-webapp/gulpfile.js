@@ -18,6 +18,9 @@
 
 var gulp = require('gulp');
 
+require('es6-promise').polyfill();
+
+
 var gutil = require('gulp-util');
 var clean = require('gulp-clean');
 var concat = require('gulp-concat');
