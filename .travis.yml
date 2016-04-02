@@ -5,6 +5,15 @@ install: echo "skip 'gradle assemble' step"
 script: ./gradlew build
 before_install:
 - chmod +x gradlew
+before_cache:
+  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+    - $HOME/.gradle/nodejs/
+    - vidada-webapp/node_modules
+    - vidada-webapp/app/bower_components
 deploy:
   provider: releases
   api_key:
