@@ -34,9 +34,6 @@ compileJava.dependsOn(':vidada-webapp:build')
 
 dependencies {
 
-    //compile project(':vidada-webapp')
-
-
     // Spring boot
     compile("org.springframework.boot:spring-boot-starter-data-jpa")
     compile("org.springframework.boot:spring-boot-starter-web")
@@ -57,7 +54,6 @@ dependencies {
     compile("commons-lang:commons-lang:2.6")
     compile("com.google.guava:guava:18.0")
     compile("com.nimbusds:nimbus-jose-jwt:4.3")
-    //compile("net.java.dev.jna:jna:4.2.2")
     compile("net.java.dev.jna:jna-platform:4.2.2") // Used to access native XAttrUtil
 
 
