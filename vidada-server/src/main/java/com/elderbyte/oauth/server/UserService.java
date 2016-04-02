@@ -1,7 +1,7 @@
 package com.elderbyte.oauth.server;
 
 import com.elderbyte.common.util.RandomUtil;
-import com.elderbyte.server.security.SecurityUtils;
+import com.elderbyte.vidada.security.SecurityUtils;
 import com.elderbyte.oauth.server.authorities.Authority;
 import com.elderbyte.oauth.server.authorities.AuthorityService;
 import com.elderbyte.oauth.server.authorities.KnownAuthority;

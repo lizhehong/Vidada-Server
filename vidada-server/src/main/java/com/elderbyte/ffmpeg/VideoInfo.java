@@ -1,7 +1,7 @@
 package com.elderbyte.ffmpeg;
 
 
-import com.elderbyte.server.vidada.media.Resolution;
+import com.elderbyte.vidada.vidada.media.Resolution;
 
 public class VideoInfo {
 

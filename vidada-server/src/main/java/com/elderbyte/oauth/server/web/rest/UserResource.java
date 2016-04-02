@@ -3,7 +3,7 @@ package com.elderbyte.oauth.server.web.rest;
 import com.elderbyte.oauth.server.User;
 import com.elderbyte.oauth.server.UserRepository;
 import com.elderbyte.oauth.server.web.rest.dtos.UserDto;
-import com.elderbyte.server.security.SecurityUtils;
+import com.elderbyte.vidada.security.SecurityUtils;
 import com.elderbyte.oauth.server.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

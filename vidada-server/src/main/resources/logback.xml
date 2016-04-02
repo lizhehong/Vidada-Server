@@ -31,8 +31,8 @@
     </appender>
 -->
 
-    <logger name="com.elderbyte.server.vidada" level="${logback.loglevel}"/>
-    <logger name="com.elderbyte.server.vidada.aop.logging" level="OFF"/>
+    <logger name="com.elderbyte.vidada.vidada" level="${logback.loglevel}"/>
+    <logger name="com.elderbyte.vidada.vidada.aop.logging" level="OFF"/>
 
     <logger name="javax.activation" level="WARN"/>
     <logger name="javax.mail" level="WARN"/>

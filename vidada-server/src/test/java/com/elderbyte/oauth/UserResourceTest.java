@@ -1,7 +1,7 @@
 package com.elderbyte.oauth;
 
 import com.elderbyte.oauth.server.web.rest.UserResource;
-import com.elderbyte.Application;
+import com.elderbyte.VidadaApplicationServer;
 import com.elderbyte.oauth.server.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @see UserResource
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = Application.class)
+@SpringApplicationConfiguration(classes = VidadaApplicationServer.class)
 @WebAppConfiguration
 @IntegrationTest
 public class UserResourceTest {
