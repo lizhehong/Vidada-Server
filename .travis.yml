@@ -18,7 +18,7 @@ deploy:
   provider: releases
   api_key:
     secure: ZDFvDMbwf7R5bTMVpWFFUasOQLxf0GqLooP6W7jE7vKp0fdo/PloXXWRdbdNSAWxnvE3ZYnh5tf7cjVnQI/ywFBs2rqt63UWiScgYUD5FNJKHLD4tabfbq3z5bVdMpw8uJiZqFsNjyjzbHeomaNUW5BMkDwg4wA6Pr0fAtpwwFnUQA+QJ3e6eT3sLLCZTOpMcZ+Qw0t9g2JEkx7YIAXdIYxwKjI76SDUSRYY7+/n/RGhKMd6HaQCjeQAEkjfHUo/MZ6/0q7lGroCL+HvV19OjnCR4BFSBPHCcSfYd+fjhQY2CWL79t9X1fDXwlt9uwPv2rt7dzGx1TJ8m/YPcaJs2l5qo9ArrhKzdA5PVv+TvGeHLzrQdMxhVETLDDufVwGxQ1hdeVFFtQ/0/rc2gprX+suBRcKDOWTv/pWnzxPO8mhuqfFFpsgx9HHQKDYFkzp3UZcxvmqTACN73vI+psF9wX3GnAHo/8ROpsm+/wsI7B6DDn3IbdWwwKFK0uM+nRtRVoL0e0liVwuII8fKmVc4qoiMG5u3AAkiKK3hDTmHPu+0VkbjLaLRqMGyO/YwpICYXTOmiGvOv2bnReyc633k6UdXO5rW5MZnr99YniRGrMPh6WPvDv8VmOxW+0jdb2iqQx2HEfJ56cxFJP8823REBNL9d/I1YnUBP11ESPgPjTc=
-  file: "vidada-server/build/libs/vidada-server-0.1.0.jar"
+  file: "vidada-server/build/libs/vidada-server-*.jar"
   skip_cleanup: true
   on:
     tags: true
