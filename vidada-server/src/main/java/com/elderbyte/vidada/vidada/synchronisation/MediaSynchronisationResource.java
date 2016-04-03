@@ -1,7 +1,6 @@
-package com.elderbyte.vidada.vidada.web.rest;
+package com.elderbyte.vidada.vidada.synchronisation;
 
-import com.elderbyte.vidada.vidada.synchronisation.MediaSynchronisationService;
-import com.elderbyte.vidada.vidada.web.rest.dto.SynchronisationDTO;
+import com.elderbyte.vidada.vidada.dto.SynchronisationDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,5 @@
-package com.elderbyte.vidada.vidada.web.rest;
+package com.elderbyte.vidada.vidada.tags;
 
-import com.elderbyte.vidada.vidada.tags.Tag;
-import com.elderbyte.vidada.vidada.tags.TagService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

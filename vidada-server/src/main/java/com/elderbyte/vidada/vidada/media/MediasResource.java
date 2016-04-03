@@ -1,16 +1,16 @@
-package com.elderbyte.vidada.vidada.web.rest;
+package com.elderbyte.vidada.vidada.media;
 
 
 import com.elderbyte.common.ArgumentNullException;
 import com.elderbyte.common.ListPage;
 import com.elderbyte.vidada.security.jwt.JwtFilter;
+import com.elderbyte.vidada.vidada.dto.AsyncResourceDTO;
+import com.elderbyte.vidada.vidada.dto.MediaDTO;
 import com.elderbyte.vidada.vidada.images.IMemoryImage;
-import com.elderbyte.vidada.vidada.media.*;
 import com.elderbyte.vidada.vidada.tags.Tag;
 import com.elderbyte.vidada.vidada.tags.TagService;
+import com.elderbyte.vidada.vidada.thumbnails.ThumbnailResource;
 import com.elderbyte.vidada.vidada.thumbnails.ThumbnailService;
-import com.elderbyte.vidada.vidada.web.rest.dto.AsyncResourceDTO;
-import com.elderbyte.vidada.vidada.web.rest.dto.MediaDTO;
 import com.elderbyte.vidada.vidada.web.servlets.MediaStreamServlet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

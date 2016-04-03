@@ -119,25 +119,6 @@ public class ListPage<T> {
      *                                                                         *
      **************************************************************************/
 
-	/**
-	 * Gets the element at the real index position.
-	 * That means you can use the index u would have used to access the real list.
-	 * @param index
-	 * @return
-	 */
-	T getByRealIndex(int index) {
-		int pageStartIndex = getPage() * getMaxPageSize();
-		int localIndex = index - pageStartIndex;
-
-		if(localIndex < 0)
-			throw new IllegalArgumentException("The given real index "+ index +" is too small for this page (" + getPage() + ").");
-
-		if(localIndex >= getPageItems().size())
-			throw new IllegalArgumentException("The given real index "+ index +" is too high for this page (" + getPage() + ").");
-
-		return getPageItems().get(localIndex);
-	}
-
     @Override
     public String toString(){
         return "[Items: " +  getPageItems().size() + ", Page: " + getPage() + ", Total Count: " + getTotalListSize() + ", MaxPageSize: " +maxPageSize+  "]";

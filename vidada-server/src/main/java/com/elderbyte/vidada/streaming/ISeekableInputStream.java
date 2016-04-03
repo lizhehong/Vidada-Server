@@ -1,4 +1,4 @@
-package com.elderbyte.common.streaming;
+package com.elderbyte.vidada.streaming;
 
 import java.io.IOException;
 

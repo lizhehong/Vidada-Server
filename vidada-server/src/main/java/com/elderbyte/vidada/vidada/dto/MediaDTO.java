@@ -1,4 +1,4 @@
-package com.elderbyte.vidada.vidada.web.rest.dto;
+package com.elderbyte.vidada.vidada.dto;
 
 import com.elderbyte.vidada.vidada.media.MediaItem;
 import com.elderbyte.vidada.vidada.media.MediaType;

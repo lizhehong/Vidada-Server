@@ -1,4 +1,4 @@
 /**
  * Data Transfer Objects used by Spring MVC REST controllers.
  */
-package com.elderbyte.vidada.vidada.web.rest.dto;
+package com.elderbyte.vidada.vidada.dto;

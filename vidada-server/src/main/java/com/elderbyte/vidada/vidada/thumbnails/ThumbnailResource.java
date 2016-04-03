@@ -1,10 +1,9 @@
-package com.elderbyte.vidada.vidada.web.rest;
+package com.elderbyte.vidada.vidada.thumbnails;
 
 import com.elderbyte.vidada.vidada.images.IMemoryImage;
 import com.elderbyte.vidada.vidada.media.MediaItem;
 import com.elderbyte.vidada.vidada.media.MediaService;
 import com.elderbyte.vidada.vidada.media.Resolution;
-import com.elderbyte.vidada.vidada.thumbnails.ThumbnailService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

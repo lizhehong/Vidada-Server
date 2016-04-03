@@ -1,4 +1,4 @@
-package com.elderbyte.vidada.vidada.web.rest.dto;
+package com.elderbyte.vidada.vidada.dto;
 
 import ch.qos.logback.classic.Logger;
 import com.fasterxml.jackson.annotation.JsonCreator;

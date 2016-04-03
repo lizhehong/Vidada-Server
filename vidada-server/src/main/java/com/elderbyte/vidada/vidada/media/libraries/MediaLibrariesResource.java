@@ -1,9 +1,7 @@
-package com.elderbyte.vidada.vidada.web.rest;
+package com.elderbyte.vidada.vidada.media.libraries;
 
 import com.elderbyte.common.locations.DirectoryLocation;
-import com.elderbyte.vidada.vidada.media.libraries.MediaLibrary;
-import com.elderbyte.vidada.vidada.media.libraries.MediaLibraryService;
-import com.elderbyte.vidada.vidada.web.rest.dto.MediaLibraryDTO;
+import com.elderbyte.vidada.vidada.dto.MediaLibraryDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

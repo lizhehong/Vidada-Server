@@ -1,4 +1,4 @@
-package com.elderbyte.vidada.vidada.web.rest.dto;
+package com.elderbyte.vidada.vidada.dto;
 
 import org.hibernate.validator.constraints.Email;
 

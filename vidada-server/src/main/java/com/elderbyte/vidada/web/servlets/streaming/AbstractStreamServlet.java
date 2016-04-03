@@ -1,6 +1,6 @@
 package com.elderbyte.vidada.web.servlets.streaming;
 
-import com.elderbyte.common.streaming.ISeekableInputStream;
+import com.elderbyte.vidada.streaming.ISeekableInputStream;
 import com.elderbyte.common.ArgumentNullException;
 import com.elderbyte.vidada.web.IllegalHttpRequestException;
 import com.elderbyte.vidada.web.servlets.AutowiredHttpServlet;

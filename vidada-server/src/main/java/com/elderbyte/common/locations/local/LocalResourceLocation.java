@@ -5,7 +5,7 @@ import com.elderbyte.common.locations.DirectoryLocation;
 import com.elderbyte.common.locations.IResourceAccessContext;
 import com.elderbyte.common.locations.ResourceLocation;
 import com.elderbyte.common.locations.access.FileResourceAccessContext;
-import com.elderbyte.common.streaming.FileRandomAccessInputStream;
+import com.elderbyte.vidada.streaming.FileRandomAccessInputStream;
 import com.elderbyte.common.util.UriUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
