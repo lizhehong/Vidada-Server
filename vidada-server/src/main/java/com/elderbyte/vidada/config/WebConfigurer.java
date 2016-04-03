@@ -1,6 +1,6 @@
 package com.elderbyte.vidada.config;
 
-import com.elderbyte.vidada.vidada.web.servlets.MediaStreamServlet;
+import com.elderbyte.vidada.web.servlets.MediaStreamServlet;
 import org.apache.catalina.connector.Connector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -4,7 +4,7 @@ package com.elderbyte.ffmpeg;
 import com.elderbyte.common.ArgumentNullException;
 import com.elderbyte.common.Version;
 import com.elderbyte.common.util.OSValidator;
-import com.elderbyte.vidada.vidada.media.Resolution;
+import com.elderbyte.vidada.media.Resolution;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
